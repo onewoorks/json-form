@@ -1,0 +1,34 @@
+body { 
+    background-color: #fafafa;
+}
+
+.table thead th {
+    background-color: #3072b1;
+    color:#fff;
+    font-weight: normal;
+    border-bottom: 1px;
+}
+
+.table thead > tr > th { border-bottom: none; }
+
+.upperCase { text-transform: uppercase}
+
+.text-x2 {
+    font-size: 1.2em;
+}
+
+.vertical-align-middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+@media (min-width: 768px) {
+  .modal-xl {
+    width: 90%;
+   max-width:1200px;
+  }
+}
+
+.form-horizontal .control-label{
+    text-align: left;
+}

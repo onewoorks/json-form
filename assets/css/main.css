@@ -1,0 +1,38 @@
+#editor {overflow:scroll; max-height:300px}
+
+.panel-parent:first-child { background-color: #f5f5f5}
+.panel-parent {border-top: 1px solid #ccc; background-color: #f5f5f5}
+.panel-child {border-bottom: 1px solid #ccc; background-color: #f5f5f5}
+.input-list { margin-bottom: 6px;}
+.list-padding-right { padding-right: 1px;}
+.list-padding-left { padding-left: 1px;}
+
+.fixed {
+        position: fixed;
+        width: 25%;
+}
+.scrollit {
+        float: left;
+        width: 71%
+}
+
+body { padding-top: 70px; }
+
+body.dragging, body.dragging * {
+  cursor: move !important;
+}
+
+.dragged {
+  position: absolute;
+  opacity: 0.5;
+  z-index: 2000;
+}
+
+ol.example li.placeholder {
+  position: relative;
+  /** More li styles **/
+}
+ol.example li.placeholder:before {
+  position: absolute;
+  /** Define arrowhead **/
+}

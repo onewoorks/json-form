@@ -1,0 +1,74 @@
+{
+  "form_properties": [
+    {
+      "field_type": "text",
+      "label_name": "form name",
+      "value": ""
+    },
+    {
+      "field_type": "text",
+      "label_name": "descipline",
+      "value": ""
+    },
+    {
+      "field_type": "text",
+      "label_name": "type of document",
+      "value": ""
+    }
+  ],
+  "form_components": {
+    "sections": [
+      {
+        "general_examination": [
+          {
+            "vital_sign": {},
+            "general_description": {},
+            "cardiovascular_system": {},
+            "respiratory_system": {},
+            "abdomen_/_genitourinary_system": {},
+            "nervous_system": {}
+          }
+        ],
+        "procedure": [
+          {
+            "problem_list": {}
+          }
+        ],
+        "diagnosis": [
+          {
+            "provisional_diagnosis": {},
+            "differential_diagnosis": {}
+          }
+        ],
+        "management": [
+          {
+            "orders": {},
+            "referral": {},
+            "comments": {},
+            "differential_diagnosis": {}
+          }
+        ],
+        "history": [
+          {
+            "drug_history": {},
+            "family_history": {},
+            "social_history": {},
+            "systemic_review": {},
+            "chief_complaints": {},
+            "functional_history": {},
+            "allergies_and_alert": {},
+            "occupational_history": {},
+            "past_medical_history": {},
+            "past_surgical_history": {},
+            "developmental_milestones": {},
+            "immunisation_(where_relevant)": {},
+            "history_of_presenting_complaint": {},
+            "dietary_history_(where_relevant)": {},
+            "birth_and_neonatal_history_(where_relevant)": {},
+            "obstetric/menstrual_history_(for_female_pt_only)": {}
+          }
+        ]
+      }
+    ]
+  }
+}

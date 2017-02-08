@@ -1,0 +1,356 @@
+{
+  "form_properties": [{
+    "field_type":"text",
+    "label_name":"Note Title",
+    "value": "General Clerking Note"
+  },
+  { "field_type":"text",
+    "label_name":"Note Type",
+    "value":"Clerking Note"
+  },
+  {
+    "field_type":"calendar",
+    "label_name":"date and time",
+    "value":"2016-10-21 10:00:00"
+  },
+  {
+    "field_type":"text",
+    "label_name":"",
+    "value":"",
+    "placeholder":"#tag"
+  }
+  ],
+  "form_components": 
+    {
+      "sections": 
+        {
+          "history": [
+            {
+              "field_type": "text",
+              "label_name": "Chief",
+              "value": "Abdominal pain x3/12"
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "History Of Presenting",
+              "value": [
+                "65 YEAR OLD Malay male WITH a PMHx significant FOR an MI AND depression",
+                "c/o of sharp, epigastric abdominal pain of 3-4 /12.",
+                "Worsening pain over the LAST 2-3/12",
+                "The pain IS located IN the epigastric region AND LEFT UPPER quadrant of the abdomen.",
+                "Pain does NOT radiate AND IS relatively constant throughout the DAY AND night but does vary IN severity.",
+                "pain score: 6/10 AT its worst.",
+                "Pt describes the pain AS a “sharp, burning” pain.",
+                "NOT  taking ANY medicines TO relieve the pain.",
+                "The pain IS NOT alleviated WITH rest.",
+                "Pain aggravated BY exertion.",
+                "The pain IS NOT associated WITH food OR eating, but pt experience occasional heartburn.",
+                "Pain be worse ON laying down AND  wake him up AT night.",
+                "Pt denies ANY abdominal trauma OR injury.",
+                "Pt have also experienced weight loss of 5kg over the past 3-4 months, decreased appetite, AND fatigue.",
+                "Pt has experienced SOME drenching night sweats, requiring him TO CHANGE his shirt but NOT his sheets.",
+                "Pt describes a “lump IN his throat” WITH associated dysphagia.",
+                "Pt has experienced SOME nausea WITH the abdominal pain but has NOT vomited.",
+                "Pt also experience constipation.",
+                "Pt had several episodes of  dark red bloody stools WITH SOME bowel movements.",
+                "Pt can NOT recall  how many times per WEEK he experiences this bleeding.",
+                "He has NOT seen a bloody bowel movement IN the past week."
+              ]
+            }
+          ],
+          "systematic_review": [
+            {
+              "field_type": "textarea",
+              "label_name": "general",
+              "value": [
+                "No fevers or chills,",
+                "decreased appetite and a 5 kg weight loss over the past 3-4 months,",
+                "fatigue"
+              ]
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "cvs",
+              "value": [
+                "no chest pain, no palpitations"
+              ]
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "respiratory",
+              "value": [
+                "no SOB, no cough"
+              ]
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "abdomen",
+              "value": [
+                "sharp, epigastric abdominal pain;occasional  constipation, no diarrhea, dark red bloody stools"
+              ]
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "cns",
+              "value": [
+                "no numbness and tingling; no paresthesias",
+                "Head  no headache, no dizziness, nosyncope"
+              ]
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "genitourinary",
+              "value": [
+                "no dysuria; no increased frequency or urgency of urination"
+              ]
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "ent",
+              "value": [
+                "Ears – no changes in his hearing, no tinnitus",
+                "Throat – complains of a “lump in his throat;” endorses dysphagia"
+              ]
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "eye",
+              "value": [
+                "no change in vision",
+                "no blurred vision"
+              ]
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "skin",
+              "value": ""
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "musculoskeletal",
+              "value": ""
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "other",
+              "value": [
+                "No bruising"
+              ]
+            }
+          ],
+          "past_medical_history": [
+            {
+              "field_type": "textarea",
+              "label_name": "past medical history",
+              "value": [
+                [
+                  "Hypertension  Dx in 2000 ,currently on Metaprolol",
+                  "MI in 2004",
+                  "Depression diagnosed in 1996  on Fluoxetine"
+                ]
+              ]
+            }
+          ],
+          "past_surgery_history": [
+            {
+              "field_type": "textarea",
+              "label_name": "",
+              "value": "Cardiac catheterization, post-MI, 2004"
+            }
+          ],
+          "drug_history": [
+            {
+              "field_type": "textarea",
+              "label_name": "drug history",
+              "value": [
+                "Metoprolol 100mg PO OD",
+                "Aspirin 75mg PO OD",
+                "Fluoxetine 20mg PO OD"
+              ]
+            }
+          ],
+          "allergies_and_alert": [
+            {
+              "field_type": "method",
+              "label_name": "allergies",
+              "value": [
+                "Vancomycin (rash), prednisone, valdexocib, rofecoxib",
+                "Sulfa caused a rash."
+              ]
+            },
+            {
+              "field_type": "method",
+              "label_name": "medical alert",
+              "value": []
+            },
+            {
+              "field_type": "method",
+              "label_name": "isolation precautions",
+              "value": []
+            }
+          ],
+          "social_history": [
+            {
+              "field_type": "text",
+              "label_name": "marital status",
+              "value": "married"
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "children",
+              "value": [
+                "2 children",
+                "24/Male/Government Servant",
+                "20/Female/ University Student"
+              ]
+            },
+            {
+              "field_type": "text",
+              "label_name": "occupation",
+              "value": "Retired Government Servant"
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "comments",
+              "value": "Retired 5 years ago."
+            },
+            {
+              "field_type": "method",
+              "label_name": "smoker",
+              "value": ""
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "alcohol consumption",
+              "value": [
+                "No alcohol intake"
+              ]
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "Other Relevent History",
+              "value": []
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "birth and neonatal history (where relevent)",
+              "value": []
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "immunisation",
+              "value": [
+                "IMMUNISATION (where relevant)"
+              ]
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "development milestone",
+              "value": []
+            },
+            {
+              "field_type": "textrea",
+              "label_name": "dietary history",
+              "value": [
+                "Dietary  History (WHERE relevant)"
+              ]
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "family history",
+              "value": [
+                "Mother died at age 74 of “natural causes”; mother had HTN “for many years”",
+                "Father’s medical history NOT known",
+                "NO known family history of colon cancer."
+              ]
+            },
+            {
+              "field_type": "text",
+              "label_name": "occupational history",
+              "value": [
+                "Retired Government Servant"
+              ]
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "functional history",
+              "value": [
+                "Functional History"
+              ]
+            }
+          ],
+          "general_examination": [
+            {
+              "field_type": "method",
+              "label_name": "vital sign",
+              "method_name": ""
+            }
+          ],
+          "problem_list": [
+            {
+              "field_type": "method",
+              "label_name": "",
+              "method_name": ""
+            }
+          ],
+          "diagnosis":[{
+            "field_type":"method",
+            "label_name":"diagnosis",
+            "method_name":""
+          }],
+          "management": [
+            {
+              "field_type": "method",
+              "label_name": "Order",
+              "method_name": ""
+            },
+            {
+              "field_type": "method",
+              "label_name": "Referral",
+              "method_name": ""
+            },
+            {
+              "field_type": "textarea",
+              "label_name": "Comments",
+              "value": [
+                "Diagnostic plan: Colonoscopy TO evaluate the colon FOR presence of polyps OR tumors",
+                "Therapeutic plan:",
+                "IF colon cancer IS detected ON colonoscopy, referpt TO a GI oncologist.",
+                "START Pantoprazole 40mg PO OD",
+                "Diagnostic plan: Colonoscopy TO evaluate the colon FOR presence of polyps OR tumors",
+                "Treat constipation WITH laxative AS needed OR daily Metamucil",
+                "Patient Education: The importance of colonoscopy screening FOR colon cancer was discussed WITH the patient.",
+                "CONTINUE Prozac 20mg po qd FOR now. Consider switching TO a different anti-depressant. Discuss counseling AND therapy options.",
+                "CONTINUE metoprolol 100mg po qd",
+                "#Return to clinic in 6 months.",
+                "Patient education: The importance of dietary salt AND fat restriction AND exercise were discussed WITH the patient."
+              ]
+            }
+          ],
+          "signature": [
+            {
+              "field_type": "text",
+              "label_name": "signed by",
+              "value": "Dr Adam Malik"
+            },
+            {
+              "field_type": "text",
+              "label_name": "Designation",
+              "value": "Medical Officer"
+            },
+            {
+              "field_type": "text",
+              "label_name": "registration",
+              "value": "5363"
+            },
+            {
+              "field_type": "calendar",
+              "label_name": "date and time",
+              "value": "2016-09-22 14:00:00"
+            }
+          ]
+        }
+      
+    }
+  
+}

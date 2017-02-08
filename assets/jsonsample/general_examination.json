@@ -1,0 +1,116 @@
+{
+	"GENERAL EXAMINATION " : {
+		 "vital_sign  " : [ NULL, {"blood_pressure_(bp)_(mmhg)" : {
+						"systolic" : NULL,
+						"diastolic" : NULL,
+						"comments" : NULL
+					     },
+			             "pulse_rate_(pr)_(per_min)" : NULL,
+			             "respiratory_rate_(per_min)" : NULL,
+			             "temperature_(°c)" : NULL,
+			             "pain_score" : NULL,
+			             "spo2_(%)" : NULL,
+			             "gcs" : NULL,
+			             "weight_(kg)" : NULL,
+			             "height_(cm)" : NULL,
+			             "bmi " : NULL,
+			             "waist_circumference_(cm)" : NULL
+				     }
+			   ],
+		   "general_description" : NULL,
+		   "cardiovascular_system"  : NULL,
+		   "respiratory_system" : NULL,
+		   "abdomen_/_genitourinary_system"  : NULL,
+		   "nervous_system" : NULL,
+		   "musculoskeletal" : NULL,
+		   "skin" : NULL,
+		   "others,_specify " : NULL
+		},
+	"PROCEDURE" : {
+		 "problem_list " : NULL
+		 },		
+	"DIAGNOSIS" : {
+		  "provisional_diagnosis " : NULL,
+		  "differential_diagnosis" : NULL
+		},
+				
+	"MANAGEMENT" : {
+		 "orders" : [NULL , {"investigation" : [
+						{
+						"laboratory " : NULL,
+						"radiology" : NULL
+						}
+					      ],
+				      "procedure " : NULL,
+				      "medication" : NULL,
+				      "general_orders" : NULL,
+				      "others,_specify" : NULL
+				    }
+		          ],
+		 "referral" : {
+			   "internal" : NULL,
+			   "external" : NULL
+			  },
+		 "comments" : NULL,
+		 "orders" : NULL,
+		 "differential_diagnosis" : NULL
+
+		},
+
+"history":{  
+      "drug_history": "NULL",
+      "family_history":NULL,
+      "social_history":{  
+         "smoker":[  
+            NULL,
+            {  
+               "current":NULL,
+               "ex-smoker_(stopped_more_than_6_months)":NULL
+            }
+         ],
+         "marital_status":[  
+            NULL,
+            {  
+               "children":NULL
+            }
+         ],
+         "alcohol_consumption":NULL,
+         "other_relevant_history_(shall_include_high_risk_behaviour)":NULL
+      },
+      "systemic_review":{  
+         "cns":NULL,
+         "cvs":NULL,
+         "ent":NULL,
+         "eye":NULL,
+         "skin":NULL,
+         "abdomen":NULL,
+         "general":NULL,
+         "respiratory ":NULL,
+         "genitourinary":NULL,
+         "others,_specify":NULL,
+         "musculoskeletal ":NULL
+      },
+      "chief_complaints":NULL,
+      "functional_history":NULL,
+      "allergies_and_alert":{  
+         "allergy":NULL,
+         "medical_alert":NULL,
+         "isolation_precaution":NULL
+      },
+      "occupational_history":NULL,
+      "past_medical_history":NULL,
+      "past_surgical_history":NULL,
+      "developmental_milestones":NULL,
+      "immunisation_(where_relevant)":NULL,
+      "history_of_presenting_complaint":NULL,
+      "dietary_history_(where_relevant)":NULL,
+      "birth_and_neonatal_history_(where_relevant)":NULL,
+      "obstetric/menstrual_history_(for_female_pt_only)":[  
+         NULL,
+         {  
+            "lmp_date":NULL
+         }
+      ]
+   }
+}
+
