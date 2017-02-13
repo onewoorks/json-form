@@ -6,7 +6,7 @@
         <div class='pull-right'>
             <div class='btn btn-xs btn-primary generateButton'>Select Generate</div>
             <div class='btn btn-xs btn-warning regenerateButton'>Select Re-generate</div>
-            <div class='btn btn-xs btn-default executeAction'>Execute</div>
+            <div class='btn btn-xs btn-default executeAction'>Execute A</div>
         </div>
         <div class='clearfix'></div>
         <br>
