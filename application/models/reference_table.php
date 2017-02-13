@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-class Reference_Table_Model extends Common_Model {
+class Reference_Table_Model  {
 
     public function __construct() {
         $this->db = new Mysql_Driver();
