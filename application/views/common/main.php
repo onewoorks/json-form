@@ -13,7 +13,7 @@
         <![endif]-->
 
 
-        <link href="<?php echo SITE_ROOT; ?>/assets/css/main.css" rel="stylesheet" />
+        <link href="<?php echo SITE_ROOT; ?>assets/css/main.css" rel="stylesheet" />
 
         <link href="<?php echo SITE_ROOT; ?>/assets/library/bootstrap/css/bootstrap.css" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
@@ -40,6 +40,7 @@
                     <li><a href="<?php echo SITE_ROOT; ?>/formview/new-form">Create New Form</a></li>
                     <li><a href="<?php echo SITE_ROOT; ?>/formview/sql-raw-data">SQL Raw Data</a></li>
                     <li><a href='<?php echo SITE_ROOT; ?>/formview/generate-json-format'>Generate JSON Format</a></li>
+                    <li><a href='<?php echo SITE_ROOT; ?>/formview/testing-page'>Testing page</a></li>
                 </ul>
             </div>
         </nav>
