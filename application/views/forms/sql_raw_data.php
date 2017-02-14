@@ -5,20 +5,14 @@
         <form id='sqlform' class='form'>
             <div class='row'>
                 <div class='col-sm-12'>
-                    <label>Document Id</label>
-                    <input type='text' name='doc_name_id' value='' class='form-control' style="width:50px;" />
-                </div> 
-            </div>
-            <div class='row'>
-                <div class='col-sm-12'>
                     <label>Paste your sql statement here</label>
-                    <textarea name='insert_statement' rows="20" class='form-control'></textarea>
+                    <textarea id='insert_statement' name='insert_statement' rows="20" class='form-control'></textarea>
                 </div> 
             </div>
             <br>
             <div class='row text-right'>
                 <div class='col-sm-12'>
-                    <button type='submit' class='btn btn-primary'>Run Query</button>
+                    <button type='submit' class='btn btn-primary runQuery'>Run Query</button>
                 </div>
             </div>
         </form>
@@ -29,29 +23,24 @@
         $('#sqlform').submit(function (e) {
             e.preventDefault();
             var values = $(this).serializeArray();
-            var docNameId = $('[name=doc_name_id]').val();
+            var query = $('#insert_statement').val();
+            $('.runQuery').text('Executing...');
             $.ajax({
                 url: '<?php echo SITE_ROOT; ?>/formview/insert-sql/',
-                data: {values: values},
+                data: {values: query},
                 success: function (data) {
+                    console.log(data);
                     swal({
                         title: "Insertion Success",
-                        text: "Do you want to generate JSON document template for this execution?",
+                        text: "Please go to Generate JSON Format link to execute the builder?",
                         type: "success",
-                        showCancelButton: true,
+                        showCancelButton: false,
                         confirmButtonColor: "#80bf07",
-                        confirmButtonText: "Yes, Please generate!",
+                        confirmButtonText: "Ok!",
                         closeOnConfirm: false
                     },
                     function () {
-                        $.ajax({
-                            url: '<?php echo SITE_ROOT; ?>/formview/document/'+docNameId+'/',
-                            data: {},
-                            success: function () {
-                                swal("Generated!", "JSON template for this document has been generated.", "success");
-                            }
-                        });
-
+                        window.location.href = './generate-json-format';
                     });
                 }
             });

@@ -13,8 +13,8 @@ class Reference_Table_Model  {
     }
     
     public function Discipline() {
-        $sql = "SELECT discipline_code, discipline_name "
-                . " FROM ref_generaldisciplines ORDER BY discipline_name ASC";
+        $sql = "SELECT main_discipline_code, main_discipline_name "
+                . " FROM ref_main_disciplines ORDER BY main_discipline_name ASC";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();

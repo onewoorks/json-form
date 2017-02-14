@@ -56,8 +56,8 @@ class Common_Controller {
         $result = array();
         foreach ($disciplines as $discipline):
             $result[] = array(
-                'value' => $discipline['discipline_code'],
-                'label' => $discipline['discipline_name']);
+                'value' => $discipline['main_discipline_code'],
+                'label' => $discipline['main_discipline_name']);
         endforeach;
         return $result;
     }

@@ -20,13 +20,6 @@ class Document_Template_Model {
                 . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
                 . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code) GROUP BY de.doc_name_id ORDER BY rds.section_desc,rdee.element_desc";
 
-//         $sql = "SELECT dt.template_id, dt.doc_name_id,gd.discipline_name,rdt.dc_type_desc,d.doc_name_desc"
-//                . " FROM document_template dt"
-//                . " INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id)"
-//                . " INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id)"
-//                . " LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code)"
-//                . " INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)";
-
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -120,12 +113,13 @@ class Document_Template_Model {
     }
 
     public function GetListAvailableDocument() {
-        $sql = "SELECT dt.template_id, dt.doc_name_id,gd.discipline_name,rdt.dc_type_desc,d.doc_name_desc"
-                . " FROM document_template dt"
-                . " INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id)"
-                . " INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id)"
-                . " LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code)"
-                . " INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)";
+        $sql = "SELECT dt.template_id, dt.doc_name_id,rmd.main_discipline_name as discipline_name,rdt.dc_type_desc,d.doc_name_desc "
+                . "FROM document_template dt "
+                . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
+                . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
+                . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
+                . "LEFT JOIN ref_main_disciplines rmd ON(rmd.main_discipline_code=gd.main_discipline_code) "
+                . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -137,14 +131,16 @@ class Document_Template_Model {
         $discipline = $documentArray['discipline'];
         $docGroup = $documentArray['doc_group'];
         $docType = $documentArray['doc_type'];
-        $sql = "SELECT dt.template_id, dt.doc_name_id,gd.discipline_name,rdt.dc_type_desc,d.doc_name_desc"
-                . " FROM document_template dt"
-                . " INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id)"
-                . " INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id)"
-                . " LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code)"
-                . " INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)"
-                . " WHERE d.dc_type_code = '$docType' AND dd.discipline_code='$discipline' AND d.doc_group_code='$docGroup'";
-//        echo $sql;
+        $sql = "SELECT dt.template_id, dt.doc_name_id,rmd.main_discipline_name as discipline_name,rdt.dc_type_desc,d.doc_name_desc "
+                . "FROM document_template dt "
+                . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
+                . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
+                . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
+                . "LEFT JOIN ref_main_disciplines rmd ON(rmd.main_discipline_code=gd.main_discipline_code) "
+                . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code) "
+                . "WHERE rmd.main_discipline_code = '$discipline' "
+                . "AND d.dc_type_code = '$docType' "
+                . "AND d.doc_group_code = '$docGroup'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -227,11 +223,12 @@ class Document_Template_Model {
         return $result;
     }
 
-    public function DeleteTemplate($docNameId){
+    public function DeleteTemplate($docNameId) {
         $sql = "DELETE FROM document_template WHERE doc_name_id = '$docNameId'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
         return true;
     }
+
 }

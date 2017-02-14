@@ -90,8 +90,23 @@
                 url: '<?php echo SITE_ROOT; ?>/formbuilder/generate-json/',
                 data : { type: type, documents : selected },
                 success : function(data){
-                    console.log(data);
-                    swal('Generated!','System successfully created form template for selected data','success')
+                    swal({
+                        title: "Generated!",
+                        text: "System successfully created form template for selected data,",
+                        type: "success",
+                        showCancelButton: true,
+                        confirmButtonColor: "#80bf07",
+                        confirmButtonText: "Go To Document List!",
+                        closeOnConfirm: false
+                    },
+                    function (isConfirm) {
+                        if(isConfirm){
+                            window.location.href = '/';
+                        } else {
+                            window.location.reload;
+                        }
+                        
+                    });
                 }
             });
         })

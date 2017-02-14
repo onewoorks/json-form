@@ -47,8 +47,7 @@ class Formview_Controller extends Common_Controller {
                 break;
             case 'insert-sql':
                 $ajax = true;
-                $values = $this->form_array($_REQUEST['values']);
-                $insertLine = nl2br($values['insert_statement']);
+                $insertLine = nl2br($_REQUEST['values']);
                 $insertSql = explode('<br />', $insertLine);
                 $document = new Document_Template_Model();
                 foreach ($insertSql as $insert):
