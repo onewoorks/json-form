@@ -17,6 +17,16 @@
                     </div>
                 </div>
                 <div class='form-group form-group-sm'>
+                    <label class='control-label col-sm-4'>Sub Discipline</label>
+                    <div class='col-sm-5'>
+                        <select name='general_discipline' class='form-control' >
+                            <?php foreach ($general_discipline as $general): ?>
+                                <option value='<?php echo $general['value']; ?>'><?php echo $general['label']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class='form-group form-group-sm'>
                     <label class='control-label col-sm-4'>Document Group</label>
                     <div class='col-sm-5'>
                         <select name='doc_group' class='form-control' >

@@ -34,6 +34,7 @@ class Main_Controller extends Common_Controller {
                 $page = 'forms/list_of_document';
                 $result['list_of_documents'] = $document->GetFilterListByGroupType($values);
                 $result['main_discipline'] = $this->RefMainDiscipline();
+                $result['general_discipline'] = $this->RefGeneralDiscipline();
                 $result['doc_group'] = $this->RefDocumentGroup();
                 $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
                 $result['preset_select'] = array(
@@ -50,6 +51,7 @@ class Main_Controller extends Common_Controller {
                 $result['list_of_documents'] = $document->GetListAvailableDocument();
 //                $result['list_of_documents'] = false;
                 $result['main_discipline'] = $this->RefMainDiscipline();
+                $result['general_discipline'] = $this->RefGeneralDiscipline();
                 $result['doc_types'] = $this->RefDocumentType();
                 $result['doc_group'] = $this->RefDocumentGroup();
                 $result['preset_select'] = false;

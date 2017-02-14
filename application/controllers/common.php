@@ -61,6 +61,18 @@ class Common_Controller {
         endforeach;
         return $result;
     }
+    
+    public function RefGeneralDiscipline() {
+        $reference = new Reference_Table_Model();
+        $disciplines = $reference->GeneralDiscipline();
+        $result = array();
+        foreach ($disciplines as $discipline):
+            $result[] = array(
+                'value' => $discipline['discipline_code'],
+                'label' => $discipline['discipline_name']);
+        endforeach;
+        return $result;
+    }
 
     public function RefDocumentType($groupCode = null) {
         $reference = new Reference_Table_Model();

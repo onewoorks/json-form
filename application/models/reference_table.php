@@ -21,6 +21,16 @@ class Reference_Table_Model  {
         $result = $this->db->fetchOut('array');
         return ($result) ? $result : false;
     }
+    
+    public function GeneralDiscipline() {
+        $sql = "SELECT discipline_code, discipline_name "
+                . " FROM ref_generaldisciplines ORDER BY discipline_name ASC";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return ($result) ? $result : false;
+    }
 
     public function MainDiscipline() {
         $sql = "SELECT main_discipline_code, main_discipline_name "
