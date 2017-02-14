@@ -1,6 +1,10 @@
 <?php
 
 class Common_Controller {
+    
+    private function Masak(){
+        return 'masak';
+    }
 
     function form_array($arrays) {
         $val = array();
