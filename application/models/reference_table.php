@@ -6,13 +6,23 @@
  * and open the template in the editor.
  */
 
-class Reference_Table_Model extends Common_Model {
+class Reference_Table_Model  {
 
     public function __construct() {
         $this->db = new Mysql_Driver();
     }
     
     public function Discipline() {
+        $sql = "SELECT main_discipline_code, main_discipline_name "
+                . " FROM ref_main_disciplines ORDER BY main_discipline_name ASC";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return ($result) ? $result : false;
+    }
+    
+    public function GeneralDiscipline() {
         $sql = "SELECT discipline_code, discipline_name "
                 . " FROM ref_generaldisciplines ORDER BY discipline_name ASC";
         $this->db->connect();

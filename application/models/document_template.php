@@ -1,6 +1,6 @@
 <?php
 
-class Document_Template_Model extends Common_Model {
+class Document_Template_Model {
 
     public $jsonForm;
     public $documentId;
@@ -8,9 +8,18 @@ class Document_Template_Model extends Common_Model {
     public function __construct() {
         $this->db = new Mysql_Driver();
     }
-    
-    public function ReadDocumentElementExisted(){
-        $sql = "SELECT doc_name_id FROM document_element GROUP BY doc_name_id";
+
+    public function ReadDocumentElementExisted() {
+        $sql = "SELECT d.doc_name_id, d.doc_name_desc, gd.discipline_name,rdt.dc_type_desc, "
+                . " (case when ((SELECT doc_name_id FROM document_template WHERE doc_name_id = d.doc_name_id) IS NULL) then false else true end) as available "
+                . "FROM document_element de INNER JOIN document d ON(d.doc_name_id=de.doc_name_id) "
+                . "INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code) "
+                . "INNER JOIN ref_document_element rde ON (rde.element_code=de.parent_element_code) "
+                . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
+                . "INNER JOIN ref_document_element rdee ON (rdee.element_code=de.child_element_code) "
+                . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
+                . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code) GROUP BY de.doc_name_id ORDER BY rds.section_desc,rdee.element_desc";
+
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -86,7 +95,7 @@ class Document_Template_Model extends Common_Model {
         $jsonForm = $this->jsonForm;
         echo $jsonForm;
         $sql = "INSERT INTO document_template (doc_name_id,json_template,created_date) VALUES ('" . (int) $documentId . "','" . $jsonForm . "',now())";
-        
+
 //        echo $sql;
         $this->db->connect();
         $this->db->prepare($sql);
@@ -104,12 +113,13 @@ class Document_Template_Model extends Common_Model {
     }
 
     public function GetListAvailableDocument() {
-        $sql = "SELECT dt.template_id, dt.doc_name_id,gd.discipline_name,rdt.dc_type_desc,d.doc_name_desc"
-                . " FROM document_template dt"
-                . " INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id)"
-                . " INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id)"
-                . " LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code)"
-                . " INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)";
+        $sql = "SELECT dt.template_id, dt.doc_name_id,rmd.main_discipline_name as discipline_name,rdt.dc_type_desc,d.doc_name_desc "
+                . "FROM document_template dt "
+                . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
+                . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
+                . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
+                . "LEFT JOIN ref_main_disciplines rmd ON(rmd.main_discipline_code=gd.main_discipline_code) "
+                . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -121,14 +131,16 @@ class Document_Template_Model extends Common_Model {
         $discipline = $documentArray['discipline'];
         $docGroup = $documentArray['doc_group'];
         $docType = $documentArray['doc_type'];
-        $sql = "SELECT dt.template_id, dt.doc_name_id,gd.discipline_name,rdt.dc_type_desc,d.doc_name_desc"
-                . " FROM document_template dt"
-                . " INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id)"
-                . " INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id)"
-                . " LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code)"
-                . " INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)"
-                . " WHERE d.dc_type_code = '$docType' AND dd.discipline_code='$discipline' AND d.doc_group_code='$docGroup'";
-//        echo $sql;
+        $sql = "SELECT dt.template_id, dt.doc_name_id,rmd.main_discipline_name as discipline_name,rdt.dc_type_desc,d.doc_name_desc "
+                . "FROM document_template dt "
+                . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
+                . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
+                . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
+                . "LEFT JOIN ref_main_disciplines rmd ON(rmd.main_discipline_code=gd.main_discipline_code) "
+                . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code) "
+                . "WHERE rmd.main_discipline_code = '$discipline' "
+                . "AND d.dc_type_code = '$docType' "
+                . "AND d.doc_group_code = '$docGroup'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -144,8 +156,8 @@ class Document_Template_Model extends Common_Model {
         $result = $this->db->fetchOut('object');
         return $result[0];
     }
-    
-    public function GetExistedDocumentJSONTemplate(){
+
+    public function GetExistedDocumentJSONTemplate() {
         $sql = "SELECT doc_name_id FROM document_template";
         $this->db->connect();
         $this->db->prepare($sql);
@@ -254,6 +266,14 @@ class Document_Template_Model extends Common_Model {
         $this->db->prepare($sql);
         $this->db->queryexecute();
         return true; 
+    }
+
+    public function DeleteTemplate($docNameId) {
+        $sql = "DELETE FROM document_template WHERE doc_name_id = '$docNameId'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
     }
 
 }

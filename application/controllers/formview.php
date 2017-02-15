@@ -47,8 +47,7 @@ class Formview_Controller extends Common_Controller {
                 break;
             case 'insert-sql':
                 $ajax = true;
-                $values = $this->form_array($_REQUEST['values']);
-                $insertLine = nl2br($values['insert_statement']);
+                $insertLine = nl2br($_REQUEST['values']);
                 $insertSql = explode('<br />', $insertLine);
                 $document = new Document_Template_Model();
                 foreach ($insertSql as $insert):
@@ -199,7 +198,7 @@ class Formview_Controller extends Common_Controller {
         $templates = $document->ReadDocumentElementExisted();
         $documentId = array();
         foreach($templates as $template):
-            $documentId[] = $template['doc_name_id'];
+            $documentId[] = $template;
         endforeach;
         return $documentId;
     }
@@ -219,8 +218,7 @@ class Formview_Controller extends Common_Controller {
         $documentTemplate = $this->GetExistedDocumentTemplate();
         $test = array_diff($documentElementOnly, $documentTemplate);
         $mergeDocument = array_merge($documentElementOnly,$documentTemplate);
-        print_r($mergeDocument);
-        return $test;
+        return $documentElementOnly; 
     }
 //    private function GenerateJSONFormat($documentId, $action = 'insert') {
 //        $documentTemplate = new Document_Template_Model();
