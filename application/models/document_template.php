@@ -155,12 +155,12 @@ class Document_Template_Model extends Common_Model {
     }
 
     public function GetElementDetail($elementCode) {
-        $sql = "SELECT rde.element_code, rde.json_element,rde.element_desc,de.data_type,de.sorting,de.input_type, de.method, de.element_properties, de.additional_attributes "
+        $sql = "SELECT rde.element_code, rde.json_element,rde.element_desc,de.data_type,de.sorting,de.input_type, de.method, de.element_properties, de.additional_attribute "
                 . " FROM document_element de INNER JOIN document d ON(d.doc_name_id=de.doc_name_id) "
                 . " INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code) "
                 . " INNER JOIN ref_document_element rde ON (rde.element_code=de.parent_element_code) "
                 . " INNER JOIN ref_document_element rdee ON (rdee.element_code=de.child_element_code) "
-                . " WHERE de.doc_name_id='1' and rde.element_code='" . (int) $elementCode . "'";
+                . " WHERE de.doc_name_id='1' and rde.element_code='" . (int) $elementCode . "'";     
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -209,6 +209,51 @@ class Document_Template_Model extends Common_Model {
         $this->db->queryexecute();
         $result = $this->db->fetchOut('array');
         return $result;
+    }
+    
+    public function InsertTestingData($na,$va){
+        $sql = "INSERT INTO `test`(`name`, `value`)"
+                ." VALUES ('" . $na . "','" . $va . "')";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+    public function ViewTestingData(){
+        $sql = "SELECT * FROM `test`";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;  
+    }
+    
+    public function DeleteTestingData($id){
+        $sql = "DELETE FROM `test`"
+                ." WHERE `id`='" . $id . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+    public function GetTestingData($id){
+        $sql = "SELECT * FROM `test`"
+                ."WHERE `id`='".$id."'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('object');
+        return $result[0];
+    }
+    
+    public function UpdateTestingData(array $id){
+        $sql = "UPDATE test SET name='" . $id['name'] . "', value='".$id['value']."' WHERE id='" . (int) $id['id'] . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true; 
     }
 
 }

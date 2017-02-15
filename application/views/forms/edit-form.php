@@ -30,7 +30,9 @@
                                         <div class='col-sm-12'>
                                             <div class='form-group form-group-sm' style='border:1px solid #ccc;; margin:4px;'>
                                                 <label class='control-label col-md-4'><?= $element->element_desc; ?></label>
-                                                <div class='col-md-4'><div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>'>Edit</div></div>
+                                                <div class='col-md-4'>
+                                                    <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>'>Edit</div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -70,7 +72,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal Header</h4>
+                <h4 class="modal-title">Modal </h4>
             </div>
             <div class="modal-body">
             </div>

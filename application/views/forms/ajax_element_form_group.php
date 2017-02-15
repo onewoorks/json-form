@@ -52,10 +52,10 @@
 </form>
 
 <script>
-    function ElementBuilder($elementName) {
+    function ElementBuilder($elementName,$val) {
         $.ajax({
             url: '<?php echo SITE_ROOT;?>/formbuilder/formelement/',
-            data: {value: $elementName},
+            data: {value: $elementName, sc: $val },
             success: function (data) {
                 $('#formelement').html(data);
             }
@@ -63,8 +63,10 @@
     }
     ;
     $(function () {
-        var $formType = 'decoration';
-        ElementBuilder($formType);
+        var $formType = $('input[name=element_properties]:checked').val();
+        var $sc = $('[name=section_code]').val();
+        //var $formType = 'decoration';
+        ElementBuilder($formType,$sc);
         $('[name=form_element').val($formType);
         $('[name=element_properties]').on('change', function () {
             var selector = $(this).val();
@@ -72,5 +74,5 @@
             $('[name=form_element').val(selector);
             ElementBuilder(selector);
         });
-    });
+    });   
 </script>

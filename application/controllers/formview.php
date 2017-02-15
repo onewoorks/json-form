@@ -113,6 +113,53 @@ class Formview_Controller extends Common_Controller {
                 $document->UpdateSectionDetail($data);
                 $this->GenerateJSONFormat($values['document_id'], 'update');
                 break;
+            
+            //add testing page to navigation bar
+            case 'testing-page':
+                $page = 'test/testing_page';
+                $testdata = new Document_Template_Model();
+                $result['testing_data'] = $testdata->ViewTestingData();
+                break;
+            
+            case 'insert-testing-data':
+                $ajax = true;
+                $name= $_REQUEST['name'];
+                $value = $_REQUEST['value'];
+                $document = new Document_Template_Model();
+                $document->InsertTestingData($name,$value);
+                break;
+            
+            case 'delete-testing':
+                $ajax = true;
+                $id = $_REQUEST['key'];
+                $testdata = new Document_Template_Model();
+                $testdata->DeleteTestingData($id);
+                break;
+            
+            case 'get-selected-data':
+                $ajax = true;
+                $key = $_REQUEST['key'];
+                $document = new Document_Template_Model();
+                $data = $document->GetTestingData($key);
+                $page= 'test/update_testing_data';
+                $result['values'] = $data;
+                $result['json_format'] = json_encode($data);                
+                $data = array(                   
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
+            
+            case 'update-testing-data':
+                $ajax = true;
+                $values = $this->form_array($_REQUEST['values']);
+                $document = new Document_Template_Model();
+                $data = array(
+                    'id' => $values['id'],
+                    'name' => $values['name'],
+                    'value' => $values['value']);
+                $document->UpdateTestingData($data);
+                break;
+            
             default:
                 $result['link_style'] = "<link href='localhost/FORMjson/assets/library/summernote/' rel='stylesheet' />";
                 $result['form_element'] = $this->SessionCall('form_element');
@@ -185,12 +232,6 @@ class Formview_Controller extends Common_Controller {
 //        $result['json_elements'] = $documentArray;
 //        $this->CreateJSONForm($documentId, $documentArray, $action);
 //
-//        re
-//        
-//        
-//        
-//        
-//        
-//        turn true;
+//        return true;
 //    } 
 }

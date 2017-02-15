@@ -62,8 +62,13 @@ class Input_Type_Controller extends Common_Controller {
         $input = ucwords(strtolower($referal->type));
         $inputType = str_replace(' ', '', $input);
         $class->is_multiple_textbox = ($inputType == 'Textbox') ? count($referal->data) : 1;
+      
         $methodName = ($inputType == 'List') ? 'Listdown' : ucfirst($inputType);
-        return $class->$methodName();
+        
+        if($methodName):
+            return $class->$methodName();
+        endif;
+        
     }
 
     public function Calender() {

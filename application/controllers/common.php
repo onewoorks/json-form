@@ -54,18 +54,30 @@ class Common_Controller {
         return ob_get_clean();
     }
 
-    public function RefMainDiscipline() {
-        $reference = new Reference_Table_Model();
-        $disciplines = $reference->Discipline();
-        $result = array();
-        foreach ($disciplines as $discipline):
-            $result[] = array(
-                'value' => $discipline['discipline_code'],
-                'label' => $discipline['discipline_name']);
-        endforeach;
-        return $result;
-    }
-
+     public function RefMainDiscipline() {
+         $reference = new Reference_Table_Model();
+         $disciplines = $reference->MainDiscipline();
+         $result = array();
+         foreach ($disciplines as $discipline):
+             $result[] = array(
+                 'value' => $discipline['main_discipline_code'],
+                 'label' => $discipline['main_discipline_name']);
+          endforeach;
+          return $result;
+      }
+     
+     public function RefGeneralDiscipline() {
+         $reference = new Reference_Table_Model();
+         $disciplines = $reference->GeneralDiscipline();
+         $result = array();
+         foreach ($disciplines as $discipline):
+             $result[] = array(
+                 'value' => $discipline['discipline_code'],
+                 'label' => $discipline['discipline_name']);
+         endforeach;
+         return $result;
+     }
+ 
     public function RefDocumentType($groupCode = null) {
         $reference = new Reference_Table_Model();
         $docType = $reference->DocumentType($groupCode);

@@ -16,6 +16,23 @@
                         </select>
                     </div>
                 </div>
+                
+                <div class='form-group form-group-sm'>
+                    <label class='control-label col-sm-4'>Sub Discipline</label>
+                    <div class='col-sm-5'>
+                       <select name='general_discipline' class='form-control' >
+                           <?php if (!$preset_select): ?>
+                           <option value='0'>Please Select Discipline</option>
+                           <?php else: ?>
+                             <?php foreach ($general_discipline as $general): ?>
+                                 <option value='<?php echo $general['value']; ?>'><?php echo $general['label']; ?></option>
+                             <?php endforeach; ?>
+                                 <?php endif; ?>
+                         </select>
+                    </div>
+                </div>
+                
+                
                 <div class='form-group form-group-sm'>
                     <label class='control-label col-sm-4'>Document Group</label>
                     <div class='col-sm-5'>
@@ -102,6 +119,17 @@
                 }
             });
         });
+   
+        $('[name=discipline]').change(function () {
+            var disCode = $(this).val();
+            $.ajax({
+                url: '<?php echo SITE_ROOT; ?>/main/filter-discipline/',
+                data: {dis_code: disCode},
+                success: function (data) {
+                    $('[name=general_discipline]').html(data);
+                }
+            });
+        });
 
         $('.syncButton').click(function(){
             $.ajax({
@@ -114,9 +142,11 @@
 
 <?php if ($preset_select): ?>
             $('[name=discipline]').val("<?php echo $preset_select['active_discipline']; ?>");
+            $('[name=general_discipline]').val("<?php echo $preset_select['active_general']; ?>");
             $('[name=doc_group]').val("<?php echo $preset_select['active_group']; ?>");
             $('[name=doc_type]').val("<?php echo $preset_select['active_type']; ?>");
 <?php else: ?>
+            $("[name=discipline]").change();
             $("[name=doc_group]").change();
 <?php endif; ?>
 

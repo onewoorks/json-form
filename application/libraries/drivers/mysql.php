@@ -10,10 +10,10 @@ class Mysql_Driver {
     public function connect() {
         $host = '127.0.0.1';
         $user = 'root';
-        $password = '';
-        $database = 'cd_sample';
+        $password = 'password';
+        $database = 'heitech_cdsample';
         try {
-            $this->connection = new PDO("mysql:host=$host;port=3306;dbname=$database", $user, $password);
+            $this->connection = new PDO("mysql:host=$host;port=3307;dbname=$database", $user, $password);
             return TRUE;
         } catch (PDOException $e) {
             $this->connection = null;
