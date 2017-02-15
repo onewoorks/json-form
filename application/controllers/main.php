@@ -59,10 +59,9 @@ class Main_Controller extends Common_Controller {
 //                $result['list_of_documents'] = false;
                 $result['main_discipline'] = $this->RefMainDiscipline();
                 $result['general_discipline'] = $this->RefGeneralDiscipline();
-<<<<<<< HEAD
+
                 $result['main_discipline'] = $this->RefMainDiscipline();
-=======
->>>>>>> e07c4459f13631063659023c116962ca7f5faaaf
+
                 $result['doc_types'] = $this->RefDocumentType();
                 $result['doc_group'] = $this->RefDocumentGroup();
                 $result['preset_select'] = false;

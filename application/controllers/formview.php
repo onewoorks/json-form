@@ -215,9 +215,10 @@ class Formview_Controller extends Common_Controller {
     
     private function CompareExistedJSON(){
         $documentElementOnly = $this->GetAvailableDocumentWithElement();
-        $documentTemplate = $this->GetExistedDocumentTemplate();
-        $test = array_diff($documentElementOnly, $documentTemplate);
-        $mergeDocument = array_merge($documentElementOnly,$documentTemplate);
+        // $documentTemplate = $this->GetExistedDocumentTemplate();
+        // print_r($documentTemplate);
+        // $test = array_diff($documentElementOnly, $documentTemplate);
+        // $mergeDocument = array_merge($documentElementOnly,$documentTemplate);
         return $documentElementOnly; 
     }
 //    private function GenerateJSONFormat($documentId, $action = 'insert') {
