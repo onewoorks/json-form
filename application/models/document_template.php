@@ -93,7 +93,7 @@ class Document_Template_Model {
     public function CreateDocumentJSONFormat() {
         $documentId = $this->documentId;
         $jsonForm = $this->jsonForm;
-        echo $jsonForm;
+//        echo $jsonForm;
         $sql = "INSERT INTO document_template (doc_name_id,json_template,created_date) VALUES ('" . (int) $documentId . "','" . $jsonForm . "',now())";
 
         echo $sql;
