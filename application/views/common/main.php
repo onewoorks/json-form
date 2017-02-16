@@ -40,7 +40,7 @@
                     <li><a href="<?php echo SITE_ROOT; ?>/formview/new-form">Create New Form</a></li>
                     <li><a href="<?php echo SITE_ROOT; ?>/formview/sql-raw-data">SQL Raw Data</a></li>
                     <li><a href='<?php echo SITE_ROOT; ?>/formview/generate-json-format'>Generate JSON Format</a></li>
-                    <li><a href='<?php echo SITE_ROOT; ?>/formview/testing-page'>Testing page</a></li>
+<!--                    <li><a href='<?php echo SITE_ROOT; ?>/formview/testing-page'>Testing page</a></li>-->
                 </ul>
             </div>
         </nav>
