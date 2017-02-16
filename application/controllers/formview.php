@@ -71,7 +71,7 @@ class Formview_Controller extends Common_Controller {
                 $cleanSorting = $this->JsonWithSectionSorting($sectionSorting);
                 $result['document_title'] = $documentTemplate['doc_name_desc'];
                 $result['json_elements'] = $cleanSorting;
-                $result['document_id'] = $documentId;
+                $result['document_id'] = $documentTemplate['doc_name_id'];
                 $result['link_style'] = "<link href='".SITE_ROOT."/assets/css/hiskkm.css' rel='stylesheet' />";
                 break;
             case 'load-selected-json':

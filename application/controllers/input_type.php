@@ -43,7 +43,7 @@ class Input_Type_Controller extends Common_Controller {
     public function MultipleAnswer() {
         $element = $this->elementDetail;
 
-        $referal = ReferenceCaller($element->element_code);
+        $referal = ReferenceCaller($element->element_code, $element->doc_name_id);
         $gotChild = (isset($referal->data[0]['parent_element_code'])) ? true : false;
 
         $multipleAnswerData = array(
@@ -53,7 +53,8 @@ class Input_Type_Controller extends Common_Controller {
             'name' => '',
             'listing' => $referal->data,
             'json_element' => $element->json_element,
-            'additional_attribute' => $element->additional_attribute
+            'additional_attribute' => $element->additional_attribute,
+            'doc_name_id' => $element->doc_name_id
         );
 
         $class = new Input_Type_Controller();
@@ -62,13 +63,12 @@ class Input_Type_Controller extends Common_Controller {
         $input = ucwords(strtolower($referal->type));
         $inputType = str_replace(' ', '', $input);
         $class->is_multiple_textbox = ($inputType == 'Textbox') ? count($referal->data) : 1;
-      
+
         $methodName = ($inputType == 'List') ? 'Listdown' : ucfirst($inputType);
-        
-        if($methodName):
+
+        if ($methodName):
             return $class->$methodName();
         endif;
-        
     }
 
     public function Calender() {
@@ -90,9 +90,9 @@ class Input_Type_Controller extends Common_Controller {
 
         $element = $this->elementDetail;
         if ($this->is_parent):
-            $referral = ReferenceCaller($element->element_code);
+            $referral = ReferenceCaller($element->element_code, $element->doc_name_id);
         else:
-            $referral = ReferenceCaller($element->element_code, 'child');
+            $referral = ReferenceCaller($element->element_code, $element->doc_name_id, 'child');
         endif;
 
         $otherSpecify = true;
@@ -150,8 +150,8 @@ class Input_Type_Controller extends Common_Controller {
                 $html .= '</div>';
                 if (isset($ref['parent_element_code'])):
 
-                    $referal = ReferenceCaller($ref['parent_element_code'], 'child');
-                    foreach ($referal->data as $key=>$r):
+                    $referal = ReferenceCaller($ref['parent_element_code'], $ref['doc_name_id'], 'child');
+                    foreach ($referal->data as $key => $r):
                         if (strtolower($r['input_type']) == 'checkbox'):
                             $html .= "<div class='clearfix'></div>";
                             $html .= "<div style='margin-left:80px;' class='checkbox hidden multicheckbox_" . $element->json_element . '_' . $ref['parent_element_code'] . "' >"
@@ -161,7 +161,7 @@ class Input_Type_Controller extends Common_Controller {
                         if (strtolower($r['input_type']) == 'freetext'):
                             $otherSpecify = false;
                             $position = 'right';
-                            if($key==0):
+                            if ($key == 0):
                                 $html .= "<div class='col-sm-6' style='margin-bottom:10px'>"
                                         . "<textarea placeholder='Comments'"
                                         . "data-parentcode='$element->json_element" . '_' . $ref['parent_element_code'] . "'"
@@ -239,12 +239,13 @@ class Input_Type_Controller extends Common_Controller {
     public function Dropdown() {
         $element = $this->elementDetail;
         if ($this->is_parent):
-            $referral = ReferenceCaller($element->element_code);
+            $referral = ReferenceCaller($element->element_code, $element->doc_name_id);
         else:
-            //$referral = ReferenceCaller($element->element_code);
+            //$referral = ReferenceCaller($element->element_code, $element->doc_name_id);
             $listData = array('data' => $element->data);
             $referral = (object) $listData;
         endif;
+        
         $inputColumn = ($this->is_parent) ? 'col-sm-4' : 'col-sm-4';
         $html = "<div class='form-group form-group-sm'>"
                 . "<label class='control-label col-md-3 text-uppercase'";
@@ -265,9 +266,9 @@ class Input_Type_Controller extends Common_Controller {
     public function Listdown() {
         $element = $this->elementDetail;
         if ($this->is_parent):
-            $referral = ReferenceCaller($element->element_code);
+            $referral = ReferenceCaller($element->element_code, $element->doc_name_id);
         else:
-            $referral = ReferenceCaller($element->element_code, 'child');
+            $referral = ReferenceCaller($element->element_code, $element->doc_name_id, 'child');
         endif;
 
         $html = "<div class='form-group form-group-sm'>"
@@ -275,7 +276,7 @@ class Input_Type_Controller extends Common_Controller {
         $html .= "<div class='col-sm-9'>";
 
         foreach ($referral->data as $ref):
-            $referal = ReferenceCaller($ref['parent_element_code'], 'child');
+            $referal = ReferenceCaller($ref['parent_element_code'], $ref['doc_name_id'], 'child');
 
             $input = ucwords(strtolower($ref['input_type']));
             $inputType = str_replace(' ', '', $input);
@@ -302,9 +303,9 @@ class Input_Type_Controller extends Common_Controller {
     public function RadioButton() {
         $element = $this->elementDetail;
         if ($this->is_parent):
-            $referral = ReferenceCaller($element->element_code);
+            $referral = ReferenceCaller($element->element_code, $element->doc_name_id);
         else:
-            $referral = ReferenceCaller($element->element_code);
+            $referral = ReferenceCaller($element->element_code, $element->doc_name_id);
         endif;
 
         $html = "<div class='form-group form-group-sm'>"

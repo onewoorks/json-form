@@ -13,7 +13,7 @@
         <![endif]-->
 
 
-        <link href="<?php echo SITE_ROOT; ?>assets/css/main.css" rel="stylesheet" />
+        <link href="<?php echo SITE_ROOT; ?>/assets/css/main.css" rel="stylesheet" />
 
         <link href="<?php echo SITE_ROOT; ?>/assets/library/bootstrap/css/bootstrap.css" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 

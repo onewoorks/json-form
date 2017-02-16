@@ -22,8 +22,7 @@
                     <div class='panel-body' data-section='<?= $key; ?>'>
                         <?php foreach ($section->elements as $elem => $element): ?>
                             <div style='color:grey; font-size: 0.7em' class='hidden'><i><?= $element->input_type . ' | ' . $element->element_code; ?></i></div>
-
-                            <?= InputTypeCaller($element, $element->json_element, $document_title); ?>
+                            <?= InputTypeCaller($element, $element->json_element, $document_title, $document_id); ?>
 
                         <?php endforeach; ?>
                     </div>

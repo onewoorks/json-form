@@ -6,14 +6,14 @@ function MethodCaller($formName, $methodName, $params = null) {
     return $method->$methodName($params);
 }
 
-function ReferenceCaller($elementCode, $tree = 'parent') {
-    $result = Reference_List_Controller::GetReferenceList($elementCode, $tree);
+function ReferenceCaller($elementCode, $docNameId, $tree = 'parent') {
+    $result = Reference_List_Controller::GetReferenceList($elementCode, $docNameId, $tree);
     $typeOfMultipleAnswer = $result[0]['input_type'];
     $output = array('type' => $typeOfMultipleAnswer, 'data' => $result,);
     return (object) $output;
 }
 
-function InputTypeCaller($element, $name, $documentTitle) {
+function InputTypeCaller($element, $name, $documentTitle,$documentId) {
     $input = ucwords(strtolower($element->input_type));
     $inputType = str_replace(' ', '', $input);
 //    [method] => 
@@ -31,7 +31,8 @@ function InputTypeCaller($element, $name, $documentTitle) {
         'element_code' => $element->element_code,
         'method' => $element->method,
         'json_element'=>$element->json_element,
-        'document_title' => $documentTitle
+        'document_title' => $documentTitle,
+        'doc_name_id'=>$documentId
     );
     $methodName = $inputType;
     $class = new Input_Type_Controller();
