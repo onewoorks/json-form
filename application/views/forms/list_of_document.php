@@ -77,6 +77,8 @@
                 <thead>
                     <tr>
                         <th>Discipline</th>
+                        <th>Sub Discipline</th>
+                        <th>Document Group</th>
                         <th>Document Type</th>
                         <th>Document Title</th>
                         <th>Action</th>
@@ -90,7 +92,9 @@
                     <?php endif;?>
                     <?php foreach ($list_of_documents as $document): ?>
                         <tr>
+                            <td><?php echo $document['main_discipline_name']; ?></td>
                             <td><?php echo $document['discipline_name']; ?></td>
+                            <td><?php echo $document['doc_group_desc']; ?></td>
                             <td><?php echo $document['dc_type_desc']; ?></td>
                             <td class='text-uppercase'><a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $document['template_id']; ?>'><?php echo $document['doc_name_desc']; ?></a></td>
                             <td class='text-center'>
