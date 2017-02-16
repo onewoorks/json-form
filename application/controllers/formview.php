@@ -70,6 +70,8 @@ class Formview_Controller extends Common_Controller {
                 $sectionSorting = json_decode($documentTemplate['json_template']);
                 $cleanSorting = $this->JsonWithSectionSorting($sectionSorting);
                 $result['document_title'] = $documentTemplate['doc_name_desc'];
+                $result['main_discipline'] = $documentTemplate['main_discipline_name'];
+                $result['sub_discipline'] = $documentTemplate['discipline_name'];
                 $result['json_elements'] = $cleanSorting;
                 $result['document_id'] = $documentTemplate['doc_name_id'];
                 $result['link_style'] = "<link href='".SITE_ROOT."/assets/css/hiskkm.css' rel='stylesheet' />";
