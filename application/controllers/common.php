@@ -82,7 +82,7 @@ class Common_Controller {
 
     public function RefMainDiscipline() {
         $reference = new Reference_Table_Model();
-        $disciplines = $reference->Discipline();
+        $disciplines = $reference->MainDiscipline();
         $result = array();
         foreach ($disciplines as $discipline):
             $result[] = array(
