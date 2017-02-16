@@ -2,7 +2,10 @@
 <div class='row'>
     <div class='col-md-9'>
         <div class='panel panel-default' >
-            <div class='panel-heading'><?= $document_title; ?></div>
+            <div class='panel-heading'style="text-transform: uppercase; ">
+                Discipline     &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : <b style="text-align-last: right;"><?= $main_discipline; ?></b><br>
+                Sub Discipline  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <b style="text-align-last: right;"><?= $sub_discipline; ?></b><br>
+                Document Tittle &nbsp;: <b style="text-align-last: right;"><?= $document_title; ?></b></div>
             <div class='panel-body'>
                 <form class='form-horizontal '>
                     <?= MethodCaller('Common_Form', 'SeenDiscussedRecord'); ?>

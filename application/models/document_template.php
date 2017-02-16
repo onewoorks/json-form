@@ -28,11 +28,14 @@ class Document_Template_Model {
     }
 
     public function ReadDocumentTemplate($documentId) {
-        $sql = "SELECT o.doc_name_desc, d.json_template, d.doc_name_id, d.template_id"
+        $sql = "SELECT o.doc_name_desc, d.json_template, d.doc_name_id, d.template_id, gd.discipline_name, md.main_discipline_name"
                 . " FROM document_template d"
                 . " LEFT JOIN document o ON o.doc_name_id=d.doc_name_id"
-                . " WHERE template_id='" . (int) $documentId . "' "
-                . " AND active = 1";
+                . " INNER JOIN discipline_document dd ON d.doc_name_id=d.doc_name_id"
+                . " LEFT JOIN ref_generaldisciplines gd ON gd.discipline_code=dd.discipline_code"
+                . " LEFT JOIN ref_main_disciplines md ON md.main_discipline_code=gd.main_discipline_code"
+                . " WHERE d.template_id='" . (int) $documentId . "' "
+                . " AND d.active = 1";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
