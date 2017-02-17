@@ -58,7 +58,7 @@
                 </div>
                 <div class='form-group form-group-sm'>
                     <div class='col-sm-9 text-right'>
-                        <button type='submit' class='btn btn-sm btn-primary'><i class='glyphicon glyphicon-search'></i> Filter</button>
+<!--                        <button type='submit' class='btn btn-sm btn-primary'><i class='glyphicon glyphicon-search'></i> Filter</button>-->
                     </div>
                 </div>
             </form>
@@ -87,7 +87,7 @@
                 <tbody>
                     <?php if(!$list_of_documents):?>
                     <tr>
-                        <td colspan="4"><i>No Record Found</i></td>
+                        <td colspan="6"><i>No Record Found</i></td>
                     </tr>
                     <?php endif;?>
                     <?php foreach ($list_of_documents as $document): ?>
@@ -119,6 +119,7 @@
                 data: {group_code: groupCode},
                 success: function (data) {
                     $('[name=doc_type]').html(data);
+                    $('#documentFilter').submit();
                 }
             });
         });
@@ -130,8 +131,17 @@
                 data: {dis_code: disCode},
                 success: function (data) {
                     $('[name=general_discipline]').html(data);
+                    $('#documentFilter').submit();
                 }
             });
+        });
+        
+        $('[name=general_discipline]').change(function () {
+            $('#documentFilter').submit();
+        });  
+        
+        $('[name=doc_type]').change(function () {
+            $('#documentFilter').submit();
         });
 
         $('.syncButton').click(function(){
