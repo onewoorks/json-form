@@ -132,6 +132,7 @@ class Document_Template_Model {
 
     public function GetFilterListByGroupType($documentArray) {
         $discipline = $documentArray['discipline'];
+        $subDiscipline = $documentArray['general_discipline'];
         $docGroup = $documentArray['doc_group'];
         $docType = $documentArray['doc_type'];
         $sql = "SELECT dt.template_id, dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc "
@@ -143,6 +144,7 @@ class Document_Template_Model {
                 . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code) "
                 . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)"
                 . "WHERE rmd.main_discipline_code = '$discipline' "
+                . "AND gd.discipline_code = '$subDiscipline' "
                 . "AND d.dc_type_code = '$docType' "
                 . "AND d.doc_group_code = '$docGroup'";
         $this->db->connect();
