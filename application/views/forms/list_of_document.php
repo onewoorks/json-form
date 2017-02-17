@@ -25,7 +25,7 @@
                            <option value='0'>Please Select Discipline</option>
                            <?php else: ?>
                              <?php foreach ($general_discipline as $general): ?>
-                                 <option value='<?php echo $general['value']; ?>'><?php echo $general['label']; ?></option>
+                                 <option value='<?php echo $general['code']; ?>'><?php echo $general['label']; ?></option>
                              <?php endforeach; ?>
                                  <?php endif; ?>
                          </select>
@@ -131,7 +131,7 @@
                 data: {dis_code: disCode},
                 success: function (data) {
                     $('[name=general_discipline]').html(data);
-                    $('#documentFilter').submit();
+                  $('#documentFilter').submit();
                 }
             });
         });

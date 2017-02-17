@@ -3,7 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/wamp/www/json-form/application/controllers/common.php</file>
+            <file>file:/D:/wamp/www/json-form/application/views/formbuilder.php</file>
+            <file>file:/D:/wamp/www/json-form/application/controllers/formview.php</file>
+            <file>file:/D:/wamp/www/json-form/application/models/reference_table.php</file>
+            <file>file:/D:/wamp/www/json-form/application/views/forms/document_view.php</file>
+            <file>file:/D:/wamp/www/json-form/application/views/forms/list_of_document.php</file>
+            <file>file:/D:/wamp/www/json-form/application/models/reference_list.php</file>
+            <file>file:/D:/wamp/www/json-form/application/models/document_template.php</file>
+            <file>file:/D:/wamp/www/json-form/application/controllers/main.php</file>
+            <file>file:/D:/wamp/www/json-form/application/views/formbuilder/decoration.php</file>
             <file>file:/D:/wamp/www/json-form/application/views/forms/ajax_element_form_group.php</file>
+            <file>file:/D:/wamp/www/json-form/application/views/formbuilder/element.php</file>
+            <file>file:/D:/wamp/www/json-form/application/views/common/main.php</file>
         </group>
     </open-files>
 </project-private>

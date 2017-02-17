@@ -38,9 +38,10 @@ class Main_Controller extends Common_Controller {
                 $document = new Document_Template_Model();
                 $values = $this->form_array($_REQUEST['documentValues']);
                 $page = 'forms/list_of_document';
+                $reference = new Reference_Table_Model();
                 $result['list_of_documents'] = $document->GetFilterListByGroupType($values);
                 $result['main_discipline'] = $this->RefMainDiscipline();
-                $result['general_discipline'] = $this->RefGeneralDiscipline();
+                $result['general_discipline'] =  $reference->DocumentDisFiltering($values['discipline']);
                 $result['doc_group'] = $this->RefDocumentGroup();
                 $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
                 $result['preset_select'] = array(
