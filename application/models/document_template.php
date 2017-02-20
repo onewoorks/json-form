@@ -165,7 +165,8 @@ class Document_Template_Model {
                 . "WHERE rmd.main_discipline_code = '$discipline' "
                 . "AND gd.discipline_code = '$subDiscipline' "
                 . "AND d.dc_type_code = '$docType' "
-                . "AND d.doc_group_code = '$docGroup'";
+                . "AND d.doc_group_code = '$docGroup'"
+                . "ORDER BY rmd.main_discipline_name ASC ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();

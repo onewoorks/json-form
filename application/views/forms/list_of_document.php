@@ -76,6 +76,7 @@
             <table class='table table-bordered table-condensed'>
                 <thead>
                     <tr>
+                        <th>No</th>
                         <th>Discipline</th>
                         <th>Sub Discipline</th>
                         <th>Document Group</th>
@@ -90,8 +91,9 @@
                         <td colspan="6"><i>No Record Found</i></td>
                     </tr>
                     <?php endif;?>
-                    <?php foreach ($list_of_documents as $document): ?>
+                    <?php $no=1; foreach ($list_of_documents as $document): ?>
                         <tr>
+                            <td><?php echo $no; $no++; ?></td>
                             <td><?php echo $document['main_discipline_name']; ?></td>
                             <td><?php echo $document['discipline_name']; ?></td>
                             <td><?php echo $document['doc_group_desc']; ?></td>
