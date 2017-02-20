@@ -13,6 +13,7 @@
         <table class='table table-condensed table-bordered'>
             <thead>
                 <tr>
+                    <th>No</th>
                     <th>Discipline</th>
                     <th>Document Type</th>
                     <th>Document Title</th>
@@ -22,8 +23,9 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($available_documents as $document): ?>
+                <?php $no=1; foreach ($available_documents as $document): ?>
                     <tr>
+                        <td class='text-uppercase'><?php echo $no; $no++;  ?></td>
                         <td class='text-uppercase'><?= $document['discipline_name']; ?></td>
                         <td class='text-uppercase'><?= $document['dc_type_desc']; ?></td>
                         <td class='text-uppercase'><?= $document['doc_name_desc']; ?></td>

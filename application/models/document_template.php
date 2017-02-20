@@ -18,7 +18,7 @@ class Document_Template_Model {
                 . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
                 . "INNER JOIN ref_document_element rdee ON (rdee.element_code=de.child_element_code) "
                 . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
-                . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code) GROUP BY de.doc_name_id ORDER BY rds.section_desc,rdee.element_desc";
+                . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code) GROUP BY de.doc_name_id ORDER BY gd.discipline_name ASC";
 
         $this->db->connect();
         $this->db->prepare($sql);
@@ -130,6 +130,25 @@ class Document_Template_Model {
         return $result;
     }
 
+    public function GetFilterListByMainDiscipline(){
+        $discipline = $main_dis_id;
+        
+        $sql = "SELECT dt.template_id, dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc "
+                . "FROM document_template dt "
+                . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
+                . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
+                . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
+                . "LEFT JOIN ref_main_disciplines rmd ON(rmd.main_discipline_code=gd.main_discipline_code) "
+                . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code) "
+                . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)"
+                . "WHERE rmd.main_discipline_code = '$discipline' ";   
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
     public function GetFilterListByGroupType($documentArray) {
         $discipline = $documentArray['discipline'];
         $subDiscipline = $documentArray['general_discipline'];
