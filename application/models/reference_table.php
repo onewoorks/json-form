@@ -51,7 +51,7 @@ class Reference_Table_Model  {
         $result = $this->db->fetchOut('array');
         return ($result) ? $result : false;
     }
-
+    
     public function DocumentType($groupCode = null) {
         $sql = "SELECT dc_type_code as code, dc_type_desc as label"
                 . " FROM ref_document_type";
@@ -79,7 +79,8 @@ class Reference_Table_Model  {
     public function DocumentDisFiltering($disCode) {
         $sql = "SELECT discipline_code as code, discipline_name as label"
                 . " FROM ref_generaldisciplines "
-                . " WHERE main_discipline_code = '$disCode'";
+                . " WHERE main_discipline_code = '$disCode'"
+                . " AND module = 'CD'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
