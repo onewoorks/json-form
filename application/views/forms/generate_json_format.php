@@ -58,7 +58,7 @@
                 disabled: true,
             });
             $('.checkTiada').prop({
-                checked: true,
+                checked: false,
                 disabled: false
             });
         });
