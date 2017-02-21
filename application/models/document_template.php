@@ -31,11 +31,12 @@ class Document_Template_Model {
         $sql = "SELECT o.doc_name_desc, d.json_template, d.doc_name_id, d.template_id, gd.discipline_name, md.main_discipline_name"
                 . " FROM document_template d"
                 . " LEFT JOIN document o ON o.doc_name_id=d.doc_name_id"
-                . " INNER JOIN discipline_document dd ON d.doc_name_id=d.doc_name_id"
+                . " INNER JOIN discipline_document dd ON dd.doc_name_id=d.doc_name_id"
                 . " LEFT JOIN ref_generaldisciplines gd ON gd.discipline_code=dd.discipline_code"
                 . " LEFT JOIN ref_main_disciplines md ON md.main_discipline_code=gd.main_discipline_code"
                 . " WHERE d.template_id='" . (int) $documentId . "' "
                 . " AND d.active = 1";
+//        echo $sql;
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -52,6 +53,7 @@ class Document_Template_Model {
                 . " INNER JOIN ref_document_element rdee ON (rdee.element_code=de.child_element_code) "
                 . " WHERE de.doc_name_id='" . (int) $documentId . "' "
                 . " ORDER BY rds.section_desc,rdee.element_desc";
+//        echo $sql;
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
