@@ -155,7 +155,9 @@ class Document_Template_Model {
         $discipline = $documentArray['discipline'];
         $subDiscipline = $documentArray['general_discipline'];
         $docGroup = $documentArray['doc_group'];
-        $docType = $documentArray['doc_type'];
+        if(isset($documentArray['doc_type'])){
+        $docType = $documentArray['doc_type'];}else{ $docType =0; }
+        
         $sql = "SELECT dt.template_id, dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc "
                 . "FROM document_template dt "
                 . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
@@ -164,11 +166,17 @@ class Document_Template_Model {
                 . "LEFT JOIN ref_main_disciplines rmd ON(rmd.main_discipline_code=gd.main_discipline_code) "
                 . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code) "
                 . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)"
-                . "WHERE rmd.main_discipline_code = '$discipline' "
-                . "AND gd.discipline_code = '$subDiscipline' "
-                . "AND d.dc_type_code = '$docType' "
-                . "AND d.doc_group_code = '$docGroup'"
-                . "ORDER BY rmd.main_discipline_name ASC ";
+                . "WHERE rmd.main_discipline_code = '$discipline' ";
+                if($subDiscipline!="0"){
+                    $sql.="AND gd.discipline_code = '$subDiscipline' ";
+                }
+                if($docType!="0"){
+                    $sql.="AND d.dc_type_code = '$docType' ";
+                }
+                if($docGroup!="0"){
+                    $sql.="AND d.doc_group_code = '$docGroup'";
+                }
+                $sql.="ORDER BY rmd.main_discipline_name ASC ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();

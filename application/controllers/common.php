@@ -115,9 +115,22 @@ class Common_Controller {
         $docGroup = $reference->DocumentGroup();
         return $docGroup;
     }
+    
+    public function RefMainDisciplineGroup(){
+        $reference = new Reference_Table_Model();
+        $mainGroup = $reference->MainDisciplineGroup();
+        return $mainGroup;
+    }
+    
+    public function RefSubDisciplineGroup(){
+        $reference = new Reference_Table_Model();
+        $subGroup = $reference->SubDisciplineGroup();
+        return $subGroup;    
+    }
 
     public function SelectOptionBuilder(array $values) {
         $option = '';
+            $option .= "<option value='0' selected='selected'>Please Select </option>";
         foreach ($values as $value):
             $option .= "<option value='" . $value['code'] . "'>" . $value['label'] . "</option>";
         endforeach;

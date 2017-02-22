@@ -24,8 +24,10 @@ class Main_Controller extends Common_Controller {
             case 'filter':
                 $ajax = true;
                 $reference = new Reference_Table_Model();
+                if($_REQUEST['group_code']!=NULL){
                 $newOptions = $reference->DocumentTypeFiltering($_REQUEST['group_code']);
                 echo $this->SelectOptionBuilder($newOptions);
+                }
                 break;
             case 'filter-discipline':
                 $ajax = true;
@@ -39,16 +41,20 @@ class Main_Controller extends Common_Controller {
                 $values = $this->form_array($_REQUEST['documentValues']);
                 $page = 'forms/list_of_document';
                 $reference = new Reference_Table_Model();
-                $result['list_of_documents'] = $document->GetFilterListByGroupType($values);
-                $result['main_discipline'] = $this->RefMainDiscipline();
+                $result['list_of_documents'] = $document->GetFilterListByGroupType($values);               
+                $result['main_discipline'] = $this->RefMainDisciplineGroup();               
                 $result['general_discipline'] =  $reference->DocumentDisFiltering($values['discipline']);
                 $result['doc_group'] = $this->RefDocumentGroup();
                 $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
+                $type='0';
+                if($values['doc_group']!='0'){
+                    $type=$values['doc_type'];
+                }
                 $result['preset_select'] = array(
                     'active_discipline' => $values['discipline'],
                     'active_general' => $values['general_discipline'],
                     'active_group' => $values['doc_group'],
-                    'active_type' => $values['doc_type']
+                    'active_type' => $type
                 );
                 $view = new View_Model($page);
                 $view->assign('content', $result);
@@ -57,12 +63,8 @@ class Main_Controller extends Common_Controller {
                 $page = 'forms/list_of_document';
                 $document = new Document_Template_Model();
                 $result['list_of_documents'] = $document->GetListAvailableDocument();
-//                $result['list_of_documents'] = false;
-                $result['main_discipline'] = $this->RefMainDiscipline();
+                $result['main_discipline'] = $this->RefMainDisciplineGroup();
                 $result['general_discipline'] = $this->RefGeneralDiscipline();
-
-                $result['main_discipline'] = $this->RefMainDiscipline();
-
                 $result['doc_types'] = $this->RefDocumentType();
                 $result['doc_group'] = $this->RefDocumentGroup();
                 $result['preset_select'] = false;

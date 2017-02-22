@@ -11,7 +11,7 @@
                     <div class='col-sm-5'>
                         <select name='discipline' class='form-control'>
                             <?php foreach ($main_discipline as $discipline): ?>
-                                <option value='<?php echo $discipline['value']; ?>'><?php echo $discipline['label']; ?></option>
+                                <option value='<?php echo $discipline['code']; ?>'><?php echo $discipline['label']; ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -24,6 +24,7 @@
                            <?php if (!$preset_select): ?>
                            <option value='0'>Please Select Discipline</option>
                            <?php else: ?>
+                           <option value='0' selected="selected" >Please Select Sub Discipline</option>
                              <?php foreach ($general_discipline as $general): ?>
                                  <option value='<?php echo $general['code']; ?>'><?php echo $general['label']; ?></option>
                              <?php endforeach; ?>
@@ -36,6 +37,7 @@
                     <label class='control-label col-sm-4'>Document Group</label>
                     <div class='col-sm-5'>
                         <select name='doc_group' class='form-control' >
+                            <option value='0' selected="selected">Please Select Document Group</option>
                             <?php foreach ($doc_group as $doc): ?>
                                 <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
                             <?php endforeach; ?>
@@ -49,6 +51,7 @@
                             <?php if (!$preset_select): ?>
                                 <option value='0'>Please Select Document Group</option>
                             <?php else: ?>
+                                <option value='0' selected="selected">Please Select Document Type</option>
                                 <?php foreach ($doc_types as $doc): ?>
                                     <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
                                 <?php endforeach; ?>
@@ -88,7 +91,7 @@
                 <tbody>
                     <?php if(!$list_of_documents):?>
                     <tr>
-                        <td colspan="6"><i>No Record Found</i></td>
+                        <td colspan="7"><i>No Record Found</i></td>
                     </tr>
                     <?php endif;?>
                     <?php $no=1; foreach ($list_of_documents as $document): ?>

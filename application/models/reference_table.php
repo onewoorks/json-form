@@ -41,6 +41,26 @@ class Reference_Table_Model  {
         $result = $this->db->fetchOut('array');
         return ($result) ? $result : false;
     }
+    
+    public function MainDisciplineGroup(){
+        $sql = "SELECT main_discipline_code as code, main_discipline_name as label "
+                . " FROM ref_main_disciplines WHERE module='cd' ORDER BY main_discipline_name ASC";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return ($result) ? $result : false;
+    }
+    
+    public function SubDisciplineGroup(){
+        $sql = "SELECT discipline_code as code, discipline_name as label "
+                . " FROM ref_generaldisciplines ORDER BY discipline_name ASC";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return ($result) ? $result : false;
+    }
 
     public function DocumentGroup() {
         $sql = "SELECT doc_group_code as code, doc_group_desc as label"
