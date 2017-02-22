@@ -45,7 +45,9 @@ class Main_Controller extends Common_Controller {
                 $result['main_discipline'] = $this->RefMainDisciplineGroup();               
                 $result['general_discipline'] =  $reference->DocumentDisFiltering($values['discipline']);
                 $result['doc_group'] = $this->RefDocumentGroup();
+                if($values['doc_group']!='0'){
                 $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
+                }
                 $type='0';
                 if($values['doc_group']!='0'){
                     $type=$values['doc_type'];
