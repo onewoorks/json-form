@@ -26,7 +26,7 @@
         <form id='notesForm' class='form-horizontal'>
             <div class='panel panel-default'>
                 <?php foreach ($json_elements as $key => $section): ?>
-                    <div class='panel-heading' data-section='<?= $key; ?>'><?= $section->section_desc; ?></div>
+                <div class='panel-heading' style="background-color: #0088cc; color: white; " data-section='<?= $key; ?>'><b><?= $section->section_desc; ?></b></div>
                     <div class='panel-body' data-section='<?= $key; ?>'>
                         <?php foreach ($section->elements as $elem => $element): ?>
                             <div style='color:grey; font-size: 0.7em' class='hidden'><i><?= $element->input_type . ' | ' . $element->element_code; ?></i></div>
