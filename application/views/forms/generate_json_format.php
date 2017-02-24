@@ -14,7 +14,8 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Discipline</th>
+                    <th>Main Discipline</th>
+                    <th>Sub Discipline</th>
                     <th>Document Type</th>
                     <th>Document Title</th>
                     <th class='text-center'>Status</th>
@@ -25,10 +26,11 @@
             <tbody>
                 <?php $no=1; foreach ($available_documents as $document): ?>
                     <tr>
-                        <td class='text-uppercase'><?php echo $no; $no++;  ?></td>
-                        <td class='text-uppercase'><?= $document['discipline_name']; ?></td>
-                        <td class='text-uppercase'><?= $document['dc_type_desc']; ?></td>
-                        <td class='text-uppercase'><?= $document['doc_name_desc']; ?></td>
+                        <td class='text-uppercase' style=" font-size: smaller;"><?php echo $no; $no++;  ?></td>
+                        <td class='text-uppercase' style=" font-size: smaller;"><?= $document['main_discipline_name']; ?></td>
+                        <td class='text-uppercase' style=" font-size: smaller;"><?= $document['discipline_name']; ?></td>
+                        <td class='text-uppercase' style=" font-size: smaller;"><?= $document['dc_type_desc']; ?></td>
+                        <td class='text-uppercase' style=" font-size: smaller;"><?= $document['doc_name_desc']; ?></td>
                         <td class='text-uppercase text-center'>
                             <?php if ($document['available']): ?>
                                 <i class="text-success glyphicon glyphicon-ok-sign"></i>
