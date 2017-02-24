@@ -10,7 +10,7 @@ class Document_Template_Model {
     }
 
     public function ReadDocumentElementExisted() {
-        $sql = "SELECT d.doc_name_id, d.doc_name_desc, gd.discipline_name,rdt.dc_type_desc, "
+        $sql = "SELECT d.doc_name_id, d.doc_name_desc, gd.discipline_name,rdt.dc_type_desc,md.main_discipline_name, "
                 . " (case when ((SELECT doc_name_id FROM document_template WHERE doc_name_id = d.doc_name_id) IS NULL) then false else true end) as available "
                 . "FROM document_element de INNER JOIN document d ON(d.doc_name_id=de.doc_name_id) "
                 . "INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code) "
@@ -18,6 +18,7 @@ class Document_Template_Model {
                 . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
                 . "INNER JOIN ref_document_element rdee ON (rdee.element_code=de.child_element_code) "
                 . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
+                . "LEFT JOIN ref_main_disciplines md ON(gd.main_discipline_code=md.main_discipline_code)"
                 . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code) GROUP BY de.doc_name_id ORDER BY gd.main_discipline_code,gd.discipline_name ASC";
 
         $this->db->connect();
@@ -132,32 +133,12 @@ class Document_Template_Model {
         return $result;
     }
 
-    public function GetFilterListByMainDiscipline(){
-        $discipline = $main_dis_id;
-    
-        $sql = "SELECT dt.template_id, dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc "
-                . "FROM document_template dt "
-                . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
-                . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
-                . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
-                . "LEFT JOIN ref_main_disciplines rmd ON(rmd.main_discipline_code=gd.main_discipline_code) "
-                . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code) "
-                . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)"
-                . "WHERE rmd.main_discipline_code = '$discipline' ";   
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-        $result = $this->db->fetchOut('array');
-        return $result;
-    }
-    
         public function GetFilterListByGroupType($documentArray) {
         $discipline = $documentArray['discipline'];
         $subDiscipline = $documentArray['general_discipline'];
         $docGroup = $documentArray['doc_group'];
         if(isset($documentArray['doc_type'])){
-        $docType = $documentArray['doc_type'];}else{ $docType =0; }
-        
+        $docType = $documentArray['doc_type'];}else{ $docType =0; } 
         $sql = "SELECT dt.template_id, dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc "
                 . "FROM document_template dt "
                 . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
@@ -223,6 +204,22 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
+    
+//    public function UpdateElementDetail($code, $name) {
+//        $sql = "UPDATE ref_document_element SET element_desc='" . $name . "' WHERE element_code='" . (int) $code . "'";
+//        $this->db->connect();
+//        $this->db->prepare($sql);
+//        $this->db->queryexecute();
+//        return true;
+//    }
+//    
+//    public function UpdateElementType($doc,$eid,$ep,$it,$dt) {
+//        $sql = "UPDATE document_element SET element_properties='" . $ep . "',input_type='".$it."',data_type='".$dt."' WHERE doc_name_id='".(int) $doc."' AND parent_element_code='" . (int) $eid . "'";
+//        $this->db->connect();
+//        $this->db->prepare($sql);
+//        $this->db->queryexecute();
+//        return true;
+//    }
 
     public function CreateNewInsertElement($insertSql) {
         $sql = $insertSql;
