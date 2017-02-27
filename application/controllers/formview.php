@@ -11,6 +11,7 @@ class Formview_Controller extends Common_Controller {
                 $documentId = $params[URL_ARRAY + 3];
                 $documentTemplate = new Document_Template_Model();
                 $documentData = $documentTemplate->ReadDocumentSetup($documentId);
+                print_r($documentData);
                 $result['skeleton'] = $documentData;
                 $result['document_title'] = $documentData[0]['doc_name_desc'];
                 $sections = $documentTemplate->ReadDocumentSectionGroup($documentId);
