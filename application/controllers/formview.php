@@ -17,9 +17,10 @@ class Formview_Controller extends Common_Controller {
                 $sections = $documentTemplate->ReadDocumentSectionGroup($documentId);
                 $documentArray = $this->GetDocumentSections($documentId, $sections);
                 $result['json_elements'] = $documentArray;
-                echo '<pre>';
-                print_r($documentArray);
-                echo '</pre>';
+//                echo '<pre>';
+//                ($documentArray);
+//                echo '</pre>';
+                echo json_encode($documentArray);
                 $this->CreateJSONForm($documentId, $documentArray);
                 
                 $dt = $documentTemplate->ReadDocumentTemplate($documentId);
