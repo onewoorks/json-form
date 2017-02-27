@@ -167,10 +167,10 @@ class Common_Controller {
         $documentSections = array();
         foreach ($sections as $section):
             $documentSections[$section['json_section']] = array(
-                'json_section' => utf8_encode($section['json_section']),
-                'section_code' => utf8_encode($section['section_code']),
-                'section_desc' => utf8_encode($section['section_desc']),
-                'section_sorting' => utf8_encode($section['section_sorting']),
+                'json_section' => $section['json_section'],
+                'section_code' => $section['section_code'],
+                'section_desc' => $section['section_desc'],
+                'section_sorting' => $section['section_sorting'],
                 'elements' => $this->GetDocumentSectionElement($documentId, $section['section_code'])
             );
         endforeach;
@@ -187,7 +187,7 @@ class Common_Controller {
                 if ($key == 'additional_attribute'):
                     $elementItem[$key] = json_decode($el);
                 else:
-                    $elementItem[$key] = utf8_encode($el);
+                    $elementItem[$key] = $el;
                 endif;
             endforeach;
             $elements[$elem['json_element']] = $elementItem;
