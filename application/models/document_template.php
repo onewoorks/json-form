@@ -100,10 +100,11 @@ class Document_Template_Model {
         $documentId = $this->documentId;
         $jsonForm = $this->jsonForm;
         $sql = "INSERT INTO document_template (doc_name_id,json_template,created_date) VALUES ('" . (int) $documentId . "','" . $jsonForm . "',now())";
-//        echo $sql;
+        echo $sql;
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
+        
     }
 
     public function UpdateDocumentJSONFormat() {
