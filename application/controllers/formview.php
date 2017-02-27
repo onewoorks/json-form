@@ -11,12 +11,22 @@ class Formview_Controller extends Common_Controller {
                 $documentId = $params[URL_ARRAY + 3];
                 $documentTemplate = new Document_Template_Model();
                 $documentData = $documentTemplate->ReadDocumentSetup($documentId);
+                
                 $result['skeleton'] = $documentData;
                 $result['document_title'] = $documentData[0]['doc_name_desc'];
                 $sections = $documentTemplate->ReadDocumentSectionGroup($documentId);
                 $documentArray = $this->GetDocumentSections($documentId, $sections);
                 $result['json_elements'] = $documentArray;
+                echo '<pre>';
+                print_r($documentArray);
+                echo '</pre>';
                 $this->CreateJSONForm($documentId, $documentArray);
+                
+                $dt = $documentTemplate->ReadDocumentTemplate($documentId);
+               
+                $result['document_title'] = $dt['doc_name_desc'];
+                $result['main_discipline'] = $dt['main_discipline_name'];
+                $result['sub_discipline'] = $dt['discipline_name'];
                 break;
             case 'new-form':
                 $page = 'forms/new_form';
