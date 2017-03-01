@@ -157,7 +157,7 @@ class Document_Template_Model {
                 if($docGroup!="0"){
                     $sql.="AND d.doc_group_code = '$docGroup'";
                 }
-                $sql.="ORDER BY rmd.main_discipline_name ASC ";
+                $sql.="ORDER BY gd.main_discipline_code,gd.discipline_name ASC";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -220,7 +220,7 @@ class Document_Template_Model {
 //        $this->db->queryexecute();
 //        return true;
 //    }
-
+    
     public function CreateNewInsertElement($insertSql) {
         $sql = $insertSql;
         $this->db->connect();
