@@ -205,21 +205,21 @@ class Document_Template_Model {
         return true;
     }
     
-//    public function UpdateElementDetail($code, $name) {
-//        $sql = "UPDATE ref_document_element SET element_desc='" . $name . "' WHERE element_code='" . (int) $code . "'";
-//        $this->db->connect();
-//        $this->db->prepare($sql);
-//        $this->db->queryexecute();
-//        return true;
-//    }
-//    
-//    public function UpdateElementType($doc,$eid,$ep,$it,$dt) {
-//        $sql = "UPDATE document_element SET element_properties='" . $ep . "',input_type='".$it."',data_type='".$dt."' WHERE doc_name_id='".(int) $doc."' AND parent_element_code='" . (int) $eid . "'";
-//        $this->db->connect();
-//        $this->db->prepare($sql);
-//        $this->db->queryexecute();
-//        return true;
-//    }
+    public function UpdateElementDetail($code, $name) {
+        $sql = "UPDATE ref_document_element SET element_desc='" . $name . "' WHERE element_code='" . (int) $code . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+    public function UpdateElementType($doc,$eid,$ep,$it,$dt) {
+        $sql = "UPDATE document_element SET element_properties='" . $ep . "',input_type='".$it."',data_type='".$dt."' WHERE doc_name_id='".(int) $doc."' AND parent_element_code='" . (int) $eid . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
     
     public function CreateNewInsertElement($insertSql) {
         $sql = $insertSql;
