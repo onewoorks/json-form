@@ -41,3 +41,11 @@ function InputTypeCaller($element, $name, $documentTitle,$documentId) {
     $result = ($methodCheck) ? $class->$methodName (): false;
     return $result;
 }
+
+function form_array($arrays) {
+        $val = array();
+        foreach ($arrays as $v):
+            $val[$v['name']] = $v['value'];
+        endforeach;
+        return $val;
+    }
