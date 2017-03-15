@@ -81,6 +81,7 @@ class Formview_Controller extends Common_Controller {
                 $result['main_discipline'] = $documentTemplate['main_discipline_name'];
                 $result['sub_discipline'] = $documentTemplate['discipline_name'];
                 $result['json_elements'] = $cleanSorting;
+                $result['template_id']=$documentId;
                 $result['document_id'] = $documentTemplate['doc_name_id'];
                 $result['link_style'] = "<link href='".SITE_ROOT."/assets/css/hiskkm.css' rel='stylesheet' />";
                 break;
@@ -99,7 +100,7 @@ class Formview_Controller extends Common_Controller {
                     $page = 'forms/ajax_element_form_group';
                     $title = $found->element_desc;
                 endif;
-                $result['values'] = $found;
+                $result['values'] = $found;               
                 $result['json_format'] = json_encode($found);
                 $result['document_id'] = $_REQUEST['documentId'];
                 $result['template_id'] = $_REQUEST['templateId'];
@@ -242,5 +243,5 @@ class Formview_Controller extends Common_Controller {
 //        $this->CreateJSONForm($documentId, $documentArray, $action);
 //
 //        return true;
-//    } 
-}
+//    }
+    }
