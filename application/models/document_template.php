@@ -63,7 +63,7 @@ class Document_Template_Model {
     }
 
     public function ReadDocumentSectionGroup($documentId) {
-        $sql = "SELECT d.doc_name_desc,rds.section_desc, rds.json_section, rds.section_code, rds.created_by, de.section_sorting"
+        $sql = "SELECT d.doc_name_desc,rds.section_desc, rds.json_section,rds.layout, rds.section_code, rds.created_by, de.section_sorting"
                 . " FROM document_element de "
                 . " INNER JOIN document d ON(d.doc_name_id=de.doc_name_id)"
                 . " INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code)"
