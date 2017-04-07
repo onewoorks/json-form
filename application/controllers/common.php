@@ -168,6 +168,7 @@ class Common_Controller {
         foreach ($sections as $section):
             $documentSections[$section['json_section']] = array(
                 'json_section' => $section['json_section'],
+                'layout' => $section['layout'],
                 'section_code' => $section['section_code'],
                 'section_desc' => $section['section_desc'],
                 'section_sorting' => $section['section_sorting'],
