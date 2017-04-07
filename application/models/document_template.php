@@ -80,7 +80,7 @@ class Document_Template_Model {
     }
 
     public function ReadDocumentSectionElements($documentId, $sectionId) {
-        $sql = "SELECT  rde.element_code, rde.json_element,rde.element_desc,de.data_type,de.sorting,de.input_type, de.method, de.element_properties, de.additional_attribute"
+        $sql = "SELECT  rde.element_code, rde.json_element,rde.element_desc,de.child_element_code,de.element_level,de.data_type,de.sorting,de.input_type, de.method, de.element_properties, de.additional_attribute"
                 . " FROM document_element de"
                 . " INNER JOIN document d ON(d.doc_name_id=de.doc_name_id)"
                 . " INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code)"
@@ -196,7 +196,7 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('object');
         return $result[0];
     }
-
+    
     public function UpdateSectionDetail(array $section) {
         $sql = "UPDATE ref_document_section SET section_desc='" . $section['section_desc'] . "' WHERE section_code='" . (int) $section['section_code'] . "'";
         $this->db->connect();
