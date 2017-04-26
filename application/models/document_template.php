@@ -80,7 +80,7 @@ class Document_Template_Model {
     }
 
     public function ReadDocumentSectionElements($documentId, $sectionId) {
-        $sql = "SELECT  rde.element_code, rde.json_element,rde.element_desc,de.child_element_code,de.element_level,de.data_type,de.sorting,de.input_type, de.method, de.element_properties, de.additional_attribute"
+        $sql = "SELECT  rde.element_code, rde.json_element,rde.element_desc,de.child_element_code,de.element_level,de.data_type,de.sorting,de.input_type, de.method, de.element_position, de.element_properties, de.additional_attribute"
                 . " FROM document_element de"
                 . " INNER JOIN document d ON(d.doc_name_id=de.doc_name_id)"
                 . " INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code)"
@@ -183,13 +183,13 @@ class Document_Template_Model {
         return $result;
     }
 
-    public function GetElementDetail($elementCode) {
-        $sql = "SELECT rde.element_code, rde.json_element,rde.element_desc,de.data_type,de.sorting,de.input_type, de.method, de.element_properties, de.additional_attribute "
+    public function GetElementDetail($elementCode,$documentId) {
+        $sql = "SELECT rde.element_code, rde.json_element,rde.element_desc,de.child_element_code,de.data_type,de.sorting,de.input_type, de.method,de.element_position, de.element_properties, de.additional_attribute "
                 . " FROM document_element de INNER JOIN document d ON(d.doc_name_id=de.doc_name_id) "
                 . " INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code) "
                 . " INNER JOIN ref_document_element rde ON (rde.element_code=de.parent_element_code) "
                 . " INNER JOIN ref_document_element rdee ON (rdee.element_code=de.child_element_code) "
-                . " WHERE de.doc_name_id='1' and rde.element_code='" . (int) $elementCode . "'";     
+                . " WHERE de.doc_name_id='" . (int) $documentId . "' and rde.element_code='" . (int) $elementCode . "'";     
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -197,15 +197,39 @@ class Document_Template_Model {
         return $result[0];
     }
     
+    public function GetElementGrouping($sectionCode, $documentId){
+        $sql = "SELECT rde.element_code, rde.element_desc "
+                . " FROM document_element de INNER JOIN document d ON(d.doc_name_id=de.doc_name_id) "
+                . " INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code) "
+                . " INNER JOIN ref_document_element rde ON (rde.element_code=de.parent_element_code) "
+                . " INNER JOIN ref_document_element rdee ON (rdee.element_code=de.child_element_code) "
+                . " WHERE rds.section_code='".(int) $sectionCode ."' AND de.doc_name_id='".(int) $documentId."'";     
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+    public function GetChildDetail($doc,$element) {
+        $sql = "SELECT parent_element_code FROM ref_multiple_answer "
+                . " WHERE doc_name_id='" . (int)$doc. "' and element_code='" . (int) $element. "'";     
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+
     public function UpdateSectionDetail(array $section) {
-        $sql = "UPDATE ref_document_section SET section_desc='" . $section['section_desc'] . "' WHERE section_code='" . (int) $section['section_code'] . "'";
+        $sql = "UPDATE ref_document_section SET section_desc='" . $section['section_desc'] . "',layout='".$section['layout']."' WHERE section_code='" . (int) $section['section_code'] . "'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
         return true;
     }
     
-    public function UpdateElementDetail($code, $name) {
+    public function UpdateElementName($code, $name) {
         $sql = "UPDATE ref_document_element SET element_desc='" . $name . "' WHERE element_code='" . (int) $code . "'";
         $this->db->connect();
         $this->db->prepare($sql);
@@ -213,13 +237,76 @@ class Document_Template_Model {
         return true;
     }
     
-    public function UpdateElementType($doc,$eid,$ep,$it,$dt) {
-        $sql = "UPDATE document_element SET element_properties='" . $ep . "',input_type='".$it."',data_type='".$dt."' WHERE doc_name_id='".(int) $doc."' AND parent_element_code='" . (int) $eid . "'";
+    public function UpdateElementDetails(array $val) {
+        $sql = "UPDATE document_element SET child_element_code='".(int) $val['element_group']."',element_position='" . $val['element_position'] . "',element_properties='" . $val['element_properties'] . "',input_type='" . $val['input_type'] . "',data_type='" . $val['data_type'] . "',method='" . $val['method'] . "',additional_attribute='".$val['json']."' "
+                . "WHERE doc_name_id='".(int) $val['doc_id']."' AND parent_element_code='" . (int) $val['element_code'] . "'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
         return true;
     }
+       
+    public function UpdateElementToBasic(array $val) {
+        $sql = "UPDATE document_element SET child_element_code='".(int) $val['element_group']."',element_position='" . $val['element_position'] . "',element_properties='" . $val['element_properties'] . "',input_type='" . $val['input_type'] . "',data_type='" . $val['data_type'] . "',method='" . $val['method'] . "',additional_attribute='" . $val['additional_attribute'] . "' "
+                . "WHERE doc_name_id='".(int) $val['doc_id']."' AND parent_element_code='" . (int) $val['element_code'] . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+    public function CleanMultipleAnswer(array $val){
+        $sql = "DELETE FROM ref_multiple_answer WHERE doc_name_id='".(int) $val['documentId']."' AND element_code='". (int) $val['elementCode'] ."'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+    public function CleanChild($doc,$element){
+        $sql = "DELETE FROM ref_multiple_answer WHERE doc_name_id='".(int) $doc."' AND element_code='". (int) $element ."'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+    public function InsertMultiAnswer($docID,$elementID,$label,$sorting,$input,$childcode){
+        $sql = "INSERT INTO ref_multiple_answer (doc_name_id,element_code,multi_answer_desc,sorting,input_type,parent_element_code)"
+                . "VALUES ('".(int) $docID."','".(int) $elementID."','".$label."','".$sorting."','".$input."','".$childcode."')";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+    public function InsertParentMultiAnswer($docID,$elementID,$label,$sorting,$input){
+        $sql = "INSERT INTO ref_multiple_answer (doc_name_id,element_code,multi_answer_desc,sorting,input_type)"
+                . "VALUES ('".(int) $docID."','".(int) $elementID."','".$label."','".$sorting."','".$input."')";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+    public function InsertChild($docID,$nextcode,$childlabel,$sort,$childtype){
+        $sql = "INSERT INTO ref_multiple_answer (doc_name_id,element_code,multi_answer_desc,sorting,input_type)"
+                . "VALUES ('".(int) $docID."','".$nextcode."','".$childlabel."','".$sort."','".$childtype."')";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+//    
+//    public function UpdateElementToMethod(array $val) {
+//        $sql = "UPDATE document_element SET element_properties='" . $val['element_properties'] . "',input_type='METHOD',data_type=NULL,method='".$val['method_name']."',additional_attribute='".$val['method_json']."' "
+//                . "WHERE doc_name_id='".(int) $val['doc_id']."' AND parent_element_code='" . (int) $val['element_code'] . "'";
+//        $this->db->connect();
+//        $this->db->prepare($sql);
+//        $this->db->queryexecute();
+//        return true;
+//    }
     
     public function CreateNewInsertElement($insertSql) {
         $sql = $insertSql;
