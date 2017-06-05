@@ -41,5 +41,9 @@ class Common_Form_Method {
     public function Signature(){
         include_once VIEW . '/form_methods/common/signature.php';
     }
+    
+    public function MethodInProgress(){
+        include_once VIEW . '/form_methods/common/method_in_progress.php';
+    }
 
 }

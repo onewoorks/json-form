@@ -20,8 +20,12 @@ class Formbuilder_Controller extends Common_Controller {
                 break;
             case 'formelement':
                 $ajax = true;
-                $values = $_REQUEST['value'];
-                echo $this->RenderOutput('formbuilder/' . $values);
+                $values = $_REQUEST['value'];               
+                $vars = isset($_REQUEST['params']) ? form_array($_REQUEST['params']) : null;
+//                echo '<pre>';
+//                print_r($vars);
+//                echo '</pre>';
+                echo $this->RenderOutput('formbuilder/' . $values, $vars);
                 break;
             case 'createform':
                 $ajax = true;

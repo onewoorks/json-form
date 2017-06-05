@@ -27,6 +27,31 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return ($result) ? $result : false;
     }
+    
+    public function NakTengokJson($documentId){
+        $sql = "SELECT o.doc_name_desc, d.json_template, d.doc_name_id, d.template_id, gd.discipline_name, md.main_discipline_name"
+                . " FROM document_template d"
+                . " LEFT JOIN document o ON o.doc_name_id=d.doc_name_id"
+                . " INNER JOIN discipline_document dd ON dd.doc_name_id=d.doc_name_id"
+                . " LEFT JOIN ref_generaldisciplines gd ON gd.discipline_code=dd.discipline_code"
+                . " LEFT JOIN ref_main_disciplines md ON md.main_discipline_code=gd.main_discipline_code"
+                . " WHERE d.doc_name_id='" . (int) $documentId . "' "
+                . " AND d.active = 1";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return ($result) ? $result[0] : false;    
+    }
+    
+    public function GetElementSorting($section_code,$document_id){
+        $sql = "SELECT MAX(sorting) AS newsorting FROM document_element WHERE section_code=".(int)$section_code." AND doc_name_id=".(int)$document_id." ";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('object');
+        return $result[0];
+    }
 
     public function ReadDocumentTemplate($documentId) {
         $sql = "SELECT o.doc_name_desc, d.json_template, d.doc_name_id, d.template_id, gd.discipline_name, md.main_discipline_name"
@@ -173,6 +198,24 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('object');
         return $result[0];
     }
+    
+    public function GetSectionSorting($section,$doc){
+        $sql = "SELECT section_sorting FROM document_element WHERE section_code='" . (int) $section . "' AND doc_name_id='" . (int) $doc . "' GROUP BY section_code ";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('object');
+        return $result[0];       
+    }
+    
+    public function GetMaxElementCode(){
+        $sql = "SELECT MAX(element_code) AS maxcode FROM ref_document_element";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('object');
+        return $result[0];   
+    }
 
     public function GetExistedDocumentJSONTemplate() {
         $sql = "SELECT doc_name_id FROM document_template";
@@ -203,7 +246,7 @@ class Document_Template_Model {
                 . " INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code) "
                 . " INNER JOIN ref_document_element rde ON (rde.element_code=de.parent_element_code) "
                 . " INNER JOIN ref_document_element rdee ON (rdee.element_code=de.child_element_code) "
-                . " WHERE rds.section_code='".(int) $sectionCode ."' AND de.doc_name_id='".(int) $documentId."'";     
+                . " WHERE rds.section_code='".(int) $sectionCode ."' AND de.doc_name_id='".(int) $documentId."' AND de.parent_element_code=de.child_element_code";     
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -211,6 +254,33 @@ class Document_Template_Model {
         return $result;
     }
     
+    public function GetLayoutDetail($docId){
+        $sql = "SELECT DISTINCT rds.layout"
+                . " FROM ref_document_section rds INNER JOIN document_element de ON (rds.section_code=de.section_code)"
+                . " WHERE de.doc_name_id='" . (int) $docId . "'"; 
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('object');
+        return $result[0]; 
+    }
+    
+    public function GetSectionId($docId){
+        $sql = "SELECT DISTINCT section_code FROM document_element WHERE doc_name_id='" . (int) $docId . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;  
+    }
+
+    public function UpdateDocLayout($code,$layout){
+        $sql = "UPDATE ref_document_section SET layout='".$layout."' WHERE section_code='".(int) $code ."'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
     public function GetChildDetail($doc,$element) {
         $sql = "SELECT parent_element_code FROM ref_multiple_answer "
                 . " WHERE doc_name_id='" . (int)$doc. "' and element_code='" . (int) $element. "'";     
@@ -298,6 +368,25 @@ class Document_Template_Model {
         return true;
     }
     
+    public function InsertNewRefElement($element_desc,$element_code,$json_element,$grouping,$element_sorting,$level, array $val){
+        $sql = "INSERT INTO ref_document_element (element_code,element_desc,json_element)"
+               . "VALUES ('".$element_code."', '".$element_desc."','".$json_element."');"        
+               . "INSERT INTO document_element (doc_name_id,section_code,parent_element_code,child_element_code,sorting,section_sorting,element_level,element_position,element_properties)"
+               . "VALUES ('".(int)$val['doc_id']."','".$val['section_code']."','".$element_code."','".$grouping."','".$element_sorting."','".$val['section_sorting']."','".$level."','".$val['position']."','".$val['element_properties']."');";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+    public function DeleteElementData($docId,$sectionCode,$elementCode){
+        $sql = "DELETE FROM document_element WHERE doc_name_id='".(int)$docId."' AND section_code='".(int)$sectionCode."' AND parent_element_code='".(int)$elementCode."'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;    
+    }
+    
 //    
 //    public function UpdateElementToMethod(array $val) {
 //        $sql = "UPDATE document_element SET element_properties='" . $val['element_properties'] . "',input_type='METHOD',data_type=NULL,method='".$val['method_name']."',additional_attribute='".$val['method_json']."' "
@@ -343,51 +432,6 @@ class Document_Template_Model {
         return $result;
     }
     
-    public function InsertTestingData($na,$va){
-        $sql = "INSERT INTO `test`(`name`, `value`)"
-                ." VALUES ('" . $na . "','" . $va . "')";
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-        return true;
-    }
-    
-    public function ViewTestingData(){
-        $sql = "SELECT * FROM `test`";
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-        $result = $this->db->fetchOut('array');
-        return $result;  
-    }
-    
-    public function DeleteTestingData($id){
-        $sql = "DELETE FROM `test`"
-                ." WHERE `id`='" . $id . "'";
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-        return true;
-    }
-    
-    public function GetTestingData($id){
-        $sql = "SELECT * FROM `test`"
-                ."WHERE `id`='".$id."'";
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-        $result = $this->db->fetchOut('object');
-        return $result[0];
-    }
-    
-    public function UpdateTestingData(array $id){
-        $sql = "UPDATE test SET name='" . $id['name'] . "', value='".$id['value']."' WHERE id='" . (int) $id['id'] . "'";
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-        return true; 
-    }
-
     public function DeleteTemplate($docNameId) {
         $sql = "DELETE FROM document_template WHERE doc_name_id = '$docNameId'";
         $this->db->connect();

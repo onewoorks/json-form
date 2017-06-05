@@ -105,12 +105,12 @@
                     },
                     function (isConfirm) {
                         if(isConfirm){
-                            window.location.href = '/';
+                            window.location.href = '<?php echo SITE_ROOT; ?>';
                         } else {
                             window.location.reload;
                         }
                         
-                    });
+                    });                   
                 }
             });
         })

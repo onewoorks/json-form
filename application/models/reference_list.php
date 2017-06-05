@@ -7,7 +7,7 @@ class Reference_List_Model {
     }
 
     public function GetReferenceList($elementCode,$docNameId) {
-        $sql = "SELECT rde.element_desc,rma.multi_answer_desc,rma.input_type, rma.method, rma.parent_element_code, rma.doc_name_id "
+        $sql = "SELECT rde.element_desc,rma.multi_answer_desc,rma.input_type, rma.method, rma.parent_element_code, rma.doc_name_id, rma.sorting "
                 . " FROM document_element de"
                 . " INNER JOIN ref_multiple_answer rma ON(de.parent_element_code=rma.element_code)"
                 . " INNER JOIN ref_document_element rde ON(rde.element_code=de.parent_element_code)"
@@ -22,7 +22,7 @@ class Reference_List_Model {
     }
     
     public function GetReferenceListInMultipleAnswer($elementCode,$docNameId) {
-        $sql = "SELECT rma.multi_answer_desc,rma.input_type, rma.method, rma.doc_name_id "
+        $sql = "SELECT rma.multi_answer_desc,rma.input_type, rma.method, rma.doc_name_id, rma.sorting "
                 . " FROM ref_multiple_answer rma"
                 . " WHERE rma.element_code = '" . (int) $elementCode . "'  AND rma.doc_name_id = '$docNameId' "
                 . " GROUP BY rma.multi_answer_desc"
@@ -36,7 +36,7 @@ class Reference_List_Model {
     }
     
     public function GetChildMultipleAnswerList($elementCode,$docNameId){
-        $sql = "SELECT rma.multi_answer_desc,rma.input_type, rma.method, rma.doc_name_id "
+        $sql = "SELECT rma.multi_answer_desc,rma.input_type, rma.method, rma.doc_name_id, rma.sorting "
                 . " FROM ref_multiple_answer rma"
                 . " WHERE rma.element_code = '" . (int) $elementCode . "'  AND rma.doc_name_id = '$docNameId' "
                 . " GROUP BY rma.multi_answer_desc"

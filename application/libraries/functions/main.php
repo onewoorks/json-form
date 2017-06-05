@@ -13,7 +13,7 @@ function ReferenceCaller($elementCode, $docNameId, $tree = 'parent') {
     return (object) $output;
 }
 
-function InputTypeCaller($element, $name, $documentTitle,$documentId) {
+function InputTypeCaller($element, $name, $documentTitle,$documentId,$layout) {
     $input = ucwords(strtolower($element->input_type));
     $inputType = str_replace(' ', '', $input);
 //    [method] => 
@@ -32,11 +32,21 @@ function InputTypeCaller($element, $name, $documentTitle,$documentId) {
         'method' => $element->method,
         'json_element'=>$element->json_element,
         'document_title' => $documentTitle,
-        'doc_name_id'=>$documentId
+        'doc_name_id'=>$documentId,
+        'layout' =>$layout
     );
     $methodName = $inputType;
     $class = new Input_Type_Controller();
     $class->elementDetail = (object) $elementDetail;
+    $methodCheck = $class->VerifyMethod($methodName);
+    $result = ($methodCheck) ? $class->$methodName (): false;
+    return $result;
+}
+
+function UpdateInput($element){
+    $methodName = 'UpdateMultiAns';
+    $class = new Input_Type_Controller();
+    $class->elementDetail = (object) $element;
     $methodCheck = $class->VerifyMethod($methodName);
     $result = ($methodCheck) ? $class->$methodName (): false;
     return $result;

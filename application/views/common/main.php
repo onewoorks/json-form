@@ -15,9 +15,12 @@
 
         <link href="<?php echo SITE_ROOT; ?>/assets/css/main.css" rel="stylesheet" />
 
+<!--        <link href="<?php echo SITE_ROOT; ?>/assets/css/dragula.css" rel="stylesheet" />
+        <link href="<?php echo SITE_ROOT; ?>/assets/css/example.css" rel="stylesheet" />-->
+        
         <link href="<?php echo SITE_ROOT; ?>/assets/library/bootstrap/css/bootstrap.css" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
-
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js'></script>
         <script src="<?php echo SITE_ROOT; ?>/assets/library/bootstrap/js/bootstrap.js"></script> 
         <link href="<?php echo SITE_ROOT; ?>/assets/library/summernote/summernote.css" rel="stylesheet">
         <script src="<?php echo SITE_ROOT; ?>/assets/library/summernote/summernote.js"></script>
@@ -40,7 +43,6 @@
                     <li><a href="<?php echo SITE_ROOT; ?>/formview/new-form">Create New Form</a></li>
                     <li><a href="<?php echo SITE_ROOT; ?>/formview/sql-raw-data">SQL Raw Data</a></li>
                     <li><a href='<?php echo SITE_ROOT; ?>/formview/generate-json-format'>Generate JSON Format</a></li>
-<!--                    <li><a href='<?php echo SITE_ROOT; ?>/formview/testing-page'>Testing page</a></li>-->
                 </ul>
             </div>
         </nav>

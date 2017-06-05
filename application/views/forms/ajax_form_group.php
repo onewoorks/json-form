@@ -6,6 +6,17 @@
         <input type='hidden' name='section_code' value='<?= $values->section_code;?>' />
         <input type='hidden' name='document_id' value='<?= $document_id;?>' />
         <input type='hidden' name='template_id' value='<?= $template_id;?>' />
+    </div><br><br>
+    <!--<label class='control-label col-sm-3'>Column</label>-->
+    <div class='col-sm-8'>
+        <div>
+                     <label class="radio-inline">
+                         <input name="column" type="hidden" value="1"  <?php if($values->layout==1){echo 'checked';} ?>> 
+                     </label>
+                     <label class="radio-inline">
+                         <input name='column' type="hidden" value="2" <?php if($values->layout==2){echo 'checked';} ?>> 
+                     </label>
+        </div>
     </div>
 </div>
 <div class='form-group form-group-sm'>
@@ -30,5 +41,5 @@
         });
         
     });
-    </script>
+</script>
 
