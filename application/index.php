@@ -1,1 +1,3 @@
-<?php header( 'Location: ../' ); ?>
+<?php header( 'Location: ../' );
+//test commit
+?>
