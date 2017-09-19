@@ -132,6 +132,7 @@
     <div class="modal-dialog">
 
         <!-- Modal content-->
+        <a href="edit-form.php"></a>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>

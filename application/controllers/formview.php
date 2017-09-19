@@ -6,6 +6,9 @@ class Formview_Controller extends Common_Controller {
         $case = str_replace('?', '', $params[URL_ARRAY + 2]);
         $ajax = false;
         switch ($case):
+            case 'sandbox':
+                $page = 'forms/mockup';
+                break;
             case 'document':
                 $page = 'forms/document_view';
                 $documentId = $params[URL_ARRAY + 3];
@@ -204,6 +207,19 @@ class Formview_Controller extends Common_Controller {
                 $doc_id = $_REQUEST['documentId'];
                 $val = $document->GetLayoutDetail($doc_id);
                 $page = 'forms/change_document_layout';
+                $result['layout'] = $val;
+                $result['doc_id'] = $doc_id;
+                $data = array(
+                    'component' => 'Change Layout',
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
+              case 'update-layout':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $doc_id = $_REQUEST['documentId'];
+                $val = $document->GetLayoutDetail($doc_id);
+                $page = 'forms/update';
                 $result['layout'] = $val;
                 $result['doc_id'] = $doc_id;
                 $data = array(

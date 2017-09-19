@@ -13,7 +13,7 @@ function ReferenceCaller($elementCode, $docNameId, $tree = 'parent') {
     return (object) $output;
 }
 
-function InputTypeCaller($element, $name, $documentTitle,$documentId,$layout) {
+function InputTypeCaller($element, $name, $documentTitle,$documentId,$layout=1) {
     $input = ucwords(strtolower($element->input_type));
     $inputType = str_replace(' ', '', $input);
 //    [method] => 
@@ -43,6 +43,25 @@ function InputTypeCaller($element, $name, $documentTitle,$documentId,$layout) {
     return $result;
 }
 
+function InputTypeCaller2($element, $name) {
+    $input = ucwords(strtolower($element->input_type));
+    $inputType = str_replace(' ', '', $input);
+    $elementDetail = array(
+        'name' => $name,
+        'label' => $element->element_desc,
+        'additional_attribute' => $element->additional_attribute,
+        'element_code' => $element->element_code,
+        'method' => $element->method,
+        'json_element'=>$element->json_element
+    );
+    $methodName = $inputType;
+    $class = new Input_Type_Controller();
+    $class->elementDetail = (object) $elementDetail;
+    $methodCheck = $class->VerifyMethod($methodName);
+    $result = ($methodCheck) ? $class->$methodName (): false;
+    return $result;
+}
+
 function UpdateInput($element){
     $methodName = 'UpdateMultiAns';
     $class = new Input_Type_Controller();
@@ -59,3 +78,10 @@ function form_array($arrays) {
         endforeach;
         return $val;
     }
+
+function ColumnRender($data, $noOfColumn,$document_title, $document_id, $column){
+    $builder = new Column_Render_Method();
+//    return $builder->panel_column2($data, $noOfColumn,$document_title, $document_id, $column);
+    return $builder->panel_render($data, $noOfColumn,$document_title, $document_id, $column);
+}
+

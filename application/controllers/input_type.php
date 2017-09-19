@@ -15,13 +15,13 @@ class Input_Type_Controller extends Common_Controller {
     public function Textbox() {
         $element = $this->elementDetail;
         $totalTextBox = $this->is_multiple_textbox;
-        
-        if($element->layout == 1){
+        $layout = (isset($element->layout)) ? $element->layout : 1;
+        if($layout){
                    $html = "<div class='form-group form-group-sm'>"
-                . "<label class='control-label col-md-3 text-uppercase'>" . $element->label . "</label>";
+                . "<label class='control-label col-md-4 text-uppercase'>" . $element->label . "</label>";
 
         for ($i = 0; $i < $totalTextBox; $i++):
-            $colSize = ($totalTextBox > 1) ? 'col-sm-2' : 'col-sm-4';
+            $colSize = ($totalTextBox > 1) ? 'col-sm-2' : 'col-sm-7';
             $method = ($totalTextBox > 1) ? json_decode($element->listing[$i]['method']) : false;
             $html .= "<div class='$colSize'>";
             if (isset($method->form_group->input_group)):
@@ -375,7 +375,8 @@ class Input_Type_Controller extends Common_Controller {
 
     public function Freetext() {
         $element = $this->elementDetail;
-        if($element->layout==1){
+        $layout = (isset($element->layout)) ? $element->layout : 1;
+        if($layout){
         $html = "<div class='form-group form-group-sm'>"
                 . "<label class='control-label col-md-3 text-uppercase'>" . $element->label . "</label>"
                 . "<div class='col-md-6'>"
@@ -446,7 +447,8 @@ class Input_Type_Controller extends Common_Controller {
 
     public function Richtext() {
         $element = $this->elementDetail;
-        if($element->layout==1){
+        $layout = (isset($element->layout)) ? $element->layout : 1;
+        if($layout){
         $html = "<div class='form-group form-group-sm'>"
                 . "<label class='control-label col-md-3 text-uppercase'>" . $element->label . "</label>"
                 . "<div class='col-md-7'>"
