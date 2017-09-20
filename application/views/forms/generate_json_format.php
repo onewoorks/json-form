@@ -1,5 +1,73 @@
 <?= $header; ?>
+<?php echo $header; ?>
 
+<div id='generateJSON'>
+    <div class='panel panel-default'>
+        <div class='panel-heading'>Search Panel</div>
+        <div class='panel-body'>
+            <form id='documentFilter' class='form-horizontal'>
+
+                <div class='form-group form-group-sm'>
+                    <label class='control-label col-sm-4'>Discipline</label>
+                    <div class='col-sm-5'>
+                        <select name='discipline' class='form-control'>
+                            <?php foreach ($main_discipline as $discipline): ?>
+                                <option value='<?php echo $discipline['code']; ?>'><?php echo $discipline['label']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class='form-group form-group-sm'>
+                    <label class='control-label col-sm-4'>Sub Discipline</label>
+                    <div class='col-sm-5'>
+                       <select name='general_discipline' class='form-control' >
+                           <?php if (!$preset_select): ?>
+                           <option value='0'>Please Select Discipline</option>
+                           <?php else: ?>
+                           <option value='0' selected="selected" >Please Select Sub Discipline</option>
+                             <?php foreach ($general_discipline as $general): ?>
+                                 <option value='<?php echo $general['code']; ?>'><?php echo $general['label']; ?></option>
+                             <?php endforeach; ?>
+                                 <?php endif; ?>
+                         </select>
+                    </div>
+                </div>
+                
+                <div class='form-group form-group-sm'>
+                    <label class='control-label col-sm-4'>Document Group</label>
+                    <div class='col-sm-5'>
+                        <select name='doc_group' class='form-control' >
+                            <option value='0' selected="selected">Please Select Document Group</option>
+                            <?php foreach ($doc_group as $doc): ?>
+                                <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class='form-group form-group-sm'>
+                    <label class='control-label col-sm-4'>Document Type</label>
+                    <div class='col-sm-5'>
+                        <select name='doc_type' class='form-control' >
+                            <?php if (!$preset_select): ?>
+                                <option value='0'>Please Select Document Group</option>
+                            <?php else: ?>
+                                <option value='0' selected="selected">Please Select Document Type</option>
+                                <?php foreach ($doc_types as $doc): ?>
+                                    <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class='form-group form-group-sm'>
+                    <div class='col-sm-9 text-right'>
+<!--                        <button type='submit' class='btn btn-sm btn-primary'><i class='glyphicon glyphicon-search'></i> Filter</button>-->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 <div class='panel panel-primary'>
     <div class='panel-heading text-uppercase'>List of Template Documents With Data</div>
     <div class='panel-body'>
@@ -53,6 +121,65 @@
     </div>
 </div>
 <script>
+    $(function () {
+        $('[name=doc_group]').change(function () {
+            var groupCode = $(this).val();
+            $.ajax({
+                url: '<?php echo SITE_ROOT; ?>/main/filter/',
+                data: {group_code: groupCode},
+                success: function (data) {
+                    $('[name=doc_type]').html(data);
+                    $('#documentFilter').submit();
+                }
+            });
+        });
+   
+        $('[name=main_discipline_name]').change(function () {
+            var disCode = $(this).val();
+            $.ajax({
+                url: '<?php echo SITE_ROOT; ?>/main/filter-discipline/',
+                data: {dis_code: disCode},
+                success: function (data) {
+                    $('[name=discipline_name]').html(data);
+                  $('#documentFilter').submit();
+                }
+            });
+        });
+        
+        $('[name=general_discipline]').change(function () {
+            $('#documentFilter').submit();
+        });  
+        
+        $('[name=doc_type]').change(function () {
+            $('#documentFilter').submit();
+        });
+
+        $('.syncButton').click(function(){
+            $.ajax({
+                url : '<?php echo SITE_ROOT;?>/main/sync/',
+                success : function(data){
+                    console.log(data);
+                }
+            });
+        });
+
+
+
+        $('#documentFilter').submit(function (e) {
+            e.preventDefault();
+            var values = $(this).serializeArray();
+            $.ajax({
+                url: '<?php echo SITE_ROOT; ?>/main/search-by-filter/',
+                data: {documentValues: values},
+                success: function (data) {
+                    $('#generateJSON').html(data);
+                }
+            });
+
+        });
+    });
+
+
     $(function () {
         $('.generateButton').on('click', function () {
             $('.checkAda').prop({
@@ -116,3 +243,4 @@
         })
     });
 </script>
+<?php echo $footer; ?>
