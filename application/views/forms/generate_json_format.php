@@ -1,8 +1,8 @@
 <?= $header; ?>
-<?php echo $header; ?>
+<?php echo $header;?>
 
-<div id='generateJSON'>
-    <div class='panel panel-default'>
+<div id='generateJson'>
+     <div class='panel panel-default'>
         <div class='panel-heading'>Search Panel</div>
         <div class='panel-body'>
             <form id='documentFilter' class='form-horizontal'>
@@ -62,7 +62,7 @@
                 </div>
                 <div class='form-group form-group-sm'>
                     <div class='col-sm-9 text-right'>
-<!--                        <button type='submit' class='btn btn-sm btn-primary'><i class='glyphicon glyphicon-search'></i> Filter</button>-->
+<!--                       <button type='submit' class='btn btn-sm btn-primary'><i class='glyphicon glyphicon-search'></i> Filter</button>-->
                     </div>
                 </div>
             </form>
@@ -78,6 +78,7 @@
         </div>
         <div class='clearfix'></div>
         <br>
+
         <table class='table table-condensed table-bordered'>
             <thead>
                 <tr>
@@ -92,8 +93,13 @@
                 </tr>
             </thead>
             <tbody>
-                <?php $no=1; foreach ($available_documents as $document): ?>
+                 <?php if(!$available_documents):?>
                     <tr>
+                        <td colspan="8"><i>No Record Found</i></td>
+                    </tr>
+                    <?php endif;?>
+                <?php $no=1; foreach ($available_documents as $document): ?> 
+                    <tr>            
                         <td class='text-uppercase' style=" font-size: smaller;"><?php echo $no; $no++;  ?></td>
                         <td class='text-uppercase' style=" font-size: smaller;"><?= $document['main_discipline_name']; ?></td>
                         <td class='text-uppercase' style=" font-size: smaller;"><?= $document['discipline_name']; ?></td>
@@ -110,7 +116,7 @@
                             <?php if (!$document['available']): ?>
                                 <div class='btn btn-xs btn-primary'>Generate</div>
                             <?php else: ?>
-                                <div class='btn btn-xs btn-warning'>Re-generate</div>
+                                <div class='label label-warning'>Re-generate</div>
                             <?php endif; ?>
                         </td>
                         <td class='text-center'><input type='checkbox' class='<?= ($document['available']) ? 'checkAda' : 'checkTiada'; ?>' value='<?= $document['doc_name_id']; ?>' /></td>
@@ -134,13 +140,13 @@
             });
         });
    
-        $('[name=main_discipline_name]').change(function () {
+        $('[name=discipline]').change(function () {
             var disCode = $(this).val();
             $.ajax({
                 url: '<?php echo SITE_ROOT; ?>/main/filter-discipline/',
                 data: {dis_code: disCode},
-                success: function (data) {
-                    $('[name=discipline_name]').html(data);
+                success: function (data) { 
+                    $('[name=general_discipline]').html(data);
                   $('#documentFilter').submit();
                 }
             });
@@ -163,23 +169,33 @@
             });
         });
 
+<?php if ($preset_select): ?>
+            $('[name=discipline]').val("<?php echo $preset_select['active_discipline']; ?>");
+            $('[name=general_discipline]').val("<?php echo $preset_select['active_general']; ?>");
+            $('[name=doc_group]').val("<?php echo $preset_select['active_group']; ?>");
+            $('[name=doc_type]').val("<?php echo $preset_select['active_type']; ?>");
+<?php else: ?>
+            $("[name=discipline]").change();
+            $("[name=doc_group]").change();
+<?php endif; ?>
 
 
         $('#documentFilter').submit(function (e) {
             e.preventDefault();
             var values = $(this).serializeArray();
             $.ajax({
-                url: '<?php echo SITE_ROOT; ?>/main/search-by-filter/',
+                url: '<?php echo SITE_ROOT; ?>/main/generate-json-table/',
                 data: {documentValues: values},
                 success: function (data) {
-                    $('#generateJSON').html(data);
+//                    console.log(data)
+//                    $('#ABC').html(data);
+                    $('#generateJson').html(data);
                 }
             });
 
         });
     });
-
-
+    
     $(function () {
         $('.generateButton').on('click', function () {
             $('.checkAda').prop({
@@ -240,7 +256,7 @@
                     });                   
                 }
             });
-        })
+        });
     });
 </script>
 <?php echo $footer; ?>
