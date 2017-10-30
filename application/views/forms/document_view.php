@@ -36,17 +36,12 @@
             </div>
         </form>
     </div>
-   
-        <div class='col-md-1' style="position: fixed; z-index: 8; right: 0; top: 3;">
-        
-           
-            <a href='#' class='btn btn-default updatelayout' >Update</a>  
-<!--           if($sql=true){
-           echo "<script>alert('hello')</script>";
-          }-->
-        
-        </div>
+
+     <div class='col-md-1' style="position: fixed; z-index: 7; right: 0; top: 3;">
+         <a href='#' class='btn btn-default updatelayout' >Update</a>  
+    </div>
     
+   <br><br> 
     <div class='col-md-1-right' style="position: fixed; z-index: 7; right: 0; top: 5;">
         <div class='panel-heading'>
             <div class="panel-body">
@@ -72,12 +67,8 @@
                 </div>
             </div>
         </div>
-        <div id="contoh">
-            
-            
-        </div>
     </div>
-
+  
 </div>
 
 <div id="myModal" class="modal fade" role="dialog">
@@ -91,12 +82,22 @@
             <div class="modal-body">
             </div>
         </div>
-
     </div>
 </div>
 
+<div id="Modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4>Change Layout</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
 
-
+    </div>
+</div>
 <script src='<?= SITE_ROOT; ?>/assets/library/datepicker/js/bootstrap-datepicker.js'></script>
 <!--<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>-->
 <script src='http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js'></script>
@@ -153,7 +154,7 @@
 //                $('#'+$parentcode).removeClass('hidden');
 //            }
 //        });
-$('.updatelayout').click(function () {
+        $('.updatelayout').click(function () {
      
             var documentId = '<?= $document_id;?>';
             $.ajax({
@@ -168,13 +169,10 @@ $('.updatelayout').click(function () {
                     $('.modal-body').html(obj.html);
                 }
             });
-            $('#myModal').modal('show');
-               return false;
+            $('#Modal').modal('show');
+            return false;
         });
- 
-    });
-    
-    $(function(){
+        
         $('input[id^=rdio_]').hide();
         $('input[type=radio]').on('change',function(){
             $('input[id^=rdio_]').hide();
@@ -186,6 +184,7 @@ $('.updatelayout').click(function () {
             }
         });
     });
+    
 
        $('.expandComponent').click(function () {
             var a = $('#sidebar').toggleClass('hidden');
@@ -200,9 +199,7 @@ $('.updatelayout').click(function () {
                 $(this).html('<i class="glyphicon glyphicon-chevron-up"></i>');
                 document.getElementById("setsini").className = "col-md-9";
             }
-        });
-
-     
+        });   
 </script>
 
 <?= $footer; ?>

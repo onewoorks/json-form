@@ -91,6 +91,7 @@ class Formview_Controller extends Common_Controller {
                 $result['sub_discipline'] = $documentTemplate['discipline_name'];
                 $result['json_elements'] = $cleanSorting;
                 $result['template_id']=$documentId;
+                $result['rrr'] = 'pppp';
                 $result['document_id'] = $documentTemplate['doc_name_id'];
                 $result['link_style'] = "<link href='".SITE_ROOT."/assets/css/hiskkm.css' rel='stylesheet' />";
                 break;
@@ -214,7 +215,7 @@ class Formview_Controller extends Common_Controller {
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
-              case 'update-layout':
+            case 'update-layout':
                 $ajax = true;
                 $document = new Document_Template_Model();
                 $doc_id = $_REQUEST['documentId'];
@@ -227,6 +228,35 @@ class Formview_Controller extends Common_Controller {
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
+            case 'add-attributes':
+            $ajax=true;
+            $values= $this->form_array($_REQUEST['values']);           
+            $layout = array(
+                'design'=>$values['selected_pattern'],
+                'no_of_columns'=>$values['multiplecols']               
+            );
+             $document = new Document_Template_Model;
+             $sections = $document->ReadDocumentSectionGroup($values['doc_id']);
+             $newsection = array();           
+             foreach ($sections as $section):
+                    $data = array(
+                        'section_code' => $section['section_code'],
+                        'section_desc' => $section['section_desc'],
+                        'layout' => json_encode($layout,true));
+                    $document->UpdateSectionDetail($data);   
+                    $newdata = array(
+                        'json_section' => $section['json_section'],
+                        'section_sorting' => $section['section_sorting'],
+                        'section_code' => $section['section_code'],
+                        'section_desc' => $section['section_desc'],
+                        'elements' =>  $this->GetDocumentSectionElement($values['doc_id'], $section['section_code']),
+//                         'elements' =>  $section['elements'],
+                        'layout' => $layout);
+                 $newsection[$section['json_section']]=$newdata;
+            endforeach;
+          //  print_r($newsection);
+            $this->CreateJSONForm($values['doc_id'],$newsection, 'update');
+            break;
             case 'edit-layout':
                 $ajax = true;
                 $values = $this->form_array($_REQUEST['values']);
@@ -256,7 +286,7 @@ class Formview_Controller extends Common_Controller {
                 break;
             case 'edit-attributes':
                 $ajax = true;
-                $values = $this->form_array($_REQUEST['values']);
+                $values = $this->form_array($_REQUEST['values']);              
                 $document = new Document_Template_Model();
                 $data = array(
                     'section_code' => $values['section_code'],

@@ -53,28 +53,9 @@ class Column_Render_Method {
         $classColumn = '';
         
         foreach ($data as $elem => $element):
-//            echo '<pre>';
-//            print_r($element);
-//            echo '</pre>';
             $cols[] = $elem;
-           
             $row_items['row_' . $numrow][] = $element;
             $numrow++;
-//            echo $numrow. ' - ' . $element->element_desc . ' - ' . $element->input_type.'<br />';
-//                if ($this->check_input_type($element)) {
-//                    $cols = array();
-//                    $numrow++;
-//                } else {
-//                    while($c <= $noOfColumn):
-//                        $c++;
-//                    endwhile;
-//                    if($c==$noOfColumn):
-//                        $numrow++;
-//                        $c = 1;
-//                    endif;
-//                    $numrow++;
-//                }
-          
         endforeach;
 
         $render_result = array();
@@ -93,9 +74,6 @@ class Column_Render_Method {
         $html = '';
         $html .= '<div class="row">';
         for ($i = 0; $i < $numrow; $i++):
-//            echo '<pre>';
-//        print_r($render_result);
-//        echo '</pre>';
             $html .= '<div class="">' . self::Column_Element($render_result['row_'.$i], $document_title, $document_id, $column) . '</div>';
            
         endfor;
@@ -110,25 +88,22 @@ class Column_Render_Method {
         $classColumn = '';
         $elements = array();
         $item1 = array();
-        $numrow = 0;
-        $rowitems = array();
-
+   
         foreach ($data as $key => $element):
             $elements[] = $element;
             $totalElement++;
         endforeach;
 
-        $meitem = array();
+//        $meitem = array();
 //        for ($i = 0; $i < $totalElement; $i++):
 //            
-//            if ($this->check_input_type_2($elements[$i])) {
+//            if ($this->check_input_type($elements[$i])) {
 //                $meitem['row_' . $numrow] = $this->column_data($elements, $noOfColumn);
 //                $numrow++;
 //            } else {
 //                $meitem['row_' . $numrow] = $this->column_data($elements, $noOfColumn);
 //            }
 //        endfor;
-
 
         for ($i = 0; $i < $totalElement; $i++):
             if ($i % 2 == 0) {
@@ -159,16 +134,7 @@ class Column_Render_Method {
         for ($i = 0; $i < $noOfColumn; $i++):
             $html .= '<div class="' . $classColumn . '">' . self::Column_Element2($item1[$i], $document_title, $document_id, $column) . '</div>';
         endfor;
-//        
-//        foreach ($rowitems as $k => $row):
-//            $obj = $row;
-//            $html .= '<hr><div class="row" style="border:1px solid #000">';
-//            foreach ($obj[0] as $o):
-//                $html .= '<div class="col-md-6">' . count($obj[0]) . '</div>';
-//            endforeach;
-//            $html .= print_r($obj[0]);
-//            $html .= '</div>';
-//        endforeach;
+
         return $html;
     }
 
@@ -178,7 +144,7 @@ class Column_Render_Method {
         $html = '';
         $element = $data['column_0'][0];
 
-        if($this->check_input_type_2($element)):
+        if($this->check_input_type($element)):
             $classColumn = 'col-md-12';
         else :
             $colnum = 12/$column;
@@ -189,16 +155,6 @@ class Column_Render_Method {
         $html.= InputTypeCaller($element, $element->json_element, $document_title, $document_id, $column);
         $html .= "</div>";  
  
-//            for ($i = 0; $i < $column; $i++):
-//            echo'<pre>';
-//            print_r($element);
-//            echo '</pre>';
-//            echo count($element);
-//            $html.= InputTypeCaller($element, $element->json_element, $document_title, $document_id, $column);
-//            $html .= '<br />'; 
-//            endfor;
-            
-//        endforeach;
         return $html;
     }
 
@@ -212,6 +168,7 @@ class Column_Render_Method {
         return $html;
     }
     function column_data($data, $no_of_columns) {
+        //multiplecolumns
         $items = array();
         $col_items = 0;
         $col = array();
@@ -228,48 +185,38 @@ class Column_Render_Method {
         return $col;
     }
 
-    function check_input_type($data) {
-        $this->itemRows[] = $data;
-        
-//        echo '<pre>';
-//                print_r($data);
-//                echo '</pre>';
-                
-        $items = array();
-        $classColumn = '';
-        $input_type = $data->input_type;
-        $result = false;
-        switch ($input_type):
-            case 'RICHTEXT':
-//                $result = true;               
-//                break;
-            case 'FREETEXT':
+//    function check_input_type2($data) {
+//        $this->itemRows[] = $data;
+//        
+//        $items = array();
+//        $classColumn = '';
+//        $input_type = $data->input_type;
+//        $result = false;
+//        switch ($input_type):
+//            case 'RICHTEXT':
+//            case 'FREETEXT':
 //                $classColumn = 'col-md-12';
 //                $result = true;               
 //                break;
-            case 'TEXTBOX':
-//                $classColumn = 'col-md-6';
-                $result = true;               
-                break;
-            default:
-                $items[] = $data;
-                false;
-        endswitch;
-
-        return $result;
-    }
+//            case 'TEXTBOX':
+////                $classColumn = 'col-md-6';
+//                $result = true;               
+//                break;
+//            default:
+//                $items[] = $data;
+//                false;
+//        endswitch;
+//
+//        return $result;
+//    }
+//    
     
-    
-    function check_input_type_2($data) {
+    function check_input_type($data) {
         $input_type = $data->input_type;
         $result = false;
         switch ($input_type):
             case 'RICHTEXT':
-//                $result = true;               
-//                break;
             case 'FREETEXT':
-//                $result = true;               
-//                break;
             case 'LABEL':
                 $result = true;               
                 break;
