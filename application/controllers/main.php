@@ -35,6 +35,32 @@ class Main_Controller extends Common_Controller {
                 $newOptions = $reference->DocumentDisFiltering($_REQUEST['dis_code']);
                 echo $this->SelectOptionBuilder($newOptions);
                 break;
+            case 'generate-json-table':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $values = $this->form_array($_REQUEST['documentValues']);
+                $page = 'forms/generate_json_format';
+                $reference = new Reference_Table_Model();
+                $result['available_documents'] = $document->ReadElementExisted($values);
+                $result['main_discipline'] = $this->RefMainDisciplineGroup();
+                $result['general_discipline'] = $reference->DocumentDisFiltering($values['discipline']);
+                $result['doc_group'] = $this->RefDocumentGroup();
+                if($values['doc_group']!='0'){
+                $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
+                }
+                $type='0';
+                if($values['doc_group']!='0'){
+                    $type=$values['doc_type'];
+                }
+                $result['preset_select'] = array (
+                    'active_discipline' => $values['discipline'],
+                    'active_general' => $values['general_discipline'],
+                    'active_group' => $values['doc_group'],
+                    'active_type' => $type
+                );
+                $view = new View_Model($page);
+                $view->assign('content', $result);
+                break;           
             case 'search-by-filter':
                 $ajax = true;
                 $document = new Document_Template_Model();
@@ -64,7 +90,7 @@ class Main_Controller extends Common_Controller {
             default:
                 $page = 'forms/list_of_document';
                 $document = new Document_Template_Model();
-                $result['list_of_documents'] = $document->GetListAvailableDocument();
+             $result['list_of_documents'] = $document->GetListAvailableDocument();
                 $result['main_discipline'] = $this->RefMainDisciplineGroup();
                 $result['general_discipline'] = $this->RefGeneralDiscipline();
                 $result['doc_types'] = $this->RefDocumentType();
