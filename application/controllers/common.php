@@ -195,7 +195,7 @@ class Common_Controller {
     public function CreateJSONForm($documentId, array $documentData, $action = 'insert') {
         $document = new Document_Template_Model();
         $document->documentId = $documentId;
-        $document->jsonForm = json_encode($documentData);
+        $document->jsonForm = json_encode($documentData,true);
 //        echo $document->jsonForm;
         switch ($action):
             case 'insert':

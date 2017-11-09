@@ -24,64 +24,31 @@
             </div>
         </div>
         <form id='notesForm' class='form-horizontal'>
-            <div class='panel panel-default'>
+            <div class='panel panel-default'> 
                 <?php foreach ($json_elements as $key => $section): ?>
                 <div class='panel-heading' style="background-color: #0088cc; color: white; " data-section='<?= $key; ?>'><b><?= $section->section_desc; ?></b></div>
                     <div class='panel-body' data-section='<?= $key; ?>'>
-                        <?php $column = $section->layout;  
-                               switch ($column):
-                                   case '1': $set=12;                                
-                                 foreach ($section->elements as $elem => $element): ?>
-                                   <div style='color:grey; font-size: 0.7em' class='hidden' ><i><?= $element->input_type . ' | ' . $element->element_code; ?></i></div>
-                                   <div class="col-md-<?php echo $set;  ?>">
-                                   <?= InputTypeCaller($element, $element->json_element, $document_title, $document_id, $column); ?>
-                                   </div><?php 
-                                 endforeach; 
-                                   break;
-                                   
-                                   case '2': $set=6; 
-                                       for($x=1;$x<=2;$x++){
-                                           if($x==1){
-                                               $position ='L';
-                                           }elseif($x==2){
-                                               $position ='R';
-                                           }
-                                  ?><div class="col-md-6"><?php
-                                 foreach ($section->elements as $elem => $element): if($element->element_position=== $position){ 
-                                     $thecode=$element->element_code;
-                                     if($element->element_code===$element->child_element_code){
-                                     ?>                                      
-                                   <div style='color:grey; font-size: 0.7em' class='hidden' ><i><?= $element->input_type . ' | ' . $element->element_code; ?></i></div><?php
-                                   ?>
-                                   <?=  InputTypeCaller($element, $element->json_element, $document_title, $document_id, $column);
-                                   
-                                   foreach ($section->elements as $elem => $element):
-                                        if($element->child_element_code === $thecode && $element->element_code != $element->child_element_code){
-                                         ?>
-                                   <?=  InputTypeCaller($element, $element->json_element, $document_title, $document_id, $column);   
-                                        }
-                                   endforeach;                                                                         
-                                     }}
-                                 endforeach;
-                                 ?></div>
-                                       <?php }                                  
-                                   break;                                  
-                                   //case '3': $set=4; break;
-                                   default : $set=12; break;
-                               endswitch;
-                        ?>
+                           
+                     <?php echo ColumnRender($section->elements, $section->layout,$document_title, $document_id, $section->layout);?>
+                          
                     </div>
                 <?php endforeach; ?>
             </div>
         </form>
     </div>
+
+     <div class='col-md-1' style="position: fixed; z-index: 7; right: 0; top: 3;">
+         <a href='#' class='btn btn-default updatelayout' >Update</a>  
+    </div>
+    
+   <br><br> 
     <div class='col-md-1-right' style="position: fixed; z-index: 7; right: 0; top: 5;">
         <div class='panel-heading'>
             <div class="panel-body">
                 <button class="btn btn-default expandComponent" data-current='expand'><i class="glyphicon glyphicon-chevron-up"></i></button>
             </div>
         </div>
-    </div>
+    </div>   
     <div class="col-md-3 " id="sidebar" style="position: fixed; z-index: 6; right: 0; top: 10;">
         <div class='panel panel-default' id='notecomponent'>
             <div class='panel-heading'>Notes Component</div>
@@ -101,7 +68,7 @@
             </div>
         </div>
     </div>
-
+  
 </div>
 
 <div id="myModal" class="modal fade" role="dialog">
@@ -111,6 +78,19 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="Modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4>Change Layout</h4>
             </div>
             <div class="modal-body">
             </div>
@@ -174,10 +154,25 @@
 //                $('#'+$parentcode).removeClass('hidden');
 //            }
 //        });
- 
-    });
-    
-    $(function(){
+        $('.updatelayout').click(function () {
+     
+            var documentId = '<?= $document_id;?>';
+            $.ajax({
+                url: '<?= SITE_ROOT; ?>/formview/update-layout/',
+                data: {documentId : documentId},
+                success: function (data) {
+                    console.log(data);
+                    $("#contoh").text(data)
+                    var obj = $.parseJSON(data);
+                    $('.modal-dialog').removeClass('modal-lg');
+                    $('.modal-title').text(obj.component);
+                    $('.modal-body').html(obj.html);
+                }
+            });
+            $('#Modal').modal('show');
+            return false;
+        });
+        
         $('input[id^=rdio_]').hide();
         $('input[type=radio]').on('change',function(){
             $('input[id^=rdio_]').hide();
@@ -189,6 +184,7 @@
             }
         });
     });
+    
 
        $('.expandComponent').click(function () {
             var a = $('#sidebar').toggleClass('hidden');
@@ -203,8 +199,7 @@
                 $(this).html('<i class="glyphicon glyphicon-chevron-up"></i>');
                 document.getElementById("setsini").className = "col-md-9";
             }
-        });
-
+        });   
 </script>
 
 <?= $footer; ?>

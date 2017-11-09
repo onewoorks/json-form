@@ -183,11 +183,11 @@ class Document_Template_Model {
     public function UpdateDocumentJSONFormat() {
         $documentId = $this->documentId;
         $jsonForm = $this->jsonForm;
-        echo $jsonForm;
         $sql = "UPDATE document_template SET json_template = '$jsonForm' WHERE doc_name_id='" . (int) $documentId . "' ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
+       // echo $sql;
     }
 
     public function GetListAvailableDocument() {
@@ -341,10 +341,14 @@ class Document_Template_Model {
     }
 
     public function UpdateSectionDetail(array $section) {
-        $sql = "UPDATE ref_document_section SET section_desc='" . $section['section_desc'] . "',layout='".$section['layout']."' WHERE section_code='" . (int) $section['section_code'] . "'";
+        $sql = "UPDATE ref_document_section SET "
+                . "section_desc='" . $section['section_desc'] . "',"
+                . "layout='".$section['layout']."' "
+                . "WHERE section_code='" . (int) $section['section_code'] . "'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
+      //  echo $sql;
         return true;
     }
     
