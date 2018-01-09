@@ -44,17 +44,16 @@ class Formbuilder_Controller extends Common_Controller {
             case 'generate-json':
                 $ajax = true;
                 $documentNameId = $_REQUEST['documents'];
-                print_r($documentNameId);
-//                $actionType = $_REQUEST['type'];
-//                foreach ($documentNameId as $doc):
-//                    $documentTemplate = new Document_Template_Model();
-//                    if($actionType=='regenerate'):
-//                        $documentTemplate->DeleteTemplate($doc);
-//                    endif;
-//                    $sections = $documentTemplate->ReadDocumentSectionGroup($doc);
-//                    $documentArray = $this->GetDocumentSections($doc, $sections);
-//                    $this->CreateJSONForm($doc, $documentArray);
-//                endforeach;
+                $actionType = $_REQUEST['type'];
+                foreach ($documentNameId as $doc):
+                    $documentTemplate = new Document_Template_Model();
+                    if($actionType=='regenerate'):
+                        $documentTemplate->DeleteTemplate($doc);
+                    endif;
+                    $sections = $documentTemplate->ReadDocumentSectionGroup($doc);
+                    $documentArray = $this->GetDocumentSections($doc, $sections);
+                    $this->CreateJSONForm($doc, $documentArray);
+                endforeach;
                 break;
             default:
                 break;
