@@ -11,6 +11,7 @@
                     <label class='control-label col-sm-4'>Discipline</label>
                     <div class='col-sm-5'>
                         <select name='discipline' class='form-control'>
+                            <!--<option value='0' selected="selected">Please Select Document Group</option>-->
                             <?php foreach ($main_discipline as $discipline): ?>
                                 <option value='<?php echo $discipline['code']; ?>'><?php echo $discipline['label']; ?></option>
                             <?php endforeach; ?>
@@ -71,7 +72,9 @@
 <div class='panel panel-primary'>
     <div class='panel-heading text-uppercase'>List of Template Documents With Data</div>
     <div class='panel-body'>
+        <div class='pull-left'><b>Total Document = <?= count($available_documents); ?></b></div>
         <div class='pull-right'>
+            <!--<div class='btn btn-xs btn-primary syncButton'>Synchronize</div>-->
             <div class='btn btn-xs btn-primary generateButton'>Select Generate</div>
             <div class='btn btn-xs btn-warning regenerateButton'>Select Re-generate</div>
             <div class='btn btn-xs btn-default executeAction'>Execute</div>
@@ -114,7 +117,7 @@
                         </td>
                         <td class='text-center'>
                             <?php if (!$document['available']): ?>
-                                <div class='btn btn-xs btn-primary'>Generate</div>
+                                <div class='label label-primary'>Generate</div>
                             <?php else: ?>
                                 <div class='label label-warning'>Re-generate</div>
                             <?php endif; ?>
@@ -122,6 +125,7 @@
                         <td class='text-center'><input type='checkbox' class='<?= ($document['available']) ? 'checkAda' : 'checkTiada'; ?>' value='<?= $document['doc_name_id']; ?>' /></td>
                     </tr>
                 <?php endforeach; ?>
+                    
             </tbody>
         </table>        
     </div>

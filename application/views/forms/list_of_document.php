@@ -74,10 +74,13 @@
                 <a href="#" class="btn btn-default btn-xs syncButton"><i class='glyphicon glyphicon-refresh'></i> Synchronize</a>
             </div>
             <?php $total=0; foreach ($list_of_documents as $tot) { $total++;} ?>
+
             <div class="btn-group pull-right">Result : <?php echo $total; ?> rows &nbsp;| &nbsp; </div>
             List of Template Documents</div>
         <div class='panel-body'>
-
+            <div class ='pull-left'><b>Total Document = <?= count($list_of_documents);?></b></div>
+            <div class='clearfix'></div>
+            <br>
             <table class='table table-bordered table-condensed'>
                 <thead>
                     <tr>

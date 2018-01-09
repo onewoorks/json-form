@@ -245,5 +245,5 @@ class Common_Controller {
     protected function JsonWithSectionSorting($data) {
         return $this->SectionSorting($data);
     }
-
+    
 }

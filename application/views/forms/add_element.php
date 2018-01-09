@@ -47,7 +47,7 @@
                      </label>
                 </div>
             </div>
-            
+          
             <div class='form-group form-group-sm'>
                 <label class='control-label col-sm-4'>Element Properties</label>
                 <div class='col-sm-8'>
@@ -67,7 +67,7 @@
         </div>
     </div>
 
-                     <div class='form-group form-group-sm'>
+    <div class='form-group form-group-sm'>
         <label class='control-label col-sm-3'></label>
         <div class='col-sm-12 text-right'>
             <button type='submit' class='btn btn-sm btn-primary'>Insert</button>
@@ -85,15 +85,15 @@
         });
     }
     ;
-    
+
     $(function () {
         var $formType = 'decoration';
         ElementBuilder($formType);
-        $('[name=form_element').val($formType);
+        $('[name=form_element]').val($formType);
         $('[name=element_properties]').on('change', function () {
             var selector = $(this).val();
             $('#' + selector).show();
-            $('[name=form_element').val(selector);
+            $('[name=form_element]').val(selector);
             ElementBuilder(selector);
         });
     });
@@ -111,5 +111,5 @@
                 }
             });
         });
-        });   
+        });
 </script>

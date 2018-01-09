@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-class Reference_Table_Model  {
+class Reference_Table_Model  { //dari class sini 
 
     public function __construct() {
         $this->db = new Mysql_Driver();
@@ -64,7 +64,8 @@ class Reference_Table_Model  {
 
     public function DocumentGroup() {
         $sql = "SELECT doc_group_code as code, doc_group_desc as label"
-                . " FROM ref_document_group";
+                . " FROM ref_document_group"
+                . " WHERE doc_group_code IN ('CN','RL')";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();

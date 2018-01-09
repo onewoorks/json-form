@@ -18,6 +18,15 @@ class Formbuilder_Controller extends Common_Controller {
                 $this->formElementArray = $this->SessionCheck('form_element', $field);
                 echo $this->ConstructJSONFormTemplate($this->formElementArray);
                 break;
+            case 'insertsection':
+                $ajax = true;
+                $values = $_REQUEST['values'];
+                $field['index'] = $this->RandomNumber();
+//                $field['element'] = $_REQUEST['form_type'];
+                $field['component'] = $this->form_array($values);
+                $this->formElementArray = $this->SessionCheck('form_element', $field);
+                echo $this->ConstructJSONFormTemplate($this->formElementArray);
+                break;
             case 'formelement':
                 $ajax = true;
                 $values = $_REQUEST['value'];               
@@ -35,16 +44,17 @@ class Formbuilder_Controller extends Common_Controller {
             case 'generate-json':
                 $ajax = true;
                 $documentNameId = $_REQUEST['documents'];
-                $actionType = $_REQUEST['type'];
-                foreach ($documentNameId as $doc):
-                    $documentTemplate = new Document_Template_Model();
-                    if($actionType=='regenerate'):
-                        $documentTemplate->DeleteTemplate($doc);
-                    endif;
-                    $sections = $documentTemplate->ReadDocumentSectionGroup($doc);
-                    $documentArray = $this->GetDocumentSections($doc, $sections);
-                    $this->CreateJSONForm($doc, $documentArray);
-                endforeach;
+                print_r($documentNameId);
+//                $actionType = $_REQUEST['type'];
+//                foreach ($documentNameId as $doc):
+//                    $documentTemplate = new Document_Template_Model();
+//                    if($actionType=='regenerate'):
+//                        $documentTemplate->DeleteTemplate($doc);
+//                    endif;
+//                    $sections = $documentTemplate->ReadDocumentSectionGroup($doc);
+//                    $documentArray = $this->GetDocumentSections($doc, $sections);
+//                    $this->CreateJSONForm($doc, $documentArray);
+//                endforeach;
                 break;
             default:
                 break;
