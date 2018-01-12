@@ -192,19 +192,16 @@ class Common_Controller {
         return $elements;
     }
 
-    public function CreateJSONForm($documentId, array $documentData, $action = 'insert') {
+    public function CreateJSONForm($documentId, array $documentData, $action = 'add') {
         $document = new Document_Template_Model();
-        $document->documentId = $documentId;
-        $document->jsonForm = json_encode($documentData,true);
-//        echo $document->jsonForm;
+        $document->documentId = $documentId['doc_name_id'];
+        $document->jsonForm = json_encode($documentData,true); //documentData -> untuk bawa json data
         switch ($action):
-            case 'insert':
+            case 'add':
                 $document->CreateDocumentJSONFormat();
                 break;
-            case 'update':
-//                echo $document->jsonForm;
-//                print_r($documentData);
-                $document->UpdateDocumentJSONFormat();
+            case 'regenerate':
+                $document->UpdateJSONDocument($documentId);
                 break;
         endswitch;
         return true;

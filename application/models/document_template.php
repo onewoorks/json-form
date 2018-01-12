@@ -71,6 +71,30 @@ class Document_Template_Model {
                     }
                     $sql.="GROUP BY de.doc_name_id ORDER BY gd.main_discipline_code,gd.discipline_name ASC"; 
                     
+//        $sql = "SELECT d.doc_name_id, dt.template_id, d.doc_name_desc, gd.discipline_name,rdt.dc_type_desc,md.main_discipline_name, "
+//                . "(case when ((SELECT doc_name_id FROM document_template WHERE doc_name_id = d.doc_name_id ) IS NULL) then false else true end) as available "
+//                . "FROM document_element de INNER JOIN document d ON(d.doc_name_id=de.doc_name_id) "
+//                . "INNER JOIN document_template dt ON (dt.doc_name_id=d.doc_name_id) "
+//                . "INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code) "
+//                . "INNER JOIN ref_document_element rde ON (rde.element_code=de.parent_element_code) "
+//                . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
+//                . "INNER JOIN ref_document_element rdee ON (rdee.element_code=de.child_element_code) "
+//                . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
+//                . "LEFT JOIN ref_main_disciplines md ON(gd.main_discipline_code=md.main_discipline_code)"
+//                . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)" 
+//                . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)"
+//                . "WHERE gd.main_discipline_code = '$discipline' ";
+//                    if($subDiscipline!="0"){
+//                        $sql.="AND gd.discipline_code = '$subDiscipline'";
+//                    }
+//                    if($docType!="0"){
+//                        $sql.="AND d.dc_type_code = '$docType' ";
+//                    }
+//                    if($docGroup!="0"){
+//                        $sql.="AND rdt.doc_group_code = '$docGroup' ";
+//                    }
+//                    $sql.="GROUP BY de.doc_name_id ORDER BY gd.main_discipline_code,gd.discipline_name ASC";             
+                    
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -181,15 +205,15 @@ class Document_Template_Model {
         
     }
 
-    public function UpdateDocumentJSONFormat() {
-        $documentId = $this->documentId;
-        $jsonForm = $this->jsonForm;
-        $sql = "UPDATE document_template SET json_template = '$jsonForm' WHERE doc_name_id='" . (int) $documentId . "' ";
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-       // echo $sql;
-    }
+//    public function UpdateDocumentJSONFormat() {
+//        $documentId = $this->documentId;
+//        $jsonForm = $this->jsonForm;
+//        $sql = "UPDATE document_template SET json_template = '$jsonForm' WHERE doc_name_id='" . (int) $documentId . "' ";
+//        $this->db->connect();
+//        $this->db->prepare($sql);
+//        $this->db->queryexecute();
+//       // echo $sql;
+//    }
 
     public function GetListAvailableDocument() {
         $sql = "SELECT dt.template_id, dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc "
@@ -486,25 +510,38 @@ class Document_Template_Model {
         return $result;
     }
     
-    public function DeleteTemplate($docNameId) {
-        $sql = "DELETE FROM document_template WHERE doc_name_id = '$docNameId'";
+     public function GetAvailableTemplateId() {
+        $sql = "SELECT template_id"
+                . " FROM document_template"
+                . " GROUP BY template_id";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+//    public function DeleteTemplate($docNameId) {
+//        $sql = "DELETE FROM document_template WHERE doc_name_id = '$docNameId'";
+//        $this->db->connect();
+//        $this->db->prepare($sql);
+//        $this->db->queryexecute();
+//        return true;
+//    }
+    
+    public function UpdateJSONDocument($documents) {
+        $jsonForm = $this->jsonForm;
+        $docNameId = $documents['doc_name_id'];
+        $templateId = $documents['template_id'];
+        $sql = "UPDATE document_template SET "
+                . "json_template = '$jsonForm', "
+                . "updated_date = now() "
+                . "WHERE doc_name_id='" . (int) $docNameId . "' AND template_id='" . (int) $templateId ."'  ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
         return true;
     }
-    
-//    public function UpdateJSONDocument() {
-//        $documentId = $this->documentId;
-//        $jsonForm = $this->jsonForm;
-//        $sql = "UPDATE document_template SET json_template = '$jsonForm' WHERE doc_name_id='" . (int) $documentId . "' ";
-//        $this->db->connect();
-//        $this->db->prepare($sql);
-//        $this->db->queryexecute();
-////        $result = $this->db->fetchOut('array');
-//        return true;
-//       // echo $sql;
-//    }
     
 //    public function CheckTemplate() {
 //        $sql = "SELECT d.doc_name_id, d.doc_name_desc, gd.discipline_name, rdt.dc_type_desc,md.main_discipline_name"

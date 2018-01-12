@@ -122,7 +122,10 @@
                                 <div class='label label-warning'>Re-generate</div>
                             <?php endif; ?>
                         </td>
-                        <td class='text-center'><input type='checkbox' class='<?= ($document['available']) ? 'checkAda' : 'checkTiada'; ?>' value='<?= $document['doc_name_id']; ?>' /></td>
+                        <td class='text-center'>
+                            <input type='checkbox' class='<?= ($document['available']) ? 'checkAda' : 'checkTiada'; ?>' 
+                                   value='<?= $document['doc_name_id']; ?>' 
+                                   templateid='<?= (isset($document['template_id'])) ? $document['template_id'] : '0'; ?>'/></td>
                     </tr>
                 <?php endforeach; ?>
                     
@@ -168,7 +171,7 @@
             $.ajax({
                 url : '<?php echo SITE_ROOT;?>/main/sync/',
                 success : function(data){
-                    console.log(data);
+//                    console.log(data);
                 }
             });
         });
@@ -224,18 +227,24 @@
         $('.generateButton').trigger('click');
         $('.executeAction').on('click', function () {
             var input = $('input[type=checkbox]');
+//            console.log(input)
             var selected = [];
             var type = '';
+            
             $(input).each(function (key, value) {
+                $(input).each(function (key, templateid) {
+                
                 if (this.checked) {
                     if($(this).attr('class')=='checkAda'){
                         type = 'regenerate';
                     } else {
                         type = 'add';
                     }
-                    selected.push($(value).val());
+                    var item = { doc_name_id:$(value).val(), template_id: $(templateid).val()}
+                    selected.push(item);
                 }
-            })
+              })
+           })  
             $(this).text('Executing selected action...');
             $.ajax({
                 url: '<?php echo SITE_ROOT; ?>/formbuilder/generate-json/',
@@ -260,6 +269,7 @@
                     });                   
                 }
             });
+//            
         });
     });
 </script>
