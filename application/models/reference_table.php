@@ -61,7 +61,16 @@ class Reference_Table_Model  { //dari class sini
         $result = $this->db->fetchOut('array');
         return ($result) ? $result : false;
     }
-
+    
+    public function DocumentMainGroup(){
+        $sql = "SELECT doc_group_code as code, doc_group_desc as label"
+                . " FROM ref_document_group";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return ($result) ? $result : false;
+    }
     public function DocumentGroup() {
         $sql = "SELECT doc_group_code as code, doc_group_desc as label"
                 . " FROM ref_document_group"

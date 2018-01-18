@@ -34,7 +34,6 @@
                          </select>
                     </div>
                 </div>
-                
                 <div class='form-group form-group-sm'>
                     <label class='control-label col-sm-4'>Document Group</label>
                     <div class='col-sm-5'>
@@ -206,7 +205,7 @@
     $(function () {
         $('.generateButton').on('click', function () {
             $('.checkAda').prop({
-                checked: false,
+//                checked: false,
                 disabled: true,
             });
             $('.checkTiada').prop({
@@ -216,7 +215,7 @@
         });
         $('.regenerateButton').on('click', function () {
             $('.checkAda').prop({
-                checked: true,
+//                checked: true,
                 disabled: false
             });
             $('.checkTiada').prop({
@@ -240,7 +239,7 @@
                     } else {
                         type = 'add';
                     }
-                    var item = { doc_name_id:$(value).val(), template_id: $(templateid).val()}
+                    var item = { doc_name_id: $(value).val(), template_id: $(templateid).val()};
                     selected.push(item);
                 }
               })

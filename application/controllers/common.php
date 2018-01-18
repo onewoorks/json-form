@@ -108,6 +108,12 @@ class Common_Controller {
 
     public function RefDocumentGroup() {
         $reference = new Reference_Table_Model();
+        $docGroup = $reference->DocumentMainGroup();
+        return $docGroup;
+    }
+    
+     public function RefDocumentSelectedGroup() {
+        $reference = new Reference_Table_Model();
         $docGroup = $reference->DocumentGroup();
         return $docGroup;
     }
