@@ -11,7 +11,7 @@ class Document_Template_Model {
 
     public function ReadDocumentElementExisted() {
        $sql = "SELECT d.doc_name_id, d.doc_name_desc, gd.discipline_name,rdt.dc_type_desc,md.main_discipline_name, "
-               . "(CASE WHEN (SELECT doc_name_id FROM document_template WHERE doc_name_id = d.doc_name_id IS NULL) THEN FALSE ELSE TRUE END) AS available "
+               . "(case when (SELECT doc_name_id FROM document_template WHERE doc_name_id = d.doc_name_id IS NULL) then false else true end) as available "
                // . "(case when ((SELECT doc_name_id FROM document_template WHERE doc_name_id = d.doc_name_id) IS NULL) then false else true end) as available "
                 . "FROM document_element de INNER JOIN document d ON(d.doc_name_id=de.doc_name_id) "
                 . "INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code) "
@@ -35,7 +35,6 @@ class Document_Template_Model {
 //             . " LEFT JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)"
 //             . " WHERE rmd.main_discipline_code = '50'"
 //             . " GROUP BY 1";
-           
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
