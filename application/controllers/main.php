@@ -70,7 +70,7 @@ class Main_Controller extends Common_Controller {
                 $result['list_of_documents'] = $document->GetFilterListByGroupType($values);               
                 $result['main_discipline'] = $this->RefMainDisciplineGroup();               
                 $result['general_discipline'] =  $reference->DocumentDisFiltering($values['discipline']);
-                $result['doc_group'] = $this->RefDocumentGroup();
+                $result['doc_group'] = $this->RefDocumentSelectedGroup();
                 if($values['doc_group']!='0'){
                 $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
                 }
@@ -94,7 +94,7 @@ class Main_Controller extends Common_Controller {
                 $result['main_discipline'] = $this->RefMainDisciplineGroup();
                 $result['general_discipline'] = $this->RefGeneralDiscipline();
                 $result['doc_types'] = $this->RefDocumentType();
-                $result['doc_group'] = $this->RefDocumentGroup();
+                $result['doc_group'] = $this->RefDocumentSelectedGroup();
                 $result['preset_select'] = false;
                 break;
         endswitch;
