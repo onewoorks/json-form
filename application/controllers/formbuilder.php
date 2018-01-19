@@ -41,6 +41,20 @@ class Formbuilder_Controller extends Common_Controller {
                 $this->SessionUnset('form_element');
                 echo $this->ConstructJSONFormTemplate($this->formElementArray);
                 break;
+//            case 'create-document':
+//                $ajax = true;
+//                $testinput = form_array($_REQUEST['values']);
+//                
+//                $output = array (
+//                    $testinput ['section_desc'] => array (
+//                        "section_desc" => $testinput['section_desc'],
+//                        "layout" => $testinput['column'],
+//                    )
+//                );
+//                print_r($output);
+//           
+//                echo json_encode($output);
+//                break;
             case 'generate-json':
                 $ajax = true;
                 $documentNameId = $_REQUEST['documents'];
