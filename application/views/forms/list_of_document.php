@@ -37,7 +37,7 @@
                     <label class='control-label col-sm-4'>Document Group</label>
                     <div class='col-sm-5'>
                         <select name='doc_group' class='form-control' >
-                            <!--<option value='0' selected="selected">Please Select Document Group</option>-->
+                            <option value='' selected="selected">Please Select Document Group</option>
                             <?php foreach ($doc_group as $doc): ?>
                                 <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
                             <?php endforeach; ?>
@@ -61,13 +61,13 @@
                 </div>
                 <div class='form-group form-group-sm'>
                     <div class='col-sm-9 text-right'>
+<!--                        <button type='submit' class='btn btn-sm btn-primary'><i class='glyphicon glyphicon-search'></i> Filter</button>-->
                     </div>
                 </div>
             </form>
         </div>
     </div>
 
-    <!--list of template document-->
     <div class='panel panel-primary'>
         <div class='panel-heading'>
             <div class="btn-group pull-right">
@@ -140,7 +140,7 @@
                 url: '<?php echo SITE_ROOT; ?>/main/filter-discipline/',
                 data: {dis_code: disCode},
                 success: function (data) {
-                  $('[name=general_discipline]').html(data);
+                    $('[name=general_discipline]').html(data);
                   $('#documentFilter').submit();
                 }
             });
