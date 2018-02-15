@@ -36,3 +36,12 @@ ol.example li.placeholder:before {
   position: absolute;
   /** Define arrowhead **/
 }
+
+table.methodcolumn {
+    table-layout:fixed;
+}
+
+table.methodcolumn td { 
+    overflow: hidden; 
+    word-wrap: break-word;
+}

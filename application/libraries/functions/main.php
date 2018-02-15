@@ -86,7 +86,4 @@ function ColumnRender($data, $noOfColumn,$document_title, $document_id, $column)
 }
 ?>
 
-<style>
-    table.methodcolumn {table-layout:fixed;}
-    table.methodcolumn td { overflow: hidden; word-wrap: break-word;}
-</style>
+
