@@ -1,5 +1,4 @@
 <?php
-
 function MethodCaller($formName, $methodName, $params = null) {
     $class = $formName . '_Method';
     $method = new $class;
@@ -16,14 +15,6 @@ function ReferenceCaller($elementCode, $docNameId, $tree = 'parent') {
 function InputTypeCaller($element, $name, $documentTitle,$documentId,$layout=1) {
     $input = ucwords(strtolower($element->input_type));
     $inputType = str_replace(' ', '', $input);
-//    [method] => 
-//    [sorting] => 19
-//    [data_type] => DATETIME
-//    [input_type] => CALENDER
-//    [element_code] => 8084
-//    [element_desc] => Date of 1st Booking
-//    [json_element] => date_of_1st_booking
-//    [element_properties] => BASIC
     $elementDetail = array(
         'name' => $name,
         'label' => $element->element_desc,
@@ -36,14 +27,23 @@ function InputTypeCaller($element, $name, $documentTitle,$documentId,$layout=1) 
         'layout' =>$layout
     );
     $methodName = $inputType;
+    
+    if($methodName!='Method'){
     $class = new Input_Type_Controller();
     $class->elementDetail = (object) $elementDetail;
     $methodCheck = $class->VerifyMethod($methodName);
     $result = ($methodCheck) ? $class->$methodName (): false;
     return $result;
-}
+       
+   }else{    
+        $html = '';
+        $input =  ucwords(strtolower($element->element_desc));
+        $inputType=  str_replace('', '', $input);
+        $html .= '<table class="methodcolumn">'.'<col width="230px"/>'.'<tr>'.'<td>'.'<b>'.$inputType.'</b>'.'</td>'.'<td>'.$methodName.'</td>'.'</tr>'.'</table>';
+        return $html;
+}}
 
-function InputTypeCaller2($element, $name) {
+/*function InputTypeCaller2($element, $name) {
     $input = ucwords(strtolower($element->input_type));
     $inputType = str_replace(' ', '', $input);
     $elementDetail = array(
@@ -60,7 +60,7 @@ function InputTypeCaller2($element, $name) {
     $methodCheck = $class->VerifyMethod($methodName);
     $result = ($methodCheck) ? $class->$methodName (): false;
     return $result;
-}
+}*/
 
 function UpdateInput($element){
     $methodName = 'UpdateMultiAns';
@@ -84,4 +84,9 @@ function ColumnRender($data, $noOfColumn,$document_title, $document_id, $column)
 //    return $builder->panel_column2($data, $noOfColumn,$document_title, $document_id, $column);
     return $builder->panel_render($data, $noOfColumn,$document_title, $document_id, $column);
 }
+?>
 
+<style>
+    table.methodcolumn {table-layout:fixed;}
+    table.methodcolumn td { overflow: hidden; word-wrap: break-word;}
+</style>

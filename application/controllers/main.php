@@ -49,7 +49,7 @@ class Main_Controller extends Common_Controller {
                 $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
                 }
                 $type='0';
-                if($values['doc_group']!='0'){
+                if($values['doc_group']){
                     $type=$values['doc_type'];
                 }
                 $result['preset_select'] = array (
@@ -75,7 +75,7 @@ class Main_Controller extends Common_Controller {
                 $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
                 }
                 $type='0';
-                if($values['doc_group']!='0'){
+                if($values['doc_group']){
                     $type=$values['doc_type'];
                 }
                 $result['preset_select'] = array(

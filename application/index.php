@@ -1,3 +1,4 @@
 <?php header( 'Location: ../' );
-//test commit
+//test commit lagi 25/1/2018 
+//second test
 ?>

@@ -8,7 +8,7 @@ function ob_html_compress($buf){
 }
 
 //ob_start("ob_html_compress");
-define('APPS_NAME','json-form');
+define('APPS_NAME','JSONForm');
 define('SERVER_ROOT', __DIR__ .'/');
 define('VIEW', 'application/views');
 define('CONTROLLER', 'application/controllers');

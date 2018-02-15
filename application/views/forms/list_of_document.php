@@ -37,7 +37,7 @@
                     <label class='control-label col-sm-4'>Document Group</label>
                     <div class='col-sm-5'>
                         <select name='doc_group' class='form-control' >
-                            <option value='0' selected="selected">Please Select Document Group</option>
+                            <option value='' selected="selected">Please Select Document Group</option>
                             <?php foreach ($doc_group as $doc): ?>
                                 <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
                             <?php endforeach; ?>

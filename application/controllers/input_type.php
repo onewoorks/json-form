@@ -70,7 +70,6 @@ class Input_Type_Controller extends Common_Controller {
 
     public function MultipleAnswer() {
         $element = $this->elementDetail;
-
         $referal = ReferenceCaller($element->element_code, $element->doc_name_id);
         $gotChild = (isset($referal->data[0]['parent_element_code'])) ? true : false;
 
@@ -85,19 +84,25 @@ class Input_Type_Controller extends Common_Controller {
             'doc_name_id' => $element->doc_name_id,
             'layout' => $element->layout
         );
-
+        $input = ucwords(strtolower($referal->type));
+        $inputType = str_replace(' ', '', $input);
         $class = new Input_Type_Controller();
         $this->is_parent = $gotChild;
         $class->elementDetail = (object) $multipleAnswerData;
-        $input = ucwords(strtolower($referal->type));
-        $inputType = str_replace(' ', '', $input);
-        $class->is_multiple_textbox = ($inputType == 'Textbox') ? count($referal->data) : 1;
-
+        $class->is_multiple_textbox = ($inputType == 'Textbox') ? count($referal->data) :true;
         $methodName = ($inputType == 'List') ? 'Listdown' : ucfirst($inputType);
 
-        if ($methodName):
-            return $class->$methodName();
-        endif;
+        if ($methodName){
+            $methodCheck = $class->VerifyMethod($methodName);
+            $result= ($methodCheck)? $class->$methodName():false;
+            return $result;
+        }
+        //edited by Fatin Adilah (test el)
+        //else{
+        //$input =  ucwords(strtoupper($element->label));
+        //$inputType=  str_replace('', '', $input);
+        //return '<b>' . $inputType . '</b>' . $methodName;
+        //}
     }
 
     public function Calender() {

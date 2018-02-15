@@ -1,4 +1,3 @@
-<?= $header; ?>
 <?php echo $header;?>
 
 <div id='generateJson'>
@@ -11,7 +10,6 @@
                     <label class='control-label col-sm-4'>Discipline</label>
                     <div class='col-sm-5'>
                         <select name='discipline' class='form-control'>
-                            <!--<option value='0' selected="selected">Please Select Document Group</option>-->
                             <?php foreach ($main_discipline as $discipline): ?>
                                 <option value='<?php echo $discipline['code']; ?>'><?php echo $discipline['label']; ?></option>
                             <?php endforeach; ?>
@@ -38,7 +36,7 @@
                     <label class='control-label col-sm-4'>Document Group</label>
                     <div class='col-sm-5'>
                         <select name='doc_group' class='form-control' >
-                            <option value='0' selected="selected">Please Select Document Group</option>
+                            <option value='' selected="selected">Please Select Document Group</option>
                             <?php foreach ($doc_group as $doc): ?>
                                 <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
                             <?php endforeach; ?>
@@ -193,8 +191,6 @@
                 url: '<?php echo SITE_ROOT; ?>/main/generate-json-table/',
                 data: {documentValues: values},
                 success: function (data) {
-//                    console.log(data)
-//                    $('#ABC').html(data);
                     $('#generateJson').html(data);
                 }
             });
