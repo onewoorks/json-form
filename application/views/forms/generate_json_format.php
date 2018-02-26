@@ -151,7 +151,8 @@
                 data: {dis_code: disCode},
                 success: function (data) { 
                     $('[name=general_discipline]').html(data);
-                  $('#documentFilter').submit();
+                    $('[name=doc_group]').html('<option value="">Please Select</option>');
+                    $('#documentFilter').submit();
                 }
             });
         });

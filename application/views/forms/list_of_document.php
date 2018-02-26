@@ -20,7 +20,7 @@
                 <div class='form-group form-group-sm'>
                     <label class='control-label col-sm-4'>Sub Discipline</label>
                     <div class='col-sm-5'>
-                       <select name='general_discipline' class='form-control' >
+                       <select name='general_discipline' class='form-control'>
                            <?php if (!$preset_select): ?>
                            <option value='0'>Please Select Discipline</option>
                            <?php else: ?>
@@ -36,7 +36,7 @@
                 <div class='form-group form-group-sm'>
                     <label class='control-label col-sm-4'>Document Group</label>
                     <div class='col-sm-5'>
-                        <select name='doc_group' class='form-control' >
+                        <select name='doc_group' class='form-control'>
                             <option value='' selected="selected">Please Select Document Group</option>
                             <?php foreach ($doc_group as $doc): ?>
                                 <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
@@ -47,21 +47,16 @@
                 <div class='form-group form-group-sm'>
                     <label class='control-label col-sm-4'>Document Type</label>
                     <div class='col-sm-5'>
-                        <select name='doc_type' class='form-control' >
+                        <select name='doc_type' class='form-control'>
                             <?php if (!$preset_select): ?>
-                                <option value='0'>Please Select Document Group</option>
+                                <option value='0' selected="selected">Please Select Document Group</option>
                             <?php else: ?>
-                                <option value='0' selected="selected">Please Select Document Type</option>
+                                <option value='0' >Please Select Document Type</option>
                                 <?php foreach ($doc_types as $doc): ?>
                                     <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </select>
-                    </div>
-                </div>
-                <div class='form-group form-group-sm'>
-                    <div class='col-sm-9 text-right'>
-<!--                        <button type='submit' class='btn btn-sm btn-primary'><i class='glyphicon glyphicon-search'></i> Filter</button>-->
                     </div>
                 </div>
             </form>
@@ -121,7 +116,7 @@
     </div>
 </div>
 <script>
-    $(function () {
+ $(function () {
         $('[name=doc_group]').change(function () {
             var groupCode = $(this).val();
             $.ajax({
@@ -141,7 +136,8 @@
                 data: {dis_code: disCode},
                 success: function (data) {
                     $('[name=general_discipline]').html(data);
-                  $('#documentFilter').submit();
+                    $('[name=doc_group]').html('<option value="">Please Select</option>');
+                    $('#documentFilter').submit();
                 }
             });
         });
@@ -153,8 +149,10 @@
         $('[name=doc_type]').change(function () {
             $('#documentFilter').submit();
         });
-
-        $('.syncButton').click(function(){
+        });
+    
+ $(function () {
+ $('.syncButton').click(function(){
             $.ajax({
                 url : '<?php echo SITE_ROOT;?>/main/sync/',
                 success : function(data){
