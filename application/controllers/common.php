@@ -229,21 +229,41 @@ class Common_Controller {
         return (object) $data;
     }
 
+//    private function SectionSorting($data) {
+//        $newArray = array();
+//        foreach ($data as $key => $sections):
+//            $aa = array();
+//            foreach ($sections as $s => $section):
+//                if ($s == 'elements'):
+//                    $aa[$s] = $this->ElementSorting($section);
+//                else:
+//                    $aa[$s] = $section;
+//                endif;
+//            endforeach;
+//            $newArray[$key] = (object) $aa;
+//        endforeach;
+//        return $this->ObjectSorting($newArray);
+//    }
+    
     private function SectionSorting($data) {
         $newArray = array();
+        if (!empty($data)){
         foreach ($data as $key => $sections):
-            $aa = array();
-            foreach ($sections as $s => $section):
+            if($sections != null){
+                $aa = array();
+                foreach($sections as $s => $section):
                 if ($s == 'elements'):
                     $aa[$s] = $this->ElementSorting($section);
                 else:
                     $aa[$s] = $section;
                 endif;
             endforeach;
-            $newArray[$key] = (object) $aa;
+            }
+        $newArray[$key] = (object) $aa;
         endforeach;
-        return $this->ObjectSorting($newArray);
-    }
+    }   
+    return $this->ObjectSorting($newArray);
+}
 
     protected function JsonWithSectionSorting($data) {
         return $this->SectionSorting($data);
