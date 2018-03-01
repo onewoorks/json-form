@@ -72,37 +72,39 @@ class Input_Type_Controller extends Common_Controller {
         $element = $this->elementDetail;
         $referal = ReferenceCaller($element->element_code, $element->doc_name_id);
         $gotChild = (isset($referal->data[0]['parent_element_code'])) ? true : false;
-
+        $input = ucwords(strtolower($referal->type));
+        $inputType = str_replace(' ', '', $input);
         $multipleAnswerData = array(
+            'name' => '',
             'is_parent' => $gotChild,
             'label' => $element->label,
             'element_code' => (isset($referal->data['parent_element_code'])) ? $referal->data['parent_element_code'] : $element->element_code,
-            'name' => '',
             'listing' => $referal->data,
             'json_element' => $element->json_element,
             'additional_attribute' => $element->additional_attribute,
             'doc_name_id' => $element->doc_name_id,
-            'layout' => $element->layout
+            'layout' => $element->layout,
         );
-        $input = ucwords(strtolower($referal->type));
-        $inputType = str_replace(' ', '', $input);
-        $class = new Input_Type_Controller();
-        $this->is_parent = $gotChild;
-        $class->elementDetail = (object) $multipleAnswerData;
-        $class->is_multiple_textbox = ($inputType == 'Textbox') ? count($referal->data) :true;
-        $methodName = ($inputType == 'List') ? 'Listdown' : ucfirst($inputType);
+     
+//        $class->is_multiple_textbox = ($inputType == 'Textbox') ? count($referal->data) :true;
+//        $methodName = ($inputType == 'List') ? 'Listdown' : ucfirst($inputType);
 
+        $methodName=$inputType;
         if ($methodName){
+            $class = new Input_Type_Controller();
+            $this->is_parent = $gotChild;
+            $class->elementDetail = (object) $multipleAnswerData;
             $methodCheck = $class->VerifyMethod($methodName);
             $result= ($methodCheck)? $class->$methodName():false;
             return $result;
         }
-        //edited by Fatin Adilah (test el)
-        //else{
-        //$input =  ucwords(strtoupper($element->label));
-        //$inputType=  str_replace('', '', $input);
-        //return '<b>' . $inputType . '</b>' . $methodName;
-        //}
+//        edited by Fatin Adilah (TEST ELEMENT)        
+//        else{
+//        $input =  ucwords(strtoupper($element->label));
+//        $inputType=  str_replace('', '', $input);
+//        return '<b>' . $inputType . '</b>'.$methodName;
+//
+//        }
     }
 
     public function Calender() {
@@ -333,7 +335,7 @@ class Input_Type_Controller extends Common_Controller {
 
     public function DropdownCheckbox() {
 
-        $element = $this->elementDetail;
+        $element = $this->elementDetail;     
         $referral = ReferenceCaller($element->element_code, $element->doc_name_id);
 
         if ($element->layout == 1) {
@@ -384,7 +386,7 @@ class Input_Type_Controller extends Common_Controller {
         if ($layout) {
             $html = "<div class='form-group form-group-sm'>"
                     . "<label class='control-label col-md-3 text-uppercase'>" . $element->label . "</label>"
-                    . "<div class='col-md-6'>"
+                    . "<div class='col-md-7'>"
                     . "<textarea name='" . $element->name . "' class='form-control' style='height: 80px;'></textarea>"
                     . "</div>"
                     . "</div>";
@@ -477,7 +479,7 @@ class Input_Type_Controller extends Common_Controller {
         $element = $this->elementDetail;
         if ($element->layout == 1) {
             $html = "<div class='form-group form-group-sm'>"
-                    . "<label class='control-label col-md-6 text-uppercase'>" . $element->label . "</label>"
+                    . "<label class='control-label col-md-6 text-uppercase'>" . $element->label . "</label><br>"
                     . "<div class='col-md-4'>"
                     . "<input class='form-control' type='number' name='" . $element->name . "' />"
                     . "</div>"
@@ -510,7 +512,7 @@ class Input_Type_Controller extends Common_Controller {
             $html = "<div class='form-group form-group-sm'>"
                     . "<label class='control-label col-md-3 text-uppercase'";
             $html .= ($this->is_parent) ? '' : 'style="font-weight:normal;"';
-            $html .= ">" . $element->label . "</label>"
+            $html .= ">" . $element->label . "</label><br><br>"
                     . "<div class='$inputColumn'>"
                     . "<select name='" . $element->name . "' class='form-control'>"
                     . "<option value='0' >Please Select</option>";
@@ -524,11 +526,21 @@ class Input_Type_Controller extends Common_Controller {
             $inputColumn = ($this->is_parent) ? 'col-sm-8' : 'col-sm-8';
             $html = "<div class='form-group form-group-sm'>"
                     . "<label class='control-label col-md-12 text-uppercase'";
-            $html .= ($this->is_parent) ? '' : 'style="font-weight:normal;"';
-            $html .= ">" . $element->label . "</label><br><br>"
+            $html .= ($this->is_parent) ? '' : 'style="font-weight:normal;"';    
+            switch ($element->label):
+            //if label is empty (no space)
+            case '':
+                $html .= ">" . $element->label . "</label>"
                     . "<div class='$inputColumn'>"
                     . "<select name='" . $element->name . "' class='form-control'>"
                     . "<option value='0' >Please Select</option>";
+                break;
+            default:
+                $html .= ">" . $element->label . "</label><br><br>"
+                    . "<div class='$inputColumn'>"
+                    . "<select name='" . $element->name . "' class='form-control'>"
+                    . "<option value='0' >Please Select</option>";
+            endswitch;
             foreach ($referral->data as $ref):
                 $html .= "<option>" . $ref['multi_answer_desc'] . "</option>";
             endforeach;
@@ -676,7 +688,7 @@ class Input_Type_Controller extends Common_Controller {
                             . "<textarea name='" . $element->name . "' class='form-control' style='height: 80px;'></textarea>"
                             . "</div>";
                     break;
-                case 'NUMBER' : $html .="<div class='col-md-3'>"
+                case 'NUMBER'   : $html .="<div class='col-md-3'>"
                             . "<input class='form-control' type='number' name='" . $element->name . "' />"
                             . "</div>";
                     break;
