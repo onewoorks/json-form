@@ -37,30 +37,17 @@ function InputTypeCaller($element, $name, $documentTitle,$documentId,$layout=1) 
        
    }else{    
         $html = '';
-        $input =  ucwords(strtolower($element->element_desc));
+        $input =  ucwords(strtoupper($element->element_desc));
         $inputType=  str_replace('', '', $input);
-        $html .= '<table class="methodcolumn">'.'<col width="230px"/>'.'<tr>'.'<td>'.'<b>'.$inputType.'</b>'.'</td>'.'<td>'.$methodName.'</td>'.'</tr>'.'</table>';
-        return $html;
+        switch ($inputType):
+            case '':
+                $html .= '<table class="methodcolumn">'.'<col width="230px"/>'.'<tr>'.'<td>'.$methodName.'</td>'.'</tr>'.'</table>';
+                return $html;
+            default:
+                $html .= '<table class="methodcolumn">'.'<col width="230px"/>'.'<tr>'.'<td>'.'<b>'.$inputType.'</b>'.'</td>'.'<td>'.$methodName.'</td>'.'</tr>'.'</table>';
+                return $html; 
+        endswitch;     
 }}
-
-/*function InputTypeCaller2($element, $name) {
-    $input = ucwords(strtolower($element->input_type));
-    $inputType = str_replace(' ', '', $input);
-    $elementDetail = array(
-        'name' => $name,
-        'label' => $element->element_desc,
-        'additional_attribute' => $element->additional_attribute,
-        'element_code' => $element->element_code,
-        'method' => $element->method,
-        'json_element'=>$element->json_element
-    );
-    $methodName = $inputType;
-    $class = new Input_Type_Controller();
-    $class->elementDetail = (object) $elementDetail;
-    $methodCheck = $class->VerifyMethod($methodName);
-    $result = ($methodCheck) ? $class->$methodName (): false;
-    return $result;
-}*/
 
 function UpdateInput($element){
     $methodName = 'UpdateMultiAns';
@@ -84,6 +71,5 @@ function ColumnRender($data, $noOfColumn,$document_title, $document_id, $column)
 //    return $builder->panel_column2($data, $noOfColumn,$document_title, $document_id, $column);
     return $builder->panel_render($data, $noOfColumn,$document_title, $document_id, $column);
 }
-?>
 
 
