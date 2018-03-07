@@ -36,7 +36,7 @@
                     <label class='control-label col-sm-4'>Document Group</label>
                     <div class='col-sm-5'>
                         <select name='doc_group' class='form-control' >
-                            <option value='' selected="selected">Please Select Document Group</option>
+                            <option value='0' selected="selected">Please Select Document Group</option>
                             <?php foreach ($doc_group as $doc): ?>
                                 <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
                             <?php endforeach; ?>
@@ -67,9 +67,9 @@
         </div>
     </div>
 <div class='panel panel-primary'>
-    <div class='panel-heading text-uppercase'>List of Template Documents With Data</div>
+    <div class='panel-heading'>List of Template Documents With Data</div>
     <div class='panel-body'>
-        <div class='pull-left'><b>Total Document = <?= count($available_documents); ?></b></div>
+        <div class='pull-left'><b>Total Document = <?= count($available_documents);?></b></div>
         <div class='pull-right'>
             <!--<div class='btn btn-xs btn-primary syncButton'>Synchronize</div>-->
             <div class='btn btn-xs btn-primary generateButton'>Select Generate</div>
@@ -83,12 +83,12 @@
             <thead>
                 <tr>
                     <th>No</th>
-                    <th>Main Discipline</th>
+                    <th>Discipline</th>
                     <th>Sub Discipline</th>
                     <th>Document Type</th>
                     <th>Document Title</th>
-                    <th class='text-center'>Status</th>
-                    <th class='text-center'>Action</th>
+                    <th>Status</th>
+                    <th>Action</th>
                     <th></th>
                 </tr>
             </thead>
@@ -122,7 +122,7 @@
                         <td class='text-center'>
                             <input type='checkbox' class='<?= ($document['available']) ? 'checkAda' : 'checkTiada'; ?>' 
                                    value='<?= $document['doc_name_id']; ?>' 
-                                   templateid='<?= (isset($document['template_id'])) ? $document['template_id'] : '0'; ?>'/></td>
+                                   templateId='<?= (isset($document['template_id'])) ? $document['template_id'] : '0'; ?>'/></td>
                     </tr>
                 <?php endforeach; ?>
                     
@@ -151,13 +151,14 @@
                 data: {dis_code: disCode},
                 success: function (data) { 
                     $('[name=general_discipline]').html(data);
-                    $('[name=doc_group]').html('<option value="">Please Select</option>');
+                    $('[name=doc_group]').html('<option value="0">Please Select</option>');
                     $('#documentFilter').submit();
                 }
             });
         });
         
         $('[name=general_discipline]').change(function () {
+            $('[name=doc_group]').html('<option value="0">Please Select</option>');
             $('#documentFilter').submit();
         });  
         
@@ -203,7 +204,7 @@
         $('.generateButton').on('click', function () {
             $('.checkAda').prop({
 //                checked: false,
-                disabled: true,
+                disabled: true
             });
             $('.checkTiada').prop({
                 checked: false,
@@ -221,26 +222,25 @@
             });
         });
         $('.generateButton').trigger('click');
+        
         $('.executeAction').on('click', function () {
-            var input = $('input[type=checkbox]');
-//            console.log(input)
+            var input = $("input:checkbox:checked");
             var selected = [];
             var type = '';
             
             $(input).each(function (key, value) {
-                $(input).each(function (key, templateid) {
-                
-                if (this.checked) {
-                    if($(this).attr('class')=='checkAda'){
+                $(input).each(function (key, templateId) {
+               
+                    if($(this).attr('class')==='checkAda'){
                         type = 'regenerate';
                     } else {
                         type = 'add';
                     }
-                    var item = { doc_name_id: $(value).val(), template_id: $(templateid).val()};
+                    var item = { doc_name_id: $(value).val(), template_id: $(templateId).val()};
                     selected.push(item);
-                }
-              })
-           })  
+              });
+           });
+          
             $(this).text('Executing selected action...');
             $.ajax({
                 url: '<?php echo SITE_ROOT; ?>/formbuilder/generate-json/',

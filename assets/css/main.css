@@ -45,4 +45,5 @@ table.methodcolumn td {
     overflow: hidden; 
     word-wrap: break-word;
     padding-bottom: 15px;
+    padding-left: 3px;
 }

@@ -37,7 +37,7 @@
                     <label class='control-label col-sm-4'>Document Group</label>
                     <div class='col-sm-5'>
                         <select name='doc_group' class='form-control'>
-                            <option value='' selected="selected">Please Select Document Group</option>
+                            <option value='0' selected="selected">Please Select Document Group</option>
                             <?php foreach ($doc_group as $doc): ?>
                                 <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
                             <?php endforeach; ?>
@@ -68,9 +68,7 @@
             <div class="btn-group pull-right">
                 <a href="#" class="btn btn-default btn-xs syncButton"><i class='glyphicon glyphicon-refresh'></i> Synchronize</a>
             </div>
-            <?php $total=0; foreach ($list_of_documents as $tot) { $total++;} ?>
 
-            <div class="btn-group pull-right">Result : <?php echo $total; ?> rows &nbsp;| &nbsp; </div>
             List of Template Documents</div>
         <div class='panel-body'>
             <div class ='pull-left'><b>Total Document = <?= count($list_of_documents);?></b></div>
@@ -96,12 +94,12 @@
                     <?php endif;?>
                     <?php $no=1; foreach ($list_of_documents as $document): ?>
                         <tr>
-                            <td><?php echo $no; $no++; ?></td>
-                            <td><?php echo $document['main_discipline_name']; ?></td>
-                            <td><?php echo $document['discipline_name']; ?></td>
-                            <td><?php echo $document['doc_group_desc']; ?></td>
-                            <td><?php echo $document['dc_type_desc']; ?></td>
-                            <td class='text-uppercase'><a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $document['template_id']; ?>'><?php echo $document['doc_name_desc']; ?></a></td>
+                            <td  style=" font-size: smaller;"><?php echo $no; $no++; ?></td>
+                            <td  style=" font-size: smaller;"><?php echo $document['main_discipline_name']; ?></td>
+                            <td  style=" font-size: smaller;"><?php echo $document['discipline_name']; ?></td>
+                            <td  style=" font-size: smaller;"><?php echo $document['doc_group_desc']; ?></td>
+                            <td  style=" font-size: smaller;"><?php echo $document['dc_type_desc']; ?></td>
+                            <td class='text-uppercase'  style=" font-size: smaller;"><a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $document['template_id']; ?>'><?php echo $document['doc_name_desc']; ?></a></td>
                             <td class='text-center'>
                                 <div class='btn-group btn-group-xs'>
                                     <a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $document['template_id']; ?>' class='btn btn-default'>VIEW</a>
@@ -136,13 +134,14 @@
                 data: {dis_code: disCode},
                 success: function (data) {
                     $('[name=general_discipline]').html(data);
-                    $('[name=doc_group]').html('<option value="">Please Select</option>');
+                    $('[name=doc_group]').html('<option value="0">Please Select</option>');
                     $('#documentFilter').submit();
                 }
             });
         });
         
         $('[name=general_discipline]').change(function () {
+            $('[name=doc_group]').html('<option value="0">Please Select</option>');
             $('#documentFilter').submit();
         });  
         

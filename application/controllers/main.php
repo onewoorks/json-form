@@ -49,7 +49,7 @@ class Main_Controller extends Common_Controller {
                 $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
                 }
                 $type='0';
-                if($values['doc_group']){
+                if($values['doc_group']!='0'){
                     $type=$values['doc_type'];
                 }
                 $result['preset_select'] = array (
@@ -60,7 +60,7 @@ class Main_Controller extends Common_Controller {
                 );
                 $view = new View_Model($page);
                 $view->assign('content', $result);
-                break;           
+                break;          
             case 'search-by-filter':
                 $ajax = true;
                 $document = new Document_Template_Model();
@@ -75,7 +75,7 @@ class Main_Controller extends Common_Controller {
                 $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
                 }
                 $type='0';
-                if($values['doc_group']){
+                if($values['doc_group']!='0'){
                     $type=$values['doc_type'];
                 }
                 $result['preset_select'] = array(
@@ -90,7 +90,7 @@ class Main_Controller extends Common_Controller {
             default:
                 $page = 'forms/list_of_document';
                 $document = new Document_Template_Model();
-             $result['list_of_documents'] = $document->GetListAvailableDocument();
+                $result['list_of_documents'] = $document->GetListAvailableDocument();
                 $result['main_discipline'] = $this->RefMainDisciplineGroup();
                 $result['general_discipline'] = $this->RefGeneralDiscipline();
                 $result['doc_types'] = $this->RefDocumentType();
