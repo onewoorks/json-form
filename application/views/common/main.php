@@ -7,17 +7,7 @@
         <meta name="description" content="json form formatted from structured dataset">
         <meta name="author" content="irwan ibrahim">
 
-        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-
-
         <link href="<?php echo SITE_ROOT; ?>/assets/css/main.css" rel="stylesheet" />
-
-<!--        <link href="<?php echo SITE_ROOT; ?>/assets/css/dragula.css" rel="stylesheet" />
-        <link href="<?php echo SITE_ROOT; ?>/assets/css/example.css" rel="stylesheet" />-->
-        
         <link href="<?php echo SITE_ROOT; ?>/assets/library/bootstrap/css/bootstrap.css" rel="stylesheet">
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
         <script src="<?php echo SITE_ROOT; ?>/assets/library/bootstrap/js/bootstrap.js"></script> 
@@ -30,13 +20,12 @@
         <style>
             #json_view { white-space: pre; font-family: monospace; }
         </style>
-
     </head>
 
     <body>
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
-                <a class="navbar-brand">CD JSON FORMATTER</a>
+                <!--<a class="navbar-brand">CD JSON FORMATTER</a>-->
                 <ul class="nav navbar-nav">
                     <li><a href="<?php echo SITE_ROOT; ?>">List Of Documents</a></li>
                     <li><a href="<?php echo SITE_ROOT; ?>/formview/new-form">Create New Form</a></li>
@@ -45,6 +34,5 @@
                 </ul>
             </div>
         </nav>
-        <div class="container-fluid">
 
-
+    </body>
