@@ -157,9 +157,7 @@ class Common_Controller {
         $result['skeleton'] = $documentData;
         $result['document_title'] = $documentData[0]['doc_name_desc'];
         $sections = $documentTemplate->ReadDocumentSectionGroup($documentId);
-
         $documentArray = $this->GetDocumentSections($documentId, $sections);
-
         $result['json_elements'] = $documentArray;
         $this->CreateJSONForm($documentId, $documentArray, $action);
         return true;
@@ -197,7 +195,7 @@ class Common_Controller {
         endforeach;
         return $elements;
     }
-
+    
     public function CreateJSONForm($documentId, array $documentData, $action = 'add') {
         $document = new Document_Template_Model();
         $document->documentId = $documentId['doc_name_id'];
@@ -247,9 +245,8 @@ class Common_Controller {
     
     private function SectionSorting($data) {
         $newArray = array();
-        if (!empty($data)){
+    if($data){
         foreach ($data as $key => $sections):
-            if($sections != null){
                 $aa = array();
                 foreach($sections as $s => $section):
                 if ($s == 'elements'):
@@ -258,10 +255,12 @@ class Common_Controller {
                     $aa[$s] = $section;
                 endif;
             endforeach;
-            }
+
         $newArray[$key] = (object) $aa;
         endforeach;
-    }   
+    }else{
+        echo "<p align='center'><b><i>- - - - - The JSON Template Is Not Ready Yet - - - - -</i></b></p>";
+    }
     return $this->ObjectSorting($newArray);
 }
 

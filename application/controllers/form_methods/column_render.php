@@ -31,7 +31,7 @@ class Column_Render_Method {
             case '2':
                 $classColumn = 'col-md-6';
                 break;
-            case 3:
+            case '3':
                 $classColumn = 'col-md-4';
                 break;
         endswitch;
@@ -124,7 +124,7 @@ class Column_Render_Method {
             case '2':
                 $classColumn = 'col-md-6';
                 break;
-            case 3:
+            case '3':
                 $classColumn = 'col-md-4';
                 break;
         endswitch;
@@ -153,6 +153,7 @@ class Column_Render_Method {
         
         $html .= '<div class="'.$classColumn.'">';
         $html.= InputTypeCaller($element, $element->json_element, $document_title, $document_id, $column);
+//        $html.= InputTypeCaller2($element, $element->json_element, $document_title, $document_id, $column);
         $html .= "</div>";  
  
         return $html;
@@ -218,6 +219,9 @@ class Column_Render_Method {
             case 'RICHTEXT':
             case 'FREETEXT':
             case 'LABEL':
+                $result = true;               
+                break;
+            case 'METHOD':
                 $result = true;               
                 break;
             default:

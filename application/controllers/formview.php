@@ -32,6 +32,8 @@ class Formview_Controller extends Common_Controller {
             case 'new-form':
                 $page = 'forms/new_form';
                 $result['main_discipline'] = $this->RefMainDiscipline();
+                $result['general_discipline'] = $this->RefGeneralDiscipline();
+                $result['doc_group'] = $this->RefDocumentGroup();
                 $result['doc_types'] = $this->RefDocumentType();
                 break;
             case 'load-ajax-method':
@@ -86,6 +88,16 @@ class Formview_Controller extends Common_Controller {
                 $result['document_title'] = $documentTemplate['doc_name_desc'];
                 $result['json_elements'] = $documentTemplate['json_template'];
                 break;
+//            case 'new-json-format':
+//                $page = 'forms/new_json_format';
+//                $documentId = $params[URL_ARRAY + 3];
+//                $documentData = new Document_Template_Model();
+//                $documentTemplate = $documentData->NakTengokJson($documentId);
+//                $result['discipline'] = $documentTemplate['main_discipline_name'];
+//                $result['sub_discipline'] = $documentTemplate['discipline_name'];
+//                $result['document_title'] = $documentTemplate['doc_name_desc'];
+//                $result['json_elements'] = $documentTemplate['json_template'];
+//                break;
             case 'form-template':
                 $page = 'forms/document_view';
                 $documentId = $params[URL_ARRAY + 3];
@@ -157,6 +169,26 @@ class Formview_Controller extends Common_Controller {
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);                
                 break;
+
+//            case 'add-title':
+//                $ajax = true;
+//                $page = 'forms/new_form';
+//                $doc_id = $_REQUEST['documentId'];
+//                $section_id = $_REQUEST['sectionId'];
+//                $template_id = $_REQUEST['templateId'];
+//                $document = new Document_Template_Model();
+//                $section_sorting = $document->GetSectionSorting($section_id,$doc_id);
+//                $grouping = $document->GetElementGrouping($section_id,$doc_id);
+//                $result['section_sorting'] = $section_sorting;
+//                $result['grouping'] = $grouping;
+//                $result['doc_id'] = $doc_id;
+//                $result['section_id'] = $section_id;
+//                $data = array(
+//                    'component' => 'Add Element',
+//                    'html' => $this->RenderOutput($page, $result));
+//                echo json_encode($data);                
+//                break;
+            
             case 'pass-element':
                 $page = 'forms/new_form';
                 $value = $_REQUEST['values'];
@@ -234,7 +266,7 @@ class Formview_Controller extends Common_Controller {
                     'component' => 'Change Layout',
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
-                break;
+                break;           
             case 'add-attributes':
             $ajax=true;
             $values= $this->form_array($_REQUEST['values']);           
@@ -261,7 +293,6 @@ class Formview_Controller extends Common_Controller {
                         'layout' => $layout);
                  $newsection[$section['json_section']]=$newdata;
             endforeach;
-          //  print_r($newsection);
             $this->CreateJSONForm($values['doc_id'],$newsection, 'update');
             break;
             case 'edit-layout':
@@ -337,8 +368,6 @@ class Formview_Controller extends Common_Controller {
             $view->assign('content', $result);
         endif;
     }
-
-    
 
     private function GetDocumentSectionElementGetDocumentElements(array $documentData, $elementSelection) {
         $grabSelection = array();

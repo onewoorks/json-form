@@ -57,12 +57,13 @@ class Formbuilder_Controller extends Common_Controller {
 //                break;
             case 'generate-json':
                 $ajax = true;
-                $documentNameId = $_REQUEST['documents'];
-                print_r($_REQUEST['documents']);
+                $documentId = $_REQUEST['documents'];
+//                $templateId = $REQUEST['documents'];
+                print_r($_REQUEST['documents']);//print array
                 $documentInfo = $_REQUEST['documents'];
                 $actionType = $_REQUEST['type'];
                 foreach($documentInfo as $doc):
-                    $documentTemplate = new Document_Template_Model();
+                        $documentTemplate = new Document_Template_Model();
                         $sections = $documentTemplate->ReadDocumentSectionGroup($doc['doc_name_id']);
                         $documentArray = $this->GetDocumentSections($doc['doc_name_id'], $sections);
                         $this->CreateJSONForm($doc, $documentArray,$actionType);
