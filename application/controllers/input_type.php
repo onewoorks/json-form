@@ -512,11 +512,11 @@ class Input_Type_Controller extends Common_Controller {
         if ($element->layout == 1) {
             $inputColumn = ($this->is_parent) ? 'col-sm-4' : 'col-sm-4';
             $html = "<div class='form-group form-group-sm'>"
-                    . "<label class='control-label col-md-3 text-uppercase' style='margin-left:15px;'";
+                    . "<label class='control-label col-md-3 text-uppercase'";
             $html .= ($this->is_parent) ? '' : 'style="font-weight:normal;"';
             $html .= ">" . $element->label . "</label>"
                     . "<div class='$inputColumn'>"
-                    . "<select name='" . $element->name . "' class='form-control'>"
+                    . "<select name='" . $element->name . "' class='form-control' style='margin-left:15px;'>"
                     . "<option value='0' >Please Select</option>";
             foreach ($referral->data as $ref):
                 $html .= "<option>" . $ref['multi_answer_desc'] . "</option>";
