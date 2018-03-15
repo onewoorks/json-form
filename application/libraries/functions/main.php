@@ -9,6 +9,8 @@ function ReferenceCaller($elementCode, $docNameId, $tree = 'parent') {
     $result = Reference_List_Controller::GetReferenceList($elementCode, $docNameId, $tree);
     $typeOfMultipleAnswer = $result[0]['input_type'];
     $output = array('type' => $typeOfMultipleAnswer, 'data' => $result,);
+//    $typeOfMultipleAnswer = ($result) ? $result[0]['input_type'] : false;
+//    $output = array('type' => $typeOfMultipleAnswer, 'data' => array($result));
     return (object) $output;
 }
 
@@ -41,10 +43,10 @@ function InputTypeCaller($element, $name, $documentTitle,$documentId,$layout=1) 
         $inputType=  str_replace('', '', $input);
         switch ($inputType):
             case '':
-                $html .= '<table class="methodcolumn">'.'<col width="230px"/>'.'<tr>'.'<td>'.$methodName.'</td>'.'</tr>'.'</table>';
+                $html .= '<table class="methodcolumn" style="font-size:12px;">'.'<col width="250px"/>'.'<tr>'.'<td style="padding-left:4px; padding-bottom:5px;">'.$methodName.'</td>'.'</tr>'.'</table>';
                 return $html;
             default:
-                $html .= '<table class="methodcolumn">'.'<col width="230px"/>'.'<tr>'.'<td>'.'<b>'.$inputType.'</b>'.'</td>'.'<td>'.$methodName.'</td>'.'</tr>'.'</table>';
+                $html .= '<table class="methodcolumn" style="font-size:12px;">'.'<col width="250px"/>'.'<tr>'.'<td style="padding-left:4px;  padding-bottom:5px;">'.'<b>'.$inputType.'</b>'.'</td>'.'<td style="padding-left:5px;  padding-bottom:5px;">'.$methodName.'</td>'.'</tr>'.'</table>';
                 return $html; 
         endswitch;     
 }}
