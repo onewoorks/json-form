@@ -84,10 +84,11 @@ class Reference_Table_Model  { //dari class sini
     
     public function DocumentType($groupCode = null) {
         $sql = "SELECT dc_type_code as code, dc_type_desc as label"
-                . " FROM ref_document_type";
-        if ($groupCode):
-            $sql .= " WHERE doc_group_code = '$groupCode'";
-        endif;
+                . " FROM ref_document_type "
+                . " WHERE doc_group_code ='$groupCode'";
+//        if ($groupCode):
+//            $sql .= " WHERE doc_group_code = '$groupCode'";
+//        endif;
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();

@@ -531,11 +531,13 @@ class Document_Template_Model {
     public function UpdateJSONDocument($documents) {
         $jsonForm = $this->jsonForm;
         $docNameId = $documents['doc_name_id'];
-        $templateId = $documents['template_id'];
+//        $templateId = $documents['template_id'];
         $sql = "UPDATE document_template SET "
                 . "json_template = '$jsonForm', "
-                . "updated_date = now() "
-                . "WHERE doc_name_id='" . (int) $docNameId . "' AND template_id='" . (int) $templateId ."'  ";
+                . "updated_date = now(), "
+                . "updated_by = 'ADMIN' "
+                . "WHERE doc_name_id='" . (int) $docNameId . "' ";
+//                . "WHERE doc_name_id='" . (int) $docNameId . "' AND template_id='" . (int) $templateId ."'  ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
