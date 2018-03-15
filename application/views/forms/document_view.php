@@ -2,7 +2,7 @@
 <div class='row'>
     <div id="setsini" class='col-md-9'>
         <div class='panel panel-default' >
-            <div class='panel-heading text-uppercase'>
+            <div class='panel-heading text-uppercase' style='font-size: 12.5px;'>
                 <div class='row'>
                     <div class='col-xs-2'>Discipline </div>
                     <div class='col-xs-10'>: <strong><?= $main_discipline; ?></strong></div>
@@ -37,25 +37,25 @@
         </form>
     </div>
 
-     <div class='col-md-1' style="position: fixed; z-index: 7; right: 0; top: 3;">
-         <a href='#' class='btn btn-default updatelayout' >Update</a>  
+     <div class='col-md-1' style="position: fixed; z-index: 7; right: 0; margin-right:-15px;">
+         <a href='#' class='btn btn-primary updatelayout' style="padding: 5px 10px;">Update</a>  
     </div>
     
    <br><br> 
-    <div class='col-md-1-right' style="position: fixed; z-index: 7; right: 0; top: 5;">
+    <div class='col-md-1-right' style="position: fixed; z-index: 7; right: 0;">
         <div class='panel-heading'>
             <div class="panel-body">
                 <button class="btn btn-default expandComponent" data-current='expand'><i class="glyphicon glyphicon-chevron-up"></i></button>
             </div>
         </div>
     </div>   
-    <div class="col-md-3 " id="sidebar" style="position: fixed; z-index: 6; right: 0; top: 10;">
+    <div class="col-md-3 " id="sidebar" style="position: fixed; z-index: 6; right: 0; margin-left: 15px;">
         <div class='panel panel-default' id='notecomponent'>
-            <div class='panel-heading'>Notes Component</div>
+            <div class='panel-heading'><b>Notes Component</b></div>
             <div class='panel-body'>
-                <ul class='list-unstyled'>
+                <ul class='list-unstyled' style=" font-size: 12.5px;">
                     <?php foreach ($json_elements as $key => $section): ?>
-                        <li><input type='checkbox' class='selectedsection'  name='<?= $key; ?>' value='<?= $key; ?>' checked /> <?= $section->section_desc; ?></li>
+                        <li><input type='checkbox' class='selectedsection' name='<?= $key; ?>' value='<?= $key; ?>' checked /> <?= $section->section_desc; ?></li>
                     <?php endforeach; ?>
                 </ul>
 
@@ -106,7 +106,7 @@
 <script>
                                 function HideAndShowOtherSpecify(object) {
                                     var $selected = $(object).val();
-                                    if ($selected.toLowerCase() == 'others, specify') {
+                                    if ($selected.toLowerCase() === 'others, specify') {
                                         var $name = 'other_specify_' + $(object).attr('name');
                                         $("[name='" + $name + "']").show();
                                         if ($(object).is(':checked')) {
@@ -162,7 +162,7 @@
                 data: {documentId : documentId},
                 success: function (data) {
                     console.log(data);
-                    $("#contoh").text(data)
+                    $("#contoh").text(data);
                     var obj = $.parseJSON(data);
                     $('.modal-dialog').removeClass('modal-lg');
                     $('.modal-title').text(obj.component);
@@ -190,7 +190,7 @@
             var a = $('#sidebar').toggleClass('hidden');
             var current = $(this).data('current');
             console.log(current);
-            if(current=='expand'){
+            if(current==='expand'){
                 $(this).data('current','hide');
                 $(this).html('<i class="glyphicon glyphicon-chevron-down"></i>');
                 document.getElementById("setsini").className = "col-md-12";

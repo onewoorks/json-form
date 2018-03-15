@@ -33,7 +33,7 @@
 <script>
     function Update() {
          var values = $('#change').serializeArray();
-        console.log(values)
+        console.log(values);
       $.ajax({
                 url : '<?= SITE_ROOT;?>/formview/add-attributes/',
                 data : { values: values },
@@ -48,6 +48,6 @@
         $('input[name=column').change(function(){
             console.log($(this).val());
             $('[name=selected_pattern]').val($(this).val());
-        })        
+        });        
     });
 </script>

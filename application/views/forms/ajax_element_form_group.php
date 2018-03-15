@@ -125,8 +125,12 @@
                 data : { values: $(this).serializeArray(), basic: $('#case').serializeArray(), rowinput: b},
                 success : function(data){
                   console.log(data);
-                 // $('#myModal').modal('hide');
-                 location.reload();
+                  $('#myModal').modal('hide');
+                  swal({
+                      title: "Element Updated!",
+                      text:  "Data successfully updated into database",
+                      type:  "success"
+                    });
                 }
             });
         });

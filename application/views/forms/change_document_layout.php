@@ -28,10 +28,14 @@
       $.ajax({
                 url : '<?= SITE_ROOT;?>/formview/edit-layout/',
                 data : { values: values },
-                success : function(data){
-                    console.log(data);
-                    $('#myModal').modal('hide');
-                    location.reload();
+                success : function(){
+                    $('#layout').modal('hide');
+//                    location.reload();
+                    swal({
+                      title: "Layout Updated!",
+                      text: "Data successfully updated into database",
+                      type: "success"
+                    });
                 }
             });
     };
@@ -39,7 +43,7 @@
         $('input[name=column').change(function(){
             console.log($(this).val());
             $('[name=selected_column]').val($(this).val());
-        })        
+        });        
     });
 </script>
 

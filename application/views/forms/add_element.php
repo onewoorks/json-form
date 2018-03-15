@@ -106,8 +106,12 @@
                 data : { values: $(this).serializeArray(),basic: $('#case').serializeArray(),rowinput:$('#rowinput').serializeArray()},
                 success : function(data){
                   console.log(data);
-                 // $('#myModal').modal('hide');
-                 location.reload();
+                  $('#myModal').modal('hide');
+                    swal({
+                      title: "New Element Inserted!",
+                      text: "Data successfully inserted into database",
+                      type: "success"
+                    });
                 }
             });
         });

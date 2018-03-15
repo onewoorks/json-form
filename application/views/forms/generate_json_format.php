@@ -1,26 +1,31 @@
 <?php echo $header;?>
 
 <div id='generateJson'>
-     <div class='panel panel-default'>
-        <div class='panel-heading'>Search Panel</div>
-        <div class='panel-body'>
             <form id='documentFilter' class='form-horizontal'>
 
                 <div class='form-group form-group-sm'>
-                    <label class='control-label col-sm-4'>Discipline</label>
-                    <div class='col-sm-5'>
-                        <select name='discipline' class='form-control'>
+                    <table class='listcolumn' style='font-size: 12px; margin-left: 250px;  text-align: right; ' >
+                <tbody>
+                    <tr>
+                        <td><b>Discipline</b></td>
+                        <td>
+                        <select name='discipline' class='form-control col-md-10'>
                             <?php foreach ($main_discipline as $discipline): ?>
                                 <option value='<?php echo $discipline['code']; ?>'><?php echo $discipline['label']; ?></option>
                             <?php endforeach; ?>
                         </select>
-                    </div>
-                </div>
-                
-                <div class='form-group form-group-sm'>
-                    <label class='control-label col-sm-4'>Sub Discipline</label>
-                    <div class='col-sm-5'>
-                       <select name='general_discipline' class='form-control' >
+                        </td>
+                        <td><b>Document Group</b></td>
+                        <td><select name='doc_group' class='form-control'>
+                            <option value='0' selected="selected">Please Select Document Group</option>
+                            <?php foreach ($doc_group as $doc): ?>
+                                <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
+                            <?php endforeach; ?>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td><b>Sub Discipline</b></td>
+                        <td><select name='general_discipline' class='form-control'>
                            <?php if (!$preset_select): ?>
                            <option value='0'>Please Select Discipline</option>
                            <?php else: ?>
@@ -29,47 +34,30 @@
                                  <option value='<?php echo $general['code']; ?>'><?php echo $general['label']; ?></option>
                              <?php endforeach; ?>
                                  <?php endif; ?>
-                         </select>
-                    </div>
-                </div>
-                <div class='form-group form-group-sm'>
-                    <label class='control-label col-sm-4'>Document Group</label>
-                    <div class='col-sm-5'>
-                        <select name='doc_group' class='form-control' >
-                            <option value='0' selected="selected">Please Select Document Group</option>
-                            <?php foreach ($doc_group as $doc): ?>
-                                <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                </div>
-                <div class='form-group form-group-sm'>
-                    <label class='control-label col-sm-4'>Document Type</label>
-                    <div class='col-sm-5'>
-                        <select name='doc_type' class='form-control' >
+                         </select></td>
+                         <td><b>Document Type</b></td>
+                        <td><select name='doc_type' class='form-control'>
                             <?php if (!$preset_select): ?>
-                                <option value='0'>Please Select Document Group</option>
+                                <option value='0' selected="selected">Please Select Document Group</option>
                             <?php else: ?>
-                                <option value='0' selected="selected">Please Select Document Type</option>
+                                <option value='0' >Please Select Document Type</option>
                                 <?php foreach ($doc_types as $doc): ?>
                                     <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
                                 <?php endforeach; ?>
                             <?php endif; ?>
-                        </select>
-                    </div>
+                        </select></td>
+                    </tr>
+                </tbody>
+                </table>
                 </div>
-                <div class='form-group form-group-sm'>
-                    <div class='col-sm-9 text-right'>
-<!--                       <button type='submit' class='btn btn-sm btn-primary'><i class='glyphicon glyphicon-search'></i> Filter</button>-->
-                    </div>
-                </div>
+
             </form>
-        </div>
-    </div>
-<div class='panel panel-primary'>
+        <!--</div>-->
+    <!--</div>-->
+<div class='panel panel-primary' style='margin-left:15px'>
     <div class='panel-heading'>List of Template Documents With Data</div>
     <div class='panel-body'>
-        <div class='pull-left'><b>Total Document = <?= count($available_documents);?></b></div>
+        <div class='pull-left' style=" font-size: 12px; "><b>Total Document = <?= count($available_documents);?></b></div>
         <div class='pull-right'>
             <!--<div class='btn btn-xs btn-primary syncButton'>Synchronize</div>-->
             <div class='btn btn-xs btn-primary generateButton'>Select Generate</div>
@@ -82,25 +70,25 @@
         <table class='table table-condensed table-bordered'>
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Discipline</th>
-                    <th>Sub Discipline</th>
-                    <th>Document Type</th>
-                    <th>Document Title</th>
-                    <th>Status</th>
-                    <th>Action</th>
+                    <th style=" font-size: smaller;">No</th>
+                    <th style=" font-size: smaller;">Discipline</th>
+                    <th style=" font-size: smaller;">Sub Discipline</th>
+                    <th style=" font-size: smaller;">Document Type</th>
+                    <th style=" font-size: smaller;">Document Title</th>
+                    <th style=" font-size: smaller;">Status</th>
+                    <th style=" font-size: smaller;">Action</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                  <?php if(!$available_documents):?>
                     <tr>
-                        <td colspan="8"><i>No Record Found</i></td>
+                        <td colspan="7"><i>No Record Found</i></td>
                     </tr>
                     <?php endif;?>
                 <?php $no=1; foreach ($available_documents as $document): ?> 
                     <tr>            
-                        <td class='text-uppercase' style=" font-size: smaller;"><?php echo $no; $no++;  ?></td>
+                        <td class='text-uppercase' style=" font-size: smaller; text-align: center;"><?php echo $no; $no++;  ?></td>
                         <td class='text-uppercase' style=" font-size: smaller;"><?= $document['main_discipline_name']; ?></td>
                         <td class='text-uppercase' style=" font-size: smaller;"><?= $document['discipline_name']; ?></td>
                         <td class='text-uppercase' style=" font-size: smaller;"><?= $document['dc_type_desc']; ?></td>
@@ -152,6 +140,7 @@
                 success: function (data) { 
                     $('[name=general_discipline]').html(data);
                     $('[name=doc_group]').html('<option value="0">Please Select</option>');
+                    $('[name=doc_type]').html('<option value="0">Please Select</option>');  
                     $('#documentFilter').submit();
                 }
             });
@@ -159,6 +148,7 @@
         
         $('[name=general_discipline]').change(function () {
             $('[name=doc_group]').html('<option value="0">Please Select</option>');
+            $('[name=doc_type]').html('<option value="0">Please Select</option>');
             $('#documentFilter').submit();
         });  
         

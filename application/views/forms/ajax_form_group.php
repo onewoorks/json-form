@@ -35,7 +35,11 @@
                 data : { values: $(this).serializeArray()},
                 success : function(){
                     $('#myModal').modal('hide');
-                    location.reload();
+                    swal({
+                      title: "Section Updated!",
+                      text: "Data successfully updated into database",
+                      type: "success"
+                    });
                 }
             });
         });
