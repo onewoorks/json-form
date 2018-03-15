@@ -16,7 +16,7 @@
         width: 71%
 }
 
-body { padding-top: 70px; }
+body { padding-top: 45px; }
 
 body.dragging, body.dragging * {
   cursor: move !important;
@@ -37,13 +37,12 @@ ol.example li.placeholder:before {
   /** Define arrowhead **/
 }
 
-table.methodcolumn {
-    table-layout:fixed;
+table.listcolumn{
+    table-layout: fixed;
 }
-
-table.methodcolumn td { 
-    overflow: hidden; 
-    word-wrap: break-word;
-    padding-bottom: 15px;
-    padding-left: 3px;
+table.listcolumn td{
+    padding-left:30px;
+    padding-bottom: 5px;
+    overflow: hidden;
+    word-break:break-all;
 }
