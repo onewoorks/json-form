@@ -118,5 +118,5 @@ class Reference_Table_Model  { //dari class sini
         $result = $this->db->fetchOut('array');
         return ($result) ? $result : false;
     }
-
+ 
 }
