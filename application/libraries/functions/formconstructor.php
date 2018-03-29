@@ -8,7 +8,7 @@ class Formconstructor_Functions {
         $this->CleanFormBuilder();
     }
     
-    private function CleanFormBuilder(){
+    private function CleanFormBuilder($element){
         $formElement = $this->jsonForm;
         foreach($formElement as $form_element):
             $element = $form_element['element'];
