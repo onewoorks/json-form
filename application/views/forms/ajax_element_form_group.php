@@ -1,9 +1,3 @@
-<!--<div id='formJson' style='white-space: pre' class=''>
-
-</div>
-
--->
-
     <form id='editElement' class='form-horizontal'>
     <input type='hidden' name='element_code' value='<?= $values->element_code; ?>' />
     <input type='hidden' name='document_id' value='<?= $document_id; ?>' />
@@ -118,11 +112,11 @@
     $(function(){
         $('#editElement').submit(function(e){
             e.preventDefault();
-            var a = $('#case').serializeArray();
+            var a = $('#basic').serializeArray();
             var b = $('#rowinput').serializeArray();           
             $.ajax({
                 url : '<?= SITE_ROOT;?>/formview/update-section-element/',
-                data : { values: $(this).serializeArray(), basic: $('#case').serializeArray(), rowinput: b},
+                data : { values: $(this).serializeArray(), basic: $('#basic').serializeArray(), rowinput: b},
                 success : function(data){
                   console.log(data);
                   $('#myModal').modal('hide');
