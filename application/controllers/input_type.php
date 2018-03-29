@@ -103,7 +103,6 @@ class Input_Type_Controller extends Common_Controller {
 //        $input =  ucwords(strtoupper($element->label));
 //        $inputType=  str_replace('', '', $input);
 //        return '<b>' . $inputType . '</b>'.$methodName;
-//
 //        }
     }
 
@@ -438,20 +437,44 @@ class Input_Type_Controller extends Common_Controller {
         return $html;
     }
     
-    public function Method() {
-        $element = $this->elementDetail;
-        $title = ucwords(strtolower($element->document_title));
-        $formName = str_replace(' ', '_', $title);
-        if (isset($element->additional_attribute->method)):
-            $class = $element->additional_attribute->method->page . '_Method';
-        else:
-            $class = $formName . '_Method';
-        endif;
-        $method = new $class;
-        $methodName = $element->method;
-        $params = array();
-        $html = $method->$methodName($params);
-        return $html;
+    public function Method($element) {
+    $elementDetail = array(
+        'label' => $element->element_desc,
+        'element_code' => $element->element_code,
+        'doc_method_code' => $element->doc_method_code,
+        'json_element'=>$element->json_element,
+    );
+    
+    $class = new Input_Type_Controller();
+    $class->elementDetail = (object) $elementDetail;
+    $class2 = new Document_Template_Model();
+    $result = $class2->MainMethod();
+    $html = '';
+//    $html .= '<input type=hidden value="'.$element->doc_method_code.'">';
+ 
+        $html .= "<div class='form-group form-group-sm'>" 
+                ."<select id='method' class='form-control'>"
+                .'<option value="0">Please Select Method</option>';
+        if($result){
+        foreach($result as $method){
+        $html .= '<option value="'.$method['code'].'">'.$method['label'].'</option>';
+        if(($element->doc_method_code) == $method['code']){
+        $html .= '<option id="'.$element->doc_method_code.'" value="'.$method['code'].'" selected>'.$method['label'].'</option>'
+                ."</select>"
+                ."</div>"; 
+        $html .= '<img id="'.$element->doc_method_code.'"src="../../../'.$method['image_path'].'">';
+        $methodName=$html;
+        return $methodName;}
+        else{
+            $methodName="Method";
+            return $methodName;
+        }
+        }}
+        else{
+            $msg= 'No Method';
+            $methodName=$msg;
+            return $methodName;
+        }
     }
 
     public function Richtext() {
@@ -504,7 +527,6 @@ class Input_Type_Controller extends Common_Controller {
         if ($this->is_parent):
             $referral = ReferenceCaller($element->element_code, $element->doc_name_id);
         else:
-            //$referral = ReferenceCaller($element->element_code, $element->doc_name_id);
             $listData = array('data' => $element->data);
             $referral = (object) $listData;
         endif;
@@ -746,17 +768,17 @@ class Input_Type_Controller extends Common_Controller {
                     . "<select name='multi_input_type" . $no . "' class='form-control'>"
                     . "<option value='" . $ref['input_type'] . "'>" . $type . "</option>"
                     . "<option value='DROPDOWN'>Dropdown</option>"
-                    . "<option value='DROPDOWN CHECKBOX'>Dropdown Checkbox</option>"
+//                    . "<option value='DROPDOWN CHECKBOX'>Dropdown Checkbox</option>"
                     . "<option value='CHECKBOX'>Checkbox</option>"
                     . "<option value='RADIOBUTTON'>Radiobutton</option>"
                     . "<option value='FREETEXT'>Freetext</option>"
-                    . "<option value='LIST'>List</option>"
+//                    . "<option value='LIST'>List</option>"
                     . "<option value='CALENDER'>Calendar</option>"
                     . "</select>"
                     . "</div>"
                     . "<div class='col-sm-2 predefinedActionButton' data-listid='" . $no . "' >";
             if ($no == ($len)) {
-                $html .= "<div class='btn btn-default btn-sm addPredefined' data-listid='" . $no . "'><i class='glyphicon glyphicon-plus'></i></div>";
+                $html .= "<div class='btn btn-default btn-sm addPredefined' data-listid='" . $no . "' ><i class='glyphicon glyphicon-plus'></i></div>";
             } else {
                 $html .= "<div class='btn btn-default btn-sm deletePredefined' data-delid='" . $no . "' data-childno='" . $childno . "'><i class='glyphicon glyphicon-trash'></i></div>";
             }
@@ -801,7 +823,7 @@ class Input_Type_Controller extends Common_Controller {
                             . "<select name='child_multi_input_type" . $no . "" . $childno . "' class='form-control'>"
                             . "<option value='" . $ref['input_type'] . "'>" . $type . "</option>"
                             . "<option value='DROPDOWN'>Dropdown</option>"
-                            . "<option value='DROPDOWN CHECKBOX'>Dropdown Checkbox</option>"
+//                            . "<option value='DROPDOWN CHECKBOX'>Dropdown Checkbox</option>"
                             . "<option value='CHECKBOX'>Checkbox</option>"
                             . "<option value='RADIOBUTTON'>Radiobutton</option>"
                             . "<option value='FREETEXT'>Freetext</option>"
