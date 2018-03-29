@@ -1,8 +1,26 @@
-<?= $header; ?>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>CD Document JSON Generator</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="json form formatted from structured dataset">
+
+        <!--<link href="<?php echo SITE_ROOT; ?>/assets/css/main.css" rel="stylesheet" />-->
+        <link href="<?php echo SITE_ROOT; ?>/assets/library/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
+        <script src="<?php echo SITE_ROOT; ?>/assets/library/bootstrap/js/bootstrap.js"></script> 
+        <link href="<?php echo SITE_ROOT; ?>/assets/library/summernote/summernote.css" rel="stylesheet">
+        <script src="<?php echo SITE_ROOT; ?>/assets/library/summernote/summernote.js"></script>
+        <script src="<?php echo SITE_ROOT; ?>/assets/library/sweetalert/sweetalert.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="<?php echo SITE_ROOT; ?>/assets/library/sweetalert/sweetalert.css">
+        <link href='<?php echo SITE_ROOT;?>/assets/library/datepicker/css/datepicker.css' rel="stylesheet" />
+    </head>
+
 <div class='row'>
     <div class='col-md-9'>
-        <h4 style='padding-left: 17px;'><b><?= $document_title; ?></b></h4>
-
+        <div id='maintitle'>
+            <h4 style='padding-left: 20px;'><b><?= $document_title; ?></b><a href="#" class="btn btn-default btn-xs editTitle"></i>Edit Title</a></h4>
+        </div>
         <form id='notesForm' class='form-horizontal'>
             <div class='panel panel-default'>
                 
@@ -107,7 +125,7 @@
         </form>
     </div>
 
-    <div class='col-md-3' style="position: fixed; z-index: 6; right: 0; margin-left: 15px;">
+    <div class='col-md-3' style="position: fixed; z-index: 6; right: 0; margin-left: 15px; margin-top: 35px;">
         <div class='panel panel-default'>
             <div class='panel-heading'><b>Notes Component</b></div>
             <div class='panel-body' >
@@ -119,8 +137,11 @@
 
                 <div class='text-right'>
                     <div class='btn-group btn-group-sm'>
-                        <a href='<?= SITE_ROOT; ?>/formview/json-format/<?= $document_id; ?>' target="_blank" class='btn btn-default'>View JSON</a>
+                        <!--<a href='<?= SITE_ROOT; ?>/formview/json-format/<?= $document_id; ?>' target="_blank" class='btn btn-default'>View JSON</a>-->
                         <a href='#' class='btn btn-default changelayout' >Change Layout</a>
+                        <input type='hidden' id='documentId' value='<?= $document_id;?>'/>
+                        <input type='hidden' id='templateId' value='<?= $template_id;?>'/>
+                        <a href='#' class='btn btn-xs btn-default executeAction' />Generate JSON</a>
                     </div>
                 </div>
             </div>
@@ -160,6 +181,22 @@
 
     </div>
 </div>
+    
+<div id="title" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Change Title</h4>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+
+    </div>
+</div>
 
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -182,26 +219,6 @@
 <script src='<?= SITE_ROOT; ?>/assets/js/jquery-sortable.js'></script>
 <script>
     $(function () {
-
-//        var oldContainer;
-//
-//        $("ol.nested_with_switch").sortable({
-//            group: 'nested',
-//            afterMove: function (placeholder, container) {
-//                if (oldContainer != container) {
-//                    if (oldContainer)
-//                        oldContainer.el.removeClass("active");
-//                    container.el.addClass("active");
-//
-//                    oldContainer = container;
-//                }
-//            },
-//            onDrop: function ($item, container, _super) {
-//                container.el.removeClass("active");
-//                _super($item, container);
-//            }
-//        });
-
         $('.expandButton').click(function () {
             var a = $('#notesForm').find(".panel-body[data-section='" + $(this).data('section') + "']").toggleClass('hidden');
             var current = $(this).data('current');
@@ -279,6 +296,22 @@
             $('#myModal').modal('show');
             return false;
         });
+        
+        $('.editTitle').click(function () {
+            var documentId = '<?= $document_id;?>';
+            $.ajax({
+                url: '<?= SITE_ROOT; ?>/formview/change-title/',
+                data: {documentId : documentId},
+                success: function (data) {
+                    var obj = $.parseJSON(data);
+                    $('.modal-dialog').removeClass('modal-lg');
+                    $('.modal-title').text(obj.component);
+                    $('.modal-body').html(obj.html);
+                }
+            });
+            $('#title').modal('show');
+            return false;
+        });
                
         $('.changelayout').click(function () {
             var documentId = '<?= $document_id;?>';
@@ -295,7 +328,42 @@
             $('#layout').modal('show');
             return false;
         });
+        
+            $('.executeAction').click(function(){
+            var selected = [];
+            var type = '';
+            $('#documentId').each(function (key,documentId){
+                $('#templateId').each(function (key,templateId){
+                    type='regenerate';
+                    var item = { doc_name_id: $(documentId).val(), template_id: $(templateId).val()};
+                    selected.push(item);
+                    console.log(item);
+                });
+            });
 
+            $.ajax({
+                url: '<?= SITE_ROOT; ?>/formbuilder/generate-json/',
+                data: {type: type, documents: selected },
+                success: function (data) {
+                    swal({
+                        title: "Generated!",
+                        text: "System successfully created form template for selected data,",
+                        type: "success",
+                        showCancelButton: true,
+                        confirmButtonColor: "#80bf07",
+                        confirmButtonText: "Go To Document List!",
+                        closeOnConfirm: false
+                    },
+                    function (isConfirm) {
+                        if(isConfirm){
+                            window.location.href = '<?php echo SITE_ROOT; ?>';
+                        } else {
+                            window.location.reload;
+                        }
+                    });  
+                }
+            });
+    });     
     });
     
     $('#deleteModal').on('show', function() {
