@@ -9,8 +9,6 @@ function ReferenceCaller($elementCode, $docNameId, $tree = 'parent') {
     $result = Reference_List_Controller::GetReferenceList($elementCode, $docNameId, $tree);
     $typeOfMultipleAnswer = $result[0]['input_type'];
     $output = array('type' => $typeOfMultipleAnswer, 'data' => $result,);
-//    $typeOfMultipleAnswer = ($result) ? $result[0]['input_type'] : false;
-//    $output = array('type' => $typeOfMultipleAnswer, 'data' => array($result));
     return (object) $output;
 }
 
@@ -23,6 +21,7 @@ function InputTypeCaller($element, $name, $documentTitle,$documentId,$layout=1) 
         'additional_attribute' => $element->additional_attribute,
         'element_code' => $element->element_code,
         'method' => $element->method,
+        'doc_method_code' => $element->doc_method_code,
         'json_element'=>$element->json_element,
         'document_title' => $documentTitle,
         'doc_name_id'=>$documentId,
@@ -41,14 +40,16 @@ function InputTypeCaller($element, $name, $documentTitle,$documentId,$layout=1) 
         $html = '';
         $input =  ucwords(strtoupper($element->element_desc));
         $inputType=  str_replace('', '', $input);
+        $class = new Input_Type_Controller();
+        $methodName=$class->Method($element, $name, $documentTitle,$documentId,$layout=1); 
         switch ($inputType):
             case '':
-                $html .= '<table class="methodcolumn" style="font-size:12px;">'.'<col width="250px"/>'.'<tr>'.'<td style="padding-left:4px; padding-bottom:5px;">'.$methodName.'</td>'.'</tr>'.'</table>';
+                $html .= '<table class="methodcolumn" style="font-size:12px;">'.'<col width="250px"/>'.'<tr>'.'<td style="padding-left:16px; padding-bottom:5px;">'.$methodName.'</td>'.'</tr>'.'</table>';
                 return $html;
             default:
-                $html .= '<table class="methodcolumn" style="font-size:12px;">'.'<col width="250px"/>'.'<tr>'.'<td style="padding-left:4px;  padding-bottom:5px;">'.'<b>'.$inputType.'</b>'.'</td>'.'<td style="padding-left:5px;  padding-bottom:5px;">'.$methodName.'</td>'.'</tr>'.'</table>';
+                $html .= '<table class="methodcolumn" style="font-size:12px;">'.'<col width="250px"/>'.'<tr>'.'<td style="padding-left:4px;  padding-bottom:5px; vertical-align:top;">'.'<b>'.$inputType.'</b>'.'</td>'.'<td style="padding-left:16px;  padding-bottom:5px;">'.$methodName.'</td>'.'</tr>'.'</table>';
                 return $html; 
-        endswitch;     
+        endswitch;    
 }}
 
 function UpdateInput($element){
