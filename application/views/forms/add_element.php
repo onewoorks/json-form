@@ -103,7 +103,7 @@
             e.preventDefault();          
             $.ajax({
                 url : '<?= SITE_ROOT;?>/formview/add-new-element/',
-                data : { values: $(this).serializeArray(),basic: $('#case').serializeArray(),rowinput:$('#rowinput').serializeArray()},
+                data : { values: $(this).serializeArray(),basic: $('#basic').serializeArray(),rowinput:$('#rowinput').serializeArray()},
                 success : function(data){
                   console.log(data);
                   $('#myModal').modal('hide');
