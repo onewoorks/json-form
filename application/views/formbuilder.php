@@ -126,7 +126,7 @@
         });
         $('#createForm').click(function () {
             $.ajax({
-                url: 'http://localhost/JSONForm/formbuilder/createform/',
+                url: 'http://localhost/json-form/formbuilder/createform/',
                 success: function () {
                     alert('form created');
                     $('#json_view').text('');
