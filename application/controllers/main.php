@@ -61,7 +61,7 @@ class Main_Controller extends Common_Controller {
                 $view = new View_Model($page);
                 $view->assign('content', $result);
                 break;          
-            case 'search-by-filter':
+                case 'search-by-filter':
                 $ajax = true;
                 $document = new Document_Template_Model();
                 $values = $this->form_array($_REQUEST['documentValues']);
