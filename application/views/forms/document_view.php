@@ -13,13 +13,8 @@
                 </div></div>
             <div class='panel-body'>
                 <form class='form-horizontal '>
+                    <!--kne tambah condition (bila CN je display)-->
                     <?= MethodCaller('Common_Form', 'SeenDiscussedRecord'); ?>
-                    <div class='hidden'>
-                        <br>
-                        <?= MethodCaller('Common_Form', 'Orders'); ?>
-                        <br>
-                        <?= MethodCaller('Common_Form', 'VitalSign'); ?>
-                    </div>
                 </form>
             </div>
         </div>

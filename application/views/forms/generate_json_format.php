@@ -251,11 +251,9 @@
                         } else {
                             window.location.reload;
                         }
-                        
                     });                   
                 }
             });
-//            
         });
     });
 </script>
