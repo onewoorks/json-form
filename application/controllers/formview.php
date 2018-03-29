@@ -254,6 +254,19 @@ class Formview_Controller extends Common_Controller {
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
+            case 'change-title':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $doc_id = $_REQUEST['documentId'];
+                $val = $document->GetTitleDetail($doc_id);
+                $page = 'forms/change_document_title';
+                $result['title'] = $val;
+                $result['doc_id'] = $doc_id;
+                $data = array(
+                    'component' => 'Change Title',
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
             case 'update-layout':
                 $ajax = true;
                 $document = new Document_Template_Model();
@@ -308,6 +321,19 @@ class Formview_Controller extends Common_Controller {
                 endforeach;
                 $this->GenerateJSONFormat($docId, 'update');
                 break;
+            case 'edit-title':
+                $ajax = true;
+                $values = $this->form_array($_REQUEST['values']);
+                $document = new Document_Template_Model();
+                $docId = $values['doc_id'];
+                $title = $values['selected_title'];               
+                $title_id = $document->GetTitleId($docId);
+                foreach($title_id as $key):
+                    $document->UpdateDocTitle($key['doc_name_id'],$title);
+                    echo $key['doc_name_id']."<br>";
+                endforeach;
+                $this->GenerateJSONFormat($docId, 'update');
+                break;
             case 'delete-element':
                 $ajax = true;
                 $docId = $_REQUEST['documentId'];
@@ -316,12 +342,12 @@ class Formview_Controller extends Common_Controller {
                 $document = new Document_Template_Model();
                 $document->DeleteElementData($docId,$sectionCode,$elementCode);
                 $this->GenerateJSONFormat($docId, 'update');
-                //echo "doc-".$docId."<br>element-".$elementCode."<br>section".$sectionCode ;
                 break;
             case 'testing':
                 $page = 'forms/test';
                 $result['link_style'] = "<link href='".SITE_ROOT."assets/css/hiskkm.css' rel='stylesheet' />";
                 break;
+            //EDIT SECTION NAME
             case 'edit-attributes':
                 $ajax = true;
                 $values = $this->form_array($_REQUEST['values']);              
@@ -332,7 +358,8 @@ class Formview_Controller extends Common_Controller {
                     'layout' => $values['column']);
                 $document->UpdateSectionDetail($data);
                 $this->GenerateJSONFormat($values['document_id'], 'update');
-                break;         
+                break; 
+            //EDIT ELEMENT NAME
             case 'update-section-element':
                 $ajax=true;
                 $values = $this->form_array($_REQUEST['values']);
@@ -472,7 +499,7 @@ class Formview_Controller extends Common_Controller {
                 $basic = $this->form_array($_REQUEST['basic']);
                 $data_type = 'REFERENCE';
                 $z=1;
-                for($x=1;$x<=$basic['total'];$x++){                    
+                for($x=0;$x<=$basic['total'];$x++){                    
                     $check = "validation".$x."";
                     if($basic[$check]==='parentonly'){
                     $set = "multi_ans_desc".$x."";
