@@ -177,7 +177,7 @@ class Document_Template_Model {
     }
 
     public function ReadDocumentSectionElements($documentId, $sectionId) {
-        $sql = "SELECT  rde.element_code, rde.json_element,rde.element_desc,de.child_element_code,de.element_level,de.data_type,de.sorting,de.input_type, de.method, de.element_position, de.element_properties, de.additional_attribute"
+        $sql = "SELECT  rde.element_code, rde.json_element,rde.element_desc,de.child_element_code,de.element_level,de.data_type,de.sorting,de.input_type, de.method, de.doc_method_code, de.element_position, de.element_properties, de.additional_attribute"
                 . " FROM document_element de"
                 . " INNER JOIN document d ON(d.doc_name_id=de.doc_name_id)"
                 . " INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code)"
@@ -203,16 +203,6 @@ class Document_Template_Model {
         $this->db->queryexecute();
         
     }
-
-//    public function UpdateDocumentJSONFormat() {
-//        $documentId = $this->documentId;
-//        $jsonForm = $this->jsonForm;
-//        $sql = "UPDATE document_template SET json_template = '$jsonForm' WHERE doc_name_id='" . (int) $documentId . "' ";
-//        $this->db->connect();
-//        $this->db->prepare($sql);
-//        $this->db->queryexecute();
-//       // echo $sql;
-//    }
 
     public function GetListAvailableDocument() {
         $sql = "SELECT dt.template_id, dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc "
@@ -338,6 +328,26 @@ class Document_Template_Model {
         return $result[0]; 
     }
     
+    public function GetTitleDetail($docId){
+        $sql = "SELECT doc_name_id, doc_name_desc"
+                . " FROM document"
+                . " WHERE doc_name_id='" . (int) $docId . "'"; 
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('object');
+        return $result[0]; 
+    }
+    
+    public function GetTitleId($docId){
+        $sql = "SELECT DISTINCT doc_name_id FROM document WHERE doc_name_id='" . (int) $docId . "'"; 
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result; 
+    }
+    
     public function GetSectionId($docId){
         $sql = "SELECT DISTINCT section_code FROM document_element WHERE doc_name_id='" . (int) $docId . "'";
         $this->db->connect();
@@ -346,7 +356,7 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return $result;  
     }
-
+    
     public function UpdateDocLayout($code,$layout){
         $sql = "UPDATE ref_document_section SET layout='".$layout."' WHERE section_code='".(int) $code ."'";
         $this->db->connect();
@@ -354,6 +364,15 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
+    
+    public function UpdateDocTitle($code, $title){
+        $sql = "UPDATE document SET doc_name_desc='".$title."' WHERE doc_name_id='".(int) $code ."'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
     public function GetChildDetail($doc,$element) {
         $sql = "SELECT parent_element_code FROM ref_multiple_answer "
                 . " WHERE doc_name_id='" . (int)$doc. "' and element_code='" . (int) $element. "'";     
@@ -372,7 +391,6 @@ class Document_Template_Model {
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
-      //  echo $sql;
         return true;
     }
     
@@ -430,6 +448,7 @@ class Document_Template_Model {
     public function InsertParentMultiAnswer($docID,$elementID,$label,$sorting,$input){
         $sql = "INSERT INTO ref_multiple_answer (doc_name_id,element_code,multi_answer_desc,sorting,input_type)"
                 . "VALUES ('".(int) $docID."','".(int) $elementID."','".$label."','".$sorting."','".$input."')";
+        print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -464,7 +483,6 @@ class Document_Template_Model {
         return true;    
     }
     
-//    
 //    public function UpdateElementToMethod(array $val) {
 //        $sql = "UPDATE document_element SET element_properties='" . $val['element_properties'] . "',input_type='METHOD',data_type=NULL,method='".$val['method_name']."',additional_attribute='".$val['method_json']."' "
 //                . "WHERE doc_name_id='".(int) $val['doc_id']."' AND parent_element_code='" . (int) $val['element_code'] . "'";
@@ -542,6 +560,18 @@ class Document_Template_Model {
         $this->db->prepare($sql);
         $this->db->queryexecute();
         return true;
+    }
+    
+    public function MainMethod() {
+        $sql = " SELECT rde.element_code, rdm.doc_method_code as code,rdm.doc_method_desc as label, rdm.image_path, rde.element_desc "
+               . " FROM document_element de "
+               . " INNER JOIN ref_document_element rde ON (de.parent_element_code=rde.element_code) "
+               . " INNER JOIN ref_document_method rdm ON (de.doc_method_code=rdm.doc_method_code) ";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return ($result) ? $result : false;
     }
     
 //    public function CheckTemplate() {
