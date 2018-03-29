@@ -12,8 +12,8 @@
             <input type="hidden" name='elementCode' value="<?= $vars['element_code'];?>" />
             <input type="hidden" name='documentId' value="<?= $vars['document_id'];?>" />
         </div>
-    </div>-->
-           
+    </div>--> 
+
     <div id="jsonData" >  
         <?php  $additional_attr = $vars['additional_attribute'];
                $json = json_decode($additional_attr,true);
