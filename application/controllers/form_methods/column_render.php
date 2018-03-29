@@ -153,7 +153,6 @@ class Column_Render_Method {
         
         $html .= '<div class="'.$classColumn.'">';
         $html.= InputTypeCaller($element, $element->json_element, $document_title, $document_id, $column);
-//        $html.= InputTypeCaller2($element, $element->json_element, $document_title, $document_id, $column);
         $html .= "</div>";  
  
         return $html;
@@ -185,32 +184,6 @@ class Column_Render_Method {
 
         return $col;
     }
-
-//    function check_input_type2($data) {
-//        $this->itemRows[] = $data;
-//        
-//        $items = array();
-//        $classColumn = '';
-//        $input_type = $data->input_type;
-//        $result = false;
-//        switch ($input_type):
-//            case 'RICHTEXT':
-//            case 'FREETEXT':
-//                $classColumn = 'col-md-12';
-//                $result = true;               
-//                break;
-//            case 'TEXTBOX':
-////                $classColumn = 'col-md-6';
-//                $result = true;               
-//                break;
-//            default:
-//                $items[] = $data;
-//                false;
-//        endswitch;
-//
-//        return $result;
-//    }
-//    
     
     function check_input_type($data) {
         $input_type = $data->input_type;
