@@ -42,9 +42,9 @@
                         </div>
 
                   <div id="multiple_answer" >
-                      <form id='case' >
+                      <form id='basic'>
                         <div id='predefinedList'>
-                                            <?php if($input_type==='MULTIPLE ANSWER'){                         
+                                <?php if($input_type==='MULTIPLE ANSWER'){                         
                                 $elementDetail = array(    
                                    'label' => $vars['element_desc'],
                                    'additional_attribute' => $vars['additional_attribute'],
@@ -58,12 +58,12 @@
                                 <div class="form-group form-group-sm input-list">
                                     <label class="control-label col-sm-4">Predefined Value</label>                                 
                                     <div class="col-sm-3 list-padding">
-                                        <input type='text' name="multi_ans_desc1" class='form-control' placeholder='label / title' />
-                                        <input type='hidden' name='sorting1' value="1" />
-                                        <input type="hidden" id="validation1" name="validation1" value="parentonly" />
+                                        <input type='text' name="multi_ans_desc0" class='form-control' placeholder='label / title' />
+                                        <input type='hidden' name='sorting0' value="1" />
+                                        <input type="hidden" id="validation0" name="validation0" value="parentonly" />
                                     </div>
                                     <div class="col-sm-3 list-padding">
-                                        <select name="multi_input_type1" class="form-control">
+                                        <select name="multi_input_type0" class="form-control">
                                             <option value="DROPDOWN">Dropdown</option>
                                             <option value="CHECKBOX">Checkbox</option>
                                             <option value="DROPDOWN CHECKBOX">Dropdown Checkbox</option>
@@ -223,7 +223,7 @@
 
     $('#predefinedList').on('click', '.deletePredefined', function () {
             var deleteid = $(this).data('delid');
-            if (deleteid > 1) {
+            if (deleteid > 0) {
                 $('.prelist' + deleteid).remove();
             }
         });
@@ -266,7 +266,7 @@
             var num = $(this).data('num');
             var parent = $(this).data('parent');
 //            console.log(parent);
-            if (num == 1) {
+            if (num === 1) {
                document.getElementById('validation'+parent).value = 'parentonly';
             }                       
              $('.childno' + deleteid).remove();
