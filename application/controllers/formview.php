@@ -108,6 +108,7 @@ class Formview_Controller extends Common_Controller {
                 $result['document_title'] = $documentTemplate['doc_name_desc'];
                 $result['main_discipline'] = $documentTemplate['main_discipline_name'];
                 $result['sub_discipline'] = $documentTemplate['discipline_name'];
+                $result['doc_group'] = $documentTemplate['doc_group_code'];
                 $result['json_elements'] = $cleanSorting;
                 $result['template_id']=$documentId;
                 $result['rrr'] = 'pppp';
