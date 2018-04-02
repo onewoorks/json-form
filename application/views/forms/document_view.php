@@ -11,13 +11,16 @@
                     <div class='col-xs-2'>Document Title </div>
                     <div class='col-xs-10'>: <strong><?= $document_title; ?></strong></div>
                 </div></div>
+            <?php if ($doc_group=='CN'):?>
             <div class='panel-body'>
                 <form class='form-horizontal '>
-                    <!--kne tambah condition (bila CN je display)-->
                     <?= MethodCaller('Common_Form', 'SeenDiscussedRecord'); ?>
                 </form>
             </div>
+            <?php else:?>
+            <?php endif;?>
         </div>
+        
         <form id='notesForm' class='form-horizontal'>
             <div class='panel panel-default'> 
                 <?php foreach ($json_elements as $key => $section): ?>
@@ -140,15 +143,7 @@
                 $('textarea[data-parentcode="'+$parentcode+'"]').attr('disabled','disabled');
             }
         });
-        
-//        $('input[type="radio"]').change(function () {
-//            var $parentcode = $(this).data('parentcodes');
-//            console.log($parentcode);
-//             $('#'+$parentcode).addClass('hidden');
-//            if ($(this).is(':checked')) {
-//                $('#'+$parentcode).removeClass('hidden');
-//            }
-//        });
+
         $('.updatelayout').click(function () {
      
             var documentId = '<?= $document_id;?>';
