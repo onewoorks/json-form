@@ -228,7 +228,7 @@ class Document_Template_Model {
         $docGroup = $documentArray['doc_group'];
         if(isset($documentArray['doc_type'])){
         $docType = $documentArray['doc_type'];}else{ $docType =0; } 
-        $sql = "SELECT dt.template_id, dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc,rdg.doc_group_code "
+        $sql = "SELECT dt.template_id, d.active_status, dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc,rdg.doc_group_code "
                 . "FROM document_template dt "
                 . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
                 . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
@@ -246,7 +246,7 @@ class Document_Template_Model {
                 if($docGroup!="0"){
                     $sql.="AND d.doc_group_code = '$docGroup'";
                 }
-                $sql.="ORDER BY gd.main_discipline_code,gd.discipline_name ASC";
+                $sql.="AND d.active_status='1' ORDER BY gd.main_discipline_code,gd.discipline_name ASC";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
