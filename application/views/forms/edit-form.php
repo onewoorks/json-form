@@ -19,7 +19,7 @@
 <div class='row'>
     <div class='col-md-9'>
         <div id='maintitle'>
-            <h4 style='padding-left: 20px;'><b><?= $document_title; ?></b><a href="#" class="btn btn-default btn-xs editTitle"></i>Edit Title</a></h4>
+            <h4 style='padding-left: 20px;'><b><?= $document_title; ?>&nbsp;</b><a href="#" class="btn btn-default btn-xs editTitle"></i>Edit Title</a></h4>
         </div>
         <form id='notesForm' class='form-horizontal'>
             <div class='panel panel-default'>
