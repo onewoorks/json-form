@@ -44,10 +44,10 @@ function InputTypeCaller($element, $name, $documentTitle,$documentId,$layout=1) 
         $methodName=$class->Method($element, $name, $documentTitle,$documentId,$layout=1); 
         switch ($inputType):
             case '':
-                $html .= '<table class="methodcolumn" style="font-size:12px;">'.'<col width="250px"/>'.'<tr>'.'<td style="padding-left:16px; padding-bottom:5px;">'.$methodName.'</td>'.'</tr>'.'</table>';
+                $html .= '<table class="methodcolumn" style="font-size:12px;">'.'<col width="250px"/>'.'<tr>'.'<td style="padding-left:4px; padding-bottom:5px;">'.$methodName.'</td>'.'</tr>'.'</table>';
                 return $html;
             default:
-                $html .= '<table class="methodcolumn" style="font-size:12px;">'.'<col width="250px"/>'.'<tr>'.'<td style="padding-left:4px;  padding-bottom:5px; vertical-align:top;">'.'<b>'.$inputType.'</b>'.'</td>'.'<td style="padding-left:16px;  padding-bottom:5px;">'.$methodName.'</td>'.'</tr>'.'</table>';
+                $html .= '<table class="methodcolumn" style="font-size:12px;">'.'<col width="250px"/>'.'<tr>'.'<td style="padding-left:4px;  padding-bottom:5px; vertical-align:top;">'.'<b>'.$inputType.'</b>'.'</td>'.'<td style="padding-left:5px;  padding-bottom:5px;">'.$methodName.'</td>'.'</tr>'.'</table>';
                 return $html; 
         endswitch;    
 }}

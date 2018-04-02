@@ -68,6 +68,7 @@ class Input_Type_Controller extends Common_Controller {
         return $html;
     }
 
+    //edited by Fatin Adilah 2/4
     public function MultipleAnswer() {
         $element = $this->elementDetail;
         $referal = ReferenceCaller($element->element_code, $element->doc_name_id);
@@ -99,11 +100,11 @@ class Input_Type_Controller extends Common_Controller {
             return $result;
         }
 //        edited by Fatin Adilah (TEST ELEMENT)        
-//        else{
-//        $input =  ucwords(strtoupper($element->label));
-//        $inputType=  str_replace('', '', $input);
-//        return '<b>' . $inputType . '</b>'.$methodName;
-//        }
+        else{
+        $input =  ucwords(strtoupper($element->label));
+        $inputType=  str_replace('', '', $input);
+        return '<b style="font-size:12px; padding-left:4px;">' . $inputType . '</b>'.$methodName;
+        }
     }
 
     public function Calender() {
@@ -459,19 +460,19 @@ class Input_Type_Controller extends Common_Controller {
         foreach($result as $method){
         $html .= '<option value="'.$method['code'].'">'.$method['label'].'</option>';
         if(($element->doc_method_code) == $method['code']){
-        $html .= '<option id="'.$element->doc_method_code.'" value="'.$method['code'].'" selected>'.$method['label'].'</option>'
+        $html .= '<option id="'.$element->doc_method_code.'" value="'.$method['code'].'" selected >'.$method['label'].'</option>'
                 ."</select>"
                 ."</div>"; 
         $html .= '<img id="'.$element->doc_method_code.'"src="../../../'.$method['image_path'].'">';
         $methodName=$html;
         return $methodName;}
         else{
-            $methodName="Method";
+            $methodName="Please Update Method";
             return $methodName;
         }
         }}
         else{
-            $msg= 'No Method';
+            $msg= 'All Method Not Yet Defined';
             $methodName=$msg;
             return $methodName;
         }
