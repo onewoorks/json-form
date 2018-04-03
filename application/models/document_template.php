@@ -240,7 +240,7 @@ class Document_Template_Model {
                 . "LEFT JOIN ref_main_disciplines rmd ON(rmd.main_discipline_code=gd.main_discipline_code) "
                 . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code) "
                 . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)"
-                . "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','RL')" ;
+                . "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','RL','PS')" ;
                 if($subDiscipline!="0"){
                     $sql.="AND gd.discipline_code = '$subDiscipline' ";
                 }
@@ -295,12 +295,22 @@ class Document_Template_Model {
     }
 
     public function GetElementDetail($elementCode,$documentId) {
-        $sql = "SELECT rde.element_code, rde.json_element,rde.element_desc,de.child_element_code,de.data_type,de.sorting,de.input_type, de.method,de.element_position, de.element_properties, de.additional_attribute "
+//        $methodName=$methodArray['doc_method_desc'];
+//        $method=$methodArray['doc_method_code'];
+        $sql = "SELECT rde.element_code, rde.json_element,rde.element_desc,de.child_element_code,de.data_type,de.sorting,de.input_type, de.method,de.doc_method_code,rdm.doc_method_desc,de.element_position, de.element_properties, de.additional_attribute "
                 . " FROM document_element de INNER JOIN document d ON(d.doc_name_id=de.doc_name_id) "
                 . " INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code) "
                 . " INNER JOIN ref_document_element rde ON (rde.element_code=de.parent_element_code) "
                 . " INNER JOIN ref_document_element rdee ON (rdee.element_code=de.child_element_code) "
+                . " LEFT JOIN ref_document_method rdm ON (rdm.doc_method_code=de.doc_method_code) "
+                . " LEFT JOIN ref_document_method rdmm ON (rdmm.doc_method_desc=rdm.doc_method_code) "
                 . " WHERE de.doc_name_id='" . (int) $documentId . "' and rde.element_code='" . (int) $elementCode . "'";     
+//                if($method !="null"){
+//                    $sql .="AND rdm.doc_method_code='$method'";
+//                }
+//                if($method !="null"){
+//                    $sql .="AND rdm.doc_method_desc='$methodName'";
+//                }
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
