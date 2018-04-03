@@ -194,14 +194,18 @@ class Document_Template_Model {
         return ($result) ? $result : false;
     }
 
-    public function CreateDocumentJSONFormat() {
-        $documentId = $this->documentId;
+    public function CreateDocumentJSONFormat($documents) {
         $jsonForm = $this->jsonForm;
-        $sql = "INSERT INTO document_template (doc_name_id,json_template,created_date) VALUES ('" . (int) $documentId . "','" . $jsonForm . "',now())";
-        echo $sql;
+        $docNameId = $documents['doc_name_id'];
+        $sql = "INSERT INTO document_template SET "
+                . "doc_name_id = '".(int)$docNameId."',"
+                . "json_template = '$jsonForm', "
+                . "created_date = now(), "
+                . "created_by = 'ADMIN' ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
+        return true;
         
     }
 
@@ -376,7 +380,8 @@ class Document_Template_Model {
     
     public function GetChildDetail($doc,$element) {
         $sql = "SELECT parent_element_code FROM ref_multiple_answer "
-                . " WHERE doc_name_id='" . (int)$doc. "' and element_code='" . (int) $element. "'";     
+                . " WHERE doc_name_id='" . (int)$doc. "' and element_code='" . (int) $element. "'";  
+        print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -411,6 +416,15 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
+    
+    public function UpdateMethodDetails(array $val) {
+        $sql = "UPDATE document_element SET child_element_code='".(int) $val['element_group']."',element_position='" . $val['element_position'] . "',element_properties='" . $val['element_properties'] . "',input_type='" . $val['input_type'] . "',data_type='" . $val['data_type'] . "',method='" . $val['method'] . "',additional_attribute='".$val['json']."' "
+                . "WHERE doc_name_id='".(int) $val['doc_id']."' AND parent_element_code='" . (int) $val['element_code'] . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
        
     public function UpdateElementToBasic(array $val) {
         $sql = "UPDATE document_element SET child_element_code='".(int) $val['element_group']."',element_position='" . $val['element_position'] . "',element_properties='" . $val['element_properties'] . "',input_type='" . $val['input_type'] . "',data_type='" . $val['data_type'] . "',method='" . $val['method'] . "',additional_attribute='" . $val['additional_attribute'] . "' "
@@ -423,6 +437,7 @@ class Document_Template_Model {
     
     public function CleanMultipleAnswer(array $val){
         $sql = "DELETE FROM ref_multiple_answer WHERE doc_name_id='".(int) $val['documentId']."' AND element_code='". (int) $val['elementCode'] ."'";
+        print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -431,6 +446,7 @@ class Document_Template_Model {
     
     public function CleanChild($doc,$element){
         $sql = "DELETE FROM ref_multiple_answer WHERE doc_name_id='".(int) $doc."' AND element_code='". (int) $element ."'";
+        print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -440,6 +456,7 @@ class Document_Template_Model {
     public function InsertMultiAnswer($docID,$elementID,$label,$sorting,$input,$childcode){
         $sql = "INSERT INTO ref_multiple_answer (doc_name_id,element_code,multi_answer_desc,sorting,input_type,parent_element_code)"
                 . "VALUES ('".(int) $docID."','".(int) $elementID."','".$label."','".$sorting."','".$input."','".$childcode."')";
+        print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -459,6 +476,7 @@ class Document_Template_Model {
     public function InsertChild($docID,$nextcode,$childlabel,$sort,$childtype){
         $sql = "INSERT INTO ref_multiple_answer (doc_name_id,element_code,multi_answer_desc,sorting,input_type)"
                 . "VALUES ('".(int) $docID."','".$nextcode."','".$childlabel."','".$sort."','".$childtype."')";
+        print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
