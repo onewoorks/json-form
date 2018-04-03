@@ -176,7 +176,7 @@ class Common_Controller {
         $document->jsonForm = json_encode($documentData,true); //documentData -> untuk bawa json data
         switch ($action):
             case 'add':
-                $document->CreateDocumentJSONFormat();
+                $document->CreateDocumentJSONFormat($documentId);
                 break;
             case 'regenerate':
                 $document->UpdateJSONDocument($documentId);
