@@ -74,7 +74,7 @@ class Reference_Table_Model  { //dari class sini
     public function DocumentGroup() {
         $sql = "SELECT doc_group_code as code, doc_group_desc as label"
                 . " FROM ref_document_group"
-                . " WHERE doc_group_code IN ('CN','RL')";
+                . " WHERE doc_group_code IN ('CN','RL','PS')";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
