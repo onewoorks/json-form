@@ -513,7 +513,7 @@ class Formview_Controller extends Common_Controller {
                     $z++;
                     }              
                     }elseif($basic[$check]==='childexist'){
-                        $nextcode = "-".$elementID."".$x."";
+                        $nextcode = "".$elementID."".$x."";
                         $ct = "childtotal".$x."";
                         $z=1;
                     for($y=1;$y<=$basic[$ct];$y++){
@@ -586,6 +586,7 @@ class Formview_Controller extends Common_Controller {
             'input_type' => 'METHOD',
             'data_type' => '',
             'method' => $data['method_name'],
+            'doc_method_code'=> $data['doc_method_code'],
             'json' => $json
         );
         $childId = $document->GetChildDetail($docID,$elementID);
@@ -593,7 +594,7 @@ class Formview_Controller extends Common_Controller {
             $document->CleanChild($docID, $key['parent_element_code']);
         }
         $document->CleanMultipleAnswer($data);
-        $document->UpdateElementDetails($val);
+        $document->UpdateMethodDetails($val);
         return true;
     }
 }
