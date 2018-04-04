@@ -75,10 +75,10 @@
                                     </div>
                                     <div class='col-sm-2 predefinedActionButton' data-listid='1'>
                                         <div class='btn btn-default btn-sm addPredefined' data-listid='1' data-childno='1'><i class='glyphicon glyphicon-plus'></i></div>
-                                        <div class='btn btn-default btn-sm addChild' data-childlistid='1' data-childno='1'><i class='glyphicon glyphicon-collapse-down'></i></div>
+                                        <div class='btn btn-default btn-sm addChild' data-childlistid='0' data-childno='0'><i class='glyphicon glyphicon-collapse-down'></i></div>
                                     </div>
                                 </div> 
-                                    <div class="form-group form-group-sm input-list" id="child1">
+                                    <div class="form-group form-group-sm input-list" id="child0">
                                     </div>
                             </div>
                              <?php }  ?>
