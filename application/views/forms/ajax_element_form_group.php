@@ -86,7 +86,6 @@
 <script>
     function ElementBuilder($elementName) {
         var formValue = $('#editElement').serializeArray();
-        console.log(formValue);
         $.ajax({
             url: '<?php echo SITE_ROOT;?>/formbuilder/formelement/',
             data: {value: $elementName , params : formValue },
