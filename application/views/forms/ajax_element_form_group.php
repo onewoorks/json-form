@@ -57,7 +57,7 @@
             </div>
             
             <div class='form-group form-group-sm'>
-                <label class='control-label col-sm-4'>Element Properties</label>
+                <label class='control-label col-sm-4'>Element Properties aaaa</label>
                 <div class='col-sm-8'>
                     <label class='radio-inline'>
                         <input type='radio' name='element_properties' value='DECORATION' <?php if($values->element_properties==='DECORATION'){echo 'checked';} ?>  /> Decoration
