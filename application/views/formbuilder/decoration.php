@@ -5,14 +5,6 @@
             <input type="hidden" name='documentId' value="<?= $vars['document_id'];?>" />
             <?php $dat = $vars['data_type'];  ?>
     </div>
-<!--    <div class='form-group form-group-sm'>
-        <label class='control-label col-sm-4'>Label Name</label>
-        <div class='col-sm-8'>
-            <input type='text' name='element_desc' value="<?= $vars['element_desc'];?>" class='form-control' />
-            <input type="hidden" name='elementCode' value="<?= $vars['element_code'];?>" />
-            <input type="hidden" name='documentId' value="<?= $vars['document_id'];?>" />
-        </div>
-    </div>--> 
 
     <div id="jsonData" >  
         <?php  $additional_attr = $vars['additional_attribute'];
@@ -109,15 +101,4 @@
                 document.getElementById("here").value = '';
             }
     });
-        
-//     $(function(){       
-//        var data = $('[name=deco]').val();
-//        var decostyle = $('#decostyle input');        
-//            $.each(decostyle, function(k,v){
-//                if(data===v){
-//                    $("[name=deco_style]").prop('checked', true)
-//                }            
-//            console.log($(v).val());
-//        });
-//        });  
     </script>
