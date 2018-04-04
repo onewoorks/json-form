@@ -6,7 +6,7 @@
         <meta name="description" content="json form formatted from structured dataset">
 
         <link href="<?php echo SITE_ROOT; ?>/assets/library/bootstrap/css/bootstrap.css" rel="stylesheet">
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
         <script src="<?php echo SITE_ROOT; ?>/assets/library/bootstrap/js/bootstrap.js"></script> 
         <link href="<?php echo SITE_ROOT; ?>/assets/library/summernote/summernote.css" rel="stylesheet">
         <script src="<?php echo SITE_ROOT; ?>/assets/library/summernote/summernote.js"></script>
