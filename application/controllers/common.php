@@ -41,7 +41,6 @@ class Common_Controller {
     }
 
     public function RenderOutput($file, $vars = null) {
-        echo $file;
         if (is_array($vars) && !empty($vars)) {
             extract($vars);
         }
