@@ -29,7 +29,8 @@ class Formbuilder_Controller extends Common_Controller {
                 break;
             case 'formelement':
                 $ajax = true;
-                $values = $_REQUEST['value'];               
+                $values = $_REQUEST['value'];  
+                print_r($_REQUEST);
                 $vars = isset($_REQUEST['params']) ? form_array($_REQUEST['params']) : null;
                 echo $this->RenderOutput('formbuilder/' . $values, $vars);
                 break;
