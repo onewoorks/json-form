@@ -7,8 +7,8 @@
     <input type='hidden' name='input_type' value='<?= $values->input_type; ?>' />
     <input type='hidden' name='additional_attribute' value='<?= $values->additional_attribute; ?>' />
     <input type='hidden' name='method' value='<?= $values->method; ?>' />
-    <input type='hidden' name='doc_method_code' value='<?= $values->doc_method_code; ?>' />
-    <input type='hidden' name='doc_method_desc' value='<?= $values->doc_method_desc; ?>' />
+<!--    <input type='hidden' name='doc_method_code' value='<?= $values->doc_method_code; ?>' />
+    <input type='hidden' name='doc_method_desc' value='<?= $values->doc_method_desc; ?>' />-->
     <input type='hidden' name='data_type' value='<?= $values->data_type; ?>' />
     <div class='panel panel-default'>
         
@@ -117,7 +117,7 @@
             var b = $('#rowinput').serializeArray();           
             $.ajax({
                 url : '<?= SITE_ROOT;?>/formview/update-section-element/',
-                data : { values: $(this).serializeArray(), basic: a, rowinput: b},
+                data : { values: $(this).serializeArray(), basic: $('#basic').serializeArray(), rowinput: b},
                 success : function(data){
                   console.log(data);
                   $('#myModal').modal('hide');
