@@ -100,11 +100,11 @@ class Input_Type_Controller extends Common_Controller {
             return $result;
         }
 //        edited by Fatin Adilah (TEST ELEMENT)        
-        else{
-        $input =  ucwords(strtoupper($element->label));
-        $inputType=  str_replace('', '', $input);
-        return '<b style="font-size:12px; padding-left:4px;">' . $inputType . '</b>'.$methodName;
-        }
+//        else{
+//        $input =  ucwords(strtoupper($element->label));
+//        $inputType=  str_replace('', '', $input);
+//        return '<b style="font-size:12px; padding-left:4px;">' . $inputType . '</b>'.$methodName;
+//        }
     }
 
     public function Calender() {
@@ -336,7 +336,7 @@ class Input_Type_Controller extends Common_Controller {
     }
 
     public function DropdownCheckbox() {
-
+        
         $element = $this->elementDetail;     
         $referral = ReferenceCaller($element->element_code, $element->doc_name_id);
 
@@ -442,6 +442,7 @@ class Input_Type_Controller extends Common_Controller {
     $elementDetail = array(
         'label' => $element->element_desc,
         'element_code' => $element->element_code,
+        'method' => $element->method,
         'doc_method_code' => $element->doc_method_code,
         'json_element'=>$element->json_element,
     );
@@ -453,25 +454,25 @@ class Input_Type_Controller extends Common_Controller {
     $html = '';
 //    $html .= '<input type=hidden value="'.$element->doc_method_code.'">';
  
-        $html .= "<div class='form-group form-group-sm'>" 
+        $html .= "<div class='form-group form-group-sm' style='margin-left:2px;width:280px;'>" 
                 ."<select id='method' class='form-control'>"
                 .'<option value="0">Please Select Method</option>';
         if($result){
         foreach($result as $method){
-        $html .= '<option value="'.$method['code'].'">'.$method['label'].'</option>';
+//        $html .= '<option value="'.$method['code'].'">'.$method['label'].'</option>';
         if(($element->doc_method_code) == $method['code']){
         $html .= '<option id="'.$element->doc_method_code.'" value="'.$method['code'].'" selected >'.$method['label'].'</option>'
                 ."</select>"
                 ."</div>"; 
-        $html .= '<img id="'.$element->doc_method_code.'"src="../../../'.$method['image_path'].'">';
+        $html .= '<div><img id="'.$element->doc_method_code.'"src="../../'.$method['image_path'].'"></div>';
         $methodName=$html;
         return $methodName;}
-        else{
+        elseif(($element->doc_method_code) == null){
             $methodName="Please Update Method";
-            return $methodName;
+            return $methodName;}
         }
-        }}
-        else{
+        }
+        elseif($result== '0'){
             $msg= 'All Method Not Yet Defined';
             $methodName=$msg;
             return $methodName;
@@ -501,7 +502,7 @@ class Input_Type_Controller extends Common_Controller {
         return $html;
     }
 
-    public function Number() {
+    public function Numeric() {
         $element = $this->elementDetail;
         if ($element->layout == 1) {
             $html = "<div class='form-group form-group-sm'>"
@@ -613,13 +614,14 @@ class Input_Type_Controller extends Common_Controller {
         $html .= "</div></div>";
         return $html;
     }
-
+    
+    //edited by Fatin Adilah 9/4
     public function RadioButton() {
         $element = $this->elementDetail;
         if ($this->is_parent):
             $referral = ReferenceCaller($element->element_code, $element->doc_name_id);
-        else:
-            $referral = ReferenceCaller($element->element_code, $element->doc_name_id);
+//        else:
+//            $referral = ReferenceCaller($element->element_code, $element->doc_name_id);
         endif;
         
         if ($element->layout == 1) {
@@ -628,8 +630,9 @@ class Input_Type_Controller extends Common_Controller {
                     . "<div class='col-md-9'>"
                     . "<div class='radio'>";
             foreach ($referral->data as $ref):
+//                print_r($ref);
                 $html .= "<label class='col-md-3'>"
-                        . "<input type='radio' name='" . $element->json_element . "' data-parentcodes='" . $element->json_element . "_" . $ref['parent_element_code'] . "' />" . $ref['multi_answer_desc']
+                        . "<input type='radio' name='" . $element->json_element . "' data-parentcodes='" . $element->json_element . "_" . $element->element_code . "' />" . $ref['multi_answer_desc']
                         . "</label>";
             endforeach;
             $html .= "</div><br>";
@@ -642,7 +645,6 @@ class Input_Type_Controller extends Common_Controller {
                         if (strtolower($r['input_type']) == 'calender'):
                             $html .= "<div class='col-md-3'><div class='input-group'>"
                                     . "<input type='date' id='rdio_" . $element->json_element . "_" . $ref['parent_element_code'] . "' name='" . $element->json_element . "' class='form-control ' />"
-//                          . "<span class='input-group-addon'><i class='glyphicon glyphicon-calendar'></i></span>"
                                     . "</div></div>";
                         endif;
                         if (strtolower($r['input_type']) == 'textbox'):
@@ -676,7 +678,6 @@ class Input_Type_Controller extends Common_Controller {
                         if (strtolower($r['input_type']) == 'calender'):
                             $html .= "<div class='col-md-4' ><div class='input-group'>"
                                     . "<input type='date' id='rdio_" . $element->json_element . "_" . $ref['parent_element_code'] . "'  name='" . $element->json_element . "_" . $ref['parent_element_code'] . "' class='form-control ' />"
-//                          . "<span class='input-group-addon'><i class='glyphicon glyphicon-calendar'></i></span>"
                                     . "</div></div>";
                         endif;
                         if (strtolower($r['input_type']) == 'textbox'):
@@ -684,11 +685,9 @@ class Input_Type_Controller extends Common_Controller {
                         endif;
                     endforeach;
                     endif;
-                // $html .="</div>";
                 endif;
             endforeach;
             $html .= "</div>";
-//                . "</div>";
         }
         return $html;
     }
