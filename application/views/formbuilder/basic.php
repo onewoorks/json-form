@@ -23,19 +23,19 @@
                                     <label class="radio-inline">
                                         <input type="radio" name='input_type'  value="TEXTBOX" <?php if($input_type==='TEXTBOX'){echo 'checked';} ?>> Textbox
                                     </label>
-                                    <label class="radio-inline">
+<!--                                    <label class="radio-inline">
                                         <input type="radio" name='input_type'  value="ROW" <?php if($input_type==='ROW'){echo 'checked';} ?>> Row
-                                    </label>
+                                    </label>-->
                                 </div>
                                 <div>
                                     <label class="radio-inline">
                                         <input type="radio" name='input_type'  value="CALENDER" <?php if($input_type==='CALENDER'){echo 'checked';} ?>> Calendar
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" name='input_type'  value="MULTIPLE ANSWER" <?php if($input_type==='MULTIPLE ANSWER'){echo 'checked';} ?>> Multiple Answer                                       
+                                        <input type="radio" name='input_type'  value="NUMERIC" <?php if($input_type==='NUMERIC'){echo 'checked';} ?>> Numeric                                       
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" name='input_type'  value="NUMBER" <?php if($input_type==='NUMBER'){echo 'checked';} ?>> Number                                       
+                                        <input type="radio" name='input_type'  value="MULTIPLE ANSWER" <?php if($input_type==='MULTIPLE ANSWER'){echo 'checked';} ?>> Multiple Answer                                       
                                     </label>
                                 </div>
                             </div>
@@ -66,10 +66,10 @@
                                         <select name="multi_input_type0" class="form-control">
                                             <option value="DROPDOWN">Dropdown</option>
                                             <option value="CHECKBOX">Checkbox</option>
-                                            <option value="DROPDOWN CHECKBOX">Dropdown Checkbox</option>
+                                            <!--<option value="DROPDOWN CHECKBOX">Dropdown Checkbox</option>-->
                                             <option value="RADIOBUTTON">Radiobutton</option>
                                             <option value="FREETEXT">Freetext</option>
-                                            <option value="LIST">List</option>
+                                            <!--<option value="LIST">List</option>-->
                                             <option value="CALENDER">Calendar</option> 
                                         </select>
                                     </div>
