@@ -165,7 +165,8 @@ class Common_Controller {
                     $elementItem[$key] = $el;
                 endif;
             endforeach;
-            $elements[$elem['json_element']] = $elementItem;
+//            $elements[$elem['json_element']] = $elementItem;
+            $elements[] = $elementItem;
         endforeach;
         return $elements;
     }
