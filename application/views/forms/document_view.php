@@ -11,26 +11,32 @@
                     <div class='col-xs-2'>Document Title </div>
                     <div class='col-xs-10'>: <strong><?= $document_title; ?></strong></div>
                 </div></div>
-            <?php if ($doc_group=='CN'):?>
-            <div class='panel-body'>
-                <form class='form-horizontal '>
-                    <?= MethodCaller('Common_Form', 'SeenDiscussedRecord'); ?>
-                </form>
-            </div>
-            <?php else:?>
-            <?php endif;?>
+            
+            <?php foreach ($json_elements as $key => $section): ?>
+                
+                <?php if($section->section_code=='0'):?>
+                    <div style="padding-top: 8px;">
+                    <?php echo ColumnRender($section->elements, $section->layout,$document_title, $document_id, $section->layout);?>
+                    </div>
+                <?php endif; ?>
+            <?php endforeach; ?>
         </div>
         
         <form id='notesForm' class='form-horizontal'>
             <div class='panel panel-default'> 
+                
                 <?php foreach ($json_elements as $key => $section): ?>
+                
+                <?php if($section->section_code!='0'):?>
                 <div class='panel-heading' style="background-color: #0088cc; color: white; " data-section='<?= $key; ?>'><b><?= $section->section_desc; ?></b></div>
-                    <div class='panel-body' data-section='<?= $key; ?>'>
-                           
-                     <?php echo ColumnRender($section->elements, $section->layout,$document_title, $document_id, $section->layout);?>
-                          
-                    </div>
+                <div class='panel-body' data-section='<?= $key; ?>'>
+                <!--display element-->
+                <?php echo ColumnRender($section->elements, $section->layout,$document_title, $document_id, $section->layout);?>
+                </div>
+                <?php endif; ?>
+                
                 <?php endforeach; ?>
+                    
             </div>
         </form>
     </div>
@@ -53,7 +59,9 @@
             <div class='panel-body'>
                 <ul class='list-unstyled' style=" font-size: 12.5px;">
                     <?php foreach ($json_elements as $key => $section): ?>
+                        <?php if($section->section_code!='0'):?>
                         <li><input type='checkbox' class='selectedsection' name='<?= $key; ?>' value='<?= $key; ?>' checked /> <?= $section->section_desc; ?></li>
+                        <?php endif;?>
                     <?php endforeach; ?>
                 </ul>
 
@@ -165,7 +173,7 @@
         
         $('input[id^=rdio_]').hide();
         $('input[type=radio]').on('change',function(){
-            $('input[id^=rdio_]').hide();
+           $('input[id^=rdio_]').hide();
            var $parentcode = $(this).data('parentcodes');
             console.log($parentcode);
              $('#rdio_'+$parentcode).show();
