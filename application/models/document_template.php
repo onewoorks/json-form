@@ -178,13 +178,13 @@ class Document_Template_Model {
     }
 
     public function ReadDocumentSectionElements($documentId, $sectionId) {
-        $sql = "SELECT  rde.element_code, rde.json_element,rde.element_desc,de.child_element_code,de.element_level,de.data_type,de.sorting,de.input_type, de.method, de.doc_method_code, de.element_position, de.element_properties, de.additional_attribute"
+        $sql = "SELECT  rde.element_code, rde.json_element,rde.element_desc,de.child_element_code,de.element_level,de.data_type,de.sorting,de.input_type, de.method, de.doc_method_code, de.element_position, de.element_properties, de.additional_attribute, de.show_label "
                 . " FROM document_element de"
                 . " INNER JOIN document d ON(d.doc_name_id=de.doc_name_id)"
                 . " INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code)"
                 . " INNER JOIN ref_document_element rde ON (rde.element_code=de.parent_element_code)"
                 . " INNER JOIN ref_document_element rdee ON (rdee.element_code=de.child_element_code)"
-                . " WHERE de.doc_name_id='" . (int) $documentId . "' and de.section_code='" . (int) $sectionId . "'"
+                . " WHERE de.doc_name_id='" . (int) $documentId . "' AND de.section_code='" . (int) $sectionId . "' AND de.active = 1 "
                 . " ORDER BY de.sorting";
 //        echo $sql;
         $this->db->connect();
@@ -295,22 +295,13 @@ class Document_Template_Model {
     }
 
     public function GetElementDetail($elementCode,$documentId) {
-//        $methodName=$methodArray['doc_method_desc'];
-//        $method=$methodArray['doc_method_code'];
-        $sql = "SELECT rde.element_code, rde.json_element,rde.element_desc,de.child_element_code,de.data_type,de.sorting,de.input_type, de.method,de.doc_method_code,rdm.doc_method_desc,de.element_position, de.element_properties, de.additional_attribute "
+        $sql = "SELECT rde.element_code, rde.json_element,rde.element_desc,de.child_element_code,de.data_type,de.sorting,de.input_type, de.method,de.doc_method_code,de.element_position, de.element_properties, de.additional_attribute "
                 . " FROM document_element de INNER JOIN document d ON(d.doc_name_id=de.doc_name_id) "
                 . " INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code) "
                 . " INNER JOIN ref_document_element rde ON (rde.element_code=de.parent_element_code) "
                 . " INNER JOIN ref_document_element rdee ON (rdee.element_code=de.child_element_code) "
-                . " LEFT JOIN ref_document_method rdm ON (rdm.doc_method_code=de.doc_method_code) "
-                . " LEFT JOIN ref_document_method rdmm ON (rdmm.doc_method_desc=rdm.doc_method_code) "
+//                . " LEFT JOIN ref_document_method rdm ON (rdm.doc_method_code=de.doc_method_code) "
                 . " WHERE de.doc_name_id='" . (int) $documentId . "' and rde.element_code='" . (int) $elementCode . "'";     
-//                if($method !="null"){
-//                    $sql .="AND rdm.doc_method_code='$method'";
-//                }
-//                if($method !="null"){
-//                    $sql .="AND rdm.doc_method_desc='$methodName'";
-//                }
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -428,7 +419,7 @@ class Document_Template_Model {
     }
     
     public function UpdateMethodDetails(array $val) {
-        $sql = "UPDATE document_element SET child_element_code='".(int) $val['element_group']."',element_position='" . $val['element_position'] . "',element_properties='" . $val['element_properties'] . "',input_type='" . $val['input_type'] . "',data_type='" . $val['data_type'] . "',method='" . $val['method'] . "',additional_attribute='".$val['json']."' "
+        $sql = "UPDATE document_element SET child_element_code='".(int) $val['element_group']."',element_position='" . $val['element_position'] . "',element_properties='" . $val['element_properties'] . "',input_type='" . $val['input_type'] . "',data_type='" . $val['data_type'] . "',method='" . $val['method_info'] . "',doc_method_code='" . (int) $val['doc_method_code'] . "',additional_attribute='".$val['json']."' "
                 . "WHERE doc_name_id='".(int) $val['doc_id']."' AND parent_element_code='" . (int) $val['element_code'] . "'";
         $this->db->connect();
         $this->db->prepare($sql);
