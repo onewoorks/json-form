@@ -24,7 +24,7 @@
             <div class='panel panel-default'>
                 
                     <?php foreach ($json_elements as $key => $section): $sectionKod=$section->section_code;?>
-                        
+                        <?php if($section->section_code!='0'):?>
                             <div class='panel-heading' 
                                  data-section='<?= $key; ?>' 
 
@@ -117,7 +117,7 @@
                                endswitch;
                                ?>
                             </div>
-                        
+                    <?php endif;?>
                     <?php endforeach; ?>
                 
             </div>
@@ -130,7 +130,9 @@
             <div class='panel-body' >
                 <ul class='list-unstyled'  style=" font-size: 12.5px;">
                     <?php foreach ($json_elements as $key => $section): ?>
+                    <?php if($section->section_code!='0'):?>
                         <li><input type='checkbox' class='selectedsection'  name='<?= $key; ?>' value='<?= $key; ?>' checked /> <?= $section->section_desc; ?></li>
+                    <?php endif;?>
                     <?php endforeach; ?>
                 </ul>
 
