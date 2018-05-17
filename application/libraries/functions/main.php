@@ -23,6 +23,7 @@ function InputTypeCaller($element, $name, $documentTitle,$documentId,$layout=1) 
         'method' => $element->method,
         'doc_method_code' => $element->doc_method_code,
         'json_element'=>$element->json_element,
+        'show_label'=>$element->show_label,
         'document_title' => $documentTitle,
         'doc_name_id'=>$documentId,
         'layout' =>$layout
