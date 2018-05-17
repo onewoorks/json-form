@@ -30,7 +30,7 @@
 
                                  style="background: #f5f5f5; "><?= $section->section_desc; ?>
                                 <div class="btn-group pull-right">
-                                    <a href="#" class="btn btn-default btn-xs editSection" data-section='<?= $key; ?>'
+                                    <a href="#" class="btn btn-default btn-xs editSection hidden" data-section='<?= $key; ?>'
                                        data-sectioncode='<?= $section->section_code; ?>' 
                                        ></i> Edit Section</a>
                                     <a href="#" class="btn btn-default btn-xs expandButton" style="padding-top:1.5px;" data-section='<?= $key; ?>' data-current='expend'><i class='glyphicon glyphicon-chevron-down'></i> Expand</a>
