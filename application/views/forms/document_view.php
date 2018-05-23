@@ -12,21 +12,20 @@
                     <div class='col-xs-10'>: <strong><?= $document_title; ?></strong></div>
                 </div></div>
             
+            <form class='form-horizontal'>
             <?php foreach ($json_elements as $key => $section): ?>
-                
                 <?php if($section->section_code=='0'):?>
-                    <div style="padding-top: 8px;">
+                    <div class='panel-body' data-section='<?= $key; ?>' style="padding-top: 8px;" >
                     <?php echo ColumnRender($section->elements, $section->layout,$document_title, $document_id, $section->layout);?>
                     </div>
                 <?php endif; ?>
             <?php endforeach; ?>
+            </form>
         </div>
         
         <form id='notesForm' class='form-horizontal'>
             <div class='panel panel-default'> 
-                
                 <?php foreach ($json_elements as $key => $section): ?>
-                
                 <?php if($section->section_code!='0'):?>
                 <div class='panel-heading' style="background-color: #0088cc; color: white; " data-section='<?= $key; ?>'><b><?= $section->section_desc; ?></b></div>
                 <div class='panel-body' data-section='<?= $key; ?>'>
@@ -34,9 +33,7 @@
                 <?php echo ColumnRender($section->elements, $section->layout,$document_title, $document_id, $section->layout);?>
                 </div>
                 <?php endif; ?>
-                
                 <?php endforeach; ?>
-                    
             </div>
         </form>
     </div>
@@ -179,7 +176,7 @@
              $('#rdio_'+$parentcode).show();
             if ($(this).is(':checked')) {
                 $('#rdio_'+$parentcode).show();
-            }
+        }
         });
     });
     
