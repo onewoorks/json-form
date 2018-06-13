@@ -178,7 +178,7 @@ class Document_Template_Model {
     }
 
     public function ReadDocumentSectionElements($documentId, $sectionId) {
-        $sql = "SELECT  rde.element_code, rde.json_element,rde.element_desc,de.child_element_code,de.element_level,de.data_type,de.sorting,de.input_type, de.method, de.doc_method_code, de.element_position, de.element_properties, de.additional_attribute, de.show_label, de.element_tooltips, de.element_hint, de.file_type_code "
+        $sql = "SELECT  rde.element_code, rde.json_element,rde.element_desc,de.child_element_code,de.element_level,de.data_type,de.sorting,de.input_type, de.method, de.doc_method_code, de.element_position, de.element_properties, de.additional_attribute, de.show_label, de.element_tooltips, de.element_hint, de.file_type_code, de.section_tooltips "
                 . " FROM document_element de"
                 . " INNER JOIN document d ON(d.doc_name_id=de.doc_name_id)"
                 . " INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code)"
