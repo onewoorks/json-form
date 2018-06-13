@@ -24,6 +24,7 @@ function InputTypeCaller($element, $name, $documentTitle,$documentId,$layout=1) 
         'doc_method_code' => $element->doc_method_code,
         'json_element'=>$element->json_element,
         'show_label'=>$element->show_label,
+        'section_tooltips'=>$element->section_tooltips,
         'element_tooltips'=>$element->element_tooltips,
         'element_hint'=>$element->element_hint,
         'file_type_code'=>$element->file_type_code,
