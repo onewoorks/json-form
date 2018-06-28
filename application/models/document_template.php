@@ -568,10 +568,14 @@ class Document_Template_Model {
     
     public function UpdateJSONDocument($documents) {
         $jsonForm = $this->jsonForm;
+        echo '<pre>';
+        echo $jsonForm;
+        echo '</pre>';
+        $json = str_replace('\r\n', '<br />', $jsonForm);
         $docNameId = $documents['doc_name_id'];
 //        $templateId = $documents['template_id'];
         $sql = "UPDATE document_template SET "
-                . "json_template = '$jsonForm', "
+                . "json_template = '$json', "
                 . "updated_date = now(), "
                 . "updated_by = 'ADMIN' "
                 . "WHERE doc_name_id='" . (int) $docNameId . "' ";
