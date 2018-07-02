@@ -27,6 +27,7 @@ function InputTypeCaller($element, $name, $documentTitle,$documentId,$layout=1) 
         'section_tooltips'=>$element->section_tooltips,
         'element_tooltips'=>$element->element_tooltips,
         'element_hint'=>$element->element_hint,
+        'sec_file_type_code'=>$element->sec_file_type_code,
         'file_type_code'=>$element->file_type_code,
         'document_title' => $documentTitle,
         'doc_name_id'=>$documentId,
