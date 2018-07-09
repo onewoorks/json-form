@@ -571,15 +571,14 @@ class Document_Template_Model {
         echo '<pre>';
         echo $jsonForm;
         echo '</pre>';
-        $json = str_replace('\r\n', '<br />', $jsonForm);
+        $json = str_replace('\r\n', '<br>', $jsonForm);
+        $json2 = str_replace('\n','<br>',$json);      
         $docNameId = $documents['doc_name_id'];
-//        $templateId = $documents['template_id'];
         $sql = "UPDATE document_template SET "
-                . "json_template = '$json', "
+                . "json_template = '$json2', "
                 . "updated_date = now(), "
                 . "updated_by = 'ADMIN' "
                 . "WHERE doc_name_id='" . (int) $docNameId . "' ";
-//                . "WHERE doc_name_id='" . (int) $docNameId . "' AND template_id='" . (int) $templateId ."'  ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
