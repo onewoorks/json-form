@@ -196,10 +196,17 @@ class Document_Template_Model {
 
     public function CreateDocumentJSONFormat($documents) {
         $jsonForm = $this->jsonForm;
-        $docNameId = $documents['doc_name_id'];
+        $docNameId = $documents['doc_name_id'];        
+        $newLine = array('\r\n', '\n', '\r');
+        $replace = '<br />';
+        $json = str_replace($newLine, $replace, $jsonForm);
+        $jsonDoc = addslashes($json);
+            echo '<pre>';
+            print_r($jsonDoc);
+            echo '</pre>';
         $sql = "INSERT INTO document_template SET "
                 . "doc_name_id = '".(int)$docNameId."',"
-                . "json_template = '$jsonForm', "
+                . "json_template = '$jsonDoc', "
                 . "created_date = now(), "
                 . "created_by = 'ADMIN' ";
         $this->db->connect();
@@ -568,14 +575,16 @@ class Document_Template_Model {
     
     public function UpdateJSONDocument($documents) {
         $jsonForm = $this->jsonForm;
-        echo '<pre>';
-        echo $jsonForm;
-        echo '</pre>';
-        $json = str_replace('\r\n', '<br>', $jsonForm);
-        $json2 = str_replace('\n','<br>',$json);      
         $docNameId = $documents['doc_name_id'];
+        $newLine = array('\r\n', '\n', '\r');
+        $replace = '<br />';
+        $json = str_replace($newLine, $replace, $jsonForm);
+        $jsonDoc = addslashes($json);
+            echo '<pre>';
+            print_r($jsonDoc);
+            echo '</pre>';
         $sql = "UPDATE document_template SET "
-                . "json_template = '$json2', "
+                . "json_template = '$jsonDoc', "
                 . "updated_date = now(), "
                 . "updated_by = 'ADMIN' "
                 . "WHERE doc_name_id='" . (int) $docNameId . "' ";
