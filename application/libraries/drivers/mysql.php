@@ -8,14 +8,10 @@ class Mysql_Driver {
     private $bind;
 
     public function connect() {
-        $host = '172.19.2.103';
+        $host = '202.171.33.109';
         $user = 'root';
         $password = 'R00t@!23';
         $database = 'his_kkm';
-//        $host = '172.19.2.103';
-//        $user = 'root';
-//        $password = 'r';
-//        $database = 'his_kkm';
         try {
             $this->connection = new PDO("mysql:host=$host;port=3306;dbname=$database", $user, $password, array(
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -28,7 +24,7 @@ class Mysql_Driver {
             return FALSE;
         }
     }
-
+    
     public function dc() {
         
     }
@@ -58,6 +54,7 @@ class Mysql_Driver {
     public function queryexecute() {
         $result = false;
         if (isset($this->query)) {
+//            print_r($this->query);
             $this->result = $this->connection->query($this->query);
             $result = true;
         }
