@@ -103,7 +103,7 @@
 </div>
 <script src='<?= SITE_ROOT; ?>/assets/library/datepicker/js/bootstrap-datepicker.js'></script>
 <!--<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>-->
-<script src='http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js'></script>
 <script src="<?php echo SITE_ROOT; ?>/assets/library/summernote/summernote.js"></script>
 <script src="<?php echo SITE_ROOT; ?>/assets/js/dropdown.js"></script>
 <script>
