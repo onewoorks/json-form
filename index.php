@@ -16,8 +16,9 @@ define('MODEL', 'application/models');
 define('INCLUDES', 'application/includes');
 define('SITE', 'application/');
 define('SCRIPTS', 'application/views/scripts/');
-define('SITE_ROOT', 'http://localhost/'.APPS_NAME.'/');
-define('URL_ARRAY','2');
+//define('SITE_ROOT', 'http://localhost/'.APPS_NAME.'/');
+define('SITE_ROOT', 'https://his-json-form.herokuapp.com/');
+define('URL_ARRAY','1');
 
 require_once(SERVER_ROOT . 'application/controllers/router.php');
 // ob_end_flush();
