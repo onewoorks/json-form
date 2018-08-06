@@ -8,10 +8,10 @@ class Mysql_Driver {
     private $bind;
 
     public function connect() {
-        $host = '202.171.33.109';
-        $user = 'root';
-        $password = 'R00t@!23';
-        $database = 'his_kkm';
+        $host = 'xx.xx.xx.xx';
+        $user = 'xx';
+        $password = 'xxx';
+        $database = 'xxx';
         try {
             $this->connection = new PDO("mysql:host=$host;port=3306;dbname=$database", $user, $password, array(
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
