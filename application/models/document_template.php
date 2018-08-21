@@ -48,7 +48,7 @@ class Document_Template_Model {
        if(isset($generateArray['doc_type'])){
        $docType = $generateArray['doc_type'];} else { $docType =0;}
        $sql = "SELECT d.doc_name_id, d.doc_name_desc, gd.discipline_name,rdt.dc_type_desc,md.main_discipline_name, "
-                . "(case when ((SELECT doc_name_id FROM document_template WHERE doc_name_id = d.doc_name_id) IS NULL) then false else true end) as available "
+                . "(case when (SELECT doc_name_id FROM document_template WHERE doc_name_id = d.doc_name_id IS NULL) then false else true end) as available "
                 . "FROM document_element de INNER JOIN document d ON(d.doc_name_id=de.doc_name_id) "
                 . "INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code) "
                 . "INNER JOIN ref_document_element rde ON (rde.element_code=de.parent_element_code) "
