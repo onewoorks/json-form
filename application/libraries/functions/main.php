@@ -29,6 +29,7 @@ function InputTypeCaller($element, $name, $documentTitle,$documentId,$layout=1) 
         'element_hint'=>$element->element_hint,
         'sec_file_type_code'=>$element->sec_file_type_code,
         'file_type_code'=>$element->file_type_code,
+        'image_name_id'=>$element->image_name_id,
         'document_title' => $documentTitle,
         'doc_name_id'=>$documentId,
         'layout' =>$layout
