@@ -30,6 +30,7 @@ function InputTypeCaller($element, $name, $documentTitle,$documentId,$layout=1) 
         'sec_file_type_code'=>$element->sec_file_type_code,
         'file_type_code'=>$element->file_type_code,
         'image_name_id'=>$element->image_name_id,
+        'mandatory_flag'=>$element->mandatory_flag,
         'document_title' => $documentTitle,
         'doc_name_id'=>$documentId,
         'layout' =>$layout
