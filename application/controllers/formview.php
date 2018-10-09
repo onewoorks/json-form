@@ -563,18 +563,18 @@ class Formview_Controller extends Common_Controller {
     }
     
     private function CaseBasic(array $data){
-//        $document = new Document_Template_Model();
-//        $docID = $data['documentId'];
-//        $elementID = $data['elementCode'];
-//        $input_type = $data['input_type'];//method
-//        $dataType = '(NULL)';
-//
-////        $document->CleanMultipleAnswer($data);
-//        
-//        if ($input_type=='METHOD') {
-//            $method = $this->form_array($_REQUEST['basicMethod']);
-//            $methodCode = $method['methodList'];
-//        }
+        $document = new Document_Template_Model();
+        $docID = $data['documentId'];
+        $elementID = $data['elementCode'];
+        $input_type = $data['input_type'];//method
+        $dataType = '(NULL)';
+
+        $document->CleanMultipleAnswer($data);
+        
+        if ($input_type=='METHOD') {
+            $method = $this->form_array($_REQUEST['basicMethod']);
+            $methodCode = $method['methodList'];
+        }
 //        else if($input_type=='MULTIPLE ANSWER'){
 //            $methodCode = '(NULL)';
 //            $parent_code = '(NULL)';
@@ -642,23 +642,23 @@ class Formview_Controller extends Common_Controller {
 //            $a++;
 //            endfor;               
 //        }
-//        else{
-//               $methodCode = '(NULL)';  
-//        }
-//        
-//         $val = array (
-//            'doc_name_id' => $docID,
-//            'element_code' => $elementID,
-//            'child_element_code' => $data['element_group'],
-//            'element_position' => $data['position'],
-//            'element_properties' => $data['element_properties'],
-//            'input_type' => $input_type,
-//            'data_type' => $dataType,
-//            'doc_method_code' => $methodCode
-//        );
-//        print_r($val);
-////        $document->UpdateElementToBasic($val);
-//        return true;
+        else{
+               $methodCode = '(NULL)';  
+        }
+        
+         $val = array (
+            'doc_name_id' => $docID,
+            'element_code' => $elementID,
+            'child_element_code' => $data['element_group'],
+            'element_position' => $data['position'],
+            'element_properties' => $data['element_properties'],
+            'input_type' => $input_type,
+            'data_type' => $dataType,
+            'doc_method_code' => $methodCode
+        );
+        print_r($val);
+        $document->UpdateElementToBasic($val);
+        return true;
         
     }
     
