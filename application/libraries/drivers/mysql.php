@@ -77,6 +77,7 @@ class Mysql_Driver {
     public function queryexecute() {
         $result = false;
         if (isset($this->query)) {
+//            print_r($this->query);
             $this->result = $this->connection->query($this->query);
             $result = true;
         }

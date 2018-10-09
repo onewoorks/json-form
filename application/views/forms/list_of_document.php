@@ -40,9 +40,11 @@
                                 <option value='0' selected="selected">Please Select Document Group</option>
                             <?php else: ?>
                                 <option value='0' >Please Select Document Type</option>
+                                <?php if(isset($doc_types)):?>
                                 <?php foreach ($doc_types as $doc): ?>
-                                    <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
+                                    <option value='//<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
                                 <?php endforeach; ?>
+                                <?php endif;?>
                             <?php endif; ?>
                         </select></td>
                     </tr>

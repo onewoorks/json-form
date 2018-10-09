@@ -200,13 +200,13 @@ class Document_Template_Model {
         $newLine = array('\r\n', '\n', '\r');
         $replace = '<br />';
         $json = str_replace($newLine, $replace, $jsonForm);
-//        $jsonDoc = addslashes($json);
-//            echo '<pre>';
-//            print_r($jsonDoc);
-//            echo '</pre>';
+        $jsonDoc = addslashes($json);
+            echo '<pre>';
+            print_r($jsonDoc);
+            echo '</pre>';
         $sql = "INSERT INTO document_template SET "
                 . "doc_name_id = '".(int)$docNameId."',"
-                . "json_template = '$json', "
+                . "json_template = '$jsonDoc', "
                 . "created_date = now(), "
                 . "created_by = 'ADMIN' ";
         $this->db->connect();
@@ -881,7 +881,6 @@ class Document_Template_Model {
                 . "updated_date = now(), "
                 . "updated_by = 'ADMIN' "
                 . "WHERE doc_name_id='" . (int) $docNameId . "' ";
-        print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
