@@ -1,5 +1,4 @@
-<!--<div class="panel-heading panel-child">FORM ELEMENT</div>-->
-        <div class="panel-body">
+    <div class="panel-body">
                         
                         <div class="form-group form-group-sm">
                                 <input type="hidden" name='elementCode' value="<?= $vars['element_code'];?>" />
@@ -23,9 +22,12 @@
                                     <label class="radio-inline">
                                         <input type="radio" name='input_type'  value="TEXTBOX" <?php if($input_type==='TEXTBOX'){echo 'checked';} ?>> Textbox
                                     </label>
-<!--                                    <label class="radio-inline">
-                                        <input type="radio" name='input_type'  value="ROW" <?php if($input_type==='ROW'){echo 'checked';} ?>> Row
-                                    </label>-->
+                                    <label class="radio-inline">
+                                        <input type="radio" name='input_type'  value="METHOD" <?php if($input_type==='METHOD'){echo 'checked';} ?>> Method
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name='input_type'  value="TIME" <?php if($input_type==='TIME'){echo 'checked';} ?>> Time
+                                    </label>
                                 </div>
                                 <div>
                                     <label class="radio-inline">
@@ -35,6 +37,9 @@
                                         <input type="radio" name='input_type'  value="NUMERIC" <?php if($input_type==='NUMERIC'){echo 'checked';} ?>> Numeric                                       
                                     </label>
                                     <label class="radio-inline">
+                                        <input type="radio" name='input_type'  value="ALPHANUMERIC" <?php if($input_type==='ALPHANUMERIC'){echo 'checked';} ?>> Alphanumeric                                       
+                                    </label>
+                                    <label class="radio-inline">
                                         <input type="radio" name='input_type'  value="MULTIPLE ANSWER" <?php if($input_type==='MULTIPLE ANSWER'){echo 'checked';} ?>> Multiple Answer                                       
                                     </label>
                                 </div>
@@ -42,7 +47,7 @@
                         </div>
 
                   <div id="multiple_answer" >
-                      <form id='basic'>
+                      <form id='basicMultAns'>
                         <div id='predefinedList'>
                                 <?php if($input_type==='MULTIPLE ANSWER'){                         
                                 $elementDetail = array(    
@@ -51,125 +56,119 @@
                                    'element_code' => $vars['element_code'],
                                    'method' => $vars['method'],
                                    'json_element'=>$vars['json_element'],
-                                   'doc_name_id'=>$vars['document_id']
+                                   'doc_name_id'=>$vars['document_id'],
+                                   'doc_method_code' =>$vars['method_code']
                                        ); ?>
-                    <?= UpdateInput($elementDetail);   }else{   ?>
-                            <div class='prelist1'>
+                                <?= UpdateInput($elementDetail);   }
+                            else{   ?>
+                            
+                                    <div class="my-form">
+                                            <div class="form-group form-group-sm input-list text-box">
+                                                <label class="control-label col-sm-4" for="box1">Box <span class="box-number">1</span></label>
+                                                <input class="form-control" type="text" name="boxes[]" value="" id="box1" />
+                                                <a class="add-box" href="#">Add</a>&nbsp
+                                            </div>
+                                    </div>		 
+
+<!--                            <div class='prelist1'>
                                 <div class="form-group form-group-sm input-list">
-                                    <label class="control-label col-sm-4">Predefined Value</label>                                 
+                                    <label class="control-label col-sm-4">Predefined Value</label>
+                                    
                                     <div class="col-sm-3 list-padding">
-                                        <input type='text' name="multi_ans_desc0" class='form-control' placeholder='label / title' />
-                                        <input type='hidden' name='sorting0' value="1" />
-                                        <input type="hidden" id="validation0" name="validation0" value="parentonly" />
+                                        <input type='text' id="multi_ans_desc1" name="multi_ans_desc1" class='form-control' placeholder='parent: label / title' />
+                                        <input type='hidden' id="total" name='total' value="1" />
+                                        <input type="hidden" id="validation1" name="validation1" value="parentonly" />
                                     </div>
+                                    
                                     <div class="col-sm-3 list-padding">
-                                        <select name="multi_input_type0" class="form-control">
-                                            <option value="DROPDOWN">Dropdown</option>
-                                            <option value="CHECKBOX">Checkbox</option>
-                                            <!--<option value="DROPDOWN CHECKBOX">Dropdown Checkbox</option>-->
-                                            <option value="RADIOBUTTON">Radiobutton</option>
-                                            <option value="FREETEXT">Freetext</option>
-                                            <!--<option value="LIST">List</option>-->
-                                            <option value="CALENDER">Calendar</option> 
+                                        <select id="multi_input_type" name="multi_input_type1" class="form-control">
+                                            <?=  ListMultipleAnswer();?>
                                         </select>
                                     </div>
+                                    
                                     <div class='col-sm-2 predefinedActionButton' data-listid='1'>
-                                        <div class='btn btn-default btn-sm addPredefined' data-listid='1' data-childno='1'><i class='glyphicon glyphicon-plus'></i></div>
-                                        <div class='btn btn-default btn-sm addChild' data-childlistid='0' data-childno='0'><i class='glyphicon glyphicon-collapse-down'></i></div>
+                                        <div class='btn btn-default btn-sm addPredefined' data-listid='1' data-childno='0' style="margin-right:-4px"><i class='glyphicon glyphicon-plus'></i> Parent</div>
+                                        <div class="btn btn-default btn-sm addChild" data-childlistid='1' data-childno='1' data-grandchildlist='1' style="padding:4px"><i class="fas fa-layer-group"></i></div>
                                     </div>
-                                </div> 
-                                    <div class="form-group form-group-sm input-list" id="child0">
-                                    </div>
-                            </div>
-                             <?php }  ?>
+                                    
+                                </div>
+                                
+                                    <div class="form-group form-group-sm input-list" id="child1" ></div>  BAWAK FIRST PARENT
+                            </div>-->
+                            
+                            <?php }  ?>
                         </div>
                       </form>
                     </div>
             
-                <div id="row">
-                      <form id='rowinput' >
-                          <div id='predefinedRow'>
-                          <?php
-                          if($input_type === 'ROW'){
-                          $additional_attr = $vars['additional_attribute'];
-                          $json = json_decode($additional_attr,true);
-                          $max = sizeof($json);
-                            $rowno = 1;
-                           foreach ($json as $key => $info): 
-                              $rt = ucwords(strtolower($info['row_type']));?>
-                            <div class='prerow<?php echo $rowno; ?>'>
-                                <div class="form-group form-group-sm input-list">
-                                    <?php if($rowno==1){
-                                        $rowlabel = 'Row Info';
-                                    }else{ $rowlabel = ''; } ?>
-                                    <label class="control-label col-sm-4"><?php echo $rowlabel; ?></label>                                 
-                                    <div class="col-sm-3 list-padding">
-                                        <input type='text' name="row_desc<?php echo $rowno; ?>" class='form-control' value='<?php echo $info['row_desc']; ?>' />
-                                    </div>
-                                    <div class="col-sm-3 list-padding">
-                                        <select name="row_type<?php echo $rowno; ?>" class="form-control">
-                                            <option value="<?php echo $info['row_type']; ?>"><?php echo $rt; ?></option>
-                                            <option value="TEXTBOX">Textbox</option>
-                                            <option value="FREETEXT">Freetext</option>
-                                            <option value="NUMBER">Number</option>
-                                            <option value="CALENDER">Calendar</option>                                       
-                                        </select>
-                                    </div>
-                                    <div class='col-sm-2 rowActionButton' data-rowid='<?php echo $rowno; ?>'>
-                                        <?php if($rowno === $max){   ?>
-                                        <div class='btn btn-default btn-sm addrow' data-rowno='<?php echo $rowno; ?>' ><i class='glyphicon glyphicon-plus'></i></div>
-                                        <div class='btn btn-default btn-sm delrow' data-rowno='<?php echo $rowno; ?>' ><i class='glyphicon glyphicon-trash'></i></div>
-                                        <?php } ?>
-                                    </div>
-                                </div> 
-                            </div>                              
-                              <?php
-                              $rowno++;
-                              endforeach;  
-                          }
-                         else{  ?>
-                            <div class='prerow1'>
-                                <div class="form-group form-group-sm input-list">
-                                    <label class="control-label col-sm-4">Row Info</label>                                 
-                                    <div class="col-sm-3 list-padding">
-                                        <input type='text' name="row_desc1" class='form-control' placeholder='label / description' />
-                                    </div>
-                                    <div class="col-sm-3 list-padding">
-                                        <select name="row_type1" class="form-control">
-                                            <option value="TEXTBOX">Textbox</option>
-                                            <option value="FREETEXT">Freetext</option>
-                                            <option value="NUMBER">Number</option>
-                                            <option value="CALENDER">Calendar</option>                                                                                   
-                                        </select>
-                                    </div>
-                                    <div class='col-sm-2 rowActionButton' data-rowid='1'>
-                                        <div class='btn btn-default btn-sm addrow' data-rowno='1' ><i class='glyphicon glyphicon-plus'></i></div>
-                                    </div>
-                                </div> 
-                            </div>  <?php                              
-                         }
-                          ?>
+                <div id="method">
+                      <form id='basicMethod' >
+                           <div id='predefinedListMethod'>
+                                <?php if($input_type==='METHOD'){                         
+                                $elementDetail = array(    
+                                   'label' => $vars['element_desc'],
+                                   'additional_attribute' => $vars['additional_attribute'],
+                                   'element_code' => $vars['element_code'],
+                                   'method' => $vars['method'],
+                                   'json_element'=>$vars['json_element'],
+                                   'doc_name_id'=>$vars['document_id'],
+                                   'doc_method_code' =>$vars['method_code']
+                                       ); ?>
+                            <?= UpdateMethod($elementDetail);   }else{   ?>
+                            <?=  ListMethod();?>
+                             <?php }  ?>
                         </div>
                       </form>
-                    
                 </div>
             </div>
 
-
 <script>
+$(document).ready(function(){
+
+$('.my-form .add-box').click(function(){
+		var n = $('div.text-box').length + 1;
+		  console.log('n',n);
+		  var $box_html = '<div class="my-form"><div class="form-group form-group-sm input-list text-box">';
+		  $box_html += '<label class="control-label col-sm-4" for="box' + n + '">Box <span class="box-number">' + n + '</span></label>';
+		  $box_html += '<input class="form-control" type="text" name="boxes[]" value="" id="box' + n + '"  /> <a href="#" class="remove-box">Remove</a>&nbsp';
+		  $box_html += '</div></div>';
+		  
+		  $($box_html).hide();
+		  $('.my-form div.text-box:last').after($box_html);
+                  $($box_html).fadeIn('slow');
+
+
+		  return false;		 
+		  
+		  
+});
+
+ $('.my-form').on('click', '.remove-box', function(){
+	        $(this).parent().css( 'background-color', '#FF6C6C' );
+	        $(this).parent().fadeOut("slow", function() {
+	            $(this).remove();
+	            $('.box-number').each(function(index){
+	               $(this).text( index + 1 );
+	           });
+	        });
+	        return false;
+	    });
+		 
+});
+</script>
+
+<script>       
     $(function(){
         $('#multiple_answer').hide();
-        $('#row').hide();
+        $('#method').hide();
         $('[name=input_type]').on('change',function(){
             $('#multiple_answer').hide();
-            $('#row').hide();
+            $('#method').hide();
             var isselect = $(this).val();
             if(isselect==='MULTIPLE ANSWER'){
-                $('#multiple_answer').show();
-            }
-            if(isselect==='ROW'){
-                $('#row').show();
-            }
+                $('#multiple_answer').show();}
+            if(isselect==='METHOD'){
+                $('#method').show();}
         });
     });
     
@@ -178,141 +177,8 @@
         if( $define ==='MULTIPLE ANSWER'){
         $("#multiple_answer").show();
         }
-        if( $define ==='ROW'){
-        $("#row").show();
+        if( $define ==='METHOD'){
+        $("#method").show();
         }
     });
-        
-    $('#predefinedList').on('click', '.addPredefined', function () {
-            var index = $(this).data('listid') + 1;
-            var current = $(this).data('listid');
-            
-            var $deleteButton = "<div class='btn btn-default btn-sm deletePredefined' data-delid='" + current + "'><i class='glyphicon glyphicon-trash'></i></div>";
-            $deleteButton += "<div class='btn btn-default btn-sm addChild' data-childlistid='" + current + "' data-childno='1'><i class='glyphicon glyphicon-collapse-down'></i></div>";            
-            $('.predefinedActionButton[data-listid="' + current + '"]').html($deleteButton);
-            
-            var x = [index];
-            var $html = '<div class="prelist' + index + '">';            
-            $html += '<div class="form-group form-group-sm input-list">';
-            $html += '<label class="control-label col-sm-4"></label>';
-            $html += '<div class="col-sm-3 list-padding-right">';
-            $html += '<input type="text" name="multi_ans_desc'+ x +'" class="form-control" placeholder="label / title" />';
-            $html += '<input type="hidden" id="validation' + index + '" name="validation' + index + '" value="parentonly" />';
-            $html += '<input type="hidden" name="total" value="'+index+'" />';
-            $html += '</div>';
-            $html += '<div class="col-sm-3 list-padding-left" >';
-            $html += '<select name="multi_input_type'+ x +'" class="form-control">';
-            $html += '<option value="DROPDOWN">Dropdown</option>';
-            $html += '<option value="CHECKBOX">Checkbox</option>';
-            $html += '<option value="DROPDOWN CHECKBOX">Dropdown Checkbox</option>';
-            $html += '<option value="RADIOBUTTON">Radiobutton</option>';
-            $html += '<option value="FREETEXT">Freetext</option>';
-            $html += '<option value="LIST">List</option>';
-            $html += '<option value="CALENDER">Calendar</option>';             
-            $html += '</select>';
-            $html += '</div>';
-            $html += '<div class="col-sm-2 predefinedActionButton" data-listid=' + index + ' >';
-            $html += '<div class="btn btn-default btn-sm addPredefined" data-listid=' + index + ' data-childno="1"><i class="glyphicon glyphicon-plus"></i></div>';
-            $html += '<div class="btn btn-default btn-sm addChild" data-childlistid="' + index + '" data-childno="1" ><i class="glyphicon glyphicon-collapse-down"></i></div>';
-            $html += '</div>';
-            $html += '</div>';
-            $html += '<div class="form-group form-group-sm input-list" id="child' + index + '"></div>';
-            $html += '</div>';
-            $($html).appendTo('#predefinedList');
-        });
-
-    $('#predefinedList').on('click', '.deletePredefined', function () {
-            var deleteid = $(this).data('delid');
-            if (deleteid > 0) {
-                $('.prelist' + deleteid).remove();
-            }
-        });
-    
-    $('#predefinedList').on('click', '.addChild', function () {
-            var current = $(this).data('childlistid');
-            var no = $(this).data('childno');
-            var nextno = no+1;
-            $('.addChild[data-childlistid="' + current + '"]').data('childno',nextno);
-            document.getElementById('validation'+current).value = 'childexist';
-
-            var $html = '<div class="childno'+current+'' + no + '">';            
-            $html += '<div class="form-group form-group-sm input-list">';
-            $html += '<label class="control-label col-sm-5"></label>';
-            $html += '<div class="col-sm-3 list-padding-right">';
-            $html += '<input type="hidden" name="childtotal'+current+'" class="form-control" value="'+no+'" />';
-            $html += '<input type="text" name="child_multi_ans_desc'+current+''+no+'" class="form-control" placeholder="child : label / title" />';
-            $html += '</div>';
-            $html += '<div class="col-sm-3 list-padding-left" >';
-            $html += '<select name="child_multi_input_type'+current+''+no+'" class="form-control">';
-            $html += '<option value="DROPDOWN">Dropdown</option>';
-            $html += '<option value="DROPDOWN CHECKBOX">Dropdown Checkbox</option>';
-            $html += '<option value="CHECKBOX">Checkbox</option>';
-            $html += '<option value="RADIOBUTTON">Radiobutton</option>';
-            $html += '<option value="FREETEXT">Freetext</option>';
-            $html += '<option value="TEXTBOX">Textbox</option>';
-            $html += '<option value="CALENDER">Calendar</option>';
-            $html += '</select>';
-            $html += '</div>';
-            $html += '<div class="col-sm-1 childPredefinedActionButton" data-childlistid='+current+'' + no + ' >';
-            $html += '<div class="btn btn-default btn-sm childDeletePredefined" data-delid='+current+'' + no + ' data-num='+no+' data-parent='+current+' ><i class="glyphicon glyphicon-trash"></i></div>';
-            $html += '</div>';
-            $html += '</div>';
-            $html += '</div>';
-            $($html).appendTo('#child'+current); 
-        });
-        
-    $('#predefinedList').on('click', '.childDeletePredefined', function () {
-            var deleteid = $(this).data('delid');
-            var num = $(this).data('num');
-            var parent = $(this).data('parent');
-//            console.log(parent);
-            if (num === 1) {
-               document.getElementById('validation'+parent).value = 'parentonly';
-            }                       
-             $('.childno' + deleteid).remove();
-        });
-        
-    $('#row').on('click','.addrow',function(){
-        var rowno = $(this).data('rowno');
-        var nextno = rowno + 1 ;        
-        if (nextno < 5){             
-        var $deleteButton = "<div></div>";          
-        $('.rowActionButton[data-rowid="' + rowno + '"]').html($deleteButton);
-            
-        var $html = '<div class=prerow'+nextno+'>';
-        $html += '<div class="form-group form-group-sm input-list">';
-        $html += '<label class="control-label col-sm-4"></label>';
-        $html += '<div class="col-sm-3 list-padding">';
-        $html += '<input type="text" name="row_desc'+nextno+'" class="form-control" placeholder="label / description" />';
-        $html += '</div>';
-        $html += '<div class="col-sm-3 list-padding">';
-        $html += '<select name="row_type'+nextno+'" class="form-control">';
-        $html += '<option value="TEXTBOX">Textbox</option>';
-        $html += '<option value="FREETEXT">Freetext</option>';
-        $html += '<option value="NUMBER">Number</option>';
-        $html += '<option value="CALENDER">Calendar</option>';       
-        $html += '</select>';
-        $html += '</div>';
-        $html += '<div class="col-sm-2 rowActionButton" data-rowid='+nextno+'>';
-        $html += '<div class="btn btn-default btn-sm addrow" data-rowno='+nextno+' ><i class="glyphicon glyphicon-plus"></i></div>';
-        $html += '<div class="btn btn-default btn-sm delrow" data-rowno='+nextno+' ><i class="glyphicon glyphicon-trash"></i></div>';
-        $html += '</div>';
-        $html += '</div>';
-        $html += '</div>';
-        $($html).appendTo('#predefinedRow');
-    }
-    });
-    
-        $('#row').on('click', '.delrow', function () {
-            var deleteid = $(this).data('rowno');
-            var idbefore = deleteid - 1;
-            if (deleteid> 1) {
-            $('.prerow' + deleteid).remove();
-            
-        var $deleteButton = '<div class="btn btn-default btn-sm addrow" data-rowno='+idbefore+' ><i class="glyphicon glyphicon-plus"></i></div>';
-        $deleteButton +='<div class="btn btn-default btn-sm delrow" data-rowno='+idbefore+' ><i class="glyphicon glyphicon-trash"></i></div>';
-        $('.rowActionButton[data-rowid="' + idbefore + '"]').html($deleteButton);
-        
-        }                       
-        });
 </script>

@@ -4,7 +4,6 @@
         <title>CD Document JSON Generator</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="json form formatted from structured dataset">
-
         <link href="<?php echo SITE_ROOT; ?>/assets/library/bootstrap/css/bootstrap.css" rel="stylesheet">
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
         <script src="<?php echo SITE_ROOT; ?>/assets/library/bootstrap/js/bootstrap.js"></script> 
@@ -13,6 +12,7 @@
         <script src="<?php echo SITE_ROOT; ?>/assets/library/sweetalert/sweetalert.min.js"></script>
         <link rel="stylesheet" type="text/css" href="<?php echo SITE_ROOT; ?>/assets/library/sweetalert/sweetalert.css">
         <link href='<?php echo SITE_ROOT;?>/assets/library/datepicker/css/datepicker.css' rel="stylesheet" />
+        <link href="//use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"  rel="stylesheet">
     </head>
 
 <div class='row'>
@@ -20,77 +20,80 @@
         <div id='maintitle'>
             <h4 style='padding-left: 20px;'><b><?= $document_title; ?>&nbsp;</b><a href="#" class="btn btn-default btn-xs editTitle"></i>Edit Title</a></h4>
         </div>
+        
         <form id='notesForm' class='form-horizontal'>
             <div class='panel panel-default'>
                 
                     <?php foreach ($json_elements as $key => $section): $sectionKod=$section->section_code;?>
+                
                         <?php if($section->section_code!='0'):?>
-                            <div class='panel-heading' 
-                                 data-section='<?= $key; ?>' 
-
-                                 style="background: #f5f5f5; "><?= $section->section_desc; ?>
+                            <div class='panel-heading' data-section='<?= $key; ?>' style="background: #f5f5f5; "><?= $section->section_desc;?>
+                                <?php else:?>
+                                    <div class='panel-heading' data-section='<?= $key; ?>' style="background: #f5f5f5; ">&nbsp;
+                                <?php endif;?>
                                 <div class="btn-group pull-right">
-                                    <a href="#" class="btn btn-default btn-xs editSection hidden" data-section='<?= $key; ?>'
-                                       data-sectioncode='<?= $section->section_code; ?>' 
-                                       ></i> Edit Section</a>
-                                    <a href="#" class="btn btn-default btn-xs expandButton" style="padding-top:1.5px;" data-section='<?= $key; ?>' data-current='expend'><i class='glyphicon glyphicon-chevron-down'></i> Expand</a>
+                                    <a class="btn btn-default btn-xs editSection hidden" data-section='<?= $key; ?>' data-sectioncode='<?= $section->section_code; ?>'></i> Edit Section</a>
+                                    <a class="btn btn-default btn-xs expandButton" data-section='<?= $key; ?>' data-current='expand'><i class='glyphicon glyphicon-expand'></i> Expand</a>
                                 </div>
                             </div>
+                
                             <div class='panel-body hidden' data-section='<?= $key; ?>'>
                                 <div class='row' style='margin-bottom: 5px;'>
                                     <div class='col-sm-12 text-right'>
                                         <div class='btn btn-sm btn-default addElement' data-sectioncode='<?php echo $sectionKod; ?>'><i class='glyphicon glyphicon-plus'></i> Add Element</div>
                                     </div>
                                 </div>
-                               <?php $column = $section->layout;  
-                               switch ($column):
-                                   case '1': $set=12;
-                                       
-                                       ?><ol class='nested_with_switch list-unstyled'><div class="parent"><div class='row wrapper'>
-                                                   <div id='sortable' >
+                                <?php $column = $section->layout;  
+                                switch ($column):
+                                case '1': $set=12;
+                                ?>
+                                <ol class='nested_with_switch list-unstyled'><div class="parent"><div class='row wrapper'>
+                                <div id='sortable'>
                                 <?php foreach ($section->elements as $elem => $element): $thecode=$element->element_code; 
-                                if($element->element_code === $element->child_element_code){?>                                                                      
-                                      <li style='margin-bottom:10px;'>
-                                          <div class='col-sm-<?php echo $set; ?>'>
+                                if($element->element_code === $element->child_element_code):?>                                                                      
+                                    <li style='margin-bottom:10px;'>
+                                        <div class='col-sm-<?php echo $set; ?>'>
                                             <div class='form-group form-group-sm' style='border:1px solid #ccc; margin:4px;' draggable="true">
+                                                <!--element grouping-->
                                                 <label class='control-label col-md-6'><?= $element->element_desc; ?></label>
-                                                    <div class='col-md-2'>
-                                                      <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
-                                                      <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
-                                                    </div>
-                                                <?php  foreach ($section->elements as $elem => $element):                                
-                                                 if($element->child_element_code === $thecode && $element->element_code != $element->child_element_code){?>
+                                                <div class='col-md-2'>
+                                                    <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
+                                                    <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
+                                                </div>
+                                                <!--element list-->
+                                                <?php foreach ($section->elements as $elem => $element):if($element->child_element_code === $thecode && $element->element_code != $element->child_element_code):?>
                                                 <label class='control-label col-md-6'><?= $element->element_desc; ?></label>
-                                                    <div class='col-md-2'>
-                                                      <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>'  data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
-                                                      <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
-                                                    </div>
-                                                 <?php }
-                                             endforeach;
-                                             ?>
+                                                <div class='col-md-2'>
+                                                    <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>'  data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
+                                                    <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
+                                                </div>
+                                                <?php endif;endforeach;?>
                                             </div>
                                         </div> 
-                                      </li>
-                                <?php } endforeach;  ?>
-                                                   </div></div></div></ol> <?php                                      
-                                       break;
+                                    </li>
+                                <?php endif; endforeach;  ?>
+                                </div></div></div></ol>
+                                    
+                                <?php                                      
+                                break;
                                    
-                                       case '2': $set=12; ?><div class="parent"><div class='row wrapper'>  <?php
-                                        for($x=1;$x<=2;$x++){ 
-                                           if($x==1){
-                                               $position ='L';
-                                               $dir = 'left-defaults';
-                                           }elseif($x==2){
-                                               $position ='R';
-                                               $dir = 'right-defaults';
-                                           }
-                              ?>
+                                case '2': $set=12; ?><div class="parent"><div class='row wrapper'>
+                                <?php
+                                for($x=1;$x<=2;$x++){ 
+                                if($x==1){
+                                    $position ='L';
+                                    $dir = 'left-defaults';
+                                }
+                                elseif($x==2){
+                                    $position ='R';
+                                    $dir = 'right-defaults';
+                                }
+                                ?>
                                 
-                                       <div id='<?php echo $dir;  ?>' class='col-sm-<?php echo $set; ?>'>
+                                <div id='<?php echo $dir;  ?>' class='col-sm-<?php echo $set; ?>'>
                                 <?php foreach ($section->elements as $elem => $element): if($element->element_position===$position){
-                                          $thecode=$element->element_code;
-                                             if($element->element_code === $element->child_element_code){?> 
-                                           
+                                        $thecode=$element->element_code;
+                                        if($element->element_code === $element->child_element_code){?> 
                                             <div class='form-group form-group-sm' style='border:1px solid #ccc; margin:4px;' draggable="true">
                                                 <label class='control-label col-md-7'><?= $element->element_desc; ?></label>
                                                     <div class='col-md-4'>
@@ -98,27 +101,32 @@
                                                       <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
                                                     </div>
                                                                                                                     
-                                             <?php  foreach ($section->elements as $elem => $element):                                
-                                                 if($element->child_element_code === $thecode && $element->element_code != $element->child_element_code){?>
-                                                <label class='control-label col-md-7'><?= $element->element_desc; ?></label>
+                                            <?php foreach ($section->elements as $elem => $element):                                
+                                                  if($element->child_element_code === $thecode && $element->element_code != $element->child_element_code){?>
+                                                  <label class='control-label col-md-7'><?= $element->element_desc; ?></label>
                                                     <div class='col-md-4'>
                                                       <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
                                                       <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
                                                     </div>
-                                                 <?php }
-                                             endforeach;
-                                             ?></div><?php
-                                             }} endforeach;  ?>
-                                      </div> <?php                              
-                                      } ?> </div></div> <?php
-                                       break;
-                                       
-                                   case '3': $set=4; break;
-                               endswitch;
+                                                 <?php 
+                                                 }
+                                            endforeach;?>
+                                            </div><?php
+                                        }
+                                } endforeach;?>
+                                </div> <?php                              
+                                }
+                                ?> </div></div> 
+                                <?php
+                                break;
+                                case '3': $set=4; 
+                                break;
+                                endswitch;
                                ?>
                             </div>
-                    <?php endif;?>
-                    <?php endforeach; ?>
+                    <?php // endif;?>
+                
+                    <?php endforeach;?>
                 
             </div>
         </form>
@@ -138,7 +146,6 @@
 
                 <div class='text-right'>
                     <div class='btn-group btn-group-sm'>
-                        <!--<a href='<?= SITE_ROOT; ?>/formview/json-format/<?= $document_id; ?>' target="_blank" class='btn btn-default'>View JSON</a>-->
                         <a href='#' class='btn btn-default changelayout' >Change Layout</a>
                         <input type='hidden' id='documentId' value='<?= $document_id;?>'/>
                         <input type='hidden' id='templateId' value='<?= $template_id;?>'/>
@@ -152,7 +159,6 @@
 
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
-
         <!-- Modal content-->
         <a href="edit-form.php"></a>
         <div class="modal-content">
@@ -163,13 +169,11 @@
             <div class="modal-body">
             </div>
         </div>
-
     </div>
 </div>
 
 <div id="layout" class="modal fade" role="dialog">
     <div class="modal-dialog">
-
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
@@ -179,14 +183,12 @@
             <div class="modal-body">
             </div>
         </div>
-
     </div>
 </div>
     
 <div id="title" class="modal fade" role="dialog">
     <div class="modal-dialog">
-
-        <!-- Modal content-->
+         <!--Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -195,7 +197,6 @@
             <div class="modal-body">
             </div>
         </div>
-
     </div>
 </div>
 
@@ -223,14 +224,15 @@
         $('.expandButton').click(function () {
             var a = $('#notesForm').find(".panel-body[data-section='" + $(this).data('section') + "']").toggleClass('hidden');
             var current = $(this).data('current');
-            if(current==='expend'){
+            if(current==='expand'){
                 $(this).data('current','hide');
-                $(this).html('<i class="glyphicon glyphicon-chevron-up"></i> Hide');
+                $(this).html('<i class="glyphicon glyphicon-collapse-up"></i> Hide');
             } else {
-                $(this).data('current','expend');
-                $(this).html('<i class="glyphicon glyphicon-chevron-down"></i> Expand');
+                $(this).data('current','expand');
+                $(this).html('<i class="glyphicon glyphicon-expand"></i> Expand');
             }
         });
+        
         $('.summernote').summernote({
             height: 100
         });
@@ -245,7 +247,7 @@
             var documentId = '<?= $document_id;?>';
             var templateId = '<?= $template_id;?>';
             var sectionId = $(this).data('sectioncode');
-            console.log(sectionId);
+            console.log('edit-form: ELEMID=',key,'| DOCID=',documentId,'| TEMPID=',templateId,'| SECID=',sectionId);
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/load-selected-json/',
                 data: {key: key,component:'element', documentId : documentId, templateId: templateId, sectionId :sectionId },
@@ -264,7 +266,7 @@
             var documentId = '<?= $document_id;?>';
             var templateId = '<?= $template_id;?>';
             var sectionId = $(this).data('sectioncode');
-            console.log(sectionId);
+            console.log('ADD ELEMENT: DOCID=',documentId,'| TEMPID=',templateId,'| SECID=',sectionId);
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/add-element/',
                 data: {documentId : documentId, templateId: templateId, sectionId :sectionId },
@@ -279,7 +281,7 @@
             return false;
         });
 
-            $('.editSection').click(function () {
+        $('.editSection').click(function () {
             var key = $(this).data('sectioncode');
             var documentId = '<?= $document_id;?>';
             var templateId = '<?= $template_id;?>';
@@ -330,7 +332,7 @@
             return false;
         });
         
-            $('.executeAction').click(function(){
+    $('.executeAction').click(function(){
             var selected = [];
             var type = '';
             $('#documentId').each(function (key,documentId){
@@ -389,7 +391,6 @@
   	var id = $('#deleteModal').data('elementid');
         var docId = $('#deleteModal').data('docId');
         var sectionCode = $('#deleteModal').data('sectionCode');
-//        alert('element='+id+'....doc='+docId+'...section='+sectionCode);
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/delete-element/',
                 data: {elementId : id, documentId : docId, sectionCode :sectionCode},

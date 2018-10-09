@@ -7,17 +7,36 @@ class Mysql_Driver {
     private $result;
     private $bind;
 
-    public function connect() {
-        $host = '172.19.2.103';
-        $user = 'root';
-        $password = 'R00t@!23';
-        $database = 'his_kkm';
-//        $host = '172.19.2.103';
+//    public function connect() {
+//        $host = '202.171.33.109';
 //        $user = 'root';
-//        $password = 'r';
+//        $password = 'R00t@!23';
 //        $database = 'his_kkm';
+////        $host = '172.19.2.103';
+////        $user = 'root';
+////        $password = 'r';
+////        $database = 'his_kkm';
+//        try {
+//            $this->connection = new PDO("mysql:host=$host;port=3306;dbname=$database", $user, $password, array(
+//                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+//                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
+//            ));
+//            return TRUE;
+//        } catch (PDOException $e) {
+//            $this->connection = null;
+//            echo $e->getMessage();
+//            return FALSE;
+//        }
+//    }
+    
+        public function connect() {
+        $host = 'localhost';
+        $user = 'root';
+        $password = 'root@123';
+        $database = 'his_kkm_local';
+
         try {
-            $this->connection = new PDO("mysql:host=$host;port=3306;dbname=$database", $user, $password, array(
+            $this->connection = new PDO("mysql:host=$host;port=3307;dbname=$database", $user, $password, array(
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
             ));
@@ -28,7 +47,7 @@ class Mysql_Driver {
             return FALSE;
         }
     }
-
+    
     public function dc() {
         
     }

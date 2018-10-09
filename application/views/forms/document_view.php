@@ -98,14 +98,12 @@
             <div class="modal-body">
             </div>
         </div>
-
     </div>
 </div>
 <script src='<?= SITE_ROOT; ?>/assets/library/datepicker/js/bootstrap-datepicker.js'></script>
 <!--<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>-->
-<script src='http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js'></script>
+<!--<script src='http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js'></script>-->
 <script src="<?php echo SITE_ROOT; ?>/assets/library/summernote/summernote.js"></script>
-<script src="<?php echo SITE_ROOT; ?>/assets/js/dropdown.js"></script>
 <script>
                                 function HideAndShowOtherSpecify(object) {
                                     var $selected = $(object).val();
@@ -121,6 +119,71 @@
                                 }
                                 
 </script>
+
+<script>
+                                function HideAndShowTextbox(object) {
+                                    var $selected = $(object).val();
+                                    
+                                    if ($selected.toLowerCase() === '9137') {
+                                        var $name = 'textbox_' + $(object).attr('name');
+                                        $("[name='" + $name + "']").show();
+                                        if ($(object).is(':checked')) {
+                                            $("[name='" + $name + "']").removeClass('hidden');
+                                        } 
+                                        else {
+                                            $("[name='" + $name + "']").addClass('hidden');
+                                        }
+                                    }
+                                    
+                                    else if ($selected.toLowerCase() === '9144') {
+                                        var $name = 'calendar_' + $(object).attr('name');
+                                        $("[name='" + $name + "']").show();
+                                        if ($(object).is(':checked')) {
+                                            $("[name='" + $name + "']").removeClass('hidden');
+                                        } 
+                                        else {
+                                            $("[name='" + $name + "']").addClass('hidden');
+                                        }
+                                    }
+                                    
+                                    else if ($selected.toLowerCase() === '1427') {
+                                        var $name = 'freetext_' + $(object).attr('name');
+                                        $("[name='" + $name + "']").show();
+                                        if ($(object).is(':checked')) {
+                                            $("[name='" + $name + "']").removeClass('hidden');
+                                        } 
+                                        else {
+                                            $("[name='" + $name + "']").addClass('hidden');
+                                        }
+                                    }
+                                }
+                                
+</script>
+
+<!--<script>
+    $(function() {
+  $('input:radio').change(function(){
+      var className = $(this).attr('name');
+    if(    $('input:radio[class="'+className +'"]').prop('checked',this.checked)){
+        console.log(this.checked);
+//          console.log(className);
+//                var refcode = $(this).val();
+//
+//if (refcode==='9137'){
+//           console.log(refcode);
+//                     $('input[id^=textbox_]').show();
+//}
+    }
+    
+//      if( this.checked && refcode === '9137'){
+//          $('input[id^=textbox_]').show();
+//                 $('div[id^=date_]').hide ();
+//                 $('input[id^=freetext_]').hide();
+//          
+//      }
+  });
+});
+    </script>-->
 <script>
     $(function () {
         $('.summernote').summernote({
@@ -140,13 +203,23 @@
             HideAndShowOtherSpecify(this);
             var $parentcode = $(this).data('parentcode');
             console.log($parentcode);
-            if ($(this).is(':checked')) {
-                $('.multicheckbox_' + $parentcode).removeClass('hidden');
-                $('textarea[data-parentcode="'+$parentcode+'"]').removeAttr('disabled');
-            } else {
-                $('.multicheckbox_' + $parentcode).addClass('hidden');
-                $('textarea[data-parentcode="'+$parentcode+'"]').attr('disabled','disabled');
-            }
+//            if ($(this).is(':checked')) {
+//                $('.multicheckbox_' + $parentcode).removeClass('hidden');
+//                $('textarea[data-parentcode="'+$parentcode+'"]').removeAttr('disabled');
+//            } else {
+//                $('.multicheckbox_' + $parentcode).addClass('hidden');
+//                $('textarea[data-parentcode="'+$parentcode+'"]').attr('disabled','disabled');
+//            }
+        });
+        
+        $("input[name^=textbox_]").hide();
+        $("input[name^=calendar_]").hide();
+        $("input[name^=freetext_]").hide();
+        
+        $('input[type="radio"]').change(function () {
+            HideAndShowTextbox(this);
+            var $refcode = $(this).data('refcodes');
+            console.log($refcode);
         });
 
         $('.updatelayout').click(function () {
@@ -168,16 +241,45 @@
             return false;
         });
         
-        $('input[id^=rdio_]').hide();
-        $('input[type=radio]').on('change',function(){
-           $('input[id^=rdio_]').hide();
-           var $parentcode = $(this).data('parentcodes');
-            console.log($parentcode);
-             $('#rdio_'+$parentcode).show();
-            if ($(this).is(':checked')) {
-                $('#rdio_'+$parentcode).show();
-        }
-        });
+//        $('div[id^=date_]').hide();
+//        $('input[id^=textbox_]').hide();
+//        $('input[id^=freetext_]').hide();
+//
+//        $('input[type=radio]').on('change',function(){
+//            
+//        var code = $(this).data('refcodes');
+//        console.log(code);
+//       
+//         if ($(this).is(':checked')) { 
+//             var refcode = $(this).val();
+//             console.log(refcode);
+//             if (refcode === '9144'){
+//                 $('div[id^=date_]').show();
+//                 $('input[id^=textbox_]').hide();
+//                 $('input[id^=freetext_]').hide();
+//             }
+//             
+//             else if(refcode === '9137'){
+//                 $('input[id^=textbox_]').show();
+//                 $('div[id^=date_]').hide ();
+//                 $('input[id^=freetext_]').hide();
+//             }
+//             
+//             else if(refcode === '1427'){
+//                 $('input[id^=freetext_]').show();
+//                 $('div[id^=rdio_]').hide ();
+//                 $('input[id^=textbox_]').hide();
+//             }
+//             
+//             else{
+//                 $('div[id^=date_]').hide();
+//                 $('input[id^=textbox_]').hide();
+//                 $('input[id^=freetext_]').hide();    
+//             }
+//    }
+//
+//        });
+        
     });
     
 

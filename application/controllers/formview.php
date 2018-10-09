@@ -29,13 +29,66 @@ class Formview_Controller extends Common_Controller {
                 $result['main_discipline'] = $dt['main_discipline_name'];
                 $result['sub_discipline'] = $dt['discipline_name'];
                 break;
+            //12julai    
             case 'new-form':
                 $page = 'forms/new_form';
-                $result['main_discipline'] = $this->RefMainDiscipline();
+                $document = new Document_Template_Model();
+                $result['main_discipline'] = $this->RefMainDisciplineGroup();
                 $result['general_discipline'] = $this->RefGeneralDiscipline();
-                $result['doc_group'] = $this->RefDocumentGroup();
                 $result['doc_types'] = $this->RefDocumentType();
+                $result['doc_group'] = $this->RefDocumentGroup();
+                $result['preset_select'] = false;
+                $result['list_of_titles'] = $document->GetAllTitle();
                 break;
+            //19julai    
+            case 'new-section':
+                $page = 'forms/new_section';
+                $document = new Document_Template_Model();
+//                $result['section_desc'] = $document->GetSecDesc();
+                $result['list_of_sections'] = $document->GetAllSecDesc();
+                break;
+            //19julai    
+            case 'new-element':
+                $page = 'forms/new_element';
+                $document = new Document_Template_Model();
+                $result['list_of_elements'] = $document->GetAllElementDesc();
+                break;
+            //23julai    
+            case 'form-builder':
+                $page = 'forms/form_builder';
+                $document = new Document_Template_Model();
+                $result['titles'] = $document->ListDocDesc();
+                $result['sections'] = $document->GetAllSecDesc();
+                $result['elements'] = $document->GetAllElementDesc();
+                break;
+            //14OGOS
+            case 'basic-form':
+                $page = 'formbuilder/basic';
+                $document = new Document_Template_Model();
+                $result['method_list'] = $document->ListMethod();
+                $view = new View_Model($page);
+                $view->assign('content', $result);
+                break;
+            //2OGOS
+            case 'generate-new-form-json':
+                $ajax = true;
+                $documentId = $_REQUEST['documents'];
+//                $templateId = $REQUEST['documents'];
+                print_r($_REQUEST['documents']);//print array
+                $documentInfo = $_REQUEST['documents'];
+                $actionType = $_REQUEST['type'];
+                foreach($documentInfo as $doc):
+                        $documentTemplate = new Document_Template_Model();
+                        $sections = $documentTemplate->ReadDocumentSectionGroup($doc['doc_name_id']);
+                        $documentArray = $this->GetDocumentSections($doc['doc_name_id'], $sections);
+                        $this->CreateJSONForm($doc, $documentArray,$actionType);
+                endforeach; 
+            //30julai    
+//            case 'form-element':
+//                $page = 'forms/ajax_element_form_group';
+//                $document = new Document_Template_Model();
+//                $result['elements'] = $document->ListElementDesc();
+//                break;
             case 'load-ajax-method':
                 $ajax = true;
                 $page = 'form_methods/'.$_REQUEST['methodpage'];
@@ -48,7 +101,7 @@ class Formview_Controller extends Common_Controller {
                 $documentTemplate = $documentData->ReadDocumentTemplate($documentId);
                 
                 $sectionSorting = json_decode($documentTemplate['json_template']);
-                $cleanSorting = $this->JsonWithSectionSorting($sectionSorting);
+                $cleanSorting = $this->JsonWithSectionSorting($sectionSorting);//sort kedudukan element
                 
                 $result['document_title'] = $documentTemplate['doc_name_desc'];
                 $result['json_elements'] = $cleanSorting;
@@ -88,32 +141,42 @@ class Formview_Controller extends Common_Controller {
                 $result['document_title'] = $documentTemplate['doc_name_desc'];
                 $result['json_elements'] = $documentTemplate['json_template'];
                 break;
-//            case 'new-json-format':
-//                $page = 'forms/new_json_format';
-//                $documentId = $params[URL_ARRAY + 3];
-//                $documentData = new Document_Template_Model();
-//                $documentTemplate = $documentData->NakTengokJson($documentId);
-//                $result['discipline'] = $documentTemplate['main_discipline_name'];
-//                $result['sub_discipline'] = $documentTemplate['discipline_name'];
-//                $result['document_title'] = $documentTemplate['doc_name_desc'];
-//                $result['json_elements'] = $documentTemplate['json_template'];
-//                break;
             case 'form-template':
                 $page = 'forms/document_view';
                 $documentId = $params[URL_ARRAY + 3];
                 $documentData = new Document_Template_Model();
                 $documentTemplate = $documentData->ReadDocumentTemplate($documentId);
                 $sectionSorting = json_decode($documentTemplate['json_template']);
+//                echo '<pre>';
+//                print_r($sectionSorting);
+//                echo '</pre>';
                 $cleanSorting = $this->JsonWithSectionSorting($sectionSorting);
                 $result['document_title'] = $documentTemplate['doc_name_desc'];
                 $result['main_discipline'] = $documentTemplate['main_discipline_name'];
                 $result['sub_discipline'] = $documentTemplate['discipline_name'];
                 $result['doc_group'] = $documentTemplate['doc_group_code'];
                 $result['json_elements'] = $cleanSorting;
+//                echo '<pre>';
+//                print_r($result['json_elements']);
+//                echo '</pre>';
                 $result['template_id']=$documentId;
                 $result['rrr'] = 'pppp';
                 $result['document_id'] = $documentTemplate['doc_name_id'];
                 $result['link_style'] = "<link href='".SITE_ROOT."/assets/css/hiskkm.css' rel='stylesheet' />";
+                break;
+            case 'clone-form':
+                $page = 'forms/clone_view';
+                $documentId = $params[URL_ARRAY + 3];
+                $documentData = new Document_Template_Model();
+                $documentTemplate = $documentData->ReadDocumentTemplate($documentId);
+                $sectionSorting = json_decode($documentTemplate['json_template']);
+                $cleanSorting = $this->JsonWithSectionSorting($sectionSorting);
+                $result['document_title'] = $documentTemplate['doc_name_desc'];
+                $result['json_elements'] = $cleanSorting;
+                $result['document_id'] = $documentTemplate['doc_name_id'];
+//                $result['template_id'] = $documentTemplate['template_id'];
+                $test = $documentData->GetMaxTemplate();
+                $result['temp_id'] = $test;
                 break;
             case 'load-selected-json':
                 $ajax = true;
@@ -126,6 +189,7 @@ class Formview_Controller extends Common_Controller {
                     $title = $found->section_desc;
                 endif;
                 if ($component == 'element'):
+                    #DISPLAY DETAIL POPUP EDIT FORM
                     $doc_id = $_REQUEST['documentId'];
                     $found = $document->GetElementDetail($key,$doc_id);
                     $section_id = $_REQUEST['sectionId'];
@@ -133,13 +197,15 @@ class Formview_Controller extends Common_Controller {
                     $page = 'forms/ajax_element_form_group';
                     $title = $found->element_desc;
                     $result['grouping'] = $grouping;
+                    $result['elements'] = $document->ListElementDesc();//utk search
+//                    $result['methods'] = $document->ListMethod();
                 endif;
-                $result['values'] = $found;
+                $result['values'] = $found;//bawa section_desc @ element_desc
                 $result['json_format'] = json_encode($found);
-                $result['document_id'] = $_REQUEST['documentId'];
+                $result['document_id'] = $_REQUEST['documentId'];//1
                 $result['template_id'] = $_REQUEST['templateId'];
                 $data = array(
-                    'component' => $title,
+                    'component' => $title,//bawa section_desc @ element_desc
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
@@ -147,11 +213,12 @@ class Formview_Controller extends Common_Controller {
                 $ajax = true;
                 $page = 'forms/add_new_document';
                 $result['section_no'] = $_REQUEST['sectionNo'];
+//                $result['element_no'] = $_REQUEST['elementNo'];
                 $data = array(
                     'component' => 'Add Element',
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data); 
-                break;             
+                break;          
             case 'add-element':
                 $ajax = true;
                 $page = 'forms/add_element';
@@ -170,26 +237,6 @@ class Formview_Controller extends Common_Controller {
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);                
                 break;
-
-//            case 'add-title':
-//                $ajax = true;
-//                $page = 'forms/new_form';
-//                $doc_id = $_REQUEST['documentId'];
-//                $section_id = $_REQUEST['sectionId'];
-//                $template_id = $_REQUEST['templateId'];
-//                $document = new Document_Template_Model();
-//                $section_sorting = $document->GetSectionSorting($section_id,$doc_id);
-//                $grouping = $document->GetElementGrouping($section_id,$doc_id);
-//                $result['section_sorting'] = $section_sorting;
-//                $result['grouping'] = $grouping;
-//                $result['doc_id'] = $doc_id;
-//                $result['section_id'] = $section_id;
-//                $data = array(
-//                    'component' => 'Add Element',
-//                    'html' => $this->RenderOutput($page, $result));
-//                echo json_encode($data);                
-//                break;
-            
             case 'pass-element':
                 $page = 'forms/new_form';
                 $value = $_REQUEST['values'];
@@ -233,13 +280,15 @@ class Formview_Controller extends Common_Controller {
                     }
                 elseif($element_properties=='BASIC'){
                     $data['input_type'] = $values['input_type'];
+//                    $data['method_name'] = $values['method_name'];
+//                    $data['method_params'] = $values['method_params'];
                     $this->CaseBasic($data);
                 }
-                elseif($element_properties=='METHOD'){
-                    $data['method_name'] = $values['method_name'];
-                    $data['method_params'] = $values['method_params'];
-                    $this->CaseMethod($data);    
-                }
+//                elseif($element_properties=='METHOD'){
+//                    $data['method_name'] = $values['method_name'];
+//                    $data['method_params'] = $values['method_params'];
+//                    $this->CaseMethod($data);    
+//                }
                 $this->GenerateJSONFormat($document_id, 'update');              
                 break;
             case 'change-layout':
@@ -264,7 +313,7 @@ class Formview_Controller extends Common_Controller {
                 $result['title'] = $val;
                 $result['doc_id'] = $doc_id;
                 $data = array(
-                    'component' => 'Change Title',
+                    'component' => 'Document Detail',
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
@@ -335,6 +384,41 @@ class Formview_Controller extends Common_Controller {
                 endforeach;
                 $this->GenerateJSONFormat($docId, 'update');
                 break;
+            //17JULAI
+            case 'add-title':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $values = $this->form_array($_REQUEST['values']);
+                $page = 'forms/new_form';
+//                $dis = $values['discipline'];
+                $subDis = $values['general_discipline'];
+                $docType = $values['doc_type'];
+                $docGroup = $values['doc_group'];
+                $titleDesc = $values['doc_name_desc'];
+                $docForm = $document->InsertDocId($subDis,$docGroup,$docType,$titleDesc);
+//                print_r($docForm);
+                break;
+            //19JULAI
+            case 'create-section':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $values = $this->form_array($_REQUEST['values']);
+                $page = 'forms/new_section';
+                $layout = $values['layout'];
+                $secDesc = $values['section_desc'];
+                $secForm = $document->InsertSecId($layout, $secDesc);
+//                print_r($secForm);
+                break;
+            //23JULAI
+            case 'create-element':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $values = $this->form_array($_REQUEST['values']);
+                $page = 'forms/new_element';
+                $elementDesc = $values['element_desc'];
+                $elementForm = $document->InsertElementId($elementDesc);
+//                print_r($elementForm);
+                break;
             case 'delete-element':
                 $ajax = true;
                 $docId = $_REQUEST['documentId'];
@@ -363,10 +447,7 @@ class Formview_Controller extends Common_Controller {
             //EDIT ELEMENT NAME
             case 'update-section-element':
                 $ajax=true;
-                $values = $this->form_array($_REQUEST['values']);
-                echo '<pre>';
-                print_r($values);
-                echo '</pre>';
+                $values = $this->form_array($_REQUEST['values']);//dri basic->ajax_element_form_group
                 $document_id = $values['documentId'];
                 $element_code = $values['elementCode'];
                 $element_name = $values['element_desc'];
@@ -375,9 +456,8 @@ class Formview_Controller extends Common_Controller {
                     $this->CaseDecoration($values);}
                 elseif($element_properties=='BASIC'){
                     $this->CaseBasic($values);}
-                elseif($element_properties=='METHOD'){
-                    $this->CaseMethod($values);}
                 $document = new Document_Template_Model();
+                //update element_desc
                 $document->UpdateElementName($element_code,$element_name);
                 $this->GenerateJSONFormat($document_id, 'update');
                 break;            
@@ -483,118 +563,103 @@ class Formview_Controller extends Common_Controller {
     }
     
     private function CaseBasic(array $data){
-        $document = new Document_Template_Model();
-        $docID = $data['documentId'];
-        $elementID = $data['elementCode'];
-        $data_type = '';
-        $additional_attr = 'null';
-        $input_type = $data['input_type'];
-        $childId = $document->GetChildDetail($docID,$elementID);
-        foreach ($childId as $key){
-            $document->CleanChild($docID, $key['parent_element_code']);
-        }
-        $document->CleanMultipleAnswer($data);
-        if($input_type=='FREETEXT'){
-            $data_type = 'TEXT';}
-          elseif ($input_type=='MULTIPLE ANSWER') {
-                $basic = $this->form_array($_REQUEST['basic']);
-                $data_type = 'REFERENCE';
-                $z=1;
-                for($x=0;$x<=$basic['total'];$x++){                    
-                    $check = "validation".$x."";
-                    if($basic[$check]==='parentonly'){
-                    $set = "multi_ans_desc".$x."";
-                    if($basic[$set]){
-                    $label = $basic[$set];                 
-                    $sorting = $z;                
-                    $set = "multi_input_type".$x."";
-                    $input = $basic[$set];                     
-                    $document->InsertParentMultiAnswer($docID,$elementID,$label,$sorting,$input);
-                    $z++;
-                    }              
-                    }elseif($basic[$check]==='childexist'){
-                        $nextcode = "".$elementID."".$x."";
-                        $ct = "childtotal".$x."";
-                        $z=1;
-                    for($y=1;$y<=$basic[$ct];$y++){
-                       $child = "child_multi_ans_desc".$x."".$y."";
-                       if($basic[$child]){
-                       $childlabel = $basic[$child];
-                       $sort = $z;
-                       $child = "child_multi_input_type".$x."".$y."";
-                       $childtype = $basic[$child];
-                       $document ->InsertChild($docID,$nextcode,$childlabel,$sort,$childtype);
-                       $z++;
-                       }
-                    }
-                     $set = "multi_ans_desc".$x."";
-                     $label = $basic[$set];                 
-                     $sorting = $x;                
-                     $set = "multi_input_type".$x."";
-                     $input = $basic[$set];                     
-                     $document->InsertMultiAnswer($docID,$elementID,$label,$sorting,$input,$nextcode);     
-                    }}                          
-                }
-            elseif ($input_type=='ROW') {
-               $data_type = '';
-               $rowinput = $this->form_array($_REQUEST['rowinput']);
-                echo '<pre>';
-                print_r($rowinput);
-                echo '</pre>';
-                $row_info = array();
-                for($x=1;$x <=5;$x++){
-                    $row_name = 'row_desc'.$x;
-                    $row_type = 'row_type'.$x;
-                    if($rowinput[$row_name]){
-                        $row_desc = $rowinput[$row_name];
-                        $row_typ = $rowinput[$row_type];
-                           $row_info['row'.$x] = array('row_desc'=>$row_desc,'row_type'=>$row_typ);                          
-                    }
-                }
-                $additional_attr = json_encode($row_info);
-            }
-           $val = array (
-            'doc_id' => $data['documentId'],
-            'element_code' => $data['elementCode'],
-            'element_group' => $data['element_group'],
-            'element_position' => $data['position'],
-            'element_properties' => $data['element_properties'],
-            'input_type' => $input_type,
-            'data_type' => $data_type,
-            'method' => '',
-            'additional_attribute' => $additional_attr
-        );
-        $document->UpdateElementToBasic($val);
-        return true;
+//        $document = new Document_Template_Model();
+//        $docID = $data['documentId'];
+//        $elementID = $data['elementCode'];
+//        $input_type = $data['input_type'];//method
+//        $dataType = '(NULL)';
+//
+////        $document->CleanMultipleAnswer($data);
+//        
+//        if ($input_type=='METHOD') {
+//            $method = $this->form_array($_REQUEST['basicMethod']);
+//            $methodCode = $method['methodList'];
+//        }
+//        else if($input_type=='MULTIPLE ANSWER'){
+//            $methodCode = '(NULL)';
+//            $parent_code = '(NULL)';
+//            $child_code = '(NULL)';
+//            $basic = $this->form_array($_REQUEST['basicMultAns']);
+//            print_r($basic).'</br>';
+//            $a = 1;
+//            $b = 1;
+//            $c = 1;
+//            
+//            for($x=1;$x<=$basic['total'];$x++):
+//
+//            #PARENT
+//            $multipleDesc = $basic['multi_ans_desc'.$x];
+//            $sorting = $a;
+//            $multiple_type = $basic['multi_input_type'.$x];
+//            
+//            for($y=11;$y<=$basic['totallabel'];$y++):
+//                
+//            #LABEL
+//            $showLabel = $basic['show_label'.$y];
+//            $refDesc = $basic['refDesc'.$y];
+//            $sortingLabel = $b;
+//            
+//            for($z=111;$z<=$basic['childsorting'];$z++):
+//            
+//            if(!empty($basic['child_multi_ans_desc'.$z]) && !empty($basic['child_multi_input_type'.$z])):
+//            #CHILD
+//            $child_multipleDesc = $basic['child_multi_ans_desc'.$z];
+//            $child_sorting = $c;
+//            $child_multiple_type = $basic['child_multi_input_type'.$z];
+//            
+//            $childmult = array(
+//            'child_multiple_desc' => $child_multipleDesc,
+//            'child_sorting' => $child_sorting,
+//            'child_input_type' => $child_multiple_type,
+//            'parent_element_code' => $parent_code,
+//            'child_element_code' => $child_code
+//            );
+//            print_r($childmult);
+//                
+//            endif;
+//            $c++;
+//            endfor;
+//            
+//            $labelmult = array(
+//            'ref_document_element' => $refDesc,
+//            'sorting_label' => $sortingLabel,
+//            'show_label' => $showLabel
+//            );
+//            print_r($labelmult);
+//                
+//            $b++;
+//            endfor;
+//            
+//            $mult = array(
+//            'multiple_desc' => $multipleDesc,
+//            'sorting' => $sorting,
+//            'input_type' => $multiple_type,
+//            'parent_element_code' => $parent_code,
+//            'child_element_code' => $child_code
+//            );
+//            print_r($mult);
+//            
+//            $a++;
+//            endfor;               
+//        }
+//        else{
+//               $methodCode = '(NULL)';  
+//        }
+//        
+//         $val = array (
+//            'doc_name_id' => $docID,
+//            'element_code' => $elementID,
+//            'child_element_code' => $data['element_group'],
+//            'element_position' => $data['position'],
+//            'element_properties' => $data['element_properties'],
+//            'input_type' => $input_type,
+//            'data_type' => $dataType,
+//            'doc_method_code' => $methodCode
+//        );
+//        print_r($val);
+////        $document->UpdateElementToBasic($val);
+//        return true;
+        
     }
     
-    private function CaseMethod(array $data){
-        $document = new Document_Template_Model();
-        $docID = $data['documentId'];
-        $elementID = $data['elementCode'];
-        if(isset($data['method_params'])){
-            $json = $data['method_params'];
-        }else{
-            $json = 'null';
-        }
-        $val = array (
-            'doc_id' => $data['documentId'],
-            'element_code' => $data['elementCode'],
-            'element_group' => $data['element_group'],
-            'element_position' => $data['position'],
-            'element_properties' => $data['element_properties'],
-            'input_type' => 'METHOD',
-            'data_type' => '',
-            'method' => $data['method_name'],
-            'doc_method_code'=> $data['doc_method_code'],
-            'json' => $json
-        );
-        $childId = $document->GetChildDetail($docID,$elementID);
-        foreach ($childId as $key){
-            $document->CleanChild($docID, $key['parent_element_code']);
-        }
-        $document->CleanMultipleAnswer($data);
-        $document->UpdateMethodDetails($val);
-        return true;
-    }
 }

@@ -27,17 +27,24 @@ class Formbuilder_Controller extends Common_Controller {
                 $this->formElementArray = $this->SessionCheck('form_element', $field);
                 echo $this->ConstructJSONFormTemplate($this->formElementArray);
                 break;
-            case 'formelement':
+            case 'formelement'://dri ajax_element_form_group
                 $ajax = true;
-                $values = strtolower($_REQUEST['value']);
-                $vars = isset($_REQUEST['params']) ? form_array($_REQUEST['params']) : null;
-                echo $this->RenderOutput('formbuilder/' . $values, $vars);
+                $values = strtolower($_REQUEST['value']);//basic@decoration
+                $vars = isset($_REQUEST['params']) ? form_array($_REQUEST['params']) : null;//formValue
+                echo $this->RenderOutput('formbuilder/' . $values, $vars);//basic
                 break;
             case 'createform':
                 $ajax = true;
                 $this->SessionUnset('form_element');
                 echo $this->ConstructJSONFormTemplate($this->formElementArray);
                 break;
+//            case 'basic-form':
+//                $page = 'formbuilder/basic';
+//                $document = new Document_Template_Model();
+//                $result['method_list'] = $document->ListMethod();
+//                $view = new View_Model($page);
+//                $view->assign('content', $result);
+//                break;
 //            case 'create-document':
 //                $ajax = true;
 //                $testinput = form_array($_REQUEST['values']);

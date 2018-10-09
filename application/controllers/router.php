@@ -65,7 +65,7 @@ if (file_exists($target)) {
     $class = ucfirst($page) . '_Controller';
     class_exists($class) ? $controller = new $class : die('class does not exist!');    
     $controller->main($getVars, $params);
-} else {;
+} else {
     die($page . ' page does not exist!');
 }
 

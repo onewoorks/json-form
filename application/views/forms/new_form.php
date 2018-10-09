@@ -1,440 +1,246 @@
 <?php echo $header; ?>
 
-<h3>FORM BUILDER (JSON Formatter)</h3>
-<div class="row">
-    <div class="col-sm-6">
- 
-       <div class="panel panel-default">
-            <div class="panel-heading">FORM PROPERTIES</div>
-            <div class="panel-body">
-                <form id="formBuilder" class="form-horizontal">
-                    <div class="form-group form-group-sm">
-                        <label class="control-label col-sm-4">Document Title</label>
-                        <div class="col-sm-8">
-                            <input name="doc_name_desc" type="text" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="form-group form-group-sm">
-                        <label class="control-label col-sm-4">Discipline</label>
-                        <div class="col-sm-8">
-                            <select name='discipline' class='form-control'>
-                                <?php foreach ($main_discipline as $discipline): ?>
-                                    <option value='<?php echo $discipline['value']; ?>'><?php echo $discipline['label']; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class='form-group form-group-sm'>
-                    <label class='control-label col-sm-4'>Document Group</label>
-                    <div class='col-sm-8'>
-                        <select name='doc_group' class='form-control' >
-                            <?php foreach ($doc_group as $group): ?>
-                                <option value='<?php echo $group['value']; ?>'><?php echo $group['label']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+
+<!--DOCUMENT ID'S-->
+<div id="formCreator">
+<!--<div class="col-sm-12">-->
+<div class="panel panel-default">
+<div class="panel-heading">CREATE NEW FORM</div>
+<div class="panel-body">
+    <form id="formBuilder" class="form-horizontal">  
+        
+        <div class="form-group form-group-sm pull-right" style='padding-left:880px'>
+            <label class='control-label col-sm-2'>Search</label>
+                <div class='form-inline col-sm-10'>
+                <input type='text' name='search' class='form-control' placeholder="Search Document...." />
+                <div class="btn btn-primary btn-sm searchTitle" style="padding-top:3px;padding-bottom:3px"><i class="glyphicon glyphicon-search"></i></div>
                 </div>
-<!--                <div class="form-group form-group-sm">
-                        <label class="control-label col-sm-4">Sub Discipline</label>
-                        <div class="col-sm-8">
-                            <select name='general_discipline' class='form-control' >
-                                <?php foreach ($general_discipline as $general): ?>
-                                <option value='<?php echo $general['value'];?>'><?php echo $general['label']; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                    </div>    -->
-                    <div class="form-group form-group-sm">
-                        <label class="control-label col-sm-4">Document Type</label>
-                        <div class="col-sm-8">
-                            <select name='doc_type' class='form-control' >
-                                <?php foreach ($doc_types as $doc): ?>
-                                    <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group form-group-sm">
-                        <label class="control-label col-sm-4">Layout</label>
-                        <div class="col-sm-8">
-                           <div>
-                              <label class="radio-inline">
-                                <input name="column" type="radio" value="1" /> 1
-                              </label>
-                              <label class="radio-inline">
-                                <input name="column" type="radio" value="2"  /> 2
-                              </label>
-                           </div>
-                        </div>
-                    </div>
-                </form>
+        </div>
+        
+        
+        <div class="form-group form-group-sm">
+            <label class="control-label col-sm-2">Discipline</label>
+            <div class="col-sm-8">
+                <select name='discipline' class='form-control'>
+                    <?php foreach ($main_discipline as $discipline): ?>
+                    <option value='<?php echo $discipline['code']; ?>'><?php echo $discipline['label']; ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
         </div>
-        <form id="elementBuilder" class="form-horizontal">
-            <div class='panel panel-default'>
-                <div class='panel-heading'>DOCUMENT DETAILS</div>
-                <div class='panel-body'>
-                    <br><br>
-                    <div id='docgroup' >
-                    <div class='form-group form-group-sm' >
-                        <label class='control-label col-sm-4'>Section Description</label>
-                        <div class='col-sm-6'>
-                            <input type='text' name='section_desc' id="sectionName" class='form-control' />
-                        </div>
-                        <div class='col-sm-2 sectionAction' data-sectionno='1'>
-                            <div class='btn btn-default btn-sm addSection' data-sectionno='1'><i class='glyphicon glyphicon-plus'></i></div>
-<!--                            <div class='btn btn-default btn-sm addElement' data-elementcount='0' data-sectionno='1'><i class='glyphicon glyphicon-collapse-down'></i></div>-->
-                           
-                        </div>
-                    </div>
-                    </div>
-                    <br>
-                    <div class="col-sm-12 text-right">
-                        <button type="button" class="btn btn-primary" id="addSectionSubmit" data-number='1'>Add</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-    
-    <div class="col-sm-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">DOCUMENT'S JSON</div>
-            <div class="panel-body">
-                <div id="tambahsection" >
                     
-                    <!--                            <div class='presection1'>
-                                <div class="row" >
-                                <div class="form-group form-group-sm input-list">
-                                    <label class="control-label col-sm-2"></label>                                 
-                                    <div class="col-sm-4 list-padding">
-                                        <input type='text' name="section_desc" class='form-control' placeholder='label / title' disabled />
-                                    </div>
-                                    <div class='col-sm-4 predefinedActionButton' data-listid='1'>
-                                        <div class='btn btn-default btn-sm delSection' data-secId='1'><i class='glyphicon glyphicon-trash'></i></div>
-                                        <div class='btn btn-default btn-sm addElement' data-addId='1'><i class='glyphicon glyphicon-plus'></i></div>
-                                        <div class="btn btn-default btn-sm expandButton" data-sectionni='1' data-current='expend'><i class='glyphicon glyphicon-chevron-up'></i></div>
-                                    </div>
-                                </div> 
-                                </div><br>
-                            <div class="panel-body" data-sectionni='1' id="tambahelement">
-                                <div class="row" id="child1">
-                                    <div class="form-group form-group-sm input-list" >
-                                        <label class="control-label col-sm-2"></label>
-                                        <label class="control-label col-sm-1"></label>
-                                             <div class="col-sm-3 list-padding">
-                                             <input type='text' name="element_desc" class='form-control' placeholder='label / title' disabled />
-                                             </div>
-                                             <div class="col-sm-2 list-padding">
-                                             <input type='text' name="element_type" class='form-control' placeholder='label / title' disabled />
-                                             </div>
-                                             <div class='col-sm-3 predefinedActionButton' data-listid='1'>
-                                             <div class='btn btn-default btn-sm addPredefined' data-listid='1'><i class='glyphicon glyphicon-trash'></i></div>                              
-                                             </div>
-                                    </div>
-                                </div>
-                                                                <div class="row" id="child1">
-                                    <div class="form-group form-group-sm input-list" >
-                                        <label class="control-label col-sm-2"></label>
-                                        <label class="control-label col-sm-1"></label>
-                                             <div class="col-sm-3 list-padding">
-                                             <input type='text' name="element_desc" class='form-control' placeholder='label / title' disabled />
-                                             </div>
-                                             <div class="col-sm-2 list-padding">
-                                             <input type='text' name="element_type" class='form-control' placeholder='label / title' disabled />
-                                             </div>
-                                             <div class='col-sm-3 predefinedActionButton' data-listid='1'>
-                                             <div class='btn btn-default btn-sm addPredefined' data-listid='1'><i class='glyphicon glyphicon-trash'></i></div>                              
-                                             </div>
-                                    </div>
-                                </div>
-                                
-                            </div>   
-                            </div>-->
-                </div><br>
-                                                                                       
-                      <div class='row'>
-                            <div class='col-sm-12 text-right'>
-                               <div class='btn btn-primary btn-sm' id='createForm'>Create Form</div>
-                            </div>
-                      </div>
-                </div>
+        <div class="form-group form-group-sm">
+            <label class="control-label col-sm-2">Sub Discipline</label>
+            <div class="col-sm-8">
+                <select name='general_discipline' class='form-control' >
+                    <?php if (!$preset_select): ?>
+                    <option value='0'>Please Select Sub Discipline</option>
+                    <?php else: ?>
+                    <option value='0' selected="selected" >Please Select Sub Discipline</option>
+                        <?php foreach ($general_discipline as $general): ?>
+                        <option value='<?php echo $general['code']; ?>'><?php echo $general['label']; ?></option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
             </div>
         </div>
-    </div>
-
-<!--    <div class="col-sm-6">
-        <div class="panel panel-default">
-            <div class="panel-heading">JSON OUTPUT FORMAT</div>
-            <div class="panel-body">
-                <div id='json_view' class='row'></div>
-                <div class='row'>
-                    <div class='col-sm-12 text-right'>
-                        <div class='btn btn-primary btn-sm' id='createForm'>Create Form</div>
-                    </div>
-                </div>
+                    
+        <div class='form-group form-group-sm'>
+            <label class='control-label col-sm-2'>Document Group</label>
+            <div class='col-sm-8'>
+                <select name='doc_group' class='form-control' >
+                    <option value='0' selected="selected">Please Select Document Group</option>
+                    <?php foreach ($doc_group as $doc): ?>
+                    <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
+                    <?php endforeach; ?>
+                </select>
             </div>
         </div>
-    </div>-->
-
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal </h4>
-            </div>
-            <div class="modal-body">
+                    
+        <div class="form-group form-group-sm">
+            <label class="control-label col-sm-2">Document Type</label>
+            <div class="col-sm-8">
+                <select name='doc_type' class='form-control'>
+                    <?php if (!$preset_select): ?>
+                    <option value='0' selected="selected">Please Select Document Type</option>
+                    <?php else: ?>
+                    <option value='0' >Please Select Document Type</option>
+                        <?php foreach ($doc_types as $doc): ?>
+                        <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </select>
             </div>
         </div>
+        
+        <div class="form-group form-group-sm">
+            <label class="control-label col-sm-2">Document Title</label>
+            <div class="col-sm-8">
+                <input name="doc_name_desc" type="text" class="form-control" />
+            </div>     
+        </div>
+                    
+        <div class='col-sm-10 text-right'>
+            <div class='btn btn-primary btn-sm addForm'>Add Form</div>
+        </div>
+    </form>
+</div>
+</div>
+<!--</div>-->
 
+<div class='container-fluid'>
+    <div class='panel panel-primary'>
+        <div class='panel-heading'>
+            <div class="btn-group pull-right">
+            </div>
+
+            Result of Existing Title</div>
+        <div class='panel-body'>
+            <div class ='pull-left' style=" font-size: 12px; padding-bottom: 3px;"><b>Total Title = <?= count($list_of_titles);?></b></div>
+            <div class='clearfix'></div>
+
+            <table id="tableForm"class='table table-bordered table-condensed'>
+                <thead>
+                    <tr>
+                        <th style=" font-size: smaller;">Document Id</th>
+                        <th style=" font-size: smaller;">Title Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if(!$list_of_titles):?>
+                    <tr>
+                        <td colspan="7"><i>No Record Found</i></td>
+                    </tr>
+                    <?php endif;?>
+                    <?php $no=1; foreach ($list_of_titles as $titles): ?>
+                        <tr>
+                            <td  style=" font-size: smaller; text-align: center"><?php echo $titles['doc_name_id']; ?></td>
+                            <td  style=" font-size: smaller;"><?php echo $titles['doc_name_desc']; ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
-<script>
-//    $('#docgroup').on('click','.addPanel',function () {
-    function addElement(test){
-        console.log (test)
-        var sectionNo = test ;
-//         var sectionNo = $(this).data('target');
-            var next = sectionNo + 1 ;
-            var addPanel = ' ';
-                
-                addPanel += '<div id="element_add_'+next+'" class="form-group form-group-sm">';
-                addPanel += '<label class="control-label col-sm-4">Element Name</label>';
-                addPanel += '<div  class="col-sm-4">';
-                addPanel += '<input type="text" name="section_desc" id="sectionName" class="form-control"/>';
-                addPanel += '</div>';
-                addPanel += '<div class="col-sm-4 sectionAction" data-target='+next+'>';
-                addPanel += '<button type="button" class="btn btn-info addElement" data-sectionno='+next+' data-elementcount="0" >Details</button>';
-                addPanel += '<div class="btn btn-default btn-sm addPanel" data-target='+next+' onclick="addElement('+next+')"><i class="glyphicon glyphicon-plus"></i></div>';
-                addPanel += '<div class="btn btn-default btn-sm elementDel" data-target='+next+'><i class="glyphicon glyphicon-minus"></i></div><br><br>';
-//                addPanel += '<div class="btn btn-default btn-sm addElement" data-sectionno='+next+' data-elementcount="0"><i class="glyphicon glyphicon-collapse-down"></i></div>';
-                addPanel += '</div>';
-                addPanel += '</div>';            
-//                $('#section_body').html(addPanel);
-                $(addPanel).appendTo('#section_body'+test);
-                $(addPanel).appendTo('#element_add_'+test);
-    }
-    $('#addSectionSubmit').click(function () {
-        var input = $('#elementBuilder').serializeArray();
-         var sectionPanel = ' ';
-        
-        
-        $(input).each(function(key,value){
-            
-             sectionPanel += '<div id="section_panel'+key+'"class="panel panel-default">';
-             sectionPanel += '<div class="panel-heading">'+input[key].value+'';
-             sectionPanel += '<div class="btn btn-default btn-sm delSection pull-right" data-secid='+key+'><i class="glyphicon glyphicon-trash"></i></div>';
-             sectionPanel += '<div class="btn btn-default btn-sm expandButton pull-right" data-toggle="collapse" data-target="#demo'+key+'" ><i class="glyphicon glyphicon-chevron-down"></i></div>';
-//             sectionPanel += '<button type="button" class="btn btn-info pull-right" data-toggle="collapse" data-target="#demo'+key+'" id="addNewElement">Add Element</button>';
-             sectionPanel += '</div>'; 
-             sectionPanel += '<div id="demo'+key+'" class="collapse">';
-//             sectionPanel += '<div id="element_panel'+key+'" class="form-group form-group-sm">';
-             sectionPanel += '<div class="col-sm-4 list-padding"><input type="hidden" name="section_desc" class="form-control" value="' +input[key].value+'" disabled /></div> ';
-             sectionPanel += '<div id="section_body'+key+'" class="panel-body">';
-//                sectionPanel += '<div id="section_body'+key+'" class="form-group form-group-sm">';
-                sectionPanel += '<label class="control-label col-sm-4">Element Name</label>';
-                sectionPanel += '<div  class="col-sm-4">';
-                sectionPanel += '<input type="text" name="section_desc" id="sectionName" class="form-control"/>';
-                sectionPanel += '</div>';
-                sectionPanel += '<div class="col-sm-4 sectionAction" data-target='+key+'>';
-                sectionPanel += '<button type="button" class="btn btn-info addElement" data-sectionno='+key+' data-elementcount="0" >Details</button>';
-                sectionPanel += '<div class="btn btn-default btn-sm addPanel" data-target='+key+' onclick="addElement('+key+')"><i class="glyphicon glyphicon-plus"></i></div>';
-//                sectionPanel += '<div class="btn btn-default btn-sm dropElement" data-target='+key+'><i class="glyphicon glyphicon-minus"></i></div><br><br>';
-//                sectionPanel += '<div class="btn btn-default btn-sm addElement" data-sectionno='+key+' data-elementcount="0"><i class="glyphicon glyphicon-collapse-down"></i></div>';
-//                sectionPanel += '</div>';
-                sectionPanel += '<br><br>';
-                sectionPanel += '</div>';
-                sectionPanel += '</div>';
-             sectionPanel += '</div>';
-             sectionPanel += '</div>';
-             sectionPanel += '</div>';
-//                        
-            
-//            var $html = "<div id='section_add_"+next+"' class='form-group form-group-sm'>";
-//            $html += "<label class='control-label col-sm-4'></label>";
-//            $html += "<div class='col-sm-6'>";
-//            $html += "<input type='text' name='section_desc' id='sectionName' class='form-control' />";
-//            $html += "</div>";
-//            $html += "<div class='col-sm-2 sectionAction' data-sectionno='"+next+"'>";
-//            $html += "<div class='btn btn-default btn-sm addSection' data-sectionno='"+next+"'><i class='glyphicon glyphicon-plus'></i></div>";
-//            $html +="<div class='btn btn-default btn-sm dropSection' data-sectionno='"+next+"'><i class='glyphicon glyphicon-minus'></i><div>";
-//            $html += "<div class='btn btn-default btn-sm addElement' data-sectionno='"+next+"' data-elementcount='0'><i class='glyphicon glyphicon-collapse-down'></i></div>";
-//            $html += "</div>";
-//            $html += "</div>";
-               });
 
-         $('#tambahsection').html(sectionPanel);
+</div>
+    
+<script>
+    $(document).ready(function() {
+        $('#tableForm').DataTable();
+    } );
+    
+//TITLE DETAILS
+ $(function () {
+             //FILTERTITLE
+        $('.searchTitle').click(function () {
+            var values = $('#formBuilder').serializeArray();
+            var search = $("#search").val();
+            $.ajax({
+                url: '<?php echo SITE_ROOT; ?>/main/search-title/',
+                data: {values: values, search:search},
+                success: function (data) {
+//                    alert(data);
+                    $('#formCreator').html(data);
+                }
+            });
+        });
+     
+     
+        $('[name=doc_group]').change(function () {
+            var groupCode = $(this).val();
+            $.ajax({
+                url: '<?php echo SITE_ROOT; ?>/main/filter/',
+                data: {group_code: groupCode},
+                success: function (data) {
+                    $('[name=doc_type]').html(data);
+                    $('#formBuilder').submit();
+                }
+            });
+        });
+   
+        $('[name=discipline]').change(function () {
+            var disCode = $(this).val();
+            $.ajax({
+                url: '<?php echo SITE_ROOT; ?>/main/filter-discipline/',
+                data: {dis_code: disCode},
+                success: function (data) {
+                    $('[name=general_discipline]').html(data);
+                    $('[name=doc_group]').html('<option value="0">Please Select</option>');
+                    $('[name=doc_type]').html('<option value="0">Please Select</option>');
+                    $('#formBuilder').submit();
+                }
+            });
+        });
         
-      });
-      
-//    $(function (){
-//       $('#addSectionSubmit').click(function(){
-//            var section = $('#doc')
-//        });
-//    });  
-//      
-    function ElementBuilder($elementName) {
+        $('[name=general_discipline]').change(function () {
+            $('[name=doc_group]').html('<option value="0">Please Select</option>');
+            $('[name=doc_type]').html('<option value="0">Please Select</option>');
+            $('#formBuilder').submit();
+        });  
+        
+        $('[name=doc_type]').change(function () {
+            $('#formBuilder').submit();
+        });
+    
+ $('.syncButton').click(function(){
+            $.ajax({
+                url : '<?php echo SITE_ROOT;?>/main/sync/',
+                success : function(data){
+                    console.log(data);
+                }
+            });
+        });
+
+<?php if ($preset_select): ?>
+            $('[name=discipline]').val("<?php echo $preset_select['active_discipline']; ?>");
+            $('[name=general_discipline]').val("<?php echo $preset_select['active_general']; ?>");
+            $('[name=doc_group]').val("<?php echo $preset_select['active_group']; ?>");
+            $('[name=doc_type]').val("<?php echo $preset_select['active_type']; ?>");
+<?php else: ?>
+            $("[name=discipline]").change();
+            $("[name=doc_group]").change();
+<?php endif; ?>
+
+        //NEWFORMPAGE
+        $('#formBuilder').submit(function (e) {
+            e.preventDefault();
+            var values = $(this).serializeArray();
+            $.ajax({
+                url: '<?php echo SITE_ROOT; ?>/main/form-builder/',
+                data: {documentValues: values},
+                success: function (data) {
+                    $('#formCreator').html(data);
+                }
+            });
+        });
+        
+        //ADDFORMBUTTON
+        $('.addForm').click(function () {
+        var values = $('#formBuilder').serializeArray();
+        var dis=$("#discipline").val();
+        var subDis=$("#general_discipline").val();
+        var docGroup=$("#doc_group").val();
+        var docType=$("#doc_type").val();
+        var docName=$("#doc_name_desc").val();
+        console.log(values);
         $.ajax({
-            url: '<?php echo SITE_ROOT;?>/formbuilder/formelement/',
-            data: {value: $elementName},
-            success: function (data) {
-                $('#formelement').html(data);
+            url : '<?= SITE_ROOT;?>/formview/add-title/',
+            data : { values: values, dis:dis, subDis:subDis, docGroup:docGroup, docType:docType, docName:docName },
+            success : function(data){
+//                alert(data);
+                swal({
+                title: "Title Created!",
+                text: "Data successfully inserted into database",
+                type: "success"
+                });
             }
         });
-    }
-    ;
-  
-     $(function () {
-        var $formType = 'decoration';
-        ElementBuilder($formType);
-        $('[name=form_element').val($formType);
-        $('[name=element_properties]').on('change', function () {
-            var selector = $(this).val();
-            $('#' + selector).show();
-            $('[name=form_element').val(selector);
-            ElementBuilder(selector);
-        });
-        $('#elementBuilder').submit(function (e) {
-            e.preventDefault();
-            var $elements = $(this).serializeArray();
-            console.log($elements);
-            
-        });
-            
-     });
-        
-        $('#createForm').click(function () {
-            $.ajax({
-                url: '<?php echo SITE_ROOT;?>/formbuilder/createform/',
-                success: function () {
-                    alert('form created');
-                    $('#json_view').text('');
-                }
-            });
-        });
-        
-        $('#docgroup').on('click','.addSection',function () {
-            var sectionNo = $(this).data('sectionno');
-            var next = sectionNo + 1 ;
-          
-            var $html = "<div id='section_add_"+next+"' class='form-group form-group-sm'>";
-            $html += "<label class='control-label col-sm-4'></label>";
-            $html += "<div class='col-sm-6'>";
-            $html += "<input type='text' name='section_desc' id='sectionName' class='form-control' />";
-            $html += "</div>";
-            $html += "<div class='col-sm-2 sectionAction' data-sectionno='"+next+"'>";
-            $html += "<div class='btn btn-default btn-sm addSection' data-sectionno='"+next+"'><i class='glyphicon glyphicon-plus'></i></div>";
-            $html +="<div class='btn btn-default btn-sm dropSection' data-sectionno='"+next+"'><i class='glyphicon glyphicon-minus'></i><div>";
-//            $html += "<div class='btn btn-default btn-sm addElement' data-sectionno='"+next+"' data-elementcount='0'><i class='glyphicon glyphicon-collapse-down'></i></div>";
-            $html += "</div>";
-            $html += "</div>";
-            $($html).appendTo('#docgroup');
-        });
-        
-        $('#tambahsection').on('click','.delSection',function () {
-            
-        }
-                )
-                
-         $('#docgroup').on('click','.dropSection',function () {
-         
-        }
-                )
-        
-        $('#tambahsection').on('click','.newElement',function(){
-            
         });
         
         
-//        $('#tambahsection').on('click','.expandButton',function () {
-//            var b = $(this).data('sectionni');
-//            var a = $('#tambahsection').find(".panel-body[data-sectionni='" + $(this).data('sectionni') + "']").toggleClass('hidden');
-//            var current = $(this).data('current');
-//            if(current=='expand'){
-//                $(this).data('current','hide');
-//                $(this).html('<i class="glyphicon glyphicon-chevron-down"></i>');
-//            } else {
-//                $(this).data('current','expand');
-//                $(this).html('<i class="glyphicon glyphicon-chevron-up"></i>');
-//            }
-//        });
-         $('#tambahsection').on('click','.elementDel',function () {
-            var del = $(this).data('target');
-            $('#element_add_' + del).remove();
-        });
-        
-        $('#tambahsection').on('click','.dropElement',function () {
-            var drop = $(this).data('target');
-            $('#section_body' + drop).remove();
-        });
-        
-        $('#tambahsection').on('click','.delSection',function () {
-            var delid = $(this).data('secid');
-            $('#section_panel' + delid).remove();
-        });
-        
-        $('#tambahsection').on('click','.delelement',function () {
-            var delelement = $(this).data('element');
-            $('#element' + delelement).remove();
-        });
-        
-        $('#docgroup').on('click','.dropSection',function () {
-            var dropid = $(this).data('sectionno');
-            $('#section_add_'+dropid).remove();
-//            console.log('drop '+ $(this).data('sectionno'));
-        });
-//        
-//        $('#tambahsection').on('click','.addElement',function () {
-//            var dropelement = $(this).data('sectionno');
-//            $('#element_add_'+dropelement).remove();
-//            console.log('drop '+ $(this).data('sectionno'));
-//        });
-        
-        $('#tambahsection').on('click','.addElement',function () {
-            var sectionNo = $(this).data('sectionno');
-            $.ajax({
-                url: '<?= SITE_ROOT; ?>/formview/new-doc-element/',
-                data: {sectionNo : sectionNo},
-                success: function (data) {
-                    var obj = $.parseJSON(data);
-                    $('.modal-dialog').removeClass('modal-lg');
-                    $('.modal-title').text(obj.component);
-                    $('.modal-body').html(obj.html);
-                }
-            });
-            $('#myModal').modal('show');
-            return false;
-        });
-        
-    $(function(){
-        $('#sectioncode').click(function(){
-            var aa = $('#sectionname').val();
-            $.ajax({
-                url:'<?php echo SITE_ROOT;?>/formbuilder/checksection/',
-                data: {namasection:aa},
-                success: function(data){
-                    $('#nosect').val(data);
-                }
-            })
-        })
-         
-        $('#test').submit(function(e){
-            e.preventDefault();
-            var input = $(this).serializeArray();
-            $.ajax({
-                url:'<?php echo SITE_ROOT;?>/formbuilder/checksection/',
-                data: {values: input},
-                success: function (data){
-                    console.log(data);
-                    var json = JSON.parse(data);
-                    $('#jsonoutput').text(JSON.stringify(json, data, null));
-                }
-            })
-        }) 
-    })
-   
+});
 </script>
-<?php echo $footer; ?>
+
+<?php echo $footer;

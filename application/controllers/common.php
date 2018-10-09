@@ -151,7 +151,7 @@ class Common_Controller {
         endforeach;
         return $documentSections;
     }
-
+    
     private function GetDocumentSectionElement($documentId, $sectionId) {
         $document = new Document_Template_Model();
         $elements = array();
@@ -165,8 +165,15 @@ class Common_Controller {
                     $elementItem[$key] = $el;
                 endif;
             endforeach;
+ 
+//            $replace = str_replace(' ', '_', $elem['json_element']);
+//            $str = strtolower(preg_replace('/[^a-zA-Z0-9_]/','',$replace));
+//            $cleanJson = preg_replace('/_+/', '_', $str);
+//            echo '<pre>';
+//            print_r($cleanJson);
+//            echo '</pre>';
             $elements[$elem['json_element']] = $elementItem;
-//            $elements[] = $elementItem;
+              //              $elements[$elem['json_element']."_".$elem['child_element_code']] = $elementItem;
         endforeach;
         return $elements;
     }
@@ -175,6 +182,9 @@ class Common_Controller {
         $document = new Document_Template_Model();
         $document->documentId = $documentId;
         $document->jsonForm = json_encode($documentData,true); //documentData -> untuk bawa json data
+//        echo '<pre>';
+//        print_r($document->jsonForm);
+//        echo '</pre>';
         switch ($action):
             case 'add':
                 $document->CreateDocumentJSONFormat($documentId);

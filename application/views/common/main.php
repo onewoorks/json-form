@@ -16,6 +16,8 @@
         <script src="<?php echo SITE_ROOT; ?>/assets/library/sweetalert/sweetalert.min.js"></script>
         <link rel="stylesheet" type="text/css" href="<?php echo SITE_ROOT; ?>/assets/library/sweetalert/sweetalert.css">
         <link href='<?php echo SITE_ROOT;?>/assets/library/datepicker/css/datepicker.css' rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="<?php echo SITE_ROOT;?>/assets/library/DataTables/datatables.min.css"/>
+        <script type="text/javascript" src="<?php echo SITE_ROOT;?>/assets/library/DataTables/datatables.min.js"></script>
         <?php echo $vars;?>
         <style>
             #json_view { white-space: pre; font-family: monospace; }
@@ -25,14 +27,21 @@
     <body>
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
-                <!--<a class="navbar-brand">CD JSON FORMATTER</a>-->
                 <ul class="nav navbar-nav">
                     <li><a href="<?php echo SITE_ROOT; ?>">List Of Documents</a></li>
-                    <li><a href="<?php echo SITE_ROOT; ?>/formview/new-form">Create New Form</a></li>
+                    <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="<?php echo SITE_ROOT; ?>/formview/new-form">Create New Form
+                    <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="<?php echo SITE_ROOT; ?>/formview/new-form">Add New Form</a></li>
+                      <li><a href="<?php echo SITE_ROOT; ?>/formview/new-section">Add New Section</a></li>
+                      <li><a href="<?php echo SITE_ROOT; ?>/formview/new-element">Add New Element</a></li>
+                      <li><a href="<?php echo SITE_ROOT; ?>/formview/form-builder">Form Builder</a></li>
+                    </ul>
+                    </li>
                     <li><a href="<?php echo SITE_ROOT; ?>/formview/sql-raw-data">SQL Raw Data</a></li>
                     <li><a href='<?php echo SITE_ROOT; ?>/formview/generate-json-format'>Generate JSON Format</a></li>
                 </ul>
             </div>
         </nav>
-
     </body>

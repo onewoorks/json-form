@@ -155,7 +155,9 @@
         $('[name=doc_type]').change(function () {
             $('#documentFilter').submit();
         });
+        });
 
+ $(function () {
         $('.syncButton').click(function(){
             $.ajax({
                 url : '<?php echo SITE_ROOT;?>/main/sync/',
@@ -238,7 +240,7 @@
                 success : function(data){
                     swal({
                         title: "Generated!",
-                        text: "System successfully created form template for selected data,",
+                        text: "Form Successfully Updated",
                         type: "success",
                         showCancelButton: true,
                         confirmButtonColor: "#80bf07",

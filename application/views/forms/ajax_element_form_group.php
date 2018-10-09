@@ -1,33 +1,47 @@
-    <form id='editElement' class='form-horizontal'>
-    <input type='hidden' name='element_code' value='<?= $values->element_code; ?>' />
-    <input type='hidden' name='document_id' value='<?= $document_id; ?>' />
-    <input type='hidden' name='template_id' value='<?= $template_id; ?>' />    
-    <input type='hidden' name='json_element' value='<?= $values->json_element; ?>' /> 
-    <input type='hidden' name='element_desc' value='<?= $values->element_desc; ?>' />
-    <input type='hidden' name='input_type' value='<?= $values->input_type; ?>' />
-    <input type='hidden' name='additional_attribute' value='<?= $values->additional_attribute; ?>' />
-    <input type='hidden' name='method' value='<?= $values->method; ?>' />
-<!--    <input type='hidden' name='doc_method_code' value='<?= $values->doc_method_code; ?>' />
-    <input type='hidden' name='doc_method_desc' value='<?= $values->doc_method_desc; ?>' />-->
-    <input type='hidden' name='data_type' value='<?= $values->data_type; ?>' />
+<form id='editElement' class='form-horizontal'>
+<input type='hidden' name='element_code' value='<?= $values->element_code; ?>' />
+<input type='hidden' name='document_id' value='<?= $document_id; ?>' />
+<input type='hidden' name='template_id' value='<?= $template_id; ?>' />    
+<input type='hidden' name='json_element' value='<?= $values->json_element; ?>' /> 
+<input type='hidden' name='element_desc' value='<?= $values->element_desc; ?>' />
+<input type='hidden' name='input_type' value='<?= $values->input_type; ?>' />
+<input type='hidden' name='additional_attribute' value='<?= $values->additional_attribute; ?>' />
+<input type='hidden' name='method' value='<?= $values->method; ?>' />
+<input type='hidden' name='data_type' value='<?= $values->data_type; ?>' />
+<input type='hidden' name='method_code' value='<?= $values->doc_method_code; ?>' />
+    
+    <div class='form-group form-group-sm'>    
+                <label class='control-label col-sm-9'>Search</label>
+                <div class='form-inline'>
+                <input type='text' name='search_desc' id='searchDesc' class='form-control' autocomplete="off" />
+                <input type='hidden' name='element_desc' id='elementName' class='form-control' autocomplete="off" list="elemList" />
+                            <datalist id="elemList">
+                                <?php foreach ($elements as $element): ?>
+                                        <option value='<?php echo $element['element_desc']; ?>'><?php echo $element['json_element']; ?></option>
+                                <?php endforeach; ?>
+                            </datalist>
+                <button type="button" class="btn btn-primary btn-sm searchElement" style='padding-top:5px;padding-bottom:5px'>
+                        <span class="glyphicon glyphicon-search"></span>
+                </button>
+                </div>
+                <span class='pull-right' style="font-size: smaller; padding-right: 60px; padding-top:2px;" id="check"></span>
+    </div>
+    
     <div class='panel panel-default'>
-        
         <div class='panel-heading'>Properties</div>
         <div class='panel-body'>
-            
             <div class='form-group form-group-sm'>
                 <label class='control-label col-sm-4'>Element Description</label>
                 <div class='col-sm-8'>
                     <input type='text' name='element_desc' value='<?= $values->element_desc; ?>' class='form-control' autocomplete="off"/>
                 </div>
             </div>
-            
             <div class="form-group form-group-sm">
                 <label class="control-label col-sm-4">Element Group</label>
                 <div class="col-sm-8">                      
-                    <select name='element_group' class='form-control'>                        
-                             <?php foreach ($grouping as $group): 
-                                 if($group['element_code']=== $values->element_code ){
+                    <select name='element_group' class='form-control'>
+                        <?php foreach ($grouping as $group):
+                            if($group['element_code']=== $values->element_code ){
                                     echo "<option value='".$group['element_code']."'>No group</option>"; 
                                  }elseif($group['element_code']=== $values->child_element_code){
                                     echo "<option value='".$group['element_code']."'>".$group['element_desc']."</option>";
@@ -37,13 +51,12 @@
                                  foreach ($grouping as $group):
                                   if($group['element_code']=== $values->child_element_code ){
                                  }else{
-                             ?>
-                                 <option value='<?php echo $group['element_code']; ?>'><?php echo $group['element_desc']; ?></option>
-                                 <?php } endforeach; ?>                        
+                        ?>
+                        <option value='<?php echo $group['element_code']; ?>'><?php echo $group['element_desc']; ?></option>
+                        <?php } endforeach; ?> 
                     </select>
                 </div>
             </div>
-            
             <div class="form-group form-group-sm">
                 <label class="control-label col-sm-4">Position</label>
                 <div class="col-sm-8">
@@ -55,7 +68,6 @@
                      </label>
                 </div>
             </div>
-            
             <div class='form-group form-group-sm'>
                 <label class='control-label col-sm-4'>Element Properties</label>
                 <div class='col-sm-8'>
@@ -65,17 +77,13 @@
                     <label class='radio-inline'>
                         <input type='radio' name='element_properties' value='BASIC'<?php if($values->element_properties==='BASIC'){echo 'checked';} ?>/> Basic
                     </label>
-                    <label class='radio-inline'>
-                        <input type='radio' name='element_properties' value='METHOD' <?php if($values->element_properties==='METHOD'){echo 'checked';} ?>/> Method
-                    </label>
                 </div>
                 <div id='formelement'></div>
             </div>   
-            
         </div>
     </div>
 
-                     <div class='form-group form-group-sm'>
+    <div class='form-group form-group-sm'>
         <label class='control-label col-sm-3'></label>
         <div class='col-sm-12 text-right'>
             <button type='submit' class='btn btn-sm btn-primary'>Update</button>
@@ -84,42 +92,39 @@
 </form>
 
 <script>
-    function ElementBuilder($elementName) {
+    //DISPLAY PROPERTY'S DETAIL   
+    $(function () {
+        var formType = $('input[name=element_properties]:checked').val();
+        ElementBuilder(formType);
+    });
+    
+    //BAWA KE PAGE->BASIC
+    function ElementBuilder(formType) {
         var formValue = $('#editElement').serializeArray();
+        console.log('FORMTYPE:',formType);
+        console.log('ajax_element_form_group: FORMVALUE=',formValue);
         $.ajax({
             url: '<?php echo SITE_ROOT;?>/formbuilder/formelement/',
-            data: {value: $elementName , params : formValue },
+            data: {value:formType, params:formValue}, //bawa value satu form page ni
             success: function (data) {
-//                console.log(data);
                 $('#formelement').html(data);
             }
         });
-            }
-    ;
-    $(function () {
-        var $formType = $('input[name=element_properties]:checked').val();
-        var $sc = $('[name=section_code]').val();
-        //var $formType = 'decoration';
-        ElementBuilder($formType,$sc);
-        $('[name=form_element').val($formType);
-        $('[name=element_properties]').on('change', function () {
-            var selector = $(this).val();
-            $('#' + selector).show();
-            $('[name=form_element').val(selector);
-            ElementBuilder(selector);
-        });
-    });
-
+    };
+            
+    //UPDATE_ELEMENT
     $(function(){
         $('#editElement').submit(function(e){
             e.preventDefault();
-            var a = $('#basic').serializeArray();
-            var b = $('#rowinput').serializeArray();           
+            var method = $('#basicMethod').serializeArray();
+            console.log('ajax_element_form_group: method =',method);
+            var multAns = $('#basicMultAns').serializeArray();
+            console.log('ajax_element_form_group: multiple answer =',multAns);
             $.ajax({
                 url : '<?= SITE_ROOT;?>/formview/update-section-element/',
-                data : { values: $(this).serializeArray(), basic: $('#basic').serializeArray(), rowinput: b},
+                data : { values: $(this).serializeArray(),basicMethod:method, basicMultAns:multAns},
                 success : function(data){
-                  console.log(data);
+                  console.log('ajax_element_form_group: DATA=',data);
                   $('#myModal').modal('hide');
                   swal({
                       title: "Element Updated!",
@@ -130,4 +135,19 @@
             });
         });
         });
+  
+  //SEARCHELEMENT
+        $('.searchElement').click(function () {
+            var values = $('#elementBuilder').serializeArray();
+            var search = $("#searchDesc").val();
+            var obj=$("#elemList").find("option[value='"+search+"']");
+            console.log(obj);
+           
+        if(obj !== null && obj.length>0){
+             $("#check").html("Data Already Exist").css("color", "red");
+             }else{
+             $("#check").html("Data Not Found").css("color", "green");
+             }
+        });
+        
 </script>

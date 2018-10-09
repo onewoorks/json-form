@@ -10,7 +10,7 @@
                 <div class="col-sm-8">                      
                     <select name='method_name' class='form-control'> 
                         <?php if ($vars['doc_method_code']!= null):
-                            echo "<option value='".$vars['doc_method_code']."' selected>".$vars['doc_method_desc']."</option>";
+                            echo "<option id='".$vars['doc_method_code']."' value='".$vars['method']."' selected>".$vars['doc_method_desc']."</option>";
                             echo "<option value='1'>Signature</option>";
                             echo "<option value='2'>Alert And Allergies</option>";
                             echo "<option value='3'>Medical Alert</option>";

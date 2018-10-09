@@ -35,25 +35,6 @@
             });
     };
     
-//    $(function(){
-//        $('#editTitle').submit(function(e){
-//            e.preventDefault();
-//            $.ajax({
-//                url : '<?= SITE_ROOT;?>/formview/edit-title/',
-//                data : { values: $(this).serializeArray()},
-//                success : function(data){
-//                    console.log(data);
-//                    $('#title').modal('hide');
-//                    swal({
-//                      title: "Title Updated!",
-//                      text: "Data successfully updated into database",
-//                      type: "success"
-//                    });
-//                }
-//    });
-//    });
-//    });
-    
     $(function(){
         $('input[name=title_desc').change(function(){
             console.log($(this).val());
@@ -61,4 +42,3 @@
         }); 
     });
 </script>
-

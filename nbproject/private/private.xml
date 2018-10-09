@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="2">
+        <file>
+            <url>application/models/document_template.php</url>
+            <bookmark id="1">
+                <name/>
+                <line>210</line>
+                <key/>
+            </bookmark>
+            <bookmark id="2">
+                <name/>
+                <line>679</line>
+                <key/>
+            </bookmark>
+        </file>
+    </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp7/htdocs/json-form/application/libraries/drivers/mysql.php</file>
-            <file>file:/C:/xampp7/htdocs/json-form/application/controllers/formbuilder.php</file>
-            <file>file:/C:/xampp7/htdocs/json-form/index.php</file>
-            <file>file:/C:/xampp7/htdocs/json-form/application/views/forms/generate_json_format.php</file>
-            <file>file:/C:/xampp7/htdocs/json-form/application/controllers/common.php</file>
-            <file>file:/C:/xampp7/htdocs/json-form/application/models/document_template.php</file>
-            <file>file:/C:/xampp7/htdocs/json-form/application/controllers/formview.php</file>
-            <file>file:/C:/xampp7/htdocs/json-form/application/views/forms/new_form.php</file>
-            <file>file:/C:/xampp7/htdocs/json-form/application/controllers/router.php</file>
+            <file>file:/C:/xampp/htdocs/jsonformnew/application/views/formbuilder/basic.php</file>
+            <file>file:/C:/xampp/htdocs/jsonformnew/application/views/forms/new_form.php</file>
+            <file>file:/C:/xampp/htdocs/jsonformnew/application/controllers/main.php</file>
+            <file>file:/C:/xampp/htdocs/jsonformnew/application/models/document_template.php</file>
+            <file>file:/C:/xampp/htdocs/jsonformnew/application/views/common/main.php</file>
+            <file>file:/C:/xampp/htdocs/jsonformnew/application/controllers/formview.php</file>
+            <file>file:/C:/xampp/htdocs/jsonformnew/application/views/forms/new_section.php</file>
         </group>
     </open-files>
 </project-private>

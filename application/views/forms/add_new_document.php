@@ -1,4 +1,4 @@
-    <form id='addNewElement' class='form-horizontal'>
+	<form id='addNewElement' class='form-horizontal'>
     <div class='panel panel-default'>        
         <div class='panel-heading'>Properties</div>
         <div class='panel-body'>
@@ -45,22 +45,13 @@
     <div class='form-group form-group-sm'>
         <label class='control-label col-sm-3'></label>
         <div class='col-sm-12 text-right'>
-            <button type='submit' class='btn btn-sm btn-primary'>Insert</button>
+            <button type='submit' class='btn btn-sm btn-primary'>Save</button>
         </div>
     </div>       
 </form>          
 <script>
-        function ElementBuilder($elementName) {
-        $.ajax({
-            url: '<?php echo SITE_ROOT;?>/formbuilder/formelement/',
-            data: {value: $elementName},
-            success: function (data) {
-                $('#formelement').html(data);
-            }
-        });
-    }
-    ;
     
+//DISPLAY ELEMENT PROPERTIES
     $(function () {
         var $formType = 'decoration';
         ElementBuilder($formType);
@@ -73,17 +64,28 @@
         });
     });
     
-    $(function(){
-        $('#addNewElement').submit(function(e){
-            e.preventDefault();   
-            alert('sampai');
-            $.ajax({
-                url : '<?= SITE_ROOT;?>/formview/pass-element/',
-                data : { values: $(this).serializeArray(),basic: $('#basic').serializeArray(),rowinput:$('#rowinput').serializeArray()},
-                success : function(){
-                }
-            });
-        });
-        });   
+//        function ElementBuilder($elementName) {
+//        $.ajax({
+//            url: '<?php echo SITE_ROOT;?>/formbuilder/formelement/',
+//            data: {value: $elementName},
+//            success: function (data) {
+//                $('#formelement').html(data);
+//            }
+//        });
+//    };
+
+    
+//    $(function(){
+//        $('#addNewElement').submit(function(e){
+//            e.preventDefault();   
+//            alert('sampai');
+//            $.ajax({
+//                url : '<?= SITE_ROOT;?>/formview/pass-element/',
+//                data : { values: $(this).serializeArray(),basic: $('#basic').serializeArray(),rowinput:$('#rowinput').serializeArray()},
+//                success : function(){
+//                }
+//            });
+//        });
+//        });   
 </script>
 

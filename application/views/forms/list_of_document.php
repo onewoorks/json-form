@@ -3,7 +3,7 @@
 <div id='listOfDocument'>
             <form id='documentFilter' class='form-horizontal'>
                 <div class='form-group form-group-sm'>
-                    <table class='listcolumn' style='font-size: 12px; margin-left: 250px;  text-align: right; ' >
+                    <table class='listcolumn' style='font-size:12px;margin-left:250px;text-align:right;' >
                 <tbody>
                     <tr>
                         <td><b>Discipline</b></td>
@@ -47,12 +47,10 @@
                         </select></td>
                     </tr>
                 </tbody>
-                </table>
+                    </table>
                 </div>
-
             </form>
-        <!--</div>-->
-    <!--</div>-->
+
 <div class='container-fluid'>
     <div class='panel panel-primary'>
         <div class='panel-heading'>
@@ -62,7 +60,7 @@
 
             List of Template Documents</div>
         <div class='panel-body'>
-            <div class ='pull-left' style=" font-size: 12px; padding-bottom: 3px;"><b>Total Document = <?= count($list_of_documents);?></b></div>
+            <div class ='pull-left' style=" font-size: smaller; padding-bottom: 3px;"><b>Total Document = <?= count($list_of_documents);?></b></div>
             <div class='clearfix'></div>
 
             <table class='table table-bordered table-condensed'>
@@ -80,7 +78,7 @@
                 <tbody>
                     <?php if(!$list_of_documents):?>
                     <tr>
-                        <td colspan="7"><i>No Record Found</i></td>
+                        <td colspan="7"><i style="font-size: 12px;">No Record Found</i></td>
                     </tr>
                     <?php endif;?>
                     <?php $no=1; foreach ($list_of_documents as $document): ?>
@@ -93,8 +91,9 @@
                             <td class='text-uppercase'  style=" font-size: smaller;"><a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $document['template_id']; ?>'><?php echo $document['doc_name_desc']; ?></a></td>
                             <td class='text-center'>
                                 <div class='btn-group btn-group-xs'>
-                                    <a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $document['template_id']; ?>' class='btn btn-default'>VIEW</a>
-                                    <a href='<?php echo SITE_ROOT; ?>/formview/edit-form/<?php echo $document['template_id']; ?>' class='btn btn-default'>UPDATE</a>
+                                    <a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $document['template_id']; ?>' class='btn btn-default' target="_blank">VIEW</a>
+                                    <a href='<?php echo SITE_ROOT; ?>/formview/edit-form/<?php echo $document['template_id']; ?>' class='btn btn-default' target="_blank">UPDATE</a>
+                                    <a href='<?php echo SITE_ROOT; ?>/formview/clone-form/<?php echo $document['template_id']; ?>' class='btn btn-default'>CLONE</a>                                    
                                 </div>
                             </td>
                         </tr>
@@ -104,7 +103,13 @@
         </div>
     </div>
 </div>
+
+</div>
 <script>
+//    $(document).ready(function() {
+//        $('#listForm').DataTable();
+//    } );
+    
  $(function () {
         $('[name=doc_group]').change(function () {
             var groupCode = $(this).val();

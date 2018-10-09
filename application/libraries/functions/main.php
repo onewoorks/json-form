@@ -29,6 +29,8 @@ function InputTypeCaller($element, $name, $documentTitle,$documentId,$layout=1) 
         'element_hint'=>$element->element_hint,
         'sec_file_type_code'=>$element->sec_file_type_code,
         'file_type_code'=>$element->file_type_code,
+        'image_name_id'=>$element->image_name_id,
+        'mandatory_flag'=>$element->mandatory_flag,
         'document_title' => $documentTitle,
         'doc_name_id'=>$documentId,
         'layout' =>$layout
@@ -62,6 +64,33 @@ function UpdateInput($element){
     $methodName = 'UpdateMultiAns';
     $class = new Input_Type_Controller();
     $class->elementDetail = (object) $element;
+    $methodCheck = $class->VerifyMethod($methodName);
+    $result = ($methodCheck) ? $class->$methodName (): false;
+    return $result;
+}
+
+//14AUG
+function UpdateMethod($element){
+    $methodName = 'UpdateMethodInput';
+    $class = new Input_Type_Controller();
+    $class->elementDetail = (object) $element;
+    $methodCheck = $class->VerifyMethod($methodName);
+    $result = ($methodCheck) ? $class->$methodName (): false;
+    return $result;
+}
+
+//16AUG
+function ListMethod(){
+    $methodName = 'ListMethodInput';
+    $class = new Input_Type_Controller();
+    $methodCheck = $class->VerifyMethod($methodName);
+    $result = ($methodCheck) ? $class->$methodName (): false;
+    return $result;
+}
+
+function ListMultipleAnswer(){
+    $methodName = 'ListMultipleAnswerInput';
+    $class = new Input_Type_Controller();
     $methodCheck = $class->VerifyMethod($methodName);
     $result = ($methodCheck) ? $class->$methodName (): false;
     return $result;
