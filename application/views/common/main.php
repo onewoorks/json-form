@@ -29,7 +29,8 @@
             <div class="container-fluid">
                 <ul class="nav navbar-nav">
                     <li><a href="<?php echo SITE_ROOT; ?>">List Of Documents</a></li>
-                    <li class="dropdown">
+                    <li class='hidden'><a href="<?php echo SITE_ROOT; ?>/formview/form_builder">Create New Form</a></li>
+                    <li class="hidden dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="<?php echo SITE_ROOT; ?>/formview/new-form">Create New Form
                     <span class="caret"></span></a>
                     <ul class="dropdown-menu">
