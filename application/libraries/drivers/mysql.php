@@ -1,42 +1,16 @@
 <?php
-
 class Mysql_Driver {
-
     private $connection;
     private $query;
     private $result;
     private $bind;
-
-//    public function connect() {
-//        $host = '202.171.33.109';
-//        $user = 'root';
-//        $password = 'R00t@!23';
-//        $database = 'his_kkm';
-////        $host = '172.19.2.103';
-////        $user = 'root';
-////        $password = 'r';
-////        $database = 'his_kkm';
-//        try {
-//            $this->connection = new PDO("mysql:host=$host;port=3306;dbname=$database", $user, $password, array(
-//                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-//                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
-//            ));
-//            return TRUE;
-//        } catch (PDOException $e) {
-//            $this->connection = null;
-//            echo $e->getMessage();
-//            return FALSE;
-//        }
-//    }
-    
-        public function connect() {
-        $host = 'localhost';
-        $user = 'root';
-        $password = 'root@123';
-        $database = 'his_kkm_local';
-
+    public function connect() {
+        $host = 'xx.xx.xx.xx';
+        $user = 'xx';
+        $password = 'xxx';
+        $database = 'xxx';
         try {
-            $this->connection = new PDO("mysql:host=$host;port=3307;dbname=$database", $user, $password, array(
+            $this->connection = new PDO("mysql:host=$host;port=3306;dbname=$database", $user, $password, array(
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"
             ));
@@ -51,29 +25,23 @@ class Mysql_Driver {
     public function dc() {
         
     }
-
     public function disconnect() {
         $this->connection = null;
         return TRUE;
     }
-
     public function prepare($query) {
         $this->query = $query;
         return TRUE;
     }
-
     public function insertPrepare($query) {
         $this->bind = $this->connection->prepare($query);
     }
-
     public function insertBind($column, $value) {
         $this->bind->bindValue($column, $value);
     }
-
     public function insertExecute() {
         $this->bind->execute();
     }
-
     public function queryexecute() {
         $result = false;
         if (isset($this->query)) {
@@ -83,11 +51,9 @@ class Mysql_Driver {
         }
         return $result;
     }
-
     public function getLastId() {
         return $this->connection->lastInsertId();
     }
-
     public function fetchOut($type = 'object') {
         $result = false;
         if (isset($this->result)) {
@@ -110,5 +76,4 @@ class Mysql_Driver {
         }
         return $result;
     }
-
 }
