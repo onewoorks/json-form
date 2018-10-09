@@ -38,9 +38,9 @@
         </form>
     </div>
 
-     <div class='col-md-1' style="position: fixed; z-index: 7; right: 0; margin-right:-15px;">
-         <a href='#' class='btn btn-primary updatelayout' style="padding: 5px 10px;">Update</a>  
-    </div>
+<!--     <div class='col-md-1' style="position: fixed; z-index: 7; right: 0; margin-right:-15px;">
+         <div class='btn btn-primary updatelayout' style="padding: 5px 10px;">Update</div>  
+    </div>-->
     
    <br><br> 
     <div class='col-md-1-right' style="position: fixed; z-index: 7; right: 0;">
@@ -101,7 +101,7 @@
     </div>
 </div>
 <script src='<?= SITE_ROOT; ?>/assets/library/datepicker/js/bootstrap-datepicker.js'></script>
-<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<!--<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>-->
 <script src="<?php echo SITE_ROOT; ?>/assets/library/summernote/summernote.js"></script>
 <script>
                                 function HideAndShowOtherSpecify(object) {
@@ -119,7 +119,7 @@
                                 
 </script>
 
-<script>
+<!--<script>
                                 function HideAndShowTextbox(object) {
                                     var $selected = $(object).val();
                                     
@@ -157,9 +157,9 @@
                                     }
                                 }
                                 
-</script>
+</script>-->
 
-<!--<script>
+<script>
     $(function() {
   $('input:radio').change(function(){
       var className = $(this).attr('name');
@@ -182,7 +182,7 @@
 //      }
   });
 });
-    </script>-->
+    </script>
 <script>
     $(function () {
         $('.summernote').summernote({
@@ -221,24 +221,24 @@
             console.log($refcode);
         });
 
-        $('.updatelayout').click(function () {
-     
-            var documentId = '<?= $document_id;?>';
-            $.ajax({
-                url: '<?= SITE_ROOT; ?>/formview/update-layout/',
-                data: {documentId : documentId},
-                success: function (data) {
-                    console.log(data);
-                    $("#contoh").text(data);
-                    var obj = $.parseJSON(data);
-                    $('.modal-dialog').removeClass('modal-lg');
-                    $('.modal-title').text(obj.component);
-                    $('.modal-body').html(obj.html);
-                }
-            });
-            $('#Modal').modal('show');
-            return false;
-        });
+//        $('.updatelayout').click(function () {
+//     
+//            var documentId = '<?= $document_id;?>';
+//            $.ajax({
+//                url: '<?= SITE_ROOT; ?>/formview/update-layout/',
+//                data: {documentId : documentId},
+//                success: function (data) {
+//                    console.log(data);
+//                    $("#contoh").text(data);
+//                    var obj = $.parseJSON(data);
+//                    $('.modal-dialog').removeClass('modal-lg');
+//                    $('.modal-title').text(obj.component);
+//                    $('.modal-body').html(obj.html);
+//                }
+//            });
+//            $('#Modal').modal('show');
+//            return false;
+//        });
         
 //        $('div[id^=date_]').hide();
 //        $('input[id^=textbox_]').hide();
