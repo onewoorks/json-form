@@ -1,3 +1,4 @@
+<!--<div class="panel-heading panel-child">FORM ELEMENT</div>-->
     <div class="panel-body">
                         
                         <div class="form-group form-group-sm">
@@ -61,16 +62,8 @@
                                        ); ?>
                                 <?= UpdateInput($elementDetail);   }
                             else{   ?>
-                            
-                                    <div class="my-form">
-                                            <div class="form-group form-group-sm input-list text-box">
-                                                <label class="control-label col-sm-4" for="box1">Box <span class="box-number">1</span></label>
-                                                <input class="form-control" type="text" name="boxes[]" value="" id="box1" />
-                                                <a class="add-box" href="#">Add</a>&nbsp
-                                            </div>
-                                    </div>		 
 
-<!--                            <div class='prelist1'>
+                            <div class='prelist1'>
                                 <div class="form-group form-group-sm input-list">
                                     <label class="control-label col-sm-4">Predefined Value</label>
                                     
@@ -93,8 +86,8 @@
                                     
                                 </div>
                                 
-                                    <div class="form-group form-group-sm input-list" id="child1" ></div>  BAWAK FIRST PARENT
-                            </div>-->
+                                    <div class="form-group form-group-sm input-list" id="child1" ></div> <!-- BAWAK FIRST PARENT-->
+                            </div>
                             
                             <?php }  ?>
                         </div>
@@ -123,38 +116,166 @@
             </div>
 
 <script>
-$(document).ready(function(){
+    var counter;
+    var color;
 
-$('.my-form .add-box').click(function(){
-		var n = $('div.text-box').length + 1;
-		  console.log('n',n);
-		  var $box_html = '<div class="my-form"><div class="form-group form-group-sm input-list text-box">';
-		  $box_html += '<label class="control-label col-sm-4" for="box' + n + '">Box <span class="box-number">' + n + '</span></label>';
-		  $box_html += '<input class="form-control" type="text" name="boxes[]" value="" id="box' + n + '"  /> <a href="#" class="remove-box">Remove</a>&nbsp';
-		  $box_html += '</div></div>';
-		  
-		  $($box_html).hide();
-		  $('.my-form div.text-box:last').after($box_html);
-                  $($box_html).fadeIn('slow');
+    $(document).ready(function(){
+            counter=1;
+    
+    $('#predefinedList').on('click','.addPredefined', function(){
+            var parent = "=========================ADD PARENT=========================";
+            console.log(parent);
 
+            var current = $(this).data('listid');                                                                                                                                                           //current=1
+            console.log('current',current);     
+            var index = $(this).data('listid') + 1;                                                                                                                                                         //index=2
+            console.log('index',index);
+            var option =$('#multi_input_type').html();
+            var x = [index];                                                                                                                                                                                //x=[2]
+            console.log('x',x);
+            
+            var $html = '<div class="prelist' + index + '" >';                                                                                                                                              //prelist2
+            $html += '<div class="form-group form-group-sm input-list" >';
+            $html += '<label class="control-label col-sm-4">Predefined Value</label>';
+            $html += '<div class="col-sm-3 list-padding-right">';
+            $html += '<input type="text" name="multi_ans_desc'+ x +'" class="form-control" placeholder="parent: label / title" />';                                                                         //multi_ans_desc[2]
+            $html += '<input type="hidden" id="validation' + index + '" name="validation' + index + '" value="parentonly" />';                                                                              //validation2
+            $html += '<input type="hidden" name="total" value="'+index+'" />';                                                                                                                              //TOTAL=2
+            $html += '</div>';
+            $html += '<div class="col-sm-3 list-padding-left" >';
+            $html += '<select name="multi_input_type'+ x +'" class="form-control">' + option + '</select>';                                                                                                 //multi_input_type[2]
+            $html += '</div>';
+            $html += '<div class="col-sm-2 predefinedActionButton" data-listid=' + index + ' >';                                                                                                            //data-listid=2
+            $html += '<div class="btn btn-default btn-sm addPredefined" data-listid=' + index + ' data-childno="1"><i class="glyphicon glyphicon-plus"></i> Parent</div>';                                  //data-listid=2, data-childno=1
+            $html += '<div class="btn btn-default btn-sm addChild" data-childlistid="' + index + '" data-childno="1" style="padding:4px"><i class="fas fa-layer-group"></i></div>';          //data-childlistid=2, data-childno=1
+            $html += '</div>';
+            $html += '</div>';
+            $html += '<div class="form-group form-group-sm input-list" id="child' + index + '"></div>';                                                                                                     //child2
+            $html += '</div>';
+            $($html).appendTo('#predefinedList');
+            
+            var $deleteButton = "<div class='btn btn-default btn-sm deletePredefined' data-delid='" + current + "' style='padding:4px'><i class='glyphicon glyphicon-trash'></i></div>";                    //data-delid=1
+            $deleteButton += "<div class='btn btn-default btn-sm addChild' data-childlistid='" + current + "' data-childno='1' style='padding:4px'><i class='fas fa-layer-group'></i></div>";//data-childlistid=1, data-childno=1
+            $('.predefinedActionButton[data-listid="' + current + '"]').html($deleteButton);                                                                                                                //data-listid=1
+            counter=1;
+            
+    });
 
-		  return false;		 
-		  
-		  
-});
+    $('#predefinedList').on('click','.addChild', function(){
+            var child = "==================================================ADD CHILD==================================================";
+            console.log(child);
+            console.log(counter);
+            if(counter<=5){
 
- $('.my-form').on('click', '.remove-box', function(){
-	        $(this).parent().css( 'background-color', '#FF6C6C' );
-	        $(this).parent().fadeOut("slow", function() {
-	            $(this).remove();
-	            $('.box-number').each(function(index){
-	               $(this).text( index + 1 );
-	           });
-	        });
-	        return false;
-	    });
-		 
-});
+            var current = $(this).data('childlistid');                                                                                                                                              //current=1
+            console.log('current =',current);
+            var no = $(this).data('childno');                                                                                                                                                       //no=1
+            console.log('no =',no);
+            var nextno = no;                                                                                                                                                                        //nextno=1
+            console.log('nextno =',nextno);
+            var childnextno = no + 1;                                                                                                                                                               //childnextno=1
+//            var option =$('#multi_input_type').html();
+            
+            $('.addChild[data-childlistid="' + current + '"]').data('childno',childnextno);                                                                                                         //data-childlistid=1 , data-childno=1
+
+            var $html = '<div class="childno'+current+''+no+'" style="background-color:#f5f5f5;padding-top:3px">';                                                                                        //childno11
+            $html += '<div class="form-group form-group-sm input-list" >';
+            $html += '<label class="control-label col-sm-4">Layer</label>';  
+            $html += '<div class="checkbox">';
+            $html += '<div class="col-sm-3 list-padding-right">';
+            $html += '<input type="checkbox" id="show_label'+current+''+nextno+'" name="show_label'+current+''+nextno+'" value="1" style="margin-top:6px;margin-left:4px;margin-right:3px" checked/>';  //show_label11
+            $html += '<div id="label'+current+''+nextno+'" style="margin-left:20px;margin-right:2px">';                                                                                                 //label11
+            $html += '<input type="text" id="refDesc'+current+''+nextno+'" name="refDesc'+current+''+nextno+'" class="form-control" placeholder="show label: 1 / 0"/>';                                //refdesc11
+            $html += '<input type="hidden" id="totallabel" name="totallabel" value="'+current+''+nextno+'" />';                                                                                                                              //TOTAL=2
+//            $html += '<input type="text" id="showvalidation'+current+''+nextno+'" name="showvalidation'+current+''+nextno+'" value="showlabelexist" />';                                                                              //validation2
+            $html += '</div>';
+            $html += '</div>'; 
+            $html += '<div class="col-sm-2 childPredefinedActionButton" data-childlistid='+nextno+'>';                                                                                                          //data-childlistid=1
+            $html += '<div class="btn btn-default btn-sm addgrandChild" data-grandchildlistid="'+current+''+no+'" data-grandchildno="1" ><i class="glyphicon glyphicon-plus"></i> Child</div>';//data-grandchildlistid=1, data-grandchildno=1
+            $html += '<div class="btn btn-default btn-sm deleteChild" data-delid="'+current+''+nextno+'" data-num='+no+' data-parent='+nextno+' style="padding:4px;"><i class="glyphicon glyphicon-trash"></i></div>';       //data-delid=1, data-num=1, data-parent=1
+            $html += '</div>';
+            $html += '</div>';
+            $html += '</div>';
+            $html += '<div class="form-group form-group-sm input-list" id="grandchild'+current+''+no+'"></div>';                                                                                                //grandchild11
+            $html += '</div>';
+            $($html).appendTo('#child'+current);                                                                                                                                                          //child1
+
+            $('#show_label'+current+''+nextno+'').change(function(){            
+            if (!$(this).is(':checked')) {
+                $('#label'+current+''+nextno+'').hide();
+                document.getElementById('show_label'+current+''+nextno+'').value = '0';
+//                document.getElementById('showvalidation'+current+''+nextno+'').value = '';
+            }
+            else{
+                $('#label'+current+''+nextno+'').show();
+                document.getElementById('show_label'+current+''+nextno+'').value = '1';
+//                document.getElementById('showvalidation'+current+''+nextno+'').value = 'showlabelexist';
+            }
+            });
+            counter++;
+        }
+    });
+    
+    $('#predefinedList').on('click','.addgrandChild', function(){
+    
+            var grandchild = "===========================================================================ADD GRANDCHILD===========================================================================";
+            console.log(grandchild);
+    
+            var current = $(this).data('grandchildlistid');
+            console.log('current',current);
+            var no = $(this).data('grandchildno');
+            console.log('no',no);
+            var nextno = no;
+            console.log('nextno',nextno);
+            var grandchildnextno = no + 1;
+            console.log('grandchildnextno',grandchildnextno);   //grandchildnextno=1
+            var option =$('#multi_input_type').html();
+        
+            $('.addgrandChild[data-grandchildlistid="' + current + '"]').data('grandchildno',grandchildnextno);                                                                             //data-grandchildlistid=1, data-grandchildno=1
+    
+            var $html = '<div class="grandchildno'+current+''+no+'">';                                                                                                                      //grandchildno11
+            $html += '<div class="form-group form-group-sm input-list">';
+            $html += '<label class="control-label col-sm-4"></label>';                          
+            $html += '<div class="col-sm-3 list-padding-right">';
+            $html += '<input type="text" name="child_multi_ans_desc'+current+''+nextno+'" class="form-control" placeholder="child : label / title" style="margin-left:24px;width:165px"/>'; //grand_child_multi_ans_desc1
+            $html += '<input type="hidden" value="childvalidation'+current+'' + nextno + '" id="childvalidation'+current+'' + nextno + '" name="childvalidation'+current+'' + nextno + '" value="childexist" />';                                   //grandchildvalidation1
+            $html += '<input type="hidden" name="childsorting" class="form-control" value="'+current+'' + nextno + '" />';                                                                      //grandchildsorting1
+            $html += '</div>';
+            $html += '<div class="col-sm-3 list-padding-left" >';
+            $html += '<select name="child_multi_input_type'+current+''+nextno+'" class="form-control" style="width:180px">'+ option +'</select>';                                                //grand_child_multi_input_type1
+            $html += '</div>';
+            $html += '<div class="col-sm-2 grandchildPredefinedActionButton" data-grandchildlistid='+nextno+'>';                                                                            //data-grandchildlistid=1
+            $html += '<div class="btn btn-default btn-sm deletegrandChild" data-granddelid="'+current+''+no+'" data-num='+no+' data-parent='+nextno+' style="padding:4px;margin-left:-16px"><i class="glyphicon glyphicon-trash"></i></div>';//data-granddelid=1, data-num=1, data-parent=1
+            $html += '</div>';
+            $html += '</div>';
+            $html += '</div>';
+            $($html).appendTo('#grandchild'+current);
+    
+    });
+            
+    $('#predefinedList').on('click','.deletePredefined', function(){
+        var deleteid = $(this).data('delid');//1
+        if (deleteid > 0) {
+            $('.prelist' + deleteid).remove();//prelist1
+        }
+    });
+    
+    $('#predefinedList').on('click','.deleteChild', function(){
+        var deleteid = $(this).data('delid');
+        console.log('deleteid =',deleteid);                   
+        $('.childno' + deleteid).remove();
+        counter--;
+    });
+    
+    $('#predefinedList').on('click','.deletegrandChild', function(){
+        var deleteid = $(this).data('granddelid');
+        console.log('granddeleteid =',deleteid);                   
+        $('.grandchildno' + deleteid).remove();
+    });
+
+    });
+    
+    
 </script>
 
 <script>       
