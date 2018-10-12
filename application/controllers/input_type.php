@@ -96,7 +96,7 @@ class Input_Type_Controller extends Common_Controller {
             $this->is_parent = $gotChild;
             $class->elementDetail = (object) $multipleAnswerData;
             $methodCheck = $class->VerifyMethod($methodName);
-            $result= ($methodCheck)? $class->$methodName($element):false;
+            $result= ($methodCheck)? $class->$methodName():false;
             return $result;
         }
 //        edited by Fatin Adilah (TEST ELEMENT)        
