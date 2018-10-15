@@ -29,15 +29,14 @@
             <div class="container-fluid">
                 <ul class="nav navbar-nav">
                     <li><a href="<?php echo SITE_ROOT; ?>">List Of Documents</a></li>
-                    <li class='hidden'><a href="<?php echo SITE_ROOT; ?>/formview/form_builder">Create New Form</a></li>
-                    <li class="hidden dropdown">
+                    <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="<?php echo SITE_ROOT; ?>/formview/new-form">Create New Form
                     <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                       <li><a href="<?php echo SITE_ROOT; ?>/formview/new-form">Add New Form</a></li>
                       <li><a href="<?php echo SITE_ROOT; ?>/formview/new-section">Add New Section</a></li>
                       <li><a href="<?php echo SITE_ROOT; ?>/formview/new-element">Add New Element</a></li>
-                      <li><a href="<?php echo SITE_ROOT; ?>/formview/form-builder">Form Builder</a></li>
+                      <li class="hidden"><a href="<?php echo SITE_ROOT; ?>/formview/form-builder">Form Builder</a></li>
                     </ul>
                     </li>
                     <li><a href="<?php echo SITE_ROOT; ?>/formview/sql-raw-data">SQL Raw Data</a></li>
