@@ -46,7 +46,7 @@
             <div class ='pull-left' style=" font-size: 12px; padding-bottom: 3px;"><b>Total Section = <?= count($list_of_sections);?></b></div>
             <div class='clearfix'></div>
 
-            <table class='table table-bordered table-condensed'>
+            <table id="tableForm" class='table table-bordered table-condensed'>
                 <thead>
                     <tr>
                         <th style=" font-size: smaller;">Section Code</th>
@@ -74,6 +74,11 @@
 </div>
 
 <script>
+    $(document).ready(function() {
+        $('#tableForm').DataTable();
+    } );
+    
+    
 $(function () {
 
         //FILTERSECTION
