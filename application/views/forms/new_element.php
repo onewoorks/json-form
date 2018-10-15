@@ -36,7 +36,7 @@
             <div class ='pull-left' style=" font-size: 12px; padding-bottom: 3px;"><b>Total Element = <?= count($list_of_elements);?></b></div>
             <div class='clearfix'></div>
 
-            <table class='table table-bordered table-condensed'>
+            <table id="tableForm" class='table table-bordered table-condensed'>
                 <thead>
                     <tr>
                         <!--<th style=" font-size: smaller;">No</th>-->
@@ -69,6 +69,10 @@
 </div>
 
 <script>
+    $(document).ready(function() {
+        $('#tableForm').DataTable();
+    } );
+    
     $(function () {
 
         //FILTERELEMENT
