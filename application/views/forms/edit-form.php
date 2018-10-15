@@ -33,7 +33,7 @@
                                 <?php endif;?>
                                 <div class="btn-group pull-right">
                                     <a class="btn btn-default btn-xs editSection hidden" data-section='<?= $key; ?>' data-sectioncode='<?= $section->section_code; ?>'></i> Edit Section</a>
-                                    <a class="btn btn-default btn-xs expandButton" data-section='<?= $key; ?>' data-current='expand'><i class='glyphicon glyphicon-expand'></i> Expand</a>
+                                    <a class="btn btn-default btn-xs expandButton" data-section='<?= $key; ?>' data-current='expand'><i class='glyphicon glyphicon-resize-full'></i> Expand</a>
                                 </div>
                             </div>
                 
@@ -226,10 +226,10 @@
             var current = $(this).data('current');
             if(current==='expand'){
                 $(this).data('current','hide');
-                $(this).html('<i class="glyphicon glyphicon-collapse-up"></i> Hide');
+                $(this).html('<i class="glyphicon glyphicon-resize-small"></i> Hide');
             } else {
                 $(this).data('current','expand');
-                $(this).html('<i class="glyphicon glyphicon-expand"></i> Expand');
+                $(this).html('<i class="glyphicon glyphicon-resize-full"></i> Expand');
             }
         });
         
