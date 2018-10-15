@@ -4,8 +4,7 @@
 <!--DOCUMENT ID'S-->
 <div id="formCreator">
 <!--<div class="col-sm-12">-->
-<div class="panel panel-default">
-<div class="panel-heading">CREATE NEW FORM</div>
+<!--<div class="panel panel-default">-->
 <div class="panel-body">
     <form id="formBuilder" class="form-horizontal">  
         
@@ -85,7 +84,7 @@
         </div>
     </form>
 </div>
-</div>
+<!--</div>-->
 <!--</div>-->
 
 <div class='container-fluid'>
@@ -99,7 +98,7 @@
             <div class ='pull-left' style=" font-size: 12px; padding-bottom: 3px;"><b>Total Title = <?= count($list_of_titles);?></b></div>
             <div class='clearfix'></div>
 
-            <table id="tableForm"class='table table-bordered table-condensed'>
+            <table id="tableForm" class='table table-bordered table-condensed'>
                 <thead>
                     <tr>
                         <th style=" font-size: smaller;">Document Id</th>
