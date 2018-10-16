@@ -44,8 +44,15 @@ class Main_Controller extends Common_Controller {
                 $page = 'forms/generate_json_format';
                 $reference = new Reference_Table_Model();
                 $result['available_documents'] = $document->ReadElementExisted($values);
-                $result['main_discipline'] = $this->RefMainDisciplineGroup();
-                $result['general_discipline'] = $reference->DocumentDisFiltering($values['discipline']);
+                $result['main_discipline'] = $this->RefMainDisciplineGroup();               
+                if($values['discipline']!='0'):
+                    $result['general_discipline'] = $reference->DocumentDisFiltering($values['discipline']);
+                endif;
+                $types='0';
+                if($values['discipline']!='0'):
+                   $types=$values['general_discipline'];
+                endif;
+                
                 $result['doc_group'] = $this->RefDocumentSelectedGroup();
                 if($values['doc_group']!='0'){
                 $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
@@ -56,7 +63,7 @@ class Main_Controller extends Common_Controller {
                 }
                 $result['preset_select'] = array (
                     'active_discipline' => $values['discipline'],
-                    'active_general' => $values['general_discipline'],
+                    'active_general' => $types,
                     'active_group' => $values['doc_group'],
                     'active_type' => $type
                 );
@@ -72,7 +79,7 @@ class Main_Controller extends Common_Controller {
                 $result['list_of_documents'] = $document->GetFilterListByGroupType($values);  
                 $result['main_discipline'] = $this->RefMainDisciplineGroup();               
                 if($values['discipline']!='0'):
-                    $result['general_discipline'] = $this->RefSubDisc($values['discipline']);
+                    $result['general_discipline'] = $reference->DocumentDisFiltering($values['discipline']);
                 endif;
                 $types='0';
                 if($values['discipline']!='0'):
