@@ -9,6 +9,7 @@
                         <td><b>Discipline</b></td>
                         <td>
                         <select name='discipline' class='form-control col-md-10'>
+                            <option value='0' selected="selected">Please Select Discipline</option>
                             <?php foreach ($main_discipline as $discipline): ?>
                                 <option value='<?php echo $discipline['code']; ?>'><?php echo $discipline['label']; ?></option>
                             <?php endforeach; ?>
@@ -42,7 +43,7 @@
                                 <option value='0' >Please Select Document Type</option>
                                 <?php if(isset($doc_types)):?>
                                 <?php foreach ($doc_types as $doc): ?>
-                                    <option value='//<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
+                                    <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
                                 <?php endforeach; ?>
                                 <?php endif;?>
                             <?php endif; ?>
