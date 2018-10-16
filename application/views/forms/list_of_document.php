@@ -63,10 +63,14 @@
 
             List of Template Documents</div>
         <div class='panel-body'>
+            <div class="form-inline">
             <div class ='pull-left' style=" font-size: smaller; padding-bottom: 3px;"><b>Total Document = <?= count($list_of_documents);?></b></div>
+            <input type="text" class="pull-right" style="font-size:12px;height:25px;padding:6px 12px;line-height: 1.4;color:#555555;background-color: #ffffff;border:1px solid #cccccc;border-radius:4px" id="search" placeholder="Search.."/>
+            </div>
+            <br></br>   
             <div class='clearfix'></div>
 
-            <table class='table table-bordered table-condensed'>
+            <table id="listDoc" class='table table-bordered table-condensed'>
                 <thead>
                     <tr>
                         <th style=" font-size: smaller;">No</th>
@@ -109,9 +113,21 @@
 
 </div>
 <script>
-//    $(document).ready(function() {
-//        $('#listForm').DataTable();
-//    } );
+    $(document).ready(function() {
+            $("#search").keyup(function () {
+            var value = this.value.toLowerCase().trim();
+
+            $("table tr").each(function (index) {
+                if (!index) return;
+                $(this).find("td").each(function () {
+                    var id = $(this).text().toLowerCase().trim();
+                    var not_found = (id.indexOf(value) === -1);
+                    $(this).closest('tr').toggle(!not_found);
+                    return not_found;
+                });
+            });
+        });
+    });
     
  $(function () {
         $('[name=doc_group]').change(function () {
