@@ -10,6 +10,7 @@
                         <td><b>Discipline</b></td>
                         <td>
                         <select name='discipline' class='form-control col-md-10'>
+                            <option value='0' selected="selected">Please Select Discipline</option>
                             <?php foreach ($main_discipline as $discipline): ?>
                                 <option value='<?php echo $discipline['code']; ?>'><?php echo $discipline['label']; ?></option>
                             <?php endforeach; ?>
@@ -54,16 +55,19 @@
             </form>
         <!--</div>-->
     <!--</div>-->
+<div class='container-fluid'>
 <div class='panel panel-primary' style='margin-left:15px'>
-    <div class='panel-heading'>List of Template Documents With Data</div>
+    <div class='panel-heading'>List of Template Documents</div>
     <div class='panel-body'>
         <div class='pull-left' style=" font-size: 12px; "><b>Total Document = <?= count($available_documents);?></b></div>
         <div class='pull-right'>
             <!--<div class='btn btn-xs btn-primary syncButton'>Synchronize</div>-->
             <div class='btn btn-xs btn-primary generateButton'>Select Generate</div>
             <div class='btn btn-xs btn-warning regenerateButton'>Select Re-generate</div>
-            <div class='btn btn-xs btn-default executeAction'>Execute</div>
+            <div class='btn btn-xs btn-default executeAction'>Execute</div>&nbsp
+            <input type="text"  style="font-size:12px;height:25px;padding:6px 12px;line-height: 1.4;color:#555555;background-color: #ffffff;border:1px solid #cccccc;border-radius:4px" id="search" placeholder="Search.."/>
         </div>
+        <!--</div>-->
         <div class='clearfix'></div>
         <br>
 
@@ -118,7 +122,24 @@
         </table>        
     </div>
 </div>
+</div>
 <script>
+    $(document).ready(function() {
+            $("#search").keyup(function () {
+            var value = this.value.toLowerCase().trim();
+
+            $("table tr").each(function (index) {
+                if (!index) return;
+                $(this).find("td").each(function () {
+                    var id = $(this).text().toLowerCase().trim();
+                    var not_found = (id.indexOf(value) === -1);
+                    $(this).closest('tr').toggle(!not_found);
+                    return not_found;
+                });
+            });
+        });
+    });
+    
     $(function () {
         $('[name=doc_group]').change(function () {
             var groupCode = $(this).val();
