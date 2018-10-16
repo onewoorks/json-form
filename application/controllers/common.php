@@ -79,12 +79,6 @@ class Common_Controller {
         $docType = $reference->DocumentType($groupCode);
         return $docType;
     }
-    
-    public function RefSubDisc($disCode = null) {
-        $reference = new Reference_Table_Model();
-        $subDis = $reference->DocumentDisFiltering($disCode);
-        return $subDis;
-    }
 
     public function RefDocumentGroup() {
         $reference = new Reference_Table_Model();
