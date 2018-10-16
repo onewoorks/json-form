@@ -43,7 +43,9 @@ class Document_Template_Model {
     }
     public function ReadElementExisted($generateArray) {
        $discipline = $generateArray['discipline'];
-       $subDiscipline = $generateArray['general_discipline'];
+//       $subDiscipline = $generateArray['general_discipline'];
+       if(isset($documentArray['general_discipline'])){
+       $subDiscipline = $documentArray['general_discipline'];}else{ $subDiscipline =0; } 
        $docGroup = $generateArray['doc_group'];
        if(isset($generateArray['doc_type'])){
        $docType = $generateArray['doc_type'];} else { $docType =0;}
@@ -59,6 +61,9 @@ class Document_Template_Model {
                 . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)" 
                 . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)"
                 . "WHERE gd.main_discipline_code = '$discipline' ";
+                    if($discipline!="0"){
+                         $sql.="AND gd.main_discipline_code = '$discipline' ";
+                     }
                     if($subDiscipline!="0"){
                         $sql.="AND gd.discipline_code = '$subDiscipline'";
                     }
