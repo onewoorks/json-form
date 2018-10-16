@@ -229,7 +229,8 @@ class Document_Template_Model {
                 . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
                 . "LEFT JOIN ref_main_disciplines rmd ON(rmd.main_discipline_code=gd.main_discipline_code) "
                 . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)"
-                . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)";
+                . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)"
+                . "WHERE rmd.module='cd' AND rdg.doc_group_code IN ('CN','RL','PS')";
         
         $this->db->connect();
         $this->db->prepare($sql);
