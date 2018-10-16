@@ -32,8 +32,10 @@ class Main_Controller extends Common_Controller {
             case 'filter-discipline':
                 $ajax = true;
                 $reference = new Reference_Table_Model();
+                if($_REQUEST['dis_code']!=NULL){
                 $newOptions = $reference->DocumentDisFiltering($_REQUEST['dis_code']);
                 echo $this->SelectOptionBuilder($newOptions);
+                }
                 break;
             case 'generate-json-table':
                 $ajax = true;
@@ -67,9 +69,16 @@ class Main_Controller extends Common_Controller {
                 $values = $this->form_array($_REQUEST['documentValues']);
                 $page = 'forms/list_of_document';
                 $reference = new Reference_Table_Model();
-                $result['list_of_documents'] = $document->GetFilterListByGroupType($values);               
+                $result['list_of_documents'] = $document->GetFilterListByGroupType($values);  
                 $result['main_discipline'] = $this->RefMainDisciplineGroup();               
-                $result['general_discipline'] =  $reference->DocumentDisFiltering($values['discipline']);
+                if($values['discipline']!='0'):
+                    $result['general_discipline'] = $this->RefSubDisc($values['discipline']);
+                endif;
+                $types='0';
+                if($values['discipline']!='0'):
+                   $types=$values['general_discipline'];
+                endif;
+                
                 $result['doc_group'] = $this->RefDocumentSelectedGroup();
                 if($values['doc_group']!='0'){
                 $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
@@ -78,9 +87,10 @@ class Main_Controller extends Common_Controller {
                 if($values['doc_group']!='0'){
                     $type=$values['doc_type'];
                 }
+                
                 $result['preset_select'] = array(
                     'active_discipline' => $values['discipline'],
-                    'active_general' => $values['general_discipline'],
+                    'active_general' => $types,
                     'active_group' => $values['doc_group'],
                     'active_type' => $type
                 );
