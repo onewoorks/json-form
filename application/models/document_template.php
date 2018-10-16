@@ -68,7 +68,7 @@ class Document_Template_Model {
                     if($docGroup!="0"){
                         $sql.="AND rdt.doc_group_code = '$docGroup' ";
                     }
-                    $sql.="GROUP BY de.doc_name_id ORDER BY d.created_date DESC"; 
+                    $sql.="GROUP BY de.doc_name_id ORDER BY gd.main_discipline_code,gd.discipline_name ASC"; 
                     
 //        $sql = "SELECT d.doc_name_id, dt.template_id, d.doc_name_desc, gd.discipline_name,rdt.dc_type_desc,md.main_discipline_name, "
 //                . "(case when ((SELECT doc_name_id FROM document_template WHERE doc_name_id = d.doc_name_id ) IS NULL) then false else true end) as available "
@@ -235,7 +235,9 @@ class Document_Template_Model {
 
         public function GetFilterListByGroupType($documentArray) {
         $discipline = $documentArray['discipline'];
-        $subDiscipline = $documentArray['general_discipline'];
+//        $subDiscipline = $documentArray['general_discipline'];
+        if(isset($documentArray['general_discipline'])){
+        $subDiscipline = $documentArray['general_discipline'];}else{ $subDiscipline =0; } 
         $docGroup = $documentArray['doc_group'];
         if(isset($documentArray['doc_type'])){
         $docType = $documentArray['doc_type'];}else{ $docType =0; } 
@@ -248,6 +250,9 @@ class Document_Template_Model {
                 . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code) "
                 . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)"
                 . "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','RL','PS')" ;
+                if($discipline!="0"){
+                    $sql.="AND gd.main_discipline_code = '$discipline' ";
+                }
                 if($subDiscipline!="0"){
                     $sql.="AND gd.discipline_code = '$subDiscipline' ";
                 }
