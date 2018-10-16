@@ -107,7 +107,7 @@ class Reference_Table_Model  { //dari class sini
         return ($result) ? $result : false;
     }
     
-    public function DocumentDisFiltering($disCode) {
+    public function DocumentDisFiltering($disCode = null) {
         $sql = "SELECT discipline_code as code, discipline_name as label"
                 . " FROM ref_generaldisciplines "
                 . " WHERE main_discipline_code = '$disCode'"
