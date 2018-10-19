@@ -43,7 +43,6 @@ class Document_Template_Model {
     }
     public function ReadElementExisted($generateArray) {
        $discipline = $generateArray['discipline'];
-//       $subDiscipline = $generateArray['general_discipline'];
        if(isset($generateArray['general_discipline'])){
        $subDiscipline = $generateArray['general_discipline'];}else{ $subDiscipline =0; } 
        $docGroup = $generateArray['doc_group'];
