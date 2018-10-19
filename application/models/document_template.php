@@ -59,7 +59,7 @@ class Document_Template_Model {
                 . "LEFT JOIN ref_main_disciplines md ON(gd.main_discipline_code=md.main_discipline_code)"
                 . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)" 
                 . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)"
-                . "WHERE gd.main_discipline_code = '$discipline' ";
+                . "WHERE gd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','PS','RL') ";
                     if($discipline!="0"){
                          $sql.="AND gd.main_discipline_code = '$discipline' ";
                      }
