@@ -78,7 +78,7 @@
                         <input type='radio' name='element_properties' value='BASIC'<?php if($values->element_properties==='BASIC'){echo 'checked';} ?>/> Basic
                     </label>
                     <label class='radio-inline'>
-                        <input type='hidden' name='element_properties' value='SUBSECTION'<?php if($values->element_properties==='SUBSECTION'){echo 'checked';} ?>/> Subsection
+                        <input type='hidden' name='element_properties' value='SUBSECTION'<?php if($values->element_properties==='SUBSECTION'){echo 'checked';} ?>/> 
                     </label>
                 </div>
                 <div id='formelement'></div>
