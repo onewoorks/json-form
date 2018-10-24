@@ -77,6 +77,9 @@
                     <label class='radio-inline'>
                         <input type='radio' name='element_properties' value='BASIC'<?php if($values->element_properties==='BASIC'){echo 'checked';} ?>/> Basic
                     </label>
+                    <label class='radio-inline'>
+                        <input type='hidden' name='element_properties' value='SUBSECTION'<?php if($values->element_properties==='SUBSECTION'){echo 'checked';} ?>/> Subsection
+                    </label>
                 </div>
                 <div id='formelement'></div>
             </div>   
@@ -96,6 +99,13 @@
     $(function () {
         var formType = $('input[name=element_properties]:checked').val();
         ElementBuilder(formType);
+        $('[name=form_element').val(formType);
+        $('[name=element_properties]').on('change', function () {
+            var selector = $(this).val();
+            $('#' + selector).show();
+            $('[name=form_element').val(selector);
+            ElementBuilder(selector);
+        });
     });
     
     //BAWA KE PAGE->BASIC
@@ -119,10 +129,11 @@
             var method = $('#basicMethod').serializeArray();
             console.log('ajax_element_form_group: method =',method);
             var multAns = $('#basicMultAns').serializeArray();
-            console.log('ajax_element_form_group: multiple answer =',multAns);
+            var subSec = $('#basicSubSec').serializeArray();
+//            console.log('ajax_element_form_group: multiple answer =',multAns);
             $.ajax({
                 url : '<?= SITE_ROOT;?>/formview/update-section-element/',
-                data : { values: $(this).serializeArray(),basicMethod:method, basicMultAns:multAns},
+                data : { values: $(this).serializeArray(),basicMethod:method, basicMultAns:multAns, basicSubSec:subSec},
                 success : function(data){
                   console.log('ajax_element_form_group: DATA=',data);
                   $('#myModal').modal('hide');
