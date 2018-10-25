@@ -423,13 +423,13 @@ class Input_Type_Controller extends Common_Controller {
         return $html;
     }
     
-    public function Method($element) {
+    public function Method($element=null) {
     $elementDetail = array(
 //        'label' => $element->element_desc,
-        'element_code' => $element->element_code,
-        'method' => $element->method,
-        'doc_method_code' => $element->doc_method_code,
-        'json_element'=>$element->json_element,
+        'element_code' => (isset($element->element_code)) ? $element->element_code : false,
+        'method' => (isset($element->method)) ? $element->method : false,
+        'doc_method_code' => (isset($element->doc_method_code)) ? $element->doc_method_code : false,
+        'json_element'=>(isset($element->json_element)) ? $element->json_element : false,
     );
     
     $class = new Input_Type_Controller();
@@ -445,14 +445,15 @@ class Input_Type_Controller extends Common_Controller {
         if($result){
         foreach($result as $method){
 //        $html .= '<option value="'.$method['code'].'">'.$method['label'].'</option>';
-        if(($element->doc_method_code) == $method['code']){
+        if(((isset($element->doc_method_code)) ? $element->doc_method_code : false) == $method['code']){
         $html .= '<option id="'.$element->doc_method_code.'" value="'.$method['code'].'" selected >'.$method['label'].'</option>'
                 ."</select>"
                 ."</div>"; 
         $html .= '<div><img id="'.$element->doc_method_code.'"src="../../../'.$method['image_path'].'"></div>';
         $methodName=$html;
-        return $methodName;}
-        elseif(($element->doc_method_code) == null){
+        return $methodName;
+        }
+        elseif(((isset($element->doc_method_code)) ? $element->doc_method_code : false) == null){
             $methodName="Please Update Method";
             return $methodName;}
         }
@@ -905,7 +906,7 @@ class Input_Type_Controller extends Common_Controller {
                     . "</div>"
                     . "</div>"
                     . "</div>";
-                
+                    
                 $noC++;
                 endforeach;
                 endif;
@@ -913,7 +914,7 @@ class Input_Type_Controller extends Common_Controller {
             $noL++;
             endforeach;    
             endif;
-            
+        
         else:
         $html .= "</div>";
         
