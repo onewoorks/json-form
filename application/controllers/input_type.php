@@ -883,9 +883,9 @@ class Input_Type_Controller extends Common_Controller {
                 if($referC->data):
                 foreach ($referC->data as $refC):
                     $html .= "<div class='text-box$noP-$noL'>"
-                    . "<input type='hidden' id='sorting_child$noP-$noL' class='sorting_child$noP-$noL' name='SortChild.$noP-$noL.[]' />"
+                    . "<input type='hidden' id='sorting_child$noP-$noL' class='sorting_child$noP-$noL' name='SortChild$noP-$noL' />"
                     . "<div class='prelist$noP-$noL-$noC'>"
-                    . " <div class='form-group form-group-sm input-list'>"
+                    . "<div class='form-group form-group-sm input-list'>"
                     . "<label class='control-label col-sm-4'>Child<span class='box-number$noP-$noL'>". $refC['sorting'] . "</span></label>"
                     . "<div class='col-sm-3 list-padding'>"
                     . "<input class='col-sm-4 form-control' type='text' name='multi_child_ans_desc$noP-$noL-$noC' id='multi_child_ans_desc' value='".$refC['multi_answer_desc']."' />"
@@ -903,6 +903,7 @@ class Input_Type_Controller extends Common_Controller {
                     . "<div class='btn btn-default btn-sm addLayer' data-layer='prelist$noP-$noL-$noC' style='padding:5px'><i class='fas fa-layer-group'></i></div>"
                     . "</div>"
                     . "</div>"
+                    . "</div>"
                     . "</div>";
                 
                 $noC++;
@@ -912,15 +913,16 @@ class Input_Type_Controller extends Common_Controller {
             $noL++;
             endforeach;    
             endif;
+            
+        else:
+        $html .= "</div>";
+        
         endif;
     
         $noP++;
         endforeach;  
         endif;
         
-        $html .= "</div>"
-              . "</div>"
-              . "</div>";
         return $html;
     
     }
