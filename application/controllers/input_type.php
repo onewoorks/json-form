@@ -714,7 +714,7 @@ class Input_Type_Controller extends Common_Controller {
         $element = $this->elementDetail;
         $data = $element->additional_attribute;
         $array = json_decode(json_encode($data), true);
-
+    
         $html = "<div class='form-group form-group-sm'>";
         foreach ($array as $key => $in):
             $html .= "<label class='control-label col-md-3 text-uppercase'>" . $in['row_desc'] . "</label>";
@@ -809,113 +809,120 @@ class Input_Type_Controller extends Common_Controller {
             
         return $html;
     }
-
-    public function UpdateMultiAns() {
+    
+    public function UpdateMultiAns(){
         $document = new Document_Template_Model();
         $result = $document->ListMultAns();
         $element = $this->elementDetail;
-        $this->is_parent;
-        $referral = ReferenceCaller($element->element_code, $element->doc_name_id);
-
-        $html = "<div class='form-group form-group-sm input-list'>"
-                . "<label class='control-label col-sm-4'>Predefined Value </label>";
-        $no = 1;
-        $childno = 1;
-        if($referral->data):
-        $len = count($referral->data);
-//        endif;
         
-        if($referral->data):
-        foreach ($referral->data as $ref):
-            $listname = $ref['multi_answer_desc'];
-            $type = ucwords(strtolower($ref['input_type']));
-            $html .= "<div class='prelist" . $no . "'>"
-                    . "<div class='col-sm-3 list-padding-right'>"
-                    . "<input type='text' name='multi_ans_desc" . $no . "' class='form-control' value='" . $listname . "' />";
-
-            $re = ReferenceCaller($ref['parent_element_code'], $ref['doc_name_id'], 'child');
-            if ($re->data == null) {
-                $validate = 'parentonly';
-            } else {
-                $validate = 'childexist';
-            }
-
-            $html .="<input type='hidden' name='validation" . $no . "' id='validation" . $no . "' value='" . $validate . "' />"
-                    . "<input type='hidden' name='sorting' value='" . $no . "' />"
-                    . "</div>"
-                    . "<div class='col-sm-3 list-padding-left' >"
-                    . "<select name='multi_input_type" . $no . "' class='form-control'>"
-                    . "<option value='" . $ref['input_type'] . "'>" . $type . "</option>";
-            foreach ($result as $multi):
-            $html .= '<option value="'.$multi['input_type'].'">'.$multi['input_type'].'</option>';
-            endforeach;
-            $html .= "</select>"
-                    . "</div>"
-                    . "<div class='col-sm-2 predefinedActionButton' data-listid='" . $no . "' >";
-            if ($no == ($len)) {
-                $html .= "<div class='btn btn-default btn-sm addPredefined' style='padding:4px' data-listid='" . $no . "' ><i class='glyphicon glyphicon-plus'></i></div>";
-            } else {
-                $html .= "<div class='btn btn-default btn-sm deletePredefined' style='padding:4px' data-delid='" . $no . "' data-childno='" . $childno . "'><i class='glyphicon glyphicon-trash'></i></div>";
-            }
-
-            $referal = ReferenceCaller($ref['parent_element_code'], $ref['doc_name_id'], 'child');
-            $nn = 1;
-            if ($referal->data != null) {
-                foreach ($referal->data as $r):
-                    $nn++;
-                endforeach;
-            }
-            $html .= "<div class='btn btn-default btn-sm addChild' style='padding:4px' data-childlistid='" . $no . "' data-childno='" . $nn . "' ><i class='fas fa-layer-group'></i></div>"
-                    . "</div><br>"
-                    . "<div class='form-group form-group-sm input-list' id='child" . $no . "'><br>";
-
-
-            $referal = ReferenceCaller($ref['parent_element_code'], $ref['doc_name_id'], 'child');
-            if ($referal->data != null) {
-                $input = ucwords(strtolower($ref['input_type']));
-                $inputType = str_replace(' ', '', $input);
-                $multipleAnswerData = array(
-                    'is_parent' => false,
-                    'label' => $ref['multi_answer_desc'],
-                    'element_code' => (isset($ref['parent_element_code'])) ? $ref['parent_element_code'] : false,
-                    'name' => '',
-                    'type' => $inputType,
-                    'data' => $referal->data
-                );
-                $listData = $multipleAnswerData;
-                $referral = (object) $listData;
-
-                $childno = 1;
-                foreach ($referral->data as $ref):
-                    $type = ucwords(strtolower($ref['input_type']));
-                    $html .= "<div class='childno" . $no . "" . $childno . "'>"
-                            . "<div class='form-group form-group-sm input-list'>"
-                            . "<label class='control-label col-sm-5'></label>"
-                            . "<div class='col-sm-3 list-padding-right'>"
-                            . "<input type='hidden' name='childtotal" . $no . "' class='form-control' value='" . $childno . "' />"
-                            . "<input type='text' name='child_multi_ans_desc" . $no . "" . $childno . "' class='form-control' value='" . $ref['multi_answer_desc'] . "' /></div>"
-                            . "<div class='col-sm-3 list-padding-left' >"
-                            . "<select name='child_multi_input_type" . $no . "" . $childno . "' class='form-control'>"
-                            . "<option value='" . $ref['input_type'] . "'>" . $type . "</option>";
-                    foreach ($result as $multi):
-                    $html .= '<option value="'.$multi['input_type'].'">'.$multi['input_type'].'</option>';
-                    endforeach;
-                    $html .="</select></div>"
-                            . "<div class='col-sm-1 childPredefinedActionButton' data-childlistid='" . $no . "" . $childno . "' >"
-                            . "<div class='btn btn-default btn-sm childDeletePredefined' style='padding:4px' data-delid='" . $no . "" . $childno . "' data-num='" . $childno . "' data-parent='" . $no . "'  ><i class='glyphicon glyphicon-trash'></i></div>"
-                            . "</div></div></div>";
-                    $childno++;
-                endforeach;
-            }
-            $html .= "</div></div></div><div class='form-group form-group-sm input-list'>"
-                    . "<label class='control-label col-sm-4'></label>";
-
-            $no++;
+        #PARENT
+        $referP = ReferenceCaller($element->element_code, $element->doc_name_id);
+        $noP = 1;
+        $noL = 1;
+        $noC = 1;
+        $html = "";
+        
+        if($referP->data):
+        foreach ($referP->data as $refP):
+        $html .= "<div class='prelist$noP' style='background-color: #f5f5f5'>"
+                . "<p class='text-box' value='$noP'>"
+                . "<div class='form-group form-group-sm input-list'>"
+                . "<label class='control-label col-sm-4'>Predefined Value$noP</label>"
+                . "<div class='col-sm-3 list-padding'>"
+                . "<input type='hidden' value='$noP' id='sorting' class='sorting' name='SortParent' />"
+                . "<input class='col-sm-4 form-control' type='text' name='multi_ans_desc$noP' id='multi_ans_desc' value='".$refP['multi_answer_desc']."'/>"
+                . "</div>"
+                . "<div class='col-sm-3 list-padding'>"
+                . "<select id='multi_input_type' name='multi_input_type$noP' class='form-control'>"
+                . "<option value='" . $refP['input_type'] . "'>". $refP['input_type'] . "</option>";
+        foreach ($result as $multi):
+        $html .= "<option value='".$multi["input_type"]."'>".$multi["input_type"]."</option>";
         endforeach;
-    endif;
-        $html .= "</div>";
+        $html .= "</select>"
+                . "</div>";
+        if($noP === 1):
+            $html .= "<div class='col-sm-2 predefinedActionButton' data-action='prelist$noP'>"
+                    . "<div class='btn btn-default btn-sm addPredefined' style='padding:4px'><i class='glyphicon glyphicon-plus'></i> Parent</div>&nbsp"
+                    . "<div class='btn btn-default btn-sm addLayer' data-layer='prelist$noP'  style='padding:5px' ><i class='fas fa-layer-group'></i></div>"
+                    . "</div>";
+            else:
+            $html .= "<div class='col-sm-2 predefinedActionButton' data-action='prelist$noP'>"
+                    . "<div class='btn btn-default btn-sm addLayer' data-layer='prelist$noP'  style='padding:5px' ><i class='fas fa-layer-group'></i></div>&nbsp"
+                    . "<div class='btn btn-default btn-sm deletePredefined' style='padding:5px'><i class='glyphicon glyphicon-trash'></i></div>"
+                    . "</div>";
+        endif;
+        $html .= "</div>"
+                . "</p>";
+        
+        #LABEL
+        if($refP["ref_element_code"] !== null):
+        $referL = ReferenceCaller("" . $refP["element_code"] . "", $element->doc_name_id, "child");
+            if($referL->data):
+            foreach ($referL->data as $refL):
+                $html .= "<div class='prelist$noP-$noL'>"
+                . "<div class='form-group form-group-sm input-list'>"
+                . "<label class='control-label col-sm-4'></label>"
+                . "<div class='checkbox'>"
+                . "<div class='col-sm-4 list-padding'>";
+                if($refL['show_label'] === 1):
+                    $html .= "<input type='checkbox' id='show_label' name='show_label$noP-$noL' value='".$refL['show_label']."' style='margin-top:6px' checked/>";
+                    else:
+                    $html .= "<input type='checkbox' id='show_label' name='show_label$noP-$noL' value='".$refL['show_label']."' style='margin-top:6px'/>";
+                endif;
+                $html .= "<input class='col-sm-3 form-control' type='text' name='ref_desc$noP-$noL' id='ref_desc' value='".$refL['element_desc']."' />"
+                . "</div>"
+                . "<div class='col-sm-2 predefinedActionButton' data-action='prelist$noP-$noL'>"
+                . "<div class='btn btn-default btn-sm deleteLabel' style='padding:5px'><i class='glyphicon glyphicon-trash'></i></div>&nbsp"
+                . "<div class='btn btn-default btn-sm addDivChild' data-child='prelist$noP-$noL' style='padding:3px'><i class='glyphicon glyphicon-chevron-down'></i> Child</div>"
+                . "</div>"
+                . "</div>"
+                . "</div>";
+                
+                #CHILD
+                $referC = ReferenceCaller("" . $refL["ref_element_code"] . "", $element->doc_name_id);
+                if($referC->data):
+                foreach ($referC->data as $refC):
+                    $html .= "<div class='text-box$noP-$noL'>"
+                    . "<input type='hidden' id='sorting_child$noP-$noL' class='sorting_child$noP-$noL' name='SortChild.$noP-$noL.[]' />"
+                    . "<div class='prelist$noP-$noL-$noC'>"
+                    . " <div class='form-group form-group-sm input-list'>"
+                    . "<label class='control-label col-sm-4'>Child<span class='box-number$noP-$noL'>". $refC['sorting'] . "</span></label>"
+                    . "<div class='col-sm-3 list-padding'>"
+                    . "<input class='col-sm-4 form-control' type='text' name='multi_child_ans_desc$noP-$noL-$noC' id='multi_child_ans_desc' value='".$refC['multi_answer_desc']."' />"
+                    . "</div>"
+                    . "<div class='col-sm-3 list-padding'>"
+                    . "<select id='multi_child_input_type' name='multi_child_input_type$noP-$noL-$noC' class='form-control'>"
+                    . "<option value='" . $refC['input_type'] . "'>". $refC['input_type'] . "</option>";
+                    foreach ($result as $multi):
+                    $html .= "<option value='".$multi["input_type"]."'>".$multi["input_type"]."</option>";
+                    endforeach;
+                    $html .= "</select>"
+                    . "</div>"
+                    . "<div class='col-sm-2 predefinedActionButton' data-action='prelist$noP-$noL-$noC'>"
+                    . "<div class='btn btn-default btn-sm deletePredefinedChild' style='padding:5px'><i class='glyphicon glyphicon-trash'></i></div>&nbsp"
+                    . "<div class='btn btn-default btn-sm addLayer' data-layer='prelist$noP-$noL-$noC' style='padding:5px'><i class='fas fa-layer-group'></i></div>"
+                    . "</div>"
+                    . "</div>"
+                    . "</div>";
+                
+                $noC++;
+                endforeach;
+                endif;
+
+            $noL++;
+            endforeach;    
+            endif;
+        endif;
+    
+        $noP++;
+        endforeach;  
+        endif;
+        
+        $html .= "</div>"
+              . "</div>"
+              . "</div>";
         return $html;
-    endif;
+    
     }
 
 }
