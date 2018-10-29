@@ -21,9 +21,8 @@
         $('.summernote').summernote({
             height: 150
         });
-
-        var json_parse = JSON.parse('<?php echo $json_elements; ?>');
-        $('#formJson').text(JSON.stringify(json_parse, null, 4));
     });
+    
+    $('#formJson').text(JSON.stringify(<?= $json_elements; ?>, null, 4));    
 </script>
 <?php echo $footer; ?>
