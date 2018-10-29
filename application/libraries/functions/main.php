@@ -33,7 +33,8 @@ function InputTypeCaller($element, $name, $documentTitle,$documentId,$layout=1) 
         'mandatory_flag'=>$element->mandatory_flag,
         'document_title' => $documentTitle,
         'doc_name_id'=>$documentId,
-        'layout' =>$layout
+        'layout' =>$layout,
+        'element_properties' =>$element->element_properties
     );
     $methodName = $inputType;
     
@@ -106,7 +107,6 @@ function form_array($arrays) {
 
 function ColumnRender($data, $noOfColumn,$document_title, $document_id, $column){
     $builder = new Column_Render_Method();
-//    return $builder->panel_column2($data, $noOfColumn,$document_title, $document_id, $column);
     return $builder->panel_render($data, $noOfColumn,$document_title, $document_id, $column);
 }
 
