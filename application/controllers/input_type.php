@@ -392,34 +392,12 @@ class Input_Type_Controller extends Common_Controller {
 
     public function Label() {
         $element = $this->elementDetail;
-        if (isset($element->additional_attribute->deco_style)):
-            $style = $element->additional_attribute->deco_style;
-            switch ($style):
-                case 'panel-header':
-                    $html = "<br><div class='panel-heading col-md-12' style='background-color: #0088cc; color: white;'>" . $element->label . "</div><br><br><br><br>";
-                    break;
-                case 'heading-h1':
-                    $html = "<strong><h1 class='text-uppercase'>" . $element->label . "</h1></strong><hr>";
-                    break;
-                case 'heading-h2':
-                    $html = "<strong><h2 class='text-uppercase'>" . $element->label . "</h2></strong><hr>";
-                    break;
-                case 'heading-h3':
-                    $html = "<strong><h3 class='text-uppercase'>" . $element->label . "</h3></strong><hr>";
-                    break;
-                case 'default':
-                    $html = "<strong><h4 class='text-uppercase'>" . $element->label . "</h4></strong><hr>";
-                    break;
-                default :
-                    $html = "<strong><h4 class='text-uppercase'>" . $element->label . "</h4></strong><hr>";
-                    break;
-            endswitch;
-        else :
+        if($element->element_properties === "SUBSECTION"): 
+            $html = "<div class='text-uppercase' style='background-color: #D3D3D3; border-radius: 2px 2px;color: black '>" . $element->label . "</div>"; 
+        else:
             $html = "<h4 class='text-uppercase'>" . $element->label . "</h4>";
         endif;
-//        if (strlen($element->label) > 0):
-//            $html .= "<hr>";
-//        endif;
+        
         return $html;
     }
     
