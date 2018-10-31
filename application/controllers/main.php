@@ -37,6 +37,43 @@ class Main_Controller extends Common_Controller {
                 echo $this->SelectOptionBuilder($newOptions);
                 }
                 break;
+            //30OKT
+            case 'filter-form-builder':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $values = $this->form_array($_REQUEST['documentValues']);
+                $page = 'forms/form_builder';
+                $reference = new Reference_Table_Model();
+                $result['sections'] = $document->GetAllSecDesc();
+                $result['elements'] = $document->GetAllElementDesc();
+                $result['list_of_documents'] = $document->GetFilterListByGroupType($values);  
+                $result['main_discipline'] = $this->RefMainDisciplineGroup();               
+                if($values['discipline']!='0'):
+                    $result['general_discipline'] = $reference->DocumentDisFiltering($values['discipline']);
+                endif;
+                $types='0';
+                if($values['discipline']!='0'):
+                   $types=$values['general_discipline'];
+                endif;
+                
+                $result['doc_group'] = $this->RefDocumentSelectedGroup();
+                if($values['doc_group']!='0'){
+                $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
+                }
+                $type='0';
+                if($values['doc_group']!='0'){
+                    $type=$values['doc_type'];
+                }
+                
+                $result['preset_select'] = array(
+                    'active_discipline' => $values['discipline'],
+                    'active_general' => $types,
+                    'active_group' => $values['doc_group'],
+                    'active_type' => $type
+                );
+                $view = new View_Model($page);
+                $view->assign('content', $result);
+                break;        
             case 'generate-json-table':
                 $ajax = true;
                 $document = new Document_Template_Model();
@@ -153,16 +190,6 @@ class Main_Controller extends Common_Controller {
                 $view = new View_Model($page);
                 $view->assign('content', $result);
                 break;
-            //26JULAI
-//            case 'search-title':
-//                $ajax = true;
-//                $document = new Document_Template_Model();
-//                $values = $this->form_array($_REQUEST['values']);
-//                $page = 'forms/form_builder';
-////                $result['titles'] = $document->ListSecDesc();
-////                $view = new View_Model($page);
-////                $view->assign('content', $result);
-//                break;
             //23JULAI
             case 'search-element':
                 $ajax = true;
@@ -171,29 +198,6 @@ class Main_Controller extends Common_Controller {
                 $page = 'forms/new_element';
                 $search = $values['search'];
                 $result['list_of_elements'] = $document->searchElement($search);
-                $view = new View_Model($page);
-                $view->assign('content', $result);
-                break;
-//            case 'basic-form':
-//                $page = 'formbuilder/basic';
-//                $document = new Document_Template_Model();
-//                $result['method_list'] = $document->ListMethod();
-//                $view = new View_Model($page);
-//                $view->assign('content', $result);
-//                break;
-            case 'build-form':
-                $ajax = true;
-                $document = new Document_Template_Model();
-                $values = $this->form_array($_REQUEST['values']);
-                $values2 = $this->form_array($_REQUEST['values2']);
-                $values3 = $this->form_array($_REQUEST['values3']);
-                $page = 'forms/form_builder';
-                $value = $values['doc_name_desc'];
-                $value2 = $values2['section_desc'];
-                $value3 = $values3['element_desc'];
-//                $input = $values['docList'];
-//                $doc_name_desc = $values['doc_name_desc'];
-                $result['json_format'] = $document->generateBaru($value,$value2);
                 $view = new View_Model($page);
                 $view->assign('content', $result);
                 break;
