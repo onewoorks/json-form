@@ -36,10 +36,10 @@
                       <li><a href="<?php echo SITE_ROOT; ?>/formview/new-form">Add New Form</a></li>
                       <li><a href="<?php echo SITE_ROOT; ?>/formview/new-section">Add New Section</a></li>
                       <li><a href="<?php echo SITE_ROOT; ?>/formview/new-element">Add New Element</a></li>
-                      <li class="hidden"><a href="<?php echo SITE_ROOT; ?>/formview/form-builder">Form Builder</a></li>
+                      <li><a href="<?php echo SITE_ROOT; ?>/formview/form-builder">Form Builder</a></li>
                     </ul>
                     </li>
-                    <li><a href="<?php echo SITE_ROOT; ?>/formview/sql-raw-data">SQL Raw Data</a></li>
+                    <li class="hidden"><a href="<?php echo SITE_ROOT; ?>/formview/sql-raw-data">SQL Raw Data</a></li>
                     <li><a href='<?php echo SITE_ROOT; ?>/formview/generate-json-format'>Generate JSON Format</a></li>
                 </ul>
             </div>
