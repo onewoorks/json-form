@@ -24,17 +24,22 @@ class Main_Controller extends Common_Controller {
             case 'filter':
                 $ajax = true;
                 $reference = new Reference_Table_Model();
-                if($_REQUEST['group_code']!=NULL){
+                if($_REQUEST['group_code']!=null){
                 $newOptions = $reference->DocumentTypeFiltering($_REQUEST['group_code']);
                 echo $this->SelectOptionBuilder($newOptions);
+                }
+                else{
+                    
                 }
                 break;
             case 'filter-discipline':
                 $ajax = true;
                 $reference = new Reference_Table_Model();
-                if($_REQUEST['dis_code']!=NULL){
+                if($_REQUEST['dis_code']!=null){
                 $newOptions = $reference->DocumentDisFiltering($_REQUEST['dis_code']);
                 echo $this->SelectOptionBuilder($newOptions);
+                }else{
+                    
                 }
                 break;
             //30OKT
