@@ -5,12 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="json form formatted from structured dataset">
         <link href="<?php echo SITE_ROOT; ?>/assets/library/bootstrap/css/bootstrap.css" rel="stylesheet">
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
+        <script src="<?php echo SITE_ROOT; ?>/assets/library/ajax/jquery/2.1.4/jquery.js"></script>
         <script src="<?php echo SITE_ROOT; ?>/assets/library/bootstrap/js/bootstrap.js"></script> 
         <link href="<?php echo SITE_ROOT; ?>/assets/library/summernote/summernote.css" rel="stylesheet">
         <script src="<?php echo SITE_ROOT; ?>/assets/library/summernote/summernote.js"></script>
         <script src="<?php echo SITE_ROOT; ?>/assets/library/sweetalert/sweetalert.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="<?php echo SITE_ROOT; ?>/assets/library/sweetalert/sweetalert.css">
+        <link href="<?php echo SITE_ROOT; ?>/assets/library/sweetalert/sweetalert.css" rel="stylesheet" type="text/css" />
         <link href='<?php echo SITE_ROOT;?>/assets/library/datepicker/css/datepicker.css' rel="stylesheet" />
         <link href="//use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"  rel="stylesheet">
     </head>
@@ -156,6 +156,7 @@
         </div>
     </div>
 </div>
+</div>    
 
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
