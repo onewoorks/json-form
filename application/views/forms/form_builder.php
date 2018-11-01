@@ -63,7 +63,7 @@
                                 <?php endforeach; ?>
                             </datalist>
                             <?php if(!$list_of_documents):?>
-                            <span style="font-size:10px;color:red">No Record Found</span>
+                            <p style="font-size:10px;color:red">No Record Found</p>
                             <?php endif;?>
                         </td>
                     </tr>
@@ -94,20 +94,22 @@
                 <div class='panel-heading'>SECTION DETAILS</div>
                 <div class='panel-body'>
                     <div id='sectionGroup'>
-                    <div class='form-group form-group-sm' >
-                        <label class='control-label col-sm-4'>Section Description</label>
-                        <div class='col-sm-6'>
-                            <input type='text' name='section_desc' id="section_desc" class='form-control secList' list="secList" />
-                            <datalist name="secList" id="secList">
-                                <?php foreach ($sections as $section): ?>
-                                        <option value="<?php echo $section['section_desc']; ?>" data-code="<?php echo $section['section_code']; ?>" data-id="<?php echo $section['json_section']; ?>"></option>
-                                <?php endforeach; ?>
-                            </datalist>
+                        <div class='sectionMain1'>
+                            <div class='form-group form-group-sm' >
+                                <label class='control-label col-sm-4'>Section Description</label>
+                                <div class='col-sm-6'>
+                                    <input type='text' name='section_desc' id="section_desc" class='form-control secList' list="secList" />
+                                    <datalist name="secList" id="secList">
+                                        <?php foreach ($sections as $section): ?>
+                                                <option value="<?php echo $section['section_desc']; ?>" data-code="<?php echo $section['section_code']; ?>" data-id="<?php echo $section['json_section']; ?>"></option>
+                                        <?php endforeach; ?>
+                                    </datalist>
+                                </div>
+                                <div class='col-sm-2 sectionAction' data-sectionno='1'>
+                                    <div class='btn btn-default btn-sm plusSection' data-sectionno='1' style='padding:4px'><i class='glyphicon glyphicon-plus'></i></div>
+                                </div>
+                            </div>
                         </div>
-                        <div class='col-sm-2 sectionAction' data-sectionno='1'>
-                            <div class='btn btn-default btn-sm plusSection' data-sectionno='1' style='padding:4px'><i class='glyphicon glyphicon-plus'></i></div>
-                        </div>
-                    </div>
                     </div>
                     <div class="col-sm-2 pull-right">
                         <div class="btn btn-primary btn-sm" id="addSection" data-number='1'>Add Section</div>
@@ -122,13 +124,13 @@
 <div class="panel panel-default">
     <div class="panel-heading">ELEMENT DETAILS</div>
     <div class="panel-body">
-        <div id="tambahsection" ></div>
+        <div id="displaySection"></div>
         <!--tmpt display section dlm element (DARI SCRIPT)-->
-        <div class='row'>
+<!--        <div class='row'>
         <div class='col-sm-12 text-right'>
             <div class='btn btn-primary btn-sm' id='createForm'>Add Element</div>
         </div>
-        </div>
+        </div>-->
     </div>
 </div>
 </div>
@@ -244,6 +246,8 @@
 
 <script>
 $(document).ready(function(){
+    var count = 2;
+    var x;
     $("#json").hide();
     var option =$('#section_desc_list').html();
     var option2 =$('#element_desc_list').html();
@@ -279,37 +283,38 @@ $(document).ready(function(){
     
     //PLUS SECTION
     $('#sectionGroup').on('click','.plusSection',function () {
-            var sectionNo = $(this).data('sectionno');
-            console.log('sectionNo ' + sectionNo);
-            var next = sectionNo + 1 ;
-            console.log('next ' + next);
-            var $html = "<div id='section_add_"+next+"' class='form-group form-group-sm'>";
-            $html += "<label class='control-label col-sm-4'></label>";
-            $html += "<div class='col-sm-6'>";
-            $html += "<input type='text' name='section_desc' id='section_desc' class='form-control secList' list='secList'/>";
-            $html += "<datalist name='secList' id='secList'>"+option+"</datalist>";    
-            $html += "</div>";
-            $html += "<div class='col-sm-2 sectionAction' data-sectionno='"+next+"'>";
-            $html +="<div class='btn btn-default btn-sm minusSection' style='padding:4px' data-sectionno='"+next+"'><i class='glyphicon glyphicon-minus'></i><div>";
-            $html += "</div>";
-            $html += "</div>";
-            $($html).appendTo('#sectionGroup');//add a text or html content after the content of the matched elements (so die msuk blik kt panel section)
+        var $section = '<div class="sectionMain'+count+'">';
+        $section += '<div class="form-group form-group-sm">';
+        $section += '<label class="control-label col-sm-4">Section Description</label>';
+        $section += '<div class="col-sm-6">';
+        $section += '<input type="text" name="section_desc" id="section_desc" class="form-control secList" list="secList" />';
+        $section += '<datalist name="secList" id="secList">'+option+'</datalist>';
+        $section += '</div>';
+        $section += '<div class="col-sm-2 sectionAction" data-sectionno="'+count+'">';
+        $section += '<div class="btn btn-default btn-sm minusSection" data-sectionno="'+count+'" style="padding:4px"><i class="glyphicon glyphicon-minus"></i></div>';
+        $section += '</div>';
+        $section += '</div>';
+        $section += '</div>';
+        
+        $($section).appendTo('#sectionGroup');
+        count++;
+        
     });
     
     //MINUS SECTION
     $('#sectionGroup').on('click','.minusSection',function () {
             var dropid = $(this).data('sectionno');
-            $('#section_add_'+dropid).remove();
+            $('.sectionMain'+dropid).remove();
     });
     
     //DELETE SECTION (PANEL ELEMENT)
-    $('#tambahsection').on('click','.delSection',function () {
+    $('#displaySection').on('click','.delSection',function () {
             var delid = $(this).data('secid');
             $('#section_panel' + delid).remove();
     });
         
     //REMOVE ELEMENT TEXTFIELD
-    $('#tambahsection').on('click','.elementDel',function () {
+    $('#displaySection').on('click','.elementDel',function () {
             var del = $(this).data('target');
             console.log('delete element: '+ del);
             $('#element_add_' + del).remove();
@@ -318,115 +323,87 @@ $(document).ready(function(){
     //ADD SECTION
     $('#addSection').click(function () {
         var input = $('#sectionBuilder').serializeArray();
-        var $sectionPanel = ' ';
+        console.log('input',input);
+        var $sectionPanel = '';
+        
         $(input).each(function(key,value){
             console.log('key',key);
             console.log('value',value);
+            var no = key + 1;
+            x = 1;
             
-            //DISPLAY SECTION DLM ELEMENT PANEL
-            if (input[key].value==="") {
-             $sectionPanel += '<div id="section_panel'+key+'"class="panel panel-primary">';//1
-             $sectionPanel += '<div class="panel-heading" style="height:30px">'+input[key].value+'';//none
-             $sectionPanel += '<div class="btn btn-default btn-xs delSection pull-right" data-secid='+key+'><i class="glyphicon glyphicon-trash"></i></div>';//trash kt header
-             $sectionPanel += '<div class="btn btn-default btn-xs expandButton pull-right" data-toggle="collapse" data-target="#demo'+key+'" ><i class="glyphicon glyphicon-chevron-down"></i></div>';//expand kt header
-             $sectionPanel += '</div>'; 
-             $sectionPanel += '<div id="demo'+key+'" class="collapse">';//buka expand
-             $sectionPanel += '<div class="col-sm-4 list-padding"><input type="hidden" name="section_desc" class="form-control" value="' +input[key].value+'" disabled /></div> ';
-             $sectionPanel += '<div id="section_body'+key+'" class="panel-body">';//display panel body
-             $sectionPanel += '<form id="elementBuilder" class="form-horizontal">';        
+        //DISPLAY SECTION DLM ELEMENT PANEL
+        if (input[key].value==="" || input[key].value) {
+            $sectionPanel += '<div id="section_panel'+no+'">';
+            $sectionPanel += '<div class="panel panel-primary">';
+            $sectionPanel += '<div class="panel-heading" style="height:30px">'+input[key].value+'';
+            $sectionPanel += '<div class="btn btn-default btn-xs delSection pull-right" data-secid='+no+'><i class="glyphicon glyphicon-trash"></i></div>';
+            $sectionPanel += '<div class="btn btn-default btn-xs expandButton pull-right" data-toggle="collapse" data-target="#demo'+no+'" ><i class="glyphicon glyphicon-chevron-down"></i></div>';
+            $sectionPanel += '</div>'; 
+            $sectionPanel += '<div id="demo'+no+'" class="collapse">';
+            $sectionPanel += '<div class="col-sm-4 list-padding"><input type="hidden" name="section_desc" class="form-control" value="' +input[key].value+'" disabled /></div> ';
+            $sectionPanel += '<div id="section_body'+no+'" class="panel-body">';
+                $sectionPanel += '<div class="elementBuilder'+no+'" class="form-horizontal">';        
                 $sectionPanel += '<label class="control-label col-sm-3">Element Name</label>';
-                $sectionPanel += '<div  class="col-sm-6">';
-                $sectionPanel += '<input type="text" name="element_desc" id="elementName" class="form-control" style="height:25px;font-size:12px" list="elemList"/>';
+                $sectionPanel += '<div class="col-sm-6">';
+                $sectionPanel += '<input type="text" name="element_desc'+no+'-'+x+'" id="elementName'+no+'-'+x+'" class="form-control elemList" style="height:25px;font-size:12px" list="elemList"/>';
                 $sectionPanel += '<datalist id="elemList">'+option2+'</datalist>';
                 $sectionPanel += '</div>';
-            $sectionPanel += '</form>';        
-            $sectionPanel += '<div class="col-sm-3 sectionAction" data-target='+key+'>';
-                $sectionPanel += '<div class="btn btn-info btn-sm addDetail" data-sectionno='+key+' data-elementcount="1"><i></i>Details</div>';
-                $sectionPanel += '<div class="btn btn-default btn-xs plusElement" data-target='+key+' onclick="addElement('+key+')" style="padding-top:3px;padding-bottom:3px"><i class="glyphicon glyphicon-plus"></i></div>';//tambah element
+                $sectionPanel += '<div class="col-sm-3 sectionAction" data-target='+no+'>';
+                $sectionPanel += '<div class="btn btn-info btn-sm addDetail" data-sectionno='+no+'-'+x+' data-elementcount="1"><i></i>Details</div>';
+                $sectionPanel += '<div class="btn btn-default btn-xs plusElement" data-target='+no+' onclick="addElement('+no+','+x+')" style="padding:3px;"><i class="glyphicon glyphicon-plus"></i></div>';//tambah element
                 $sectionPanel += '<br><br>';
                 $sectionPanel += '</div>';
-                $sectionPanel += '</div>';
-             $sectionPanel += '</div>';
-             $sectionPanel += '</div>';
-             $sectionPanel += '</div>';
-            } 
-             else {
-             $sectionPanel += '<div id="section_panel'+key+'"class="panel panel-primary">';
-             $sectionPanel += '<div class="panel-heading">'+input[key].value+'';
-             $sectionPanel += '<div class="btn btn-default btn-xs delSection pull-right" data-secid='+key+'><i class="glyphicon glyphicon-trash"></i></div>';
-             $sectionPanel += '<div class="btn btn-default btn-xs expandButton pull-right" data-toggle="collapse" data-target="#demo'+key+'" ><i class="glyphicon glyphicon-chevron-down"></i></div>';
-             $sectionPanel += '</div>'; 
-             $sectionPanel += '<div id="demo'+key+'" class="collapse">';
-             $sectionPanel += '<div class="col-sm-4 list-padding"><input type="hidden" name="section_desc" class="form-control" value="' +input[key].value+'" disabled /></div> ';
-             $sectionPanel += '<div id="section_body'+key+'" class="panel-body">';
-             $sectionPanel += '<form id="elementBuilder" class="form-horizontal">';        
-                $sectionPanel += '<label class="control-label col-sm-3">Element Name</label>';
-                $sectionPanel += '<div  class="col-sm-6">';
-                $sectionPanel += '<input type="text" name="element_desc" id="elementName" class="form-control elemList" style="height:25px;font-size:12px" list="elemList"/>';
-                $sectionPanel += '<datalist id="elemList">'+option2+'</datalist>';
-                $sectionPanel += '</div>';
-            $sectionPanel += '</form>';        
-                $sectionPanel += '<div class="col-sm-3 sectionAction" data-target='+key+'>';
-                $sectionPanel += '<div class="btn btn-info btn-sm addDetail" data-sectionno='+key+' data-elementcount="1"><i></i>Details</div>';
-                $sectionPanel += '<div class="btn btn-default btn-xs plusElement" data-target='+key+' onclick="addElement('+key+')" style="padding-top:3px;padding-bottom:3px"><i class="glyphicon glyphicon-plus"></i></div>';//tambah element
-                $sectionPanel += '<br><br>';
-                $sectionPanel += '</div>';
-                $sectionPanel += '</div>';
-             $sectionPanel += '</div>';
-             $sectionPanel += '</div>';
-             $sectionPanel += '</div>';
-         }
-         var sortSection = key + 1;
+                $sectionPanel += '</div>';  
+            $sectionPanel += '</div>';
+            $sectionPanel += '</div>';
+            $sectionPanel += '</div>';
+            $sectionPanel += '</div>';
+        }
+         //TMBH KT JSON DISPLAY
          var json_section = $('#secList [value="' + input[key].value + '"]').data('id');
          var section_code = $('#secList [value="' + input[key].value + '"]').data('code');
          var $html = '<div class="col-sm-12">';
          $html += '<div>"json_section": "'+json_section+'"</div>';
          $html += '<div>"section_code": "'+section_code+'"</div>';
          $html += '<div>"section_desc": "'+input[key].value+'"</div>';
-         $html += '<div>"section_sorting": "'+sortSection+'"</div>';
+         $html += '<div>"section_sorting": "'+no+'"</div>';
          $html += '</div><br><br><br><br><br>';
 
          $($html).appendTo('.jsonSection');
-        
          });
 
-         $('#tambahsection').html($sectionPanel);//lps tekan add section, ni utk display kt div element
-
+        $('#displaySection').html($sectionPanel);
       });
     
-});           
+}); //end of document.ready          
 
-    function addElement(test){
-//        console.log ('TEST '+ test);//0
+    function addElement(no,x){
+        console.log('no',no);
         var option2 =$('#element_desc_list').html();
-        var sectionNo = test + 1 ;
-        console.log ('sectionNo '+ sectionNo);//0
-        
-        var next = sectionNo + 1;
+        var next = no + 1;
         console.log('next ' + next);//1
+        x++;
         
-            var $addPanel = '<div id="element_add_'+next+'" class="form-group form-group-sm">';
-                $addPanel += '<form id="elementBuilder" class="form-horizontal">';        
-                $addPanel += '<label class="control-label col-sm-3">Element Name</label>';
-                $addPanel += '<div class="col-sm-6">';
-                    $addPanel += '<input type="text" name="element_desc" id="elementName" class="form-control elemList" style="height:25px;font-size:12px" list="elemList"/>';  
-                    $addPanel += '<datalist id="elemList">'+option2+'</datalist>';
-                $addPanel += '</div>'; 
-                $addPanel += '</form>'; 
-                $addPanel += '<div class="col-sm-3 sectionAction" data-target='+next+'>';
-                $addPanel += '<div class="btn btn-info btn-sm addDetail" data-sectionno='+next+' data-elementcount="0" ><i></i>Details</div>';
-                $addPanel += '<div class="btn btn-default btn-xs elementDel" data-target='+next+' style="padding-top:3px;padding-bottom:3px"><i class="glyphicon glyphicon-minus"></i></div><br><br>';//remove element
-                $addPanel += '</div>';
-                $addPanel += '</div>';            
-                $($addPanel).appendTo('#section_body'+test);//DLM PANEL ELEMENT (FUNCTION SCRIPT)
-                $($addPanel).appendTo('#element_add_'+test);//DLM PANEL ELEMENT (FUNCTION NI)
+            var $addPanel = '<label class="control-label col-sm-3">Element Name</label>';
+            $addPanel += '<div class="col-sm-6">';
+            $addPanel += '<input type="text" name="element_desc'+no+'-'+x+'" id="elementName'+no+'-'+x+'" class="form-control elemList" style="height:25px;font-size:12px" list="elemList"/>';  
+            $addPanel += '<datalist id="elemList">'+option2+'</datalist>';
+            $addPanel += '</div>'; 
+            $addPanel += '<div class="col-sm-3 sectionAction" data-target='+next+'>';
+            $addPanel += '<div class="btn btn-info btn-sm addDetail" data-sectionno='+no+'-'+x+' data-elementcount="0" ><i></i>Details</div>';
+            $addPanel += '<div class="btn btn-default btn-xs elementDel" data-target='+x+' style="padding:3px;"><i class="glyphicon glyphicon-minus"></i></div><br><br>';//remove element
+            $addPanel += '</div>';      
+            $($addPanel).appendTo('.elementBuilder'+no);//DLM PANEL ELEMENT (FUNCTION NI)
     }
     
 $(function () {
    
     //BUTTON DETAILS  
-    $('#tambahsection').on('click','.addDetail',function () {
-        var div = $(this).closest('div[class^="col-sm-6"]').find('input[id^="elementName"]').val();
+    $('#displaySection').on('click','.addDetail',function () {
+        var data = $(this).attr('data-sectionno');
+        console.log('data',data);
+        var div = $(this).closest('div[class^="col-sm-6"]').find('input[id^="elementName'+data+'"]').val();
         console.log('div',div);
         
             $.ajax({
@@ -434,7 +411,6 @@ $(function () {
                 data: {div : div},
                 success: function (data) {
                     var obj = $.parseJSON(data);
-//                    $('.modal-dialog').removeClass('modal-lg');
                     $('.modal-title').text(obj.component);
                     $('.modal-body').html(obj.html);
                 }
