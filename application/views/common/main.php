@@ -9,15 +9,15 @@
 
         <link href="<?php echo SITE_ROOT; ?>/assets/css/main.css" rel="stylesheet" />
         <link href="<?php echo SITE_ROOT; ?>/assets/library/bootstrap/css/bootstrap.css" rel="stylesheet">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script> 
+        <script src="<?php echo SITE_ROOT; ?>/assets/library/ajax/jquery/2.1.4/jquery.js"></script>
         <script src="<?php echo SITE_ROOT; ?>/assets/library/bootstrap/js/bootstrap.js"></script> 
         <link href="<?php echo SITE_ROOT; ?>/assets/library/summernote/summernote.css" rel="stylesheet">
         <script src="<?php echo SITE_ROOT; ?>/assets/library/summernote/summernote.js"></script>
         <script src="<?php echo SITE_ROOT; ?>/assets/library/sweetalert/sweetalert.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="<?php echo SITE_ROOT; ?>/assets/library/sweetalert/sweetalert.css">
+        <link href="<?php echo SITE_ROOT; ?>/assets/library/sweetalert/sweetalert.css" rel="stylesheet" type="text/css">
         <link href='<?php echo SITE_ROOT;?>/assets/library/datepicker/css/datepicker.css' rel="stylesheet" />
-        <link rel="stylesheet" type="text/css" href="<?php echo SITE_ROOT;?>/assets/library/DataTables/datatables.min.css"/>
-        <script type="text/javascript" src="<?php echo SITE_ROOT;?>/assets/library/DataTables/datatables.min.js"></script>
+        <link href="<?php echo SITE_ROOT;?>/assets/library/DataTables/datatables.min.css" rel="stylesheet" type="text/css" />
+        <script src="<?php echo SITE_ROOT;?>/assets/library/DataTables/datatables.min.js" type="text/javascript" ></script>
         <?php echo $vars;?>
         <style>
             #json_view { white-space: pre; font-family: monospace; }
