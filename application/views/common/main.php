@@ -18,6 +18,7 @@
         <link href='<?php echo SITE_ROOT;?>/assets/library/datepicker/css/datepicker.css' rel="stylesheet" />
         <link href="<?php echo SITE_ROOT;?>/assets/library/DataTables/datatables.min.css" rel="stylesheet" type="text/css" />
         <script src="<?php echo SITE_ROOT;?>/assets/library/DataTables/datatables.min.js" type="text/javascript" ></script>
+        <link href="//use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"  rel="stylesheet">
         <?php echo $vars;?>
         <style>
             #json_view { white-space: pre; font-family: monospace; }
