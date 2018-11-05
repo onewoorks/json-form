@@ -129,7 +129,7 @@ class Document_Template_Model {
         return $result[0];
     }
 
-    public function ReadDocumentTemplate($documentId) {
+    public function ReadDocumentTemplate($templateId) {
         $sql = "SELECT o.doc_name_desc, d.json_template, d.doc_name_id, d.template_id, gd.discipline_name, md.main_discipline_name, rdg.doc_group_code"
                 . " FROM document_template d"
                 . " LEFT JOIN document o ON o.doc_name_id=d.doc_name_id"
@@ -137,7 +137,7 @@ class Document_Template_Model {
                 . " LEFT JOIN ref_generaldisciplines gd ON gd.discipline_code=dd.discipline_code"
                 . " LEFT JOIN ref_main_disciplines md ON md.main_discipline_code=gd.main_discipline_code"
                 . " INNER JOIN ref_document_group rdg ON rdg.doc_group_code=o.doc_group_code "
-                . " WHERE d.template_id='" . (int) $documentId . "' "
+                . " WHERE d.template_id='" . (int) $templateId . "' "
                 . " AND d.active = 1";
 //        echo $sql;
         $this->db->connect();
@@ -930,6 +930,18 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return $result;
     }
+    
+//    public function getDocDesc($templateId){
+//        $sql = "SELECT dt.doc_name_id, d.doc_name_desc "
+//                ."FROM document_template dt "
+//                ."LEFT JOIN document d ON(d.doc_name_id = dt.doc_name_id) "
+//                ."WHERE dt.template_id='".$templateId."' ";
+//        $this->db->connect();
+//        $this->db->prepare($sql);
+//        $this->db->queryexecute();
+//        $result = $this->db->fetchOut('object');
+//        return $result[0]; 
+//    }
 //    public function CheckTemplate() {
 //        $sql = "SELECT d.doc_name_id, d.doc_name_desc, gd.discipline_name, rdt.dc_type_desc,md.main_discipline_name"
 //                . "(CASE WHEN (SELECT doc_name_id FROM document_template WHERE doc_name_id IS NULL) THEN FALSE ELSE TRUE END) as available"
