@@ -169,9 +169,9 @@ class Formview_Controller extends Common_Controller {
                 break;
             case 'clone-form':
                 $page = 'forms/clone_view';
-                $documentId = $params[URL_ARRAY + 3];
+                $templateId = $params[URL_ARRAY + 3];
                 $documentData = new Document_Template_Model();
-                $documentTemplate = $documentData->ReadDocumentTemplate($documentId);
+                $documentTemplate = $documentData->ReadDocumentTemplate($templateId);
                 $sectionSorting = json_decode($documentTemplate['json_template']);
                 $cleanSorting = $this->JsonWithSectionSorting($sectionSorting);
                 $result['document_title'] = $documentTemplate['doc_name_desc'];
