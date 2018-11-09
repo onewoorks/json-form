@@ -274,7 +274,7 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return $result;
     }
-
+    
     public function GetSectionDetail($sectionCode) {
         $sql = "SELECT * FROM ref_document_section WHERE section_code='" . (int) $sectionCode . "' ";
         $this->db->connect();
@@ -532,9 +532,20 @@ class Document_Template_Model {
         return true;
     }
     //9AUG
-    public function copyBaru($docName,$curName){
+    public function copyBaru($docName,$curName,$subdis,$type,$group){
+        if(isset($subdis)):
+            $subdiscipline = "SELECT '$subdis', (SELECT MAX(doc_name_id) FROM document), favourite, doc_sorting, gender_code, age_from, age_to, NOW(),'ADMIN' ";
+        else:
+            $subdiscipline = "SELECT discipline_code, (SELECT MAX(doc_name_id) FROM document), favourite, doc_sorting, gender_code, age_from, age_to, NOW(),'ADMIN' ";
+        endif;
+        
+        if(isset($group)&&($type)):
+            $doc_group = "SELECT '$group','$type','$docName', '1', NOW(), 'ADMIN' ";
+        else:
+            $doc_group = "SELECT doc_group_code, dc_type_code, '$docName', '1', NOW(), 'ADMIN' ";
+        endif;
         $sql = "INSERT INTO document (doc_group_code, dc_type_code, doc_name_desc, active_status, created_date, created_by) "
-                ."SELECT doc_group_code, dc_type_code, '$docName', '1', NOW(), 'ADMIN' "
+                .$doc_group
                 ."FROM document "
                 ."WHERE doc_name_id = '".(int) $curName."' ";
         print_r($sql);
@@ -550,7 +561,7 @@ class Document_Template_Model {
         $this->db->prepare($sql);
         $this->db->queryexecute();
         $sql = "INSERT INTO discipline_document (discipline_code, doc_name_id, favourite, doc_sorting, gender_code, age_from, age_to, created_date, created_by) "
-                ."SELECT discipline_code, (SELECT MAX(doc_name_id) FROM document), favourite, doc_sorting, gender_code, age_from, age_to, NOW(),'ADMIN' "
+                .$subdiscipline
                 ."FROM discipline_document "
                 ."WHERE doc_name_id = '".(int) $curName."' ";
         print_r($sql);
@@ -583,27 +594,7 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-    //10AUG
-//        public function GetMaxTemplate(){
-//        $sql = "SELECT template_id "
-//                ."FROM document_template ";
-//        $this->db->connect();
-//        $this->db->prepare($sql);
-//        $this->db->queryexecute();
-//        $result = $this->db->fetchOut('array');
-//        return $result; 
-//    } 
-//        public function GetMaxTemplate($docName){
-//        $sql = "SELECT dt.template_id "
-//                ."FROM document_template dt "
-//                ."INNER JOIN document d ON (d.doc_name_id=dt.doc_name_id) "
-//                ."WHERE d.doc_name_desc='$docName' ";
-//        $this->db->connect();
-//        $this->db->prepare($sql);
-//        $this->db->queryexecute();
-//        $result = $this->db->fetchOut('array');
-//        return $result; 
-//    } 
+    
     public function GetMaxTemplate(){
         $sql = "SELECT MAX(template_id) + 1 AS template_id FROM document_template ";
         $this->db->connect();
@@ -942,6 +933,7 @@ class Document_Template_Model {
 //        $result = $this->db->fetchOut('object');
 //        return $result[0]; 
 //    }
+    
 //    public function CheckTemplate() {
 //        $sql = "SELECT d.doc_name_id, d.doc_name_desc, gd.discipline_name, rdt.dc_type_desc,md.main_discipline_name"
 //                . "(CASE WHEN (SELECT doc_name_id FROM document_template WHERE doc_name_id IS NULL) THEN FALSE ELSE TRUE END) as available"

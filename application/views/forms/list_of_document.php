@@ -100,7 +100,7 @@
                                 <div class='btn-group btn-group-xs'>
                                     <a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $document['template_id']; ?>' class='btn btn-default' target="_blank">VIEW</a>
                                     <a href='<?php echo SITE_ROOT; ?>/formview/edit-form/<?php echo $document['template_id']; ?>' class='btn btn-default' target="_blank">UPDATE</a>
-                                    <a href='<?php echo SITE_ROOT; ?>/formview/clone-form/<?php echo $document['template_id']; ?>' class='btn btn-default'>CLONE</a>                                    
+                                    <div data-docid="<?php echo $document['doc_name_id']; ?>" data-tempid="<?php echo $document['template_id']; ?>" data-tempdesc="<?php echo $document['doc_name_desc']; ?>" class='btn btn-default cloneForm'>CLONE</div>                                    
                                 </div>
                             </td>
                         </tr>
@@ -110,11 +110,45 @@
         </div>
     </div>
 </div>
-
 </div>
+
+<div id='listOfDocument2'>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class='col-md-12'>
+        <div class="modal-dialog modal-lg">
+        <!--MODAL CONTENT-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <strong><span id='inputId'></span></strong>
+                </h4>
+            </div>
+            <div class="modal-body">
+                    <div style="padding-bottom:5px"class="form-inline">
+                    <label style="padding-left:29px;padding-right:27px" class="control-label">Change Title</label>
+                    <input class="form-control" style="height:25px;width:600px"type="text" id="doc_name_desc" name="doc_name_desc" autocomplete="off"/>
+                    </div>
+                
+            </div>
+            <div class="modal-footer">
+                <div class='btn btn-primary btn-md edit' onclick="$('.save').submit();">Edit</div>
+                <div class='btn btn-success btn-md save'>Save</div>
+                <div class='btn btn-danger btn-md cancel'>Cancel</div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+</div>
+
 <script>
     $(document).ready(function() {
-            $("#search").keyup(function () {
+        var tempid;
+        var docid;
+        var desc;
+        
+        $("#search").keyup(function () {
             var value = this.value.toLowerCase().trim();
 
             $("table tr").each(function (index) {
@@ -127,6 +161,56 @@
                 });
             });
         });
+
+        $('.edit').click(function () {
+        var docDesc = $('#doc_name_desc').val();
+        console.log(docDesc);
+        window.location.href = '<?= SITE_ROOT; ?>/main/clone_view/'+docid+'/'+docDesc+'';
+        return false;
+        });
+
+        $('.cloneForm').click(function () {
+            tempid = $(this).data('tempid');
+            console.log('tempid',tempid);
+            docid = $(this).data('docid');
+            console.log('docid',docid);
+            desc = $(this).data('tempdesc');
+            console.log('desc',desc);
+            $("#inputId").html('Duplicate '+desc+' ?');
+            $('#myModal').modal('show');
+            return false;
+        });
+        
+        $('.save').click(function () {
+        var docDesc = $('#doc_name_desc').val();
+        console.log(docDesc);
+
+        $.ajax({
+                url: '<?= SITE_ROOT; ?>/formview/duplicate-form/',
+                data: {tempid:tempid,docid:docid,desc:desc,docDesc:docDesc},
+                success: function (data) {
+                swal({
+                title: "Form Created!",
+                text: "Data successfully inserted into database",
+                type: "success"
+                });
+                $('#myModal').modal('hide');
+                }
+        });
+        setTimeout(function() {
+        return false;
+        }, 1200);
+        });
+
+        $('.cancel').click(function () {
+        window.location.href = '<?= SITE_ROOT; ?>';
+        return false;
+        });
+        
+        $('#myModal').on('hidden.bs.modal', function () {
+        $(this).find("input").val('').end();
+        });
+        
     });
     
  $(function () {

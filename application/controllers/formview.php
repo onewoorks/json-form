@@ -167,19 +167,13 @@ class Formview_Controller extends Common_Controller {
                 $result['document_id'] = $documentTemplate['doc_name_id'];
                 $result['link_style'] = "<link href='".SITE_ROOT."/assets/css/hiskkm.css' rel='stylesheet' />";
                 break;
-            case 'clone-form':
-                $page = 'forms/clone_view';
-                $templateId = $params[URL_ARRAY + 3];
-                $documentData = new Document_Template_Model();
-                $documentTemplate = $documentData->ReadDocumentTemplate($templateId);
-                $sectionSorting = json_decode($documentTemplate['json_template']);
-                $cleanSorting = $this->JsonWithSectionSorting($sectionSorting);
-                $result['document_title'] = $documentTemplate['doc_name_desc'];
-                $result['json_elements'] = $cleanSorting;
-                $result['document_id'] = $documentTemplate['doc_name_id'];
-//                $result['template_id'] = $documentTemplate['template_id'];
-                $test = $documentData->GetMaxTemplate();
-                $result['temp_id'] = $test;
+            case 'duplicate-form':
+                $ajax = true;
+                $doc = $_REQUEST['desc'];
+                $curName = $_REQUEST['docid'];
+                $docName = $_REQUEST['docDesc'];
+                $document = new Document_Template_Model();
+                $copyForm = $document->copyBaru($docName,$curName,$subdis,$type,$group);
                 break;
             case 'load-selected-json':
                 $ajax = true;
@@ -387,6 +381,17 @@ class Formview_Controller extends Common_Controller {
                     echo $key['doc_name_id']."<br>";
                 endforeach;
                 $this->GenerateJSONFormat($docId, 'update');
+                break;
+            case 'copy-form':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $values = $this->form_array($_REQUEST['values']);
+                $curName = $_REQUEST['docId'];
+                $docName = $values['doc_name_desc'];
+                $subdis = $values['general_discipline'];
+                $type = $values['doc_type'];
+                $group = $values['doc_group'];
+                $copyForm = $document->copyBaru($docName,$curName,$subdis,$type,$group);
                 break;
             //17JULAI
             case 'add-title':

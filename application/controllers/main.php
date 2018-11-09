@@ -73,7 +73,43 @@ class Main_Controller extends Common_Controller {
                 );
                 $view = new View_Model($page);
                 $view->assign('content', $result);
-                break;        
+                break;
+                case 'filter-form-clone':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $values = $this->form_array($_REQUEST['documentValues']);
+                $page = 'forms/clone_view';
+                $reference = new Reference_Table_Model();
+                $result['sections'] = $document->GetAllSecDesc();
+                $result['elements'] = $document->GetAllElementDesc();
+                $result['list_of_documents'] = $document->GetFilterListByGroupType($values);  
+                $result['main_discipline'] = $this->RefMainDisciplineGroup();               
+                if($values['discipline']!='0'):
+                    $result['general_discipline'] = $reference->DocumentDisFiltering($values['discipline']);
+                endif;
+                $types='0';
+                if($values['discipline']!='0'):
+                   $types=$values['general_discipline'];
+                endif;
+                
+                $result['doc_group'] = $this->RefDocumentSelectedGroup();
+                if($values['doc_group']!='0'){
+                $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
+                }
+                $type='0';
+                if($values['doc_group']!='0'){
+                    $type=$values['doc_type'];
+                }
+                
+                $result['preset_select'] = array(
+                    'active_discipline' => $values['discipline'],
+                    'active_general' => $types,
+                    'active_group' => $values['doc_group'],
+                    'active_type' => $type
+                );
+                $view = new View_Model($page);
+                $view->assign('content', $result);
+                break;
             case 'generate-json-table':
                 $ajax = true;
                 $document = new Document_Template_Model();
@@ -201,15 +237,15 @@ class Main_Controller extends Common_Controller {
                 $view = new View_Model($page);
                 $view->assign('content', $result);
                 break;
-            case 'copy-form':
-                $ajax = true;
-                $document = new Document_Template_Model();
-                $values = $this->form_array($_REQUEST['values']);
-                print_r($values);
+            case 'clone_view';
                 $page = 'forms/clone_view';
-                $docName = $values['doc_name_desc'];
-                $curName = $values['current_id'];
-                $copyForm = $document->copyBaru($docName,$curName);
+                $doc_desc = $params[URL_ARRAY + 4];
+                $document = new Document_Template_Model();
+                $result['main_discipline'] = $this->RefMainDisciplineGroup();
+                $result['general_discipline'] = $this->RefGeneralDiscipline();
+                $result['doc_types'] = $this->RefDocumentType();
+                $result['doc_group'] = $this->RefDocumentSelectedGroup();
+                $result['preset_select'] = false;
                 break;
             default:
                 $page = 'forms/list_of_document';

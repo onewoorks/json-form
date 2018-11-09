@@ -278,6 +278,8 @@ $(document).ready(function(){
     $html += '<div class="col-xs-10">: <strong>'+doc_name_desc+'</strong></div>';
     
     $($html).appendTo('.jsonTitle');
+    
+     
 
     });
     
@@ -401,14 +403,16 @@ $(function () {
    
     //BUTTON DETAILS  
     $('#displaySection').on('click','.addDetail',function () {
+        var doc_name_desc = $('#doc_name_desc').val();
+        var docId = $('#docList [value="' + doc_name_desc + '"]').data('id');
+        console.log('doc_name_id',docId);
         var data = $(this).attr('data-sectionno');
         console.log('data',data);
         var div = $(this).closest('div[class^="col-sm-6"]').find('input[id^="elementName'+data+'"]').val();
         console.log('div',div);
-        
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/new-doc-element/',
-                data: {div : div},
+                data: {div:div, docId:docId},
                 success: function (data) {
                     var obj = $.parseJSON(data);
                     $('.modal-title').text(obj.component);
