@@ -184,6 +184,7 @@ class Formview_Controller extends Common_Controller {
                     $found = $document->GetSectionDetail($key);
                     $page = 'forms/ajax_form_group';
                     $title = $found->section_desc;
+                    $result['sections'] = $document->GetAllSecDesc();
                 endif;
                 if ($component == 'element'):
                     #DISPLAY DETAIL POPUP EDIT FORM
@@ -441,17 +442,29 @@ class Formview_Controller extends Common_Controller {
                 $page = 'forms/test';
                 $result['link_style'] = "<link href='".SITE_ROOT."assets/css/hiskkm.css' rel='stylesheet' />";
                 break;
+            case 'update-attributes':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $docId = $_REQUEST['docId'];
+                $x = 1;
+                foreach ($_REQUEST['section'] AS $key => $item):
+                    $sorting = $x;
+                    $data = array(
+                        'section_code' => $item,
+                        'section_sorting' => $sorting,
+                        'doc_name_id' => $docId);
+                    $x++;    
+                    $document->UpdateSectionSorting($data);
+                endforeach;
+                break;
             //EDIT SECTION NAME
             case 'edit-attributes':
                 $ajax = true;
-                $values = $this->form_array($_REQUEST['values']);              
                 $document = new Document_Template_Model();
-                $data = array(
-                    'section_code' => $values['section_code'],
-                    'section_desc' => $values['section_desc'],
-                    'layout' => $values['column']);
-                $document->UpdateSectionDetail($data);
-                $this->GenerateJSONFormat($values['document_id'], 'update');
+                $section = $_REQUEST['section'];
+                $section_code = $_REQUEST['section_code'];
+                $docId = $_REQUEST['doc_name_id'];
+                $document->UpdateSectionDetail($section,$section_code,$docId);
                 break; 
             //EDIT ELEMENT NAME
             case 'update-section-element':

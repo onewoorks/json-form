@@ -13,65 +13,69 @@
         <link href="<?php echo SITE_ROOT; ?>/assets/library/sweetalert/sweetalert.css" rel="stylesheet" type="text/css" />
         <link href='<?php echo SITE_ROOT;?>/assets/library/datepicker/css/datepicker.css' rel="stylesheet" />
         <link href="//use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"  rel="stylesheet">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/Sortable/1.5.0-rc1/Sortable.js"></script>
     </head>
+    
+    <div class="row">
+        <form id="notesForm">
+        <div class="col-sm-9">
+            <div id='maintitle'>
+                <div class="form-inline">
+                <label class='control-label' style='padding: 15px;font-size: 15px'><b><?= $document_title; ?>&nbsp;</b></label>
+                <div class="btn btn-primary btn-xs editTitle"></i>Edit Title</div>
+                <div class="btn btn-primary btn-xs pull-right updateSection" style="margin-top:15px"></i>Update Section Sorting</div>
+                <div class="btn btn-primary btn-xs updateElement hidden"></i>Update Element</div>
+                </div>
+            </div>
+	<div id="panel-group1" class="panel-group" role="tablist">
+                <?php foreach ($json_elements as $key => $section): $sectionKod=$section->section_code;?>
+		<div class="panel panel-default dragble" data-section='<?= $key; ?>'>
+			<div class="panel-heading" role="tab" id="collapseListGroupHeading1" style='margin-bottom:-5px'>
+				<div class="panel-title" style="font-size:12.5px">
+                                    <input type='hidden' name="sectionList[]" data-section='<?= $key; ?>' value='<?= $section->section_code;?>'>
+                                    <?php if($section->section_code!='0'):?>
+					<a href="#collapseListGroup1" role="button" data-toggle="collapse"  aria-expanded="true"  data-section='<?= $key; ?>'><?= $section->section_desc;?>&nbsp;<i class="glyphicon glyphicon-move" style="font-size:11px;"></i></a>
+                                        <?php else:?>
+                                        <a href="#collapseListGroup1" role="button" data-toggle="collapse"  aria-expanded="true"  data-section='<?= $key; ?>'>&nbsp;<i class="glyphicon glyphicon-move" style="font-size:11px;"></i></a>
+                                    <?php endif;?>
+                                <div class="btn-group pull-right" style="margin-top: -3px;margin-right:-10px">        
+                                <a class="btn btn-xs btn-default editSection" data-section='<?= $key; ?>' data-sectioncode='<?= $section->section_code; ?>'></i> Edit Section</a>
+                                <a class="btn btn-default btn-xs expandButton" data-section='<?= $key; ?>' data-current='expand'><i class='glyphicon glyphicon-resize-full'></i> Expand</a>
+                                </div>
+				</div>
+			</div>
 
-<div class='row'>
-    <div class='col-md-9'>
-        <div id='maintitle'>
-            <h4 style='padding-left: 20px;'><b><?= $document_title; ?>&nbsp;</b><a href="#" class="btn btn-default btn-xs editTitle"></i>Edit Title</a></h4>
-        </div>
-        
-        <form id='notesForm' class='form-horizontal'>
-            <div class='panel panel-default'>
-                
-                    <?php foreach ($json_elements as $key => $section): $sectionKod=$section->section_code;?>
-                
-                        <?php if($section->section_code!='0'):?>
-                            <div class='panel-heading' data-section='<?= $key; ?>' style="background: #f5f5f5; "><?= $section->section_desc;?>
-                                <?php else:?>
-                                    <div class='panel-heading' data-section='<?= $key; ?>' style="background: #f5f5f5; ">&nbsp;
-                                <?php endif;?>
-                                <div class="btn-group pull-right">
-                                    <a class="btn btn-default btn-xs editSection hidden" data-section='<?= $key; ?>' data-sectioncode='<?= $section->section_code; ?>'></i> Edit Section</a>
-                                    <a class="btn btn-default btn-xs expandButton" data-section='<?= $key; ?>' data-current='expand'><i class='glyphicon glyphicon-resize-full'></i> Expand</a>
+			<div class="panel-collapse collapse in hidden" role="tabpanel" id="collapseListGroup1" aria-labelledby="collapseListGroupHeading1" data-section='<?= $key; ?>'>
+                            <div class='row' style='margin-top: 10px'>
+                                <div class='col-sm-12'>
+                                    <div class='btn btn-xs btn-default pull-right addElement' data-sectioncode='<?php echo $sectionKod; ?>' style="margin-right:4px"><i class='glyphicon glyphicon-plus'></i> Add Element</div>
                                 </div>
                             </div>
-                
-                            <div class='panel-body hidden' data-section='<?= $key; ?>'>
-                                <div class='row' style='margin-bottom: 5px;'>
-                                    <div class='col-sm-12 text-right'>
-                                        <div class='btn btn-sm btn-default addElement' data-sectioncode='<?php echo $sectionKod; ?>'><i class='glyphicon glyphicon-plus'></i> Add Element</div>
-                                    </div>
-                                </div>
-                                <?php $column = $section->layout;  
+                            <?php $column = $section->layout;  
                                 switch ($column):
                                 case '1': $set=12;
                                 ?>
-                                <ol class='nested_with_switch list-unstyled'><div class="parent"><div class='row wrapper'>
-                                <div id='sortable'>
+                                <ol class='nested_with_switch list-unstyled'><div class="parent"><div class='row wrapper'><div id='sortable'>
                                 <?php foreach ($section->elements as $elem => $element): $thecode=$element->element_code; 
                                 if($element->element_code === $element->child_element_code):?>                                                                      
                                     <li style='margin-bottom:10px;'>
                                         <div class='col-sm-<?php echo $set; ?>'>
                                             <div class='form-group form-group-sm' style='border:1px solid #ccc; margin:4px;' draggable="true">
                                                 <!--element grouping-->
-                                                <label class='control-label col-md-6'><?= $element->element_desc; ?></label>
-                                                <div class='col-md-2'>
+                                                <label class='control-label col-md-6' style='padding-top:7px;text-align: right'><?= $element->element_desc; ?></label>
                                                     <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
                                                     <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
-                                                </div>
                                                 <!--element list-->
                                                 <?php foreach ($section->elements as $elem => $element):if($element->child_element_code === $thecode && $element->element_code != $element->child_element_code):?>
-                                                <label class='control-label col-md-6'><?= $element->element_desc; ?></label>
-                                                <div class='col-md-2'>
+                                                <label class='control-label col-md-6' style='padding-top:7px;text-align: right'><?= $element->element_desc; ?></label><br>
                                                     <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>'  data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
                                                     <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
-                                                </div>
                                                 <?php endif;endforeach;?>
                                             </div>
                                         </div> 
                                     </li>
-                                <?php endif; endforeach;  ?>
+                                <?php endif; 
+                                endforeach;  ?>
                                 </div></div></div></ol>
                                     
                                 <?php                                      
@@ -79,7 +83,7 @@
                                    
                                 case '2': $set=12; ?><div class="parent"><div class='row wrapper'>
                                 <?php
-                                for($x=1;$x<=2;$x++){ 
+                                for($x=1;$x<=2;$x++): 
                                 if($x==1){
                                     $position ='L';
                                     $dir = 'left-defaults';
@@ -91,59 +95,46 @@
                                 ?>
                                 
                                 <div id='<?php echo $dir;  ?>' class='col-sm-<?php echo $set; ?>'>
-                                <?php foreach ($section->elements as $elem => $element): if($element->element_position===$position){
+                                <?php foreach ($section->elements as $elem => $element): if($element->element_position===$position):
                                         $thecode=$element->element_code;
-                                        if($element->element_code === $element->child_element_code){?> 
-                                            <div class='form-group form-group-sm' style='border:1px solid #ccc; margin:4px;' draggable="true">
-                                                <label class='control-label col-md-7'><?= $element->element_desc; ?></label>
-                                                    <div class='col-md-4'>
-                                                      <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
-                                                      <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
-                                                    </div>
-                                                                                                                    
-                                            <?php foreach ($section->elements as $elem => $element):                                
-                                                  if($element->child_element_code === $thecode && $element->element_code != $element->child_element_code){?>
-                                                  <label class='control-label col-md-7'><?= $element->element_desc; ?></label>
-                                                    <div class='col-md-4'>
-                                                      <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
-                                                      <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
-                                                    </div>
-                                                 <?php 
-                                                 }
-                                            endforeach;?>
-                                            </div><?php
-                                        }
-                                } endforeach;?>
-                                </div> <?php                              
-                                }
-                                ?> </div></div> 
+                                        if($element->element_code === $element->child_element_code):?> 
+                                            <div class='form-group form-group-sm' style='border:1px solid #ccc;margin:4px;' draggable="true">
+                                                <label class='control-label col-md-6' style='padding-top:7px;text-align: right'><?= $element->element_desc; ?></label>
+                                                    <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
+                                                    <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
+                                            <!--</div>-->
+                                <?php foreach ($section->elements as $elem => $element):                                
+                                        if($element->child_element_code === $thecode && $element->element_code != $element->child_element_code):?>
+                                            <label class='control-label col-md-6' style='padding-top:7px;text-align: right'><?= $element->element_desc; ?></label><br>
+                                            <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
+                                            <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
+                                <?php endif;endforeach;?>
+                                            </div>
+                                <?php endif;endif;endforeach;?>
+                                </div> 
+                                <?php endfor;?>
+                                        </div></div>
                                 <?php
                                 break;
                                 case '3': $set=4; 
                                 break;
                                 endswitch;
                                ?>
-                            </div>
-                    <?php // endif;?>
-                
-                    <?php endforeach;?>
-                
-            </div>
-        </form>
-    </div>
-
-    <div class='col-md-3' style="position: fixed; z-index: 6; right: 0; margin-left: 15px; margin-top: 35px;">
+			</div>
+		</div>
+                <?php endforeach;?>
+	</div>
+        </div>
+        
+        <div class='col-md-3' style="position: fixed; z-index: 6; right: 0; margin-left: 10px; margin-top: 50px;">
         <div class='panel panel-default'>
             <div class='panel-heading'><b>Notes Component</b></div>
             <div class='panel-body' >
                 <ul class='list-unstyled'  style=" font-size: 12.5px;">
                     <?php foreach ($json_elements as $key => $section): ?>
-                    <?php if($section->section_code!='0'):?>
-                        <li><input type='checkbox' class='selectedsection'  name='<?= $key; ?>' value='<?= $key; ?>' checked /> <?= $section->section_desc; ?></li>
-                    <?php endif;?>
+                        <li><input type='checkbox' class='selectedsection' name="total" id="total" value="<?= $key; ?>" checked /> <?= $section->section_desc; ?></li>
                     <?php endforeach; ?>
                 </ul>
-
                 <div class='text-right'>
                     <div class='btn-group btn-group-sm'>
                         <a href='#' class='btn btn-default changelayout' >Change Layout</a>
@@ -155,9 +146,9 @@
             </div>
         </div>
     </div>
-</div>
-</div>    
-
+    </form>
+</div><!-- end div=row -->
+    
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
@@ -195,8 +186,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Change Title</h4>
             </div>
-            <div class="modal-body">
-            </div>
+            <div class="modal-body"></div>
         </div>
     </div>
 </div>
@@ -207,8 +197,7 @@
             <div class="modal-header">
                 <h3>Delete Element</h3>
             </div>
-            <div class="modal-body">               
-            </div>
+            <div class="modal-body"></div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 <a class="btn btn-danger btn-ok" id="btnYes" >Delete</a>
@@ -216,15 +205,56 @@
         </div>
     </div>
 </div>
-
+    
 <script src='<?= SITE_ROOT; ?>/assets/js/dragula.js'></script>
 <script src='<?= SITE_ROOT; ?>/assets/js/example.min.js'></script>
-<script src='<?= SITE_ROOT; ?>/assets/js/jquery-sortable.js'></script>
+<script>
+	function byId (id) { 
+            return document.getElementById(id); 
+        }
+	Sortable.create(byId('panel-group1'), {
+		animation: 150,
+		draggable: '.panel',
+		handle: '.panel-heading'
+	});
+//	[].forEach.call(byId('panel-group1').getElementsByClassName('control-label'), function (el){
+//		Sortable.create(el, {
+//			group: 'photo',
+//			animation: 150
+//		});
+//	});
+</script>
+
 <script>
     $(function () {
+
+        $('.updateSection').click(function () {
+            var docId = '<?= $document_id;?>';
+            var section = [];
+            $('input[name="sectionList[]"]').each( function() {
+                section.push(this.value);
+            });
+            var total = $('#notesForm').serializeArray();
+            
+            $.ajax({
+                url : '<?= SITE_ROOT;?>/formview/update-attributes/',
+                data : {docId:docId,section:section,total:total},
+                success : function(){
+                    $('#myModal').modal('hide');
+                    swal({
+                      title: "Section Sorting Updated!",
+                      text: "Data successfully updated into database",
+                      type: "success"
+                    });
+                }
+            });
+        });
+        
         $('.expandButton').click(function () {
-            var a = $('#notesForm').find(".panel-body[data-section='" + $(this).data('section') + "']").toggleClass('hidden');
+            var a = $('#panel-group1').find(".panel-collapse[data-section='" + $(this).data('section') + "']").toggleClass('hidden');
+            console.log('a',a);
             var current = $(this).data('current');
+            console.log('current',current);
             if(current==='expand'){
                 $(this).data('current','hide');
                 $(this).html('<i class="glyphicon glyphicon-resize-small"></i> Hide');
@@ -237,10 +267,11 @@
         $('.summernote').summernote({
             height: 100
         });
-
+        
         $('.selectedsection').change(function () {
             var section = $(this).val();
-            $('#notesForm').find("[data-section='" + section + "']").fadeToggle("fast", "linear");
+            var a =$('#panel-group1').find(".panel-default[data-section='" + section + "']").fadeToggle("fast", "linear");
+            console.log(a);
         });
         
         $('.editElement').click(function () {

@@ -638,15 +638,26 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return $result;
     }
-
-    public function UpdateSectionDetail(array $section) {
-        $sql = "UPDATE ref_document_section SET "
-                . "section_desc='" . $section['section_desc'] . "',"
-                . "layout='".$section['layout']."' "
-                . "WHERE section_code='" . (int) $section['section_code'] . "'";
+    
+    public function UpdateSectionSorting(array $data) {
+        $sql = "UPDATE document_element SET "
+                ."section_sorting='".(int)$data['section_sorting']."' "
+                ."WHERE section_code='".(int)$data['section_code']."' AND doc_name_id='".(int)$data['doc_name_id']."' ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
+        print_r($sql);
+        return true;
+    }
+
+    public function UpdateSectionDetail($section,$section_code,$docId) {
+        $sql = "UPDATE document_element SET "
+                ."section_code='".(int)$section_code."' "
+                ."WHERE section_code='".(int)$section."' AND doc_name_id='".(int)$docId."' ";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        print_r($sql);
         return true;
     }
     
