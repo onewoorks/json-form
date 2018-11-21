@@ -24,7 +24,7 @@
                 <label class='control-label' style='padding: 15px;font-size: 15px'><b><?= $document_title; ?>&nbsp;</b></label>
                 <div class="btn btn-primary btn-xs editTitle"></i>Edit Title</div>
                 <div class="btn btn-primary btn-xs pull-right updateSection" style="margin-top:15px"></i>Update Section Sorting</div>
-                <div class="btn btn-primary btn-xs updateElement hidden"></i>Update Element</div>
+                <div class="btn btn-primary btn-xs pull-right updateElement hidden" style="margin-top:15px"></i>Update Element Sorting</div>
                 </div>
             </div>
 	<div id="panel-group1" class="panel-group" role="tablist">
@@ -45,41 +45,24 @@
 				</div>
 			</div>
 
-			<div class="panel-collapse collapse in hidden" role="tabpanel" id="collapseListGroup1" aria-labelledby="collapseListGroupHeading1" data-section='<?= $key; ?>'>
-                            <div class='row' style='margin-top: 10px'>
-                                <div class='col-sm-12'>
-                                    <div class='btn btn-xs btn-default pull-right addElement' data-sectioncode='<?php echo $sectionKod; ?>' style="margin-right:4px"><i class='glyphicon glyphicon-plus'></i> Add Element</div>
+			<div class="panel-collapse collapse in hidden" role="tabpanel" id="collapseListGroup1" aria-labelledby="collapseListGroupHeading1" data-section='<?= $key; ?>' data-sectioncode='<?= $section->section_code; ?>'>
+                            <div class="list-group" data-sectionkey='<?= $key; ?>' data-sectioncode='<?= $section->section_code; ?>'>
+                                <?php $column = $section->layout;switch ($column):case '1': $set=12;?>
+                                <?php foreach ($section->elements as $elem => $element): $thecode=$element->element_code;if($element->element_code === $element->child_element_code):?>
+                                <div class='form-group form-group-sm' data-elemsort='<?= $elem; ?>'style='border:1px solid #ccc; margin:4px;'>
+                                    <label class='control-label col-md-6' style='padding-top:7px;text-align: right' data-elem="<?= $element->element_desc; ?>"><?= $element->element_desc; ?></label>
+                                    <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
+                                    <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
+                                    <?php foreach ($section->elements as $elem => $element):if($element->child_element_code === $thecode && $element->element_code != $element->child_element_code):?>
+                                    <label class='control-label col-md-6' style='padding-top:7px;text-align: right;color:#737373' data-elem="<?= $element->element_desc; ?>"><?= $element->element_desc; ?></label><br>
+                                    <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>'  data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
+                                    <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
+                                    <?php endif;endforeach;?>
                                 </div>
-                            </div>
-                            <?php $column = $section->layout;  
-                                switch ($column):case '1': $set=12;?>
-                                <ol class='nested_with_switch list-unstyled'><div class="parent"><div class='row wrapper'><!--<div id='sortable'>-->
-                                <?php foreach ($section->elements as $elem => $element): $thecode=$element->element_code;?>                                                                      
-                                    <li style='margin-bottom:10px;'>
-                                        <div class='col-sm-<?php echo $set; ?>'>
-                                            <div class='form-group form-group-sm' style='border:1px solid #ccc; margin:4px;'>
-                                                <!--element grouping-->
-                                                <label class='control-label col-md-6' style='padding-top:7px;text-align: right'><?= $element->element_desc; ?></label>
-                                                    <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
-                                                    <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
-                                                <!--element list-->
-                                                <?php foreach ($section->elements as $elem => $element):if($element->child_element_code === $thecode && $element->element_code != $element->child_element_code):?>
-                                                <label class='control-label col-md-6' style='padding-top:7px;text-align: right;color:#737373'><?= $element->element_desc; ?></label><br>
-                                                    <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>'  data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
-                                                    <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
-                                                <?php endif;endforeach;?>
-                                            </div>
-                                        </div> 
-                                    </li>
-                                <?php endforeach;  ?>
-                                <!--</div>--></div></div></ol>
-                                    
-                                <?php                                      
-                                break;
-                                   
-                                case '2': $set=12; ?><ol class='nested_with_switch list-unstyled'><div class="parent"><div class='row wrapper'>
-                                <?php
-                                for($x=1;$x<=2;$x++): 
+                                <?php endif;endforeach;?>
+                                
+                                <?php break;case '2': $set=12; ?>
+                                <?php for($x=1;$x<=2;$x++): 
                                 if($x==1){
                                     $position ='L';
                                     $dir = 'left-defaults';
@@ -89,32 +72,21 @@
                                     $dir = 'right-defaults';
                                 }
                                 ?>
-                                
-                                <?php foreach ($section->elements as $elem => $element): if($element->element_position===$position):
-                                        $thecode=$element->element_code;
-                                        if($element->element_code === $element->child_element_code):?> 
-                                        <div id='<?php echo $dir;  ?>' class='col-sm-<?php echo $set; ?>'>
-                                            <div class='form-group form-group-sm' style='border:1px solid #ccc;margin:4px;'>
-                                                <label class='control-label col-md-6' style='padding-top:7px;text-align: right'><?= $element->element_desc; ?></label>
-                                                    <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
-                                                    <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
-                                            <!--</div>-->
-                                <?php foreach ($section->elements as $elem => $element):                                
-                                        if($element->child_element_code === $thecode && $element->element_code != $element->child_element_code):?>
-                                            <label class='control-label col-md-6' style='padding-top:7px;text-align: right;color:#737373'><?= $element->element_desc; ?></label><br>
-                                            <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
-                                            <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
+                                <?php foreach ($section->elements as $elem => $element): if($element->element_position===$position):$thecode=$element->element_code;if($element->element_code === $element->child_element_code):?> 
+                                <div class='form-group form-group-sm'  data-elemsort='<?= $elem; ?>' style='border:1px solid #ccc;margin:4px;'>
+                                    <label class='control-label col-md-6' style='padding-top:7px;text-align: right' data-elem="<?= $element->element_desc; ?>"><?= $element->element_desc; ?></label>
+                                    <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
+                                    <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
+                                    <?php foreach ($section->elements as $elem => $element):if($element->child_element_code === $thecode && $element->element_code != $element->child_element_code):?>
+                                    <label class='control-label col-md-6' style='padding-top:7px;text-align: right;color:#737373' data-elem="<?= $element->element_desc; ?>"><?= $element->element_desc; ?></label><br>
+                                    <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
+                                    <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
                                 <?php endif;endforeach;?>
-                                            </div></div>
+                                </div>    
                                 <?php endif;endif;endforeach;?>
                                 <?php endfor;?>
-                                            </div></div></ol>
-                                <?php
-                                break;
-                                case '3': $set=4; 
-                                break;
-                                endswitch;
-                               ?>
+                                <?php break;endswitch;?>
+                            </div>
 			</div>
 		</div>
                 <?php endforeach;?>
@@ -201,8 +173,6 @@
     </div>
 </div>
     
-<!--<script src='<?= SITE_ROOT; ?>/assets/js/dragula.js'></script>
-<script src='<?= SITE_ROOT; ?>/assets/js/example.min.js'></script>-->
 <script>
 	function byId (id) { 
             return document.getElementById(id); 
@@ -212,7 +182,8 @@
 		draggable: '.panel',
 		handle: '.panel-heading'
 	});
-	[].forEach.call(byId('panel-group1').getElementsByClassName('row wrapper'), function (el){
+        
+	[].forEach.call(byId('panel-group1').getElementsByClassName('list-group'), function (el){
 		Sortable.create(el, {
 			group: 'photo',
 			animation: 150
@@ -220,14 +191,16 @@
 	});
 </script>
 
-<script>
+<script>    
     $(function () {
+        
         $('.updateSection').click(function () {
             var docId = '<?= $document_id;?>';
             var section = [];
             $('input[name="sectionList[]"]').each( function() {
                 section.push(this.value);
             });
+            console.log(section);
             var total = $('#notesForm').serializeArray();
             
             $.ajax({
@@ -242,6 +215,37 @@
                     });
                 }
             });
+        });
+        
+        $('.updateElement').click(function () {
+            var docId = '<?= $document_id;?>';
+            var data_array = [];
+            
+        $(".list-group").each(function(){
+            var section = $(this).attr('data-sectioncode');  
+            
+            $(this).find('label.control-label').each(function(){
+                for(var i in $(this).data()){
+                var element = $(this).data(i);
+                }
+                data_array.push({'section':section, 'element':element}); 
+            });
+
+        });
+
+         $.ajax({
+                url : '<?= SITE_ROOT;?>/formview/update-attributes2/',
+                data : {data_array:data_array,docId:docId},
+                success : function(){
+                    $('#myModal').modal('hide');
+                    swal({
+                      title: "Element Sorting Updated!",
+                      text: "Data successfully updated into database",
+                      type: "success"
+                    });
+                }
+            });
+
         });
         
         $('.expandButton').click(function () {
