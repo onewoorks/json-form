@@ -24,12 +24,12 @@
                 <label class='control-label' style='padding: 15px;font-size: 15px'><b><?= $document_title; ?>&nbsp;</b></label>
                 <div class="btn btn-primary btn-xs editTitle"></i>Edit Title</div>
                 <div class="btn btn-primary btn-xs pull-right updateSection" style="margin-top:15px"></i>Update Section Sorting</div>
-                <div class="btn btn-primary btn-xs pull-right updateElement hidden" style="margin-top:15px"></i>Update Element Sorting</div>
+                <div class="btn btn-primary btn-xs pull-right updateElement" style="margin-top:15px"></i>Update Element Sorting</div>
                 </div>
             </div>
 	<div id="panel-group1" class="panel-group" role="tablist">
                 <?php foreach ($json_elements as $key => $section): $sectionKod=$section->section_code;?>
-		<div class="panel panel-default dragble" data-section='<?= $key; ?>'>
+		<div class="panel panel-default dragble" data-section='<?= $key; ?>' style="cursor:move">
 			<div class="panel-heading" role="tab" id="collapseListGroupHeading1" style='margin-bottom:-5px'>
 				<div class="panel-title" style="font-size:12.5px">
                                     <input type='hidden' name="sectionList[]" data-section='<?= $key; ?>' value='<?= $section->section_code;?>'>
@@ -45,19 +45,20 @@
 				</div>
 			</div>
 
-			<div class="panel-collapse collapse in hidden" role="tabpanel" id="collapseListGroup1" aria-labelledby="collapseListGroupHeading1" data-section='<?= $key; ?>' data-sectioncode='<?= $section->section_code; ?>'>
+			<div class="panel-collapse collapse in hidden" role="tabpanel" id="collapseListGroup1" style="margin-top:10px"aria-labelledby="collapseListGroupHeading1" data-section='<?= $key; ?>' data-sectioncode='<?= $section->section_code; ?>'>
                             <div class="list-group" data-sectionkey='<?= $key; ?>' data-sectioncode='<?= $section->section_code; ?>'>
                                 <?php $column = $section->layout;switch ($column):case '1': $set=12;?>
                                 <?php foreach ($section->elements as $elem => $element): $thecode=$element->element_code;if($element->element_code === $element->child_element_code):?>
-                                <div class='form-group form-group-sm' data-elemsort='<?= $elem; ?>'style='border:1px solid #ccc; margin:4px;'>
-                                    <label class='control-label col-md-6' style='padding-top:7px;text-align: right' data-elem="<?= $element->element_desc; ?>"><?= $element->element_desc; ?></label>
+                                <div class='form-group form-group-sm' data-elemsort='<?= $elem; ?>'style='border:1px solid #ccc; margin:4px;cursor:move'>
+                                    <label class='control-label col-md-6' style='padding-top:7px;text-align: right' data-elem="<?= $element->element_code; ?>"><?= $element->element_desc; ?></label>
                                     <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
                                     <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
-                                    <?php foreach ($section->elements as $elem => $element):if($element->child_element_code === $thecode && $element->element_code != $element->child_element_code):?>
-                                    <label class='control-label col-md-6' style='padding-top:7px;text-align: right;color:#737373' data-elem="<?= $element->element_desc; ?>"><?= $element->element_desc; ?></label><br>
-                                    <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>'  data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
+                                </div>
+                                <?php else:?>
+                                <div class='form-group form-group-sm' data-elemsort='<?= $elem; ?>'style='border:1px solid #ccc; margin:4px;cursor:move'>
+                                    <label class='control-label col-md-6' style='padding-top:7px;text-align: right;color:#737373' data-elem="<?= $element->element_code; ?>"><?= $element->element_desc; ?></label>
+                                    <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
                                     <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
-                                    <?php endif;endforeach;?>
                                 </div>
                                 <?php endif;endforeach;?>
                                 
@@ -73,16 +74,17 @@
                                 }
                                 ?>
                                 <?php foreach ($section->elements as $elem => $element): if($element->element_position===$position):$thecode=$element->element_code;if($element->element_code === $element->child_element_code):?> 
-                                <div class='form-group form-group-sm'  data-elemsort='<?= $elem; ?>' style='border:1px solid #ccc;margin:4px;'>
-                                    <label class='control-label col-md-6' style='padding-top:7px;text-align: right' data-elem="<?= $element->element_desc; ?>"><?= $element->element_desc; ?></label>
+                                <div class='form-group form-group-sm'  data-elemsort='<?= $elem; ?>' style='border:1px solid #ccc;margin:4px;cursor:move'>
+                                    <label class='control-label col-md-6' style='padding-top:7px;text-align: right' data-elem="<?= $element->element_code; ?>"><?= $element->element_desc; ?></label>
                                     <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
                                     <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
-                                    <?php foreach ($section->elements as $elem => $element):if($element->child_element_code === $thecode && $element->element_code != $element->child_element_code):?>
-                                    <label class='control-label col-md-6' style='padding-top:7px;text-align: right;color:#737373' data-elem="<?= $element->element_desc; ?>"><?= $element->element_desc; ?></label><br>
-                                    <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
-                                    <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
-                                <?php endif;endforeach;?>
                                 </div>    
+                                <?php else:?>
+                                <div class='form-group form-group-sm' data-elemsort='<?= $elem; ?>'style='border:1px solid #ccc; margin:4px;cursor:move'>
+                                    <label class='control-label col-md-6' style='padding-top:7px;text-align: right;color:#737373' data-elem="<?= $element->element_code; ?>"><?= $element->element_desc; ?></label>
+                                    <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
+                                    <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
+                                </div>
                                 <?php endif;endif;endforeach;?>
                                 <?php endfor;?>
                                 <?php break;endswitch;?>
@@ -230,7 +232,6 @@
                 }
                 data_array.push({'section':section, 'element':element}); 
             });
-
         });
 
          $.ajax({
@@ -245,7 +246,6 @@
                     });
                 }
             });
-
         });
         
         $('.expandButton').click(function () {

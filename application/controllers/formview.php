@@ -457,6 +457,29 @@ class Formview_Controller extends Common_Controller {
                     $document->UpdateSectionSorting($data);
                 endforeach;
                 break;
+            case 'update-attributes2':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $docId = $_REQUEST['docId'];
+                
+                $result = array();
+                foreach ($_REQUEST['data_array'] AS $item):
+                    $result[$item['section']][] = $item['element'];
+                endforeach;
+                
+                $output = array();
+                foreach($result as $type => $label):
+                    foreach($label as $key=>$value):
+                    $x = $key + 1;
+                    $output = array(
+                        'section_code' => $type,
+                        'element_code' => $value,
+                        'doc_name_id' => $docId,
+                        'sorting' => $x);    
+                    $document->UpdateElementSorting($output);
+                    endforeach;
+                endforeach;
+                break;
             //EDIT SECTION NAME
             case 'edit-attributes':
                 $ajax = true;

@@ -639,6 +639,17 @@ class Document_Template_Model {
         return $result;
     }
     
+    public function UpdateElementSorting(array $output) {
+        $sql = "UPDATE document_element SET "
+                ."sorting = '".(int)$output['sorting']."', section_code='".(int)$output['section_code']."' "
+                ."WHERE doc_name_id='".(int)$output['doc_name_id']."' AND parent_element_code='".(int)$output['element_code']."' ";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        print_r($sql);
+        return true;
+    }
+    
     public function UpdateSectionSorting(array $data) {
         $sql = "UPDATE document_element SET "
                 ."section_sorting='".(int)$data['section_sorting']."' "
