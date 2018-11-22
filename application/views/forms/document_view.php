@@ -38,9 +38,9 @@
         </form>
     </div>
 
-<!--     <div class='col-md-1' style="position: fixed; z-index: 7; right: 0; margin-right:-15px;">
+    <div class='col-md-1' style="position: fixed; z-index: 7; right: 0; margin-right:-15px;">
          <div class='btn btn-primary updatelayout' style="padding: 5px 10px;">Update</div>  
-    </div>-->
+    </div>
     
    <br><br> 
     <div class='col-md-1-right' style="position: fixed; z-index: 7; right: 0;">
@@ -119,67 +119,14 @@
                                 
 </script>
 
-<!--<script>
-                                function HideAndShowTextbox(object) {
-                                    var $selected = $(object).val();
-                                    
-                                    if ($selected.toLowerCase() === '9137') {
-                                        var $name = 'textbox_' + $(object).attr('name');
-                                        $("[name='" + $name + "']").show();
-                                        if ($(object).is(':checked')) {
-                                            $("[name='" + $name + "']").removeClass('hidden');
-                                        } 
-                                        else {
-                                            $("[name='" + $name + "']").addClass('hidden');
-                                        }
-                                    }
-                                    
-                                    else if ($selected.toLowerCase() === '9144') {
-                                        var $name = 'calendar_' + $(object).attr('name');
-                                        $("[name='" + $name + "']").show();
-                                        if ($(object).is(':checked')) {
-                                            $("[name='" + $name + "']").removeClass('hidden');
-                                        } 
-                                        else {
-                                            $("[name='" + $name + "']").addClass('hidden');
-                                        }
-                                    }
-                                    
-                                    else if ($selected.toLowerCase() === '1427') {
-                                        var $name = 'freetext_' + $(object).attr('name');
-                                        $("[name='" + $name + "']").show();
-                                        if ($(object).is(':checked')) {
-                                            $("[name='" + $name + "']").removeClass('hidden');
-                                        } 
-                                        else {
-                                            $("[name='" + $name + "']").addClass('hidden');
-                                        }
-                                    }
-                                }
-                                
-</script>-->
-
 <script>
     $(function() {
   $('input:radio').change(function(){
       var className = $(this).attr('name');
     if(    $('input:radio[class="'+className +'"]').prop('checked',this.checked)){
         console.log(this.checked);
-//          console.log(className);
-//                var refcode = $(this).val();
-//
-//if (refcode==='9137'){
-//           console.log(refcode);
-//                     $('input[id^=textbox_]').show();
-//}
     }
     
-//      if( this.checked && refcode === '9137'){
-//          $('input[id^=textbox_]').show();
-//                 $('div[id^=date_]').hide ();
-//                 $('input[id^=freetext_]').hide();
-//          
-//      }
   });
 });
     </script>
@@ -202,13 +149,6 @@
             HideAndShowOtherSpecify(this);
             var $parentcode = $(this).data('parentcode');
             console.log($parentcode);
-//            if ($(this).is(':checked')) {
-//                $('.multicheckbox_' + $parentcode).removeClass('hidden');
-//                $('textarea[data-parentcode="'+$parentcode+'"]').removeAttr('disabled');
-//            } else {
-//                $('.multicheckbox_' + $parentcode).addClass('hidden');
-//                $('textarea[data-parentcode="'+$parentcode+'"]').attr('disabled','disabled');
-//            }
         });
         
         $("input[name^=textbox_]").hide();
@@ -221,64 +161,6 @@
             console.log($refcode);
         });
 
-//        $('.updatelayout').click(function () {
-//     
-//            var documentId = '<?= $document_id;?>';
-//            $.ajax({
-//                url: '<?= SITE_ROOT; ?>/formview/update-layout/',
-//                data: {documentId : documentId},
-//                success: function (data) {
-//                    console.log(data);
-//                    $("#contoh").text(data);
-//                    var obj = $.parseJSON(data);
-//                    $('.modal-dialog').removeClass('modal-lg');
-//                    $('.modal-title').text(obj.component);
-//                    $('.modal-body').html(obj.html);
-//                }
-//            });
-//            $('#Modal').modal('show');
-//            return false;
-//        });
-        
-//        $('div[id^=date_]').hide();
-//        $('input[id^=textbox_]').hide();
-//        $('input[id^=freetext_]').hide();
-//
-//        $('input[type=radio]').on('change',function(){
-//            
-//        var code = $(this).data('refcodes');
-//        console.log(code);
-//       
-//         if ($(this).is(':checked')) { 
-//             var refcode = $(this).val();
-//             console.log(refcode);
-//             if (refcode === '9144'){
-//                 $('div[id^=date_]').show();
-//                 $('input[id^=textbox_]').hide();
-//                 $('input[id^=freetext_]').hide();
-//             }
-//             
-//             else if(refcode === '9137'){
-//                 $('input[id^=textbox_]').show();
-//                 $('div[id^=date_]').hide ();
-//                 $('input[id^=freetext_]').hide();
-//             }
-//             
-//             else if(refcode === '1427'){
-//                 $('input[id^=freetext_]').show();
-//                 $('div[id^=rdio_]').hide ();
-//                 $('input[id^=textbox_]').hide();
-//             }
-//             
-//             else{
-//                 $('div[id^=date_]').hide();
-//                 $('input[id^=textbox_]').hide();
-//                 $('input[id^=freetext_]').hide();    
-//             }
-//    }
-//
-//        });
-        
     });
     
 
