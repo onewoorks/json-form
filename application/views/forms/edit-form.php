@@ -24,7 +24,7 @@
                 <label class='control-label' style='padding: 15px;font-size: 15px'><b><?= $document_title; ?>&nbsp;</b></label>
                 <div class="btn btn-primary btn-xs editTitle"></i>Edit Title</div>
                 <div class="btn btn-primary btn-xs pull-right updateSection" style="margin-top:15px"></i>Update Section Sorting</div>
-                <div class="btn btn-primary btn-xs pull-right updateElement" style="margin-top:15px"></i>Update Element Sorting</div>
+                <div class="btn btn-primary btn-xs pull-right updateElement hidden" style="margin-top:15px"></i>Update Element Sorting</div>
                 </div>
             </div>
 	<div id="panel-group1" class="panel-group" role="tablist">
@@ -250,9 +250,7 @@
         
         $('.expandButton').click(function () {
             var a = $('#panel-group1').find(".panel-collapse[data-section='" + $(this).data('section') + "']").toggleClass('hidden');
-            console.log('a',a);
             var current = $(this).data('current');
-            console.log('current',current);
             if(current==='expand'){
                 $(this).data('current','hide');
                 $(this).html('<i class="glyphicon glyphicon-resize-small"></i> Hide');
@@ -269,7 +267,6 @@
         $('.selectedsection').change(function () {
             var section = $(this).val();
             var a =$('#panel-group1').find(".panel-default[data-section='" + section + "']").fadeToggle("fast", "linear");
-            console.log(a);
         });
         
         $('.editElement').click(function () {
