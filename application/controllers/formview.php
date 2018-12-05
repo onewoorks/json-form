@@ -460,25 +460,40 @@ class Formview_Controller extends Common_Controller {
             case 'update-attributes2':
                 $ajax = true;
                 $document = new Document_Template_Model();
-                $docId = $_REQUEST['docId'];
+                
+                $json = file_get_contents('php://input');
+                $json_a = explode('data_array=',urldecode($json));
+                $data = json_decode($json_a[1], true);
+                
+                foreach($data as $item):
+                    if(isset($item['docId'])):
+                        $docId = $item['docId'];
+                    endif;
+                endforeach;
                 
                 $result = array();
-                foreach ($_REQUEST['data_array'] AS $item):
-                    $result[$item['section']][] = $item['element'];
-                endforeach;
+                foreach($data as $value):
+                    if(isset($value['section'],$value['element'])):
+                        $result[$value['section']][][$value['element']] = $value['current'];
+                    endif;
+                endforeach;    
                 
                 $output = array();
-                foreach($result as $type => $label):
-                    foreach($label as $key=>$value):
-                    $x = $key + 1;
-                    $output = array(
-                        'section_code' => $type,
-                        'element_code' => $value,
-                        'doc_name_id' => $docId,
-                        'sorting' => $x);    
-                    $document->UpdateElementSorting($output);
+                foreach($result as $section => $values):
+                    foreach($values as $sort => $current):
+                        foreach($current as $element => $value):
+                        $x = $sort + 1;
+                        $output = array(
+                            'section_code' => $section,
+                            'element_code' => $element,
+                            'doc_name_id' => $docId,
+                            'current' => $value,
+                            'sorting' => $x);    
+                        $document->UpdateElementSorting($output);
+                        endforeach;
                     endforeach;
                 endforeach;
+                
                 break;
             //EDIT SECTION NAME
             case 'edit-attributes':
@@ -544,11 +559,13 @@ class Formview_Controller extends Common_Controller {
     private function GetAvailableDocumentWithElement(){
         $document = new Document_Template_Model();
         $templates = $document->ReadDocumentElementExisted();
+        if($templates != null):
         $documentId = array();
         foreach($templates as $template):
             $documentId[] = $template;
         endforeach;
-        return $documentId;
+        return $documentId;    
+        endif;
     }
     
     private function GetExistedDocumentTemplate(){
@@ -616,63 +633,45 @@ class Formview_Controller extends Common_Controller {
         $input_type = $data['input_type'];//method
         $dataType = '(NULL)';
 
-        $document->CleanMultipleAnswer($data);
+//        $document->CleanMultipleAnswer($data);
         
         if ($input_type=='METHOD') {
             $method = $this->form_array($_REQUEST['basicMethod']);
             $methodCode = $method['methodList'];
         }
         else if($input_type=='MULTIPLE ANSWER'){
-//            $methodCode = '(NULL)';
-//            $basic = $this->form_array($_REQUEST['basicMultAns']);
-//            $a = 1;
-//            $b = 1;
-//            
-//            #PARENT
-//            while($basic['multi_ans_desc'.$a]!== null):
-//                $multipleDesc = $basic['multi_ans_desc'.$a];
-//                $sorting = $a;
-//                $multiple_type = $basic['multi_input_type'.$a];
-//                
-//                $c = $a.'-'.$b;
-//                
-//                while($basic['show_label'.$c]!== null):
-//                $show_label = $basic['show_label'.$c];
-//                $ref_desc = $basic['ref_desc'.$c];
-//                
-////                $d = $c.'-'.$b;
-////                
-////                    while($basic['multi_child_ans_desc'.$d]!== null):
-////                        $multipleChildDesc = $basic['multi_child_ans_desc'.$d];
-////                        $sortingChild = $b;
-////                        $multipleChild_type = $basic['multi_child_input_type'.$d];
-////                        
-////                        $childmult = array(
-////                        'child_multiple_desc' => $multipleChildDesc,
-////                        'child_sorting' => $sortingChild,
-////                        'child_input_type' => $multipleChild_type
-////                        );
-////                        print_r($childmult);
-////
-////                    $d++;
-////                    endwhile;
-//
-//                $c++;
-//                $b++;
-//                endwhile;
-//                
-//                $mult = array(
-//                'multiple_desc' => $multipleDesc,
-//                'sorting' => $sorting,
-//                'input_type' => $multiple_type,
-//                'show_label' => (isset($show_label)) ? $show_label : false,
-//                'ref_desc' => (isset($ref_desc)) ? $ref_desc : false
-//                );
-//                print_r($mult);
-//                
-//            $a++;  
-//            endwhile;
-//            
+            $methodCode = '(NULL)';
+            $basic = $this->form_array($_REQUEST['basicMultAns']);
+            
+            echo '<pre>';
+            print_r($basic);
+            echo '</pre>';
+            
+            $multi_ans = array_intersect_key($basic, array_flip(preg_grep('/(^multi_ans_desc|^multi_input_type)/', array_keys($basic))));
+            //sort into []
+            $data_array = array_values($multi_ans);
+            
+            $odd = array();
+            $even = array();
+            foreach($data_array as $k => $v):
+                if ($k % 2 == 0):
+                    $even[] = $v;
+                else:
+                    $odd[] = $v;
+                endif;
+            endforeach;
+            
+            $result = array();
+            $l = count($even);
+            for ($i=0; $i < $l; $i++):
+                $combined[] = $even[$i];
+                $combined[] = $odd[$i];
+                $result[$even[$i]] = array(
+                    'multiple_answer' => $even[$i],
+                    'input_type' => $odd[$i]
+                );
+            endfor;
+            print_r(json_encode($result));
         }
         else{
                $methodCode = '(NULL)';  
@@ -688,8 +687,8 @@ class Formview_Controller extends Common_Controller {
             'data_type' => $dataType,
             'doc_method_code' => $methodCode
         );
-        print_r($val);
-        $document->UpdateElementToBasic($val);
+//        print_r($val);
+//        $document->UpdateElementToBasic($val);
         return true;
         
     }
