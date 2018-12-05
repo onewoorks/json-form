@@ -16,9 +16,12 @@ define('MODEL', 'application/models');
 define('INCLUDES', 'application/includes');
 define('SITE', 'application/');
 define('SCRIPTS', 'application/views/scripts/');
-define('SITE_ROOT', 'http://localhost/'.APPS_NAME.'/');
-//define('SITE_ROOT', 'https://his-json-form.herokuapp.com/');
-define('URL_ARRAY','1');
+define('URL_ARRAY','2');
 
+$_SESSION['project_path'] = $params[URL_ARRAY];
+define('SITE_ROOT', 'http://localhost/'.APPS_NAME.'/'.$_SESSION['project_path']);
+define('SITE_ASSET','http://localhost/'.APPS_NAME.'/');
+define('PROJECT_PATH', $_SESSION['project_path']);
 require_once(SERVER_ROOT . 'application/controllers/router.php');
+
 // ob_end_flush();
