@@ -4,16 +4,16 @@
         <title>CD Document JSON Generator</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="json form formatted from structured dataset">
-        <link href="<?php echo SITE_ROOT; ?>/assets/library/bootstrap/css/bootstrap.css" rel="stylesheet">
-        <script src="<?php echo SITE_ROOT; ?>/assets/library/ajax/jquery/2.1.4/jquery.js"></script>
-        <script src="<?php echo SITE_ROOT; ?>/assets/library/bootstrap/js/bootstrap.js"></script> 
-        <link href="<?php echo SITE_ROOT; ?>/assets/library/summernote/summernote.css" rel="stylesheet">
-        <script src="<?php echo SITE_ROOT; ?>/assets/library/summernote/summernote.js"></script>
-        <script src="<?php echo SITE_ROOT; ?>/assets/library/sweetalert/sweetalert.min.js"></script>
-        <link href="<?php echo SITE_ROOT; ?>/assets/library/sweetalert/sweetalert.css" rel="stylesheet" type="text/css" />
-        <link href='<?php echo SITE_ROOT;?>/assets/library/datepicker/css/datepicker.css' rel="stylesheet" />
+        <link href="<?php echo SITE_ASSET; ?>/assets/library/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <script src="<?php echo SITE_ASSET; ?>/assets/library/ajax/jquery/2.1.4/jquery.js"></script>
+        <script src="<?php echo SITE_ASSET; ?>/assets/library/bootstrap/js/bootstrap.js"></script> 
+        <link href="<?php echo SITE_ASSET; ?>/assets/library/summernote/summernote.css" rel="stylesheet">
+        <script src="<?php echo SITE_ASSET; ?>/assets/library/summernote/summernote.js"></script>
+        <script src="<?php echo SITE_ASSET; ?>/assets/library/sweetalert/sweetalert.min.js"></script>
+        <link href="<?php echo SITE_ASSET; ?>/assets/library/sweetalert/sweetalert.css" rel="stylesheet" type="text/css" />
+        <link href='<?php echo SITE_ASSET;?>/assets/library/datepicker/css/datepicker.css' rel="stylesheet" />
         <link href="//use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"  rel="stylesheet">
-        <script src="<?php echo SITE_ROOT; ?>/assets/library/ajax/jquery/1.5.0-rc1/Sortable.js"></script>
+        <script src="<?php echo SITE_ASSET; ?>/assets/library/ajax/jquery/1.5.0-rc1/Sortable.js"></script>
     </head>
     
     <div class="row">
@@ -24,7 +24,7 @@
                 <label class='control-label' style='padding: 15px;font-size: 15px'><b><?= $document_title; ?>&nbsp;</b></label>
                 <div class="btn btn-primary btn-xs editTitle"></i>Edit Title</div>
                 <div class="btn btn-primary btn-xs pull-right updateSection" style="margin-top:15px"></i>Update Section Sorting</div>
-                <div class="btn btn-primary btn-xs pull-right updateElement hidden" style="margin-top:15px"></i>Update Element Sorting</div>
+                <div class="btn btn-primary btn-xs pull-right updateElement" style="margin-top:15px"></i>Update Element Sorting</div>
                 </div>
             </div>
 	<div id="panel-group1" class="panel-group" role="tablist">
@@ -50,13 +50,13 @@
                                 <?php $column = $section->layout;switch ($column):case '1': $set=12;?>
                                 <?php foreach ($section->elements as $elem => $element): $thecode=$element->element_code;if($element->element_code === $element->child_element_code):?>
                                 <div class='form-group form-group-sm' data-elemsort='<?= $elem; ?>'style='border:1px solid #ccc; margin:4px;cursor:move'>
-                                    <label class='control-label col-md-6' style='padding-top:7px;text-align: right' data-elem="<?= $element->element_code; ?>"><?= $element->element_desc; ?></label>
+                                    <label class='control-label col-md-6' style='padding-top:7px;text-align: right' data-elem="<?= $element->element_code; ?>" data-sectioncode='<?= $section->section_code; ?>'><?= $element->element_desc; ?></label>
                                     <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
                                     <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
                                 </div>
                                 <?php else:?>
                                 <div class='form-group form-group-sm' data-elemsort='<?= $elem; ?>'style='border:1px solid #ccc; margin:4px;cursor:move'>
-                                    <label class='control-label col-md-6' style='padding-top:7px;text-align: right;color:#737373' data-elem="<?= $element->element_code; ?>"><?= $element->element_desc; ?></label>
+                                    <label class='control-label col-md-6' style='padding-top:7px;text-align: right;color:#737373' data-elem="<?= $element->element_code; ?>" data-sectioncode='<?= $section->section_code; ?>'><?= $element->element_desc; ?></label>
                                     <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
                                     <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
                                 </div>
@@ -75,13 +75,13 @@
                                 ?>
                                 <?php foreach ($section->elements as $elem => $element): if($element->element_position===$position):$thecode=$element->element_code;if($element->element_code === $element->child_element_code):?> 
                                 <div class='form-group form-group-sm'  data-elemsort='<?= $elem; ?>' style='border:1px solid #ccc;margin:4px;cursor:move'>
-                                    <label class='control-label col-md-6' style='padding-top:7px;text-align: right' data-elem="<?= $element->element_code; ?>"><?= $element->element_desc; ?></label>
+                                    <label class='control-label col-md-6' style='padding-top:7px;text-align: right' data-elem="<?= $element->element_code; ?>" data-sectioncode='<?= $section->section_code; ?>'><?= $element->element_desc; ?></label>
                                     <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
                                     <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
                                 </div>    
                                 <?php else:?>
                                 <div class='form-group form-group-sm' data-elemsort='<?= $elem; ?>'style='border:1px solid #ccc; margin:4px;cursor:move'>
-                                    <label class='control-label col-md-6' style='padding-top:7px;text-align: right;color:#737373' data-elem="<?= $element->element_code; ?>"><?= $element->element_desc; ?></label>
+                                    <label class='control-label col-md-6' style='padding-top:7px;text-align: right;color:#737373' data-elem="<?= $element->element_code; ?>" data-sectioncode='<?= $section->section_code; ?>'><?= $element->element_desc; ?></label>
                                     <div class='btn btn-link editElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
                                     <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code;?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
                                 </div>
@@ -220,23 +220,28 @@
         });
         
         $('.updateElement').click(function () {
-            var docId = '<?= $document_id;?>';
+            var docId = JSON.stringify(<?= $document_id;?>);
             var data_array = [];
-            
+            data_array.push({'docId':docId});
         $(".list-group").each(function(){
             var section = $(this).attr('data-sectioncode');  
             
             $(this).find('label.control-label').each(function(){
+                var current = $(this).attr('data-sectioncode');
                 for(var i in $(this).data()){
                 var element = $(this).data(i);
                 }
-                data_array.push({'section':section, 'element':element}); 
+                data_array.push({'section':section,'element':element,'current':current}); 
             });
         });
-
+        
+        var curr_data = JSON.stringify(data_array);
+        console.log('curr_data',curr_data);
+        
          $.ajax({
                 url : '<?= SITE_ROOT;?>/formview/update-attributes2/',
-                data : {data_array:data_array,docId:docId},
+                type : 'POST',
+                data : {data_array:curr_data},
                 success : function(){
                     $('#myModal').modal('hide');
                     swal({
