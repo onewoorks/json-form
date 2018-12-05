@@ -58,46 +58,26 @@ class Document_Template_Model {
                 . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
                 . "LEFT JOIN ref_main_disciplines md ON(gd.main_discipline_code=md.main_discipline_code)"
                 . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)" 
-                . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)"
-                . "WHERE gd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','PS','RL') ";
-                    if($discipline!="0"){
-                         $sql.="AND gd.main_discipline_code = '$discipline' ";
-                     }
-                    if($subDiscipline!="0"){
-                        $sql.="AND gd.discipline_code = '$subDiscipline'";
-                    }
-                    if($docType!="0"){
-                        $sql.="AND d.dc_type_code = '$docType' ";
-                    }
-                    if($docGroup!="0"){
-                        $sql.="AND rdt.doc_group_code = '$docGroup' ";
-                    }
+                . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code) ";
+                if(PROJECT_PATH == 'cd'):
+                $sql .= "WHERE gd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','PS','RL') ";
+                else:
+         //       $discipline = '08';
+                $sql .= "WHERE gd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('RR') ";
+                endif;
+                if($discipline!="0"){
+                    $sql.="AND gd.main_discipline_code = '$discipline' ";
+                }
+                if($subDiscipline!="0"){
+                    $sql.="AND gd.discipline_code = '$subDiscipline'";
+                }
+                if($docType!="0"){
+                    $sql.="AND d.dc_type_code = '$docType' ";
+                }
+                if($docGroup!="0"){
+                    $sql.="AND rdt.doc_group_code = '$docGroup' ";
+                }
                     $sql.="GROUP BY de.doc_name_id ORDER BY gd.main_discipline_code,gd.discipline_name ASC"; 
-                    
-//        $sql = "SELECT d.doc_name_id, dt.template_id, d.doc_name_desc, gd.discipline_name,rdt.dc_type_desc,md.main_discipline_name, "
-//                . "(case when ((SELECT doc_name_id FROM document_template WHERE doc_name_id = d.doc_name_id ) IS NULL) then false else true end) as available "
-//                . "FROM document_element de INNER JOIN document d ON(d.doc_name_id=de.doc_name_id) "
-//                . "INNER JOIN document_template dt ON (dt.doc_name_id=d.doc_name_id) "
-//                . "INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code) "
-//                . "INNER JOIN ref_document_element rde ON (rde.element_code=de.parent_element_code) "
-//                . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
-//                . "INNER JOIN ref_document_element rdee ON (rdee.element_code=de.child_element_code) "
-//                . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
-//                . "LEFT JOIN ref_main_disciplines md ON(gd.main_discipline_code=md.main_discipline_code)"
-//                . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)" 
-//                . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)"
-//                . "WHERE gd.main_discipline_code = '$discipline' ";
-//                    if($subDiscipline!="0"){
-//                        $sql.="AND gd.discipline_code = '$subDiscipline'";
-//                    }
-//                    if($docType!="0"){
-//                        $sql.="AND d.dc_type_code = '$docType' ";
-//                    }
-//                    if($docGroup!="0"){
-//                        $sql.="AND rdt.doc_group_code = '$docGroup' ";
-//                    }
-//                    $sql.="GROUP BY de.doc_name_id ORDER BY gd.main_discipline_code,gd.discipline_name ASC";             
-                    
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -228,9 +208,12 @@ class Document_Template_Model {
                 . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
                 . "LEFT JOIN ref_main_disciplines rmd ON(rmd.main_discipline_code=gd.main_discipline_code) "
                 . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)"
-                . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)"
-                . "WHERE rmd.module='cd' AND rdg.doc_group_code IN ('CN','RL','PS')";
-        
+                . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)";
+            if(PROJECT_PATH == 'cd'):
+            $sql .= "WHERE rmd.module='cd' AND rdg.doc_group_code IN ('CN','RL','PS') ";
+            else:
+            $sql .= "WHERE rmd.main_discipline_code = '08' AND rdg.doc_group_code IN ('RR') ";
+            endif;
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -240,7 +223,6 @@ class Document_Template_Model {
 
         public function GetFilterListByGroupType($documentArray) {
         $discipline = $documentArray['discipline'];
-//        $subDiscipline = $documentArray['general_discipline'];
         if(isset($documentArray['general_discipline'])){
         $subDiscipline = $documentArray['general_discipline'];}else{ $subDiscipline =0; } 
         $docGroup = $documentArray['doc_group'];
@@ -253,20 +235,25 @@ class Document_Template_Model {
                 . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
                 . "LEFT JOIN ref_main_disciplines rmd ON(rmd.main_discipline_code=gd.main_discipline_code) "
                 . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code) "
-                . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)"
-                . "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','RL','PS')" ;
-                if($discipline!="0"){
-                    $sql.="AND gd.main_discipline_code = '$discipline' ";
-                }
-                if($subDiscipline!="0"){
-                    $sql.="AND gd.discipline_code = '$subDiscipline' ";
-                }
-                if($docType!="0"){
-                    $sql.="AND d.dc_type_code = '$docType' ";
-                }
-                if($docGroup!="0"){
-                    $sql.="AND d.doc_group_code = '$docGroup'";
-                }
+                . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)" ;
+            if(PROJECT_PATH == 'cd'):
+            $sql .= "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','RL','PS') ";
+            else:
+    //        $discipline = '08';    
+            $sql .= "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('RR') ";
+            endif;
+            if($discipline!="0"){
+                $sql.="AND gd.main_discipline_code = '$discipline' ";
+            }
+            if($subDiscipline!="0"){
+                $sql.="AND gd.discipline_code = '$subDiscipline' ";
+            }
+            if($docType!="0"){
+                $sql.="AND d.dc_type_code = '$docType' ";
+            }
+            if($docGroup!="0"){
+                $sql.="AND d.doc_group_code = '$docGroup'";
+            }
                 $sql.="AND d.active_status='1' ORDER BY COALESCE(dt.updated_date,dt.created_date) DESC";
         $this->db->connect();
         $this->db->prepare($sql);
@@ -639,10 +626,10 @@ class Document_Template_Model {
         return $result;
     }
     
-    public function UpdateElementSorting(array $output) {
+    public function UpdateElementSorting($output) {
         $sql = "UPDATE document_element SET "
                 ."sorting = '".(int)$output['sorting']."', section_code='".(int)$output['section_code']."' "
-                ."WHERE doc_name_id='".(int)$output['doc_name_id']."' AND parent_element_code='".(int)$output['element_code']."' ";
+                ."WHERE doc_name_id='".(int)$output['doc_name_id']."' AND parent_element_code='".(int)$output['element_code']."' AND section_code='".(int)$output['current']."' ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
