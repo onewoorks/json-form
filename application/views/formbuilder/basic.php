@@ -182,7 +182,7 @@ $(document).ready(function(){
         var n = $('.text-box'+replace+'').length + 1;
         
 	var $html = '<div class="text-box'+replace+'">';
-        $html += '<input type="hidden" id="sorting_child'+replace+'" class="sorting_child'+replace+'" name="SortChild'+replace+'[]" />';
+        $html += '<input type="hidden" id="sorting_child'+replace+'" class="sorting_child'+replace+'" name="SortChild'+replace+'" />';
         $html += '<div class="'+div+'-'+next+'">';
 	$html += ' <div class="form-group form-group-sm input-list">';
         $html += '<label class="control-label col-sm-4">Child<span class="box-number'+replace+'">' + n + '</span></label>';
