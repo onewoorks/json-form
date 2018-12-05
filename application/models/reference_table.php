@@ -44,7 +44,12 @@ class Reference_Table_Model  { //dari class sini
     
     public function MainDisciplineGroup(){
         $sql = "SELECT main_discipline_code as code, main_discipline_name as label "
-                . " FROM ref_main_disciplines WHERE module='cd' ORDER BY main_discipline_name ASC";
+                . " FROM ref_main_disciplines ";
+        if(PROJECT_PATH == 'cd'):
+        $sql .= "WHERE module='cd' ORDER BY main_discipline_name ASC ";
+        else:
+        $sql .= "WHERE main_discipline_code = '08' ";
+        endif;
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -72,9 +77,13 @@ class Reference_Table_Model  { //dari class sini
         return ($result) ? $result : false;
     }
     public function DocumentGroup() {
-        $sql = "SELECT doc_group_code as code, doc_group_desc as label"
-                . " FROM ref_document_group"
-                . " WHERE doc_group_code IN ('CN','RL','PS')";
+        $sql = "SELECT doc_group_code as code, doc_group_desc as label "
+                . " FROM ref_document_group ";
+        if(PROJECT_PATH == 'cd'):
+        $sql .= "WHERE doc_group_code IN ('CN','RL','PS') ";
+        else:
+        $sql .= "WHERE doc_group_code IN ('RR') ";
+        endif;
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -86,9 +95,6 @@ class Reference_Table_Model  { //dari class sini
         $sql = "SELECT dc_type_code as code, dc_type_desc as label"
                 . " FROM ref_document_type "
                 . " WHERE doc_group_code ='$groupCode'";
-//        if ($groupCode):
-//            $sql .= " WHERE doc_group_code = '$groupCode'";
-//        endif;
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -109,9 +115,12 @@ class Reference_Table_Model  { //dari class sini
     
     public function DocumentDisFiltering($disCode = null) {
         $sql = "SELECT discipline_code as code, discipline_name as label"
-                . " FROM ref_generaldisciplines "
-                . " WHERE main_discipline_code = '$disCode'"
-                . " AND module = 'CD'";
+                . " FROM ref_generaldisciplines ";
+        if(PROJECT_PATH == 'cd'):
+        $sql .= "WHERE main_discipline_code = '$disCode' AND module = 'CD' ";
+        else:
+        $sql .= "WHERE main_discipline_code = '$disCode' ";
+        endif;
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
