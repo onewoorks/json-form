@@ -242,16 +242,15 @@
             var type = '';
             
             $(input).each(function (key, value) {
-                $(input).each(function (key, templateId) {
-               
-                    if($(this).attr('class')==='checkAda'){
-                        type = 'regenerate';
-                    } else {
-                        type = 'add';
-                    }
-                    var item = { doc_name_id: $(value).val(), template_id: $(templateId).val()};
-                    selected.push(item);
-              });
+                console.log('execute: ',key,value);
+                
+                if($(this).attr('class')==='checkAda'){
+                    type = 'regenerate';
+                } else {
+                    type = 'add';
+                }
+                var item = { doc_name_id: $(value).val()};
+                selected.push(item);
            });
           
             $(this).text('Executing selected action...');
