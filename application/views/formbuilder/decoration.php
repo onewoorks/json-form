@@ -19,7 +19,7 @@
     </div>
 
     <div class='form-group form-group-sm'>
-        <label class='control-label col-sm-4'>Parent</label>
+        <label class='control-label col-sm-2'>Parent</label>
         <div class='col-sm-8'>
                      <label class="radio-inline">
                             <input name="setparent" type="radio" value="parent" <?php if($dat==='parent'){echo 'checked';} ?>> Yes
@@ -31,7 +31,7 @@
     </div>
     
     <div class='form-group form-group-sm'>
-        <label class='control-label col-sm-4'>Style</label>
+        <label class='control-label col-sm-2'>Style</label>
         <div class='col-sm-8' id="decostyle">
             <div class="radio">
                 <label>

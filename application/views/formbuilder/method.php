@@ -6,7 +6,7 @@
             <input type="hidden" name='docmethodcode' value="<?= $vars['doc_method_code'];?>" />
     </div>
     <div class='form-group form-group-sm'>
-        <label class='control-label col-sm-4'>Method</label>
+        <label class='control-label col-sm-2'>Method</label>
                 <div class="col-sm-8">                      
                     <select name='method_name' class='form-control'> 
                         <?php if ($vars['doc_method_code']!= null):

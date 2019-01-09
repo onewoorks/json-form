@@ -1,42 +1,45 @@
 <div class="panel-body">
                         
                         <div class="form-group form-group-sm">
-                                <input type="hidden" name='elementCode' value="" />
-                                <input type="hidden" name='documentId' value="" />
+                                <input type="hidden" name='elementCode' value="<?= $vars['element_code'];?>" />
+                                <input type="hidden" name='documentId' value="<?= $vars['document_id'];?>" />
+                                <select id="element_desc" hidden>
+                                    <?=ListElementDesc();?>
+                                </select>
                         </div>
                                                                      
                         <div class="form-group form-group-sm">
-                            <label class="control-label col-sm-3">Input Type</label>
+                            <label class="control-label col-sm-2">Input Type</label>
                             <div class="col-sm-8">
                                 <div>          
                                     <label class="radio-inline">
-                                        <input type="radio" name='input_type'  value="FREETEXT"> Freetext
+                                        <input type="radio" name='input_type'  value="FREETEXT" > Freetext
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" name='input_type'  value="RICHTEXT"> Richtext
+                                        <input type="radio" name='input_type'  value="RICHTEXT" > Richtext
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" name='input_type'  value="TEXTBOX"> Textbox
+                                        <input type="radio" name='input_type'  value="TEXTBOX" > Textbox
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" name='input_type'  value="METHOD"> Method
+                                        <input type="radio" name='input_type'  value="METHOD" > Method
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" name='input_type'  value="TIME"> Time
+                                        <input type="radio" name='input_type'  value="TIME" > Time
                                     </label>
                                 </div>
                                 <div>
                                     <label class="radio-inline">
-                                        <input type="radio" name='input_type'  value="CALENDER"> Calendar
+                                        <input type="radio" name='input_type'  value="CALENDER" > Calendar
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" name='input_type'  value="NUMERIC"> Numeric                                       
+                                        <input type="radio" name='input_type'  value="NUMERIC" > Numeric                                       
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" name='input_type'  value="ALPHANUMERIC"> Alphanumeric                                       
+                                        <input type="radio" name='input_type'  value="ALPHANUMERIC" > Alphanumeric                                       
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" name='input_type'  value="MULTIPLE ANSWER"> Multiple Answer                                       
+                                        <input type="radio" name='input_type'  value="MULTIPLE ANSWER" > Multiple Answer                                       
                                     </label>
                                 </div>
                             </div>
@@ -48,10 +51,17 @@
                             <div class='prelist1' style="background-color: #f5f5f5">
                                 <p class="text-box" value="1">
                                 <div class="form-group form-group-sm input-list">
-                                    <label class="control-label col-sm-4">Predefined Value<span class="box-number">1</span></label>
-                                    <div class="col-sm-3 list-padding">
+                                    <label class="control-label col-sm-2">Predefined Value<span class="box-number">1</span></label>
+                                    <div class="col-sm-5 list-padding">
+                                        <div class="checkbox" style="margin-left:20px">
+                                        <input type="hidden" id="show_label" name="show_label1" value="0" style="margin-top:6px"/>
+                                        <input type="checkbox" id="show_label" name="show_label1" value="1" style="margin-top:6px"/>
                                         <input type="hidden" value="1" id="sorting" class="sorting" name="SortParent" />
-                                        <input class="col-sm-4 form-control" type="text" id="multi_ans_desc" name="multi_ans_desc1" placeholder="parent: label / title">
+                                        <!--<input class="form-control" type="text" id="multi_ans_desc" name="multi_ans_desc1" placeholder="parent: label / title">-->
+                                        <select id="multi_ans_desc" name="multi_ans_desc1" class="form-control">
+                                            <?=  ListMultiElementDesc();?>
+                                        </select>
+                                        </div>
                                     </div>
                                     <div class="col-sm-3 list-padding">
                                         <select id="multi_input_type" name="multi_input_type1" class="form-control">
@@ -83,6 +93,7 @@ $(document).ready(function(){
 	var count = 2;
 	var next = 1;
         var option =$('#multi_input_type').html();
+        var list = $('#multi_ans_desc').html();
         
 	//ADD DIV PARENT
 	$('#predefinedList').on('click','.addPredefined', function(){
@@ -91,10 +102,14 @@ $(document).ready(function(){
 	var $html = '<div class="prelist'+count+'" style="background-color: #f5f5f5">';
         $html += '<p class="text-box">';
         $html += '<div class="form-group form-group-sm input-list">';
-        $html += '<label class="control-label col-sm-4">Predefined Value<span class="box-number">' + n + '</span></label>';
-        $html += '<div class="col-sm-3 list-padding">';
+        $html += '<label class="control-label col-sm-2">Predefined Value<span class="box-number">' + n + '</span></label>';
+        $html += '<div class="col-sm-5 list-padding">';
+        $html += '<div class="checkbox" style="margin-left:20px">';
+        $html += '<input type="hidden" id="show_label" name="show_label'+count+'" value="0" style="margin-top:6px"/>';
+        $html += '<input type="checkbox" id="show_label" name="show_label'+count+'" value="1" style="margin-top:6px"/>';
         $html += '<input type="hidden" id="sorting" class="sorting" name="SortParent" />';
-	$html += '<input class="col-sm-4 form-control" type="text" name="multi_ans_desc" id="multi_ans_desc" placeholder="parent: label / title"/>';
+        $html += '<select name="multi_ans_desc'+count+'" id="multi_ans_desc"  class="form-control">'+list+'</select>';
+        $html += '</div>';
         $html += '</div>';
         $html += '<div class="col-sm-3 list-padding">';
         $html += '<select id="multi_input_type" name="multi_input_type" class="form-control">'+option+'</select>';
@@ -116,14 +131,16 @@ $(document).ready(function(){
         next = 1;
         var div = $(this).parents("div").eq(2).attr("class");
         var replace = div.replace('prelist','');
+        var element = $('#element_desc').html();
 	
 	var $html = '<div class="'+div+'-'+next+'">';
 	$html += ' <div class="form-group form-group-sm input-list">';
-        $html += '<label class="control-label col-sm-4"></label>';
+        $html += '<label class="control-label col-sm-3"></label>';
         $html += '<div class="checkbox">';
         $html += '<div class="col-sm-4 list-padding">';
-        $html += '<input type="checkbox" id="show_label" name="show_label'+replace+'-'+next+'" value="1" style="margin-top:6px" checked/>';
-	$html += '<input class="col-sm-3 form-control" type="text" name="ref_desc'+replace+'-'+next+'" id="ref_desc" placeholder="show label: 1 / 0" />';
+        $html += '<input type="hidden" id="show_label_child" name="show_label_child'+replace+'-'+next+'" value="0" style="margin-top:6px" />';
+        $html += '<input type="checkbox" id="show_label_child" name="show_label_child'+replace+'-'+next+'" value="1" style="margin-top:6px" />';
+        $html += '<select class="form-control" name="ref_desc'+replace+'-'+next+'" id="ref_desc" >'+element+'</select>';
         $html += '</div>';
         $html += '<div class="col-sm-2 predefinedActionButton" data-action="'+div+'-'+next+'">';
         $html += '<div class="btn btn-default btn-sm deleteLabel" style="padding:5px"><i class="glyphicon glyphicon-trash"></i></div>&nbsp';
@@ -134,13 +151,6 @@ $(document).ready(function(){
 
         $(this).closest('.addLayer').addClass("hidden");
 	$($html).appendTo('.'+div+'');
-        
-        $('#show_label'+replace+'-'+next+'').change(function(){            
-            if (!$(this).is(':checked')) {
-                document.getElementById('show_label'+replace+'-'+next+'').value = '0';}
-            else{
-                document.getElementById('show_label'+replace+'-'+next+'').value = '1';}
-        });
 
 	});
 	
@@ -151,12 +161,16 @@ $(document).ready(function(){
         var n = $('.text-box'+replace+'').length + 1;
         
 	var $html = '<div class="text-box'+replace+'">';
-        $html += '<input type="hidden" id="sorting_child'+replace+'" class="sorting_child'+replace+'" name="SortChild'+replace+'[]" />';
+        $html += '<input type="hidden" id="sorting_child'+replace+'" class="sorting_child'+replace+'" name="SortChild'+replace+'" />';
         $html += '<div class="'+div+'-'+next+'">';
 	$html += ' <div class="form-group form-group-sm input-list">';
-        $html += '<label class="control-label col-sm-4">Child<span class="box-number'+replace+'">' + n + '</span></label>';
-        $html += '<div class="col-sm-3 list-padding">';
-	$html += '<input class="col-sm-4 form-control" type="text" name="multi_child_ans_desc'+replace+'-'+next+'" id="multi_child_ans_desc" placeholder="child: label / title" />';
+        $html += '<label class="control-label col-sm-3">Child<span class="box-number'+replace+'">' + n + '</span></label>';
+        $html += '<div class="col-sm-4 list-padding">';
+        $html += '<div class="checkbox">';
+        $html += '<input type="hidden" style="margin-top:6px" name="show_label'+replace+'-'+next+'" id="show_label" value="0"/>';
+        $html += '<input type="checkbox" style="margin-top:6px" name="show_label'+replace+'-'+next+'" id="show_label" value="1"/>';
+        $html += '<select class="form-control" name="multi_child_ans_desc'+replace+'-'+next+'" id="multi_child_ans_desc">'+list+'</select>';
+        $html += '</div>';
         $html += '</div>';
         $html += '<div class="col-sm-3 list-padding">';
         $html += '<select id="multi_child_input_type" name="multi_child_input_type'+replace+'-'+next+'" class="form-control">'+option+'</select>';
