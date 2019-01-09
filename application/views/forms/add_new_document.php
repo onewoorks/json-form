@@ -118,7 +118,7 @@
                     console.log(data);
                     $('#myModal').modal('hide');
                     swal({
-                        title: "Element Updated!",
+                        title: "New Element Updated!",
                         text: "Data successfully updated into database",
                         type: "success"
                     });
