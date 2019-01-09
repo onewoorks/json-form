@@ -802,8 +802,8 @@ class Document_Template_Model {
     public function InsertParentMultiAnswer($docID, $elementID, $multi) {
 
         if ($multi['ref_element_code'] === '(NULL)' && $multi['show_label_child'] === '(NULL)'):
-            $sql = "INSERT INTO ref_multiple_answer (doc_name_id, element_code, multiple_desc_code, sorting, input_type, method, parent_element_code, child_element_code, show_label, active, updated_by, updated_date) "
-                    . "VALUES ('" . (int) $docID . "', '" . (int) $elementID . "', '" . $multi['multi_ans_code'] . "', '" . $multi['sorting'] . "', '" . $multi['multi_input_type'] . "', (NULL), (NULL), (NULL), '" . $multi['show_label'] . "', '1', 'ADMIN', now()) ";
+            $sql = "INSERT INTO ref_multiple_answer (doc_name_id, element_code, multiple_desc_code, sorting, input_type, method, parent_element_code, child_element_code, show_label, active, updated_by, updated_date, multi_answer_desc) "
+                    . "VALUES ('" . (int) $docID . "', '" . (int) $elementID . "', '" . $multi['multi_ans_code'] . "', '" . $multi['sorting'] . "', '" . $multi['multi_input_type'] . "', (NULL), (NULL), (NULL), '" . $multi['show_label'] . "', '1', 'ADMIN', now(),(SELECT multiple_desc FROM ref_multiple_desc WHERE multiple_desc_code = '" . $multi['multi_ans_code'] . "' LIMIT 1)) ";
         else:
             $sql = "INSERT INTO ref_multiple_answer (doc_name_id, element_code, multiple_desc_code, sorting, input_type, method, parent_element_code, child_element_code, show_label, active, updated_by, updated_date) "
                     . "VALUES ('" . (int) $docID . "', '" . (int) $elementID . "', '" . $multi['multi_ans_code'] . "', '" . $multi['sorting'] . "', '" . $multi['multi_input_type'] . "', (NULL), (NULL), (NULL), '" . $multi['show_label'] . "', '1', 'ADMIN', now()); "
