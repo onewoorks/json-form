@@ -596,28 +596,31 @@ class Formview_Controller extends Common_Controller {
 
                 $x = 1;
                 $y = 1;
-                foreach ($resultS as $keyS => $valueS):
-                    foreach ($resultE as $keyE => $valueE):
-                        $filteredNumbers = array_filter(preg_split("/\D+/", $keyE));
-                        $firstOccurence = reset($filteredNumbers);
-                        if ($firstOccurence == $x):
-                            $outputS = array(
-                                'section_sorting' => $x,
-                                'section_code' => $valueS,
-                                'parent_element_code' => $valueE,
-                                'sorting' => $y,
-                                'doc_name_id' => $resultD->doc_name_desc
-                            );
-                            $y++;
+                if ($resultS):
+                    foreach ($resultS as $keyS => $valueS):
+                        foreach ($resultE as $keyE => $valueE):
+                            $filteredNumbers = array_filter(preg_split("/\D+/", $keyE));
+                            $firstOccurence = reset($filteredNumbers);
+                            if ($firstOccurence == $x):
+                                $outputS = array(
+                                    'section_sorting' => $x,
+                                    'section_code' => $valueS,
+                                    'parent_element_code' => $valueE,
+                                    'sorting' => $y,
+                                    'doc_name_id' => $resultD->doc_name_desc
+                                );
+                                $y++;
 //                            echo '<pre>';
 //                            print_r($outputS);
 //                            echo '</pre>';
-                            $document->InsertNewForm($outputS);
-                        endif;
+                                $document->InsertNewForm($outputS);
+                            endif;
+                        endforeach;
+                        $y = 1;
+                        $x++;
                     endforeach;
-                    $y = 1;
-                    $x++;
-                endforeach;
+                endif;
+
                 break;
 
             default:
@@ -866,7 +869,7 @@ class Formview_Controller extends Common_Controller {
         $mapper_data = json_decode($new_data['basicSubSec'], true); //dri basic->ajax_element_form_group
         $subSec = $this->mapper($mapper_data);
     }
-    
+
     private function CaseDecorationNew(array $data) {
         $document = new Document_Template_Model();
         $docID = $data['documentId'];
@@ -890,7 +893,7 @@ class Formview_Controller extends Common_Controller {
         foreach ($childId as $key) {
             $document->CleanChild($docID, $key['parent_element_code']);
         }
-        $document->CleanMultipleAnswer($data);
+//        $document->CleanMultipleAnswer($data);
         $document->UpdateElementDetails($val);
         return true;
     }
@@ -1027,8 +1030,12 @@ class Formview_Controller extends Common_Controller {
     }
 
     private function CaseSubsectionNew(array $data, $new_data) {
+        $document = new Document_Template_Model();
         $mapper_data = json_decode($new_data['basicSubSec'], true); //dri basic->ajax_element_form_group
         $subSec = $this->mapper($mapper_data);
+        
+        $document->UpdateElementDetails($val);
+        return true;
     }
 
 }
