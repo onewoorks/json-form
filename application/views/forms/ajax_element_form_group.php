@@ -10,8 +10,8 @@
 <input type='hidden' name='data_type' value='<?= $values->data_type; ?>' />
 <input type='hidden' name='method_code' value='<?= $values->doc_method_code; ?>' />
     
-    <div class='form-group form-group-sm'>    
-                <label class='control-label col-sm-9'>Search</label>
+    <div class='form-group form-group-sm' style="margin-right: 0px">    
+                <label class='control-label col-sm-10' style="margin-left:-8px">Search</label>
                 <div class='form-inline'>
                 <input type='text' name='search_desc' id='searchDesc' class='form-control' autocomplete="off" />
                 <input type='hidden' name='element_desc' id='elementName' class='form-control' autocomplete="off" list="elemList" />
@@ -20,24 +20,24 @@
                                         <option value='<?php echo $element['element_desc']; ?>'><?php echo $element['json_element']; ?></option>
                                 <?php endforeach; ?>
                             </datalist>
-                <button type="button" class="btn btn-primary btn-sm searchElement" style='padding-top:5px;padding-bottom:5px'>
+                <button type="button" class="btn btn-primary btn-sm searchElement" style='padding-top:5.4px;padding-bottom:5px'>
                         <span class="glyphicon glyphicon-search"></span>
                 </button>
                 </div>
-                <span class='pull-right' style="font-size: smaller; padding-right: 60px; padding-top:2px;" id="check"></span>
+                <span class='pull-right' style="font-size: smaller; padding-right: 48px; padding-top:1.7px;" id="check"></span>
     </div>
     
-    <div class='panel panel-default'>
+<div class='panel panel-default' style="margin-right: 13px">
         <div class='panel-heading'>Properties</div>
         <div class='panel-body'>
             <div class='form-group form-group-sm'>
-                <label class='control-label col-sm-4'>Element Description</label>
+                <label class='control-label col-sm-2'>Element Description</label>
                 <div class='col-sm-8'>
                     <input type='text' name='element_desc' value='<?= $values->element_desc; ?>' class='form-control' autocomplete="off"/>
                 </div>
             </div>
             <div class="form-group form-group-sm">
-                <label class="control-label col-sm-4">Element Group</label>
+                <label class="control-label col-sm-2">Element Group</label>
                 <div class="col-sm-8">                      
                     <select name='element_group' class='form-control'>
                         <?php foreach ($grouping as $group):
@@ -58,7 +58,7 @@
                 </div>
             </div>
             <div class="form-group form-group-sm">
-                <label class="control-label col-sm-4">Position</label>
+                <label class="control-label col-sm-2">Position</label>
                 <div class="col-sm-8">
                       <label class="radio-inline">
                             <input name="position" type="radio" value="L" <?php if($values->element_position==='L'){echo 'checked';} ?>> Left
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class='form-group form-group-sm'>
-                <label class='control-label col-sm-4'>Element Properties</label>
+                <label class='control-label col-sm-2'>Element Properties</label>
                 <div class='col-sm-8'>
                     <label class='radio-inline'>
                         <input type='radio' name='element_properties' value='DECORATION' <?php if($values->element_properties==='DECORATION'){echo 'checked';} ?>  /> Decoration
@@ -78,7 +78,7 @@
                         <input type='radio' name='element_properties' value='BASIC'<?php if($values->element_properties==='BASIC'){echo 'checked';} ?>/> Basic
                     </label>
                     <label class='radio-inline'>
-                        <input type='hidden' name='element_properties' value='SUBSECTION'<?php if($values->element_properties==='SUBSECTION'){echo 'checked';} ?>/> 
+                        <input type='radio' name='element_properties' value='SUBSECTION'<?php if($values->element_properties==='SUBSECTION'){echo 'checked';} ?>/> Subsection
                     </label>
                 </div>
                 <div id='formelement'></div>
@@ -86,7 +86,7 @@
         </div>
     </div>
 
-    <div class='form-group form-group-sm'>
+    <div class='form-group form-group-sm'  style="margin-right: 0px">
         <label class='control-label col-sm-3'></label>
         <div class='col-sm-12 text-right'>
             <button type='submit' class='btn btn-sm btn-primary'>Update</button>
@@ -126,16 +126,18 @@
     $(function(){
         $('#editElement').submit(function(e){
             e.preventDefault();
-            var method = $('#basicMethod').serializeArray();
-            console.log('ajax_element_form_group: method =',method);
-            var multAns = $('#basicMultAns').serializeArray();
-            var subSec = $('#basicSubSec').serializeArray();
-//            console.log('ajax_element_form_group: multiple answer =',multAns);
+            var datas = JSON.stringify($(this).serializeArray());
+//            console.log('data',datas);
+            var method = JSON.stringify($('#basicMethod').serializeArray());
+            var multAns = JSON.stringify($('#basicMultAns').serializeArray());
+//            console.log('ajax_element_form_group: DATA=',multAns);
+            var subSec = JSON.stringify($('#basicSubSec').serializeArray());
             $.ajax({
                 url : '<?= SITE_ROOT;?>/formview/update-section-element/',
-                data : { values: $(this).serializeArray(),basicMethod:method, basicMultAns:multAns, basicSubSec:subSec},
+                type : 'POST',
+                data : { dummy: null,values: datas,basicMethod:method, basicMultAns:multAns, basicSubSec:subSec},
                 success : function(data){
-                  console.log('ajax_element_form_group: DATA=',data);
+                  console.log(data);
                   $('#myModal').modal('hide');
                   swal({
                       title: "Element Updated!",
@@ -147,7 +149,7 @@
         });
         });
   
-  //SEARCHELEMENT
+    //SEARCHELEMENT
         $('.searchElement').click(function () {
             var values = $('#elementBuilder').serializeArray();
             var search = $("#searchDesc").val();
@@ -161,4 +163,4 @@
              }
         });
         
-</script>
+</script> 

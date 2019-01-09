@@ -1,35 +1,58 @@
 <form id='editElement' class='form-horizontal'>
-    
+
     <div class='panel panel-default'>
         <div class='panel-heading'>Properties</div>
         <div class='panel-body'>
+            <input type='hidden' name='document_id' value='<?= $doc_id; ?>' class='form-control' autocomplete="off"/>
+            <input type='hidden' name='element_code' value='<?= $elemCode; ?>' class='form-control' autocomplete="off"/>
             <div class='form-group form-group-sm'>
-                <label class='control-label col-sm-3'>Element Description</label>
+                <label class='control-label col-sm-2'>Element Description</label>
                 <div class='col-sm-8'>
                     <input type='text' name='element_desc' value='<?= $element; ?>' class='form-control' autocomplete="off"/>
                 </div>
             </div>
             
-            <div class="form-group form-group-sm">
-                <label class="control-label col-sm-3">Position</label>
-                <div class="col-sm-8">
-                      <label class="radio-inline">
-                            <input name="position" type="radio" value="L"> Left
-                     </label>
-                     <label class="radio-inline">
-                            <input name="position" type="radio" value="R"> Right
-                     </label>
+            <div class='form-group form-group-sm'>
+                <label class='control-label col-sm-2'>Element Level</label>
+                <div class='col-sm-8'>
+                    <input type='number' name='element_level' class='form-control' style="width:8%" autocomplete="off"/>
                 </div>
             </div>
-            
+
+            <div class="form-group form-group-sm">
+                <label class="control-label col-sm-2">Element Group</label>
+                <div class="col-sm-8">
+                    <select name="element_group" class="form-control">
+                        <?php foreach ($elements as $element): ?>
+                            <option value='<?php echo $element['element_code']; ?>'><?php echo $element['element_desc']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group form-group-sm">
+                <label class="control-label col-sm-2">Position</label>
+                <div class="col-sm-8">
+                    <label class="radio-inline">
+                        <input name="position" type="radio" value="L"> Left
+                    </label>
+                    <label class="radio-inline">
+                        <input name="position" type="radio" value="R"> Right
+                    </label>
+                </div>
+            </div>
+
             <div class='form-group form-group-sm'>
-                <label class='control-label col-sm-3'>Element Properties</label>
+                <label class='control-label col-sm-2'>Element Properties</label>
                 <div class='col-sm-8'>
                     <label class='radio-inline'>
                         <input type='radio' name='element_properties' value='DECORATION_NEW'/> Decoration
                     </label>
                     <label class='radio-inline'>
                         <input type='radio' name='element_properties' value='BASIC_NEW' checked="checked"/> Basic
+                    </label>
+                    <label class='radio-inline'>
+                        <input type='radio' name='element_properties' value='SUBSECTION_NEW'/> Subsection
                     </label>
                 </div>
                 <div id='formelement'></div>
@@ -58,19 +81,50 @@
             ElementBuilder(selector);
         });
     });
-    
+
     //BAWA KE PAGE->BASIC
     function ElementBuilder(formType) {
-//        console.log(formType);
+//        console.log('formType',formType);
         var formValue = $('#editElement').serializeArray();
 
         $.ajax({
-            url: '<?php echo SITE_ROOT;?>/formbuilder/formelement/',
-            data: {value:formType, params:formValue},
+            url: '<?php echo SITE_ROOT; ?>/formbuilder/formelement/',
+            data: {value: formType, params: formValue},
             success: function (data) {
                 $('#formelement').html(data);
             }
         });
-    };
-            
+    }
+    ;
+
+    //UPDATE_ELEMENT
+    $(function () {
+        $('#editElement').submit(function (e) {
+            e.preventDefault();
+            var datas = JSON.stringify($(this).serializeArray());
+            var method = JSON.stringify($('#basicMethod').serializeArray());
+            var multAns = JSON.stringify($('#basicMultAns').serializeArray());
+            var subSec = JSON.stringify($('#basicSubSec').serializeArray());
+            console.log('datas', datas);
+            console.log('method', method);
+            console.log('multAns', multAns);
+            console.log('subSec', subSec);
+
+            $.ajax({
+                url: '<?= SITE_ROOT; ?>/formview/update-section-element-new/',
+                type: 'POST',
+                data: {dummy: null, values: datas, basicMethod: method, basicMultAns: multAns, basicSubSec: subSec},
+                success: function (data) {
+                    console.log(data);
+                    $('#myModal').modal('hide');
+                    swal({
+                        title: "Element Updated!",
+                        text: "Data successfully updated into database",
+                        type: "success"
+                    });
+                }
+            });
+        });
+    });
+
 </script>
