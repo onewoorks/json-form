@@ -737,9 +737,8 @@ class Formview_Controller extends Common_Controller {
         $input_type = $data['input_type']; //method
         $dataType = '(NULL)';
 
-        $document->CleanMultipleAnswer($data);
-
         if ($input_type == 'METHOD') {
+//        $document->CleanMultipleAnswer($data);
 
             $mapper_data = json_decode($new_data['basicMethod'], true); //dri basic->ajax_element_form_group
             $method = $this->mapper($mapper_data);
@@ -753,6 +752,8 @@ class Formview_Controller extends Common_Controller {
             $this->CaseBasicParent($basic, $docID, $elementID);
             $this->CaseBasicChild($basic, $docID);
         } else {
+//                    $document->CleanMultipleAnswer($data);
+
             $methodCode = '(NULL)';
         }
 
@@ -1033,7 +1034,7 @@ class Formview_Controller extends Common_Controller {
         $document = new Document_Template_Model();
         $mapper_data = json_decode($new_data['basicSubSec'], true); //dri basic->ajax_element_form_group
         $subSec = $this->mapper($mapper_data);
-        
+
         $document->UpdateElementDetails($val);
         return true;
     }
