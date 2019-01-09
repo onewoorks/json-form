@@ -45,7 +45,7 @@ class Reference_List_Model {
 //    }
     
     public function GetReferenceListInMultipleAnswer($elementCode) {
-        $sql = "SELECT * FROM ref_document_element WHERE element_code = '" . (int) $elementCode . "' ";
+        $sql = "SELECT element_code,element_desc FROM ref_document_element WHERE element_code = '" . (int) $elementCode . "' ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -54,7 +54,7 @@ class Reference_List_Model {
     }
     
     public function GetChildMultipleAnswerList($elementCode,$docNameId){
-        $sql= "SELECT DISTINCT a.element_code,a.ref_element_code,a.doc_name_id,c.element_desc,a.show_label,b.multi_answer_desc,b.input_type,b.sorting,b.parent_element_code "  
+        $sql= "SELECT a.element_code,a.ref_element_code,a.doc_name_id,c.element_desc,a.show_label,b.multiple_desc_code,b.multi_answer_desc,b.input_type,b.sorting,b.parent_element_code "  
                 ."FROM ref_multiple_item a "
                 ."LEFT JOIN ref_multiple_answer b ON(a.doc_name_id=b.doc_name_id AND a.element_code=b.element_code AND a.multi_answer_desc=b.multi_answer_desc) "
                 ."LEFT JOIN ref_document_element c ON(c.element_code=a.ref_element_code) "
