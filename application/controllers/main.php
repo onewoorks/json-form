@@ -24,17 +24,17 @@ class Main_Controller extends Common_Controller {
             case 'filter':
                 $ajax = true;
                 $reference = new Reference_Table_Model();
-                if($_REQUEST['group_code']!='0'){
-                $newOptions = $reference->DocumentTypeFiltering($_REQUEST['group_code']);
-                echo $this->SelectOptionBuilder($newOptions);
+                if ($_REQUEST['group_code'] != '0') {
+                    $newOptions = $reference->DocumentTypeFiltering($_REQUEST['group_code']);
+                    echo $this->SelectOptionBuilder($newOptions);
                 }
                 break;
             case 'filter-discipline':
                 $ajax = true;
                 $reference = new Reference_Table_Model();
-                if($_REQUEST['dis_code']!='0'){
-                $newOptions = $reference->DocumentDisFiltering($_REQUEST['dis_code']);
-                echo $this->SelectOptionBuilder($newOptions);
+                if ($_REQUEST['dis_code'] != '0') {
+                    $newOptions = $reference->DocumentDisFiltering($_REQUEST['dis_code']);
+                    echo $this->SelectOptionBuilder($newOptions);
                 }
                 break;
             //30OKT
@@ -46,25 +46,25 @@ class Main_Controller extends Common_Controller {
                 $reference = new Reference_Table_Model();
                 $result['sections'] = $document->GetAllSecDesc();
                 $result['elements'] = $document->GetAllElementDesc();
-                $result['list_of_documents'] = $document->GetFilterListByGroupType($values);  
-                $result['main_discipline'] = $this->RefMainDisciplineGroup();               
-                if($values['discipline']!='0'):
+                $result['list_of_documents'] = $document->GetFilterListByGroupType2($values);
+                $result['main_discipline'] = $this->RefMainDisciplineGroup();
+                if ($values['discipline'] != '0'):
                     $result['general_discipline'] = $reference->DocumentDisFiltering($values['discipline']);
                 endif;
-                $types='0';
-                if($values['discipline']!='0'):
-                   $types=$values['general_discipline'];
+                $types = '0';
+                if ($values['discipline'] != '0'):
+                    $types = $values['general_discipline'];
                 endif;
-                
+
                 $result['doc_group'] = $this->RefDocumentSelectedGroup();
-                if($values['doc_group']!='0'){
-                $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
+                if ($values['doc_group'] != '0') {
+                    $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
                 }
-                $type='0';
-                if($values['doc_group']!='0'){
-                    $type=$values['doc_type'];
+                $type = '0';
+                if ($values['doc_group'] != '0') {
+                    $type = $values['doc_type'];
                 }
-                
+
                 $result['preset_select'] = array(
                     'active_discipline' => $values['discipline'],
                     'active_general' => $types,
@@ -74,7 +74,7 @@ class Main_Controller extends Common_Controller {
                 $view = new View_Model($page);
                 $view->assign('content', $result);
                 break;
-                case 'filter-form-clone':
+            case 'filter-form-clone':
                 $ajax = true;
                 $document = new Document_Template_Model();
                 $values = $this->form_array($_REQUEST['documentValues']);
@@ -82,25 +82,25 @@ class Main_Controller extends Common_Controller {
                 $reference = new Reference_Table_Model();
                 $result['sections'] = $document->GetAllSecDesc();
                 $result['elements'] = $document->GetAllElementDesc();
-                $result['list_of_documents'] = $document->GetFilterListByGroupType($values);  
-                $result['main_discipline'] = $this->RefMainDisciplineGroup();               
-                if($values['discipline']!='0'):
+                $result['list_of_documents'] = $document->GetFilterListByGroupType($values);
+                $result['main_discipline'] = $this->RefMainDisciplineGroup();
+                if ($values['discipline'] != '0'):
                     $result['general_discipline'] = $reference->DocumentDisFiltering($values['discipline']);
                 endif;
-                $types='0';
-                if($values['discipline']!='0'):
-                   $types=$values['general_discipline'];
+                $types = '0';
+                if ($values['discipline'] != '0'):
+                    $types = $values['general_discipline'];
                 endif;
-                
+
                 $result['doc_group'] = $this->RefDocumentSelectedGroup();
-                if($values['doc_group']!='0'){
-                $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
+                if ($values['doc_group'] != '0') {
+                    $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
                 }
-                $type='0';
-                if($values['doc_group']!='0'){
-                    $type=$values['doc_type'];
+                $type = '0';
+                if ($values['doc_group'] != '0') {
+                    $type = $values['doc_type'];
                 }
-                
+
                 $result['preset_select'] = array(
                     'active_discipline' => $values['discipline'],
                     'active_general' => $types,
@@ -117,24 +117,24 @@ class Main_Controller extends Common_Controller {
                 $page = 'forms/generate_json_format';
                 $reference = new Reference_Table_Model();
                 $result['available_documents'] = $document->ReadElementExisted($values);
-                $result['main_discipline'] = $this->RefMainDisciplineGroup();               
-                if($values['discipline']!='0'):
+                $result['main_discipline'] = $this->RefMainDisciplineGroup();
+                if ($values['discipline'] != '0'):
                     $result['general_discipline'] = $reference->DocumentDisFiltering($values['discipline']);
                 endif;
-                $types='0';
-                if($values['discipline']!='0'):
-                   $types=$values['general_discipline'];
+                $types = '0';
+                if ($values['discipline'] != '0'):
+                    $types = $values['general_discipline'];
                 endif;
-                
+
                 $result['doc_group'] = $this->RefDocumentSelectedGroup();
-                if($values['doc_group']!='0'){
-                $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
+                if ($values['doc_group'] != '0') {
+                    $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
                 }
-                $type='0';
-                if($values['doc_group']!='0'){
-                    $type=$values['doc_type'];
+                $type = '0';
+                if ($values['doc_group'] != '0') {
+                    $type = $values['doc_type'];
                 }
-                $result['preset_select'] = array (
+                $result['preset_select'] = array(
                     'active_discipline' => $values['discipline'],
                     'active_general' => $types,
                     'active_group' => $values['doc_group'],
@@ -142,32 +142,32 @@ class Main_Controller extends Common_Controller {
                 );
                 $view = new View_Model($page);
                 $view->assign('content', $result);
-                break;   
+                break;
             case 'search-by-filter':
                 $ajax = true;
                 $document = new Document_Template_Model();
                 $values = $this->form_array($_REQUEST['documentValues']);
                 $page = 'forms/list_of_document';
                 $reference = new Reference_Table_Model();
-                $result['list_of_documents'] = $document->GetFilterListByGroupType($values);  
-                $result['main_discipline'] = $this->RefMainDisciplineGroup();               
-                if($values['discipline']!='0'):
+                $result['list_of_documents'] = $document->GetFilterListByGroupType($values);
+                $result['main_discipline'] = $this->RefMainDisciplineGroup();
+                if ($values['discipline'] != '0'):
                     $result['general_discipline'] = $reference->DocumentDisFiltering($values['discipline']);
                 endif;
-                $types='0';
-                if($values['discipline']!='0'):
-                   $types=$values['general_discipline'];
+                $types = '0';
+                if ($values['discipline'] != '0'):
+                    $types = $values['general_discipline'];
                 endif;
-                
+
                 $result['doc_group'] = $this->RefDocumentSelectedGroup();
-                if($values['doc_group']!='0'){
-                $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
+                if ($values['doc_group'] != '0') {
+                    $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
                 }
-                $type='0';
-                if($values['doc_group']!='0'){
-                    $type=$values['doc_type'];
+                $type = '0';
+                if ($values['doc_group'] != '0') {
+                    $type = $values['doc_type'];
                 }
-                
+
                 $result['preset_select'] = array(
                     'active_discipline' => $values['discipline'],
                     'active_general' => $types,
@@ -187,14 +187,14 @@ class Main_Controller extends Common_Controller {
                 $result['main_discipline'] = $this->RefMainDisciplineGroup();
                 $result['general_discipline'] = $reference->DocumentDisFiltering($values['discipline']);
                 $result['doc_group'] = $this->RefDocumentSelectedGroup();
-                if($values['doc_group']!='0'){
-                $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
+                if ($values['doc_group'] != '0') {
+                    $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
                 }
-                $type='0';
-                if($values['doc_group']!='0'){
-                    $type=$values['doc_type'];
+                $type = '0';
+                if ($values['doc_group'] != '0') {
+                    $type = $values['doc_type'];
                 }
-                $result['preset_select'] = array (
+                $result['preset_select'] = array(
                     'active_discipline' => $values['discipline'],
                     'active_general' => $values['general_discipline'],
                     'active_group' => $values['doc_group'],
@@ -203,7 +203,7 @@ class Main_Controller extends Common_Controller {
                 $result['list_of_titles'] = $document->GetAllTitle();
                 $view = new View_Model($page);
                 $view->assign('content', $result);
-                break;   
+                break;
             //5OKT
             case 'search-title':
                 $ajax = true;
@@ -214,7 +214,7 @@ class Main_Controller extends Common_Controller {
                 $result['list_of_titles'] = $document->searchTitleDesc($search);
                 $view = new View_Model($page);
                 $view->assign('content', $result);
-                break;    
+                break;
             //20JULAI
             case 'search-section':
                 $ajax = true;
@@ -283,10 +283,10 @@ class Main_Controller extends Common_Controller {
         $this->TemplateGeneratorSync($checking);
         return array_values($checking);
     }
-    
-    private function TemplateGeneratorSync(array $docNameId){
+
+    private function TemplateGeneratorSync(array $docNameId) {
         $t = array();
-        foreach($docNameId as $doc):
+        foreach ($docNameId as $doc):
 //            $this->GenerateJSONFormat($doc);
             $t[] = $doc;
         endforeach;

@@ -86,17 +86,17 @@ class Input_Type_Controller extends Common_Controller {
             'doc_name_id' => $element->doc_name_id,
             'layout' => $element->layout,
         );
-     
+
 //        $class->is_multiple_textbox = ($inputType == 'Textbox') ? count($referal->data) :true;
 //        $methodName = ($inputType == 'List') ? 'Listdown' : ucfirst($inputType);
 
-        $methodName=$inputType;
-        if ($methodName){
+        $methodName = $inputType;
+        if ($methodName) {
             $class = new Input_Type_Controller();
             $this->is_parent = $gotChild;
             $class->elementDetail = (object) $multipleAnswerData;
             $methodCheck = $class->VerifyMethod($methodName);
-            $result= ($methodCheck)? $class->$methodName():false;
+            $result = ($methodCheck) ? $class->$methodName() : false;
             return $result;
         }
 //        edited by Fatin Adilah (TEST ELEMENT)        
@@ -137,7 +137,7 @@ class Input_Type_Controller extends Common_Controller {
         }
         return $html;
     }
-    
+
     public function Time() {
         $element = $this->elementDetail;
         if ($element->layout == 1) {
@@ -327,28 +327,28 @@ class Input_Type_Controller extends Common_Controller {
                     if (isset($ref['parent_element_code'])):
 
                         $referal = ReferenceCaller($ref['parent_element_code'], $ref['doc_name_id'], 'child');
-                        if($referal->data):
-                        foreach ($referal->data as $key => $r):
-                            if (strtolower($r['input_type']) == 'checkbox'):
-                                $html .= "<div class='clearfix'></div>";
-                                $html .= "<div style='margin-left:80px;' class='checkbox hidden multicheckbox_" . $element->json_element . '_' . $ref['parent_element_code'] . "' >"
-                                        . "<input type='checkbox' />" . $r['multi_answer_desc']
-                                        . "</div>";
-                            endif;
-                            if (strtolower($r['input_type']) == 'freetext'):
-                                $otherSpecify = false;
-                                $position = 'right';
-                                if ($key == 0):
-                                    $html .= "<div class='col-sm-6' style='margin-bottom:10px'>"
-                                            . "<textarea placeholder='Comments'"
-                                            . "data-parentcode='$element->json_element" . '_' . $ref['parent_element_code'] . "'"
-                                            . "name='" . $element->json_element . '_' . str_replace(' ', '_', strtolower($ref['multi_answer_desc'])) . "'"
-                                            . "rows='4' class='form-control freetext_enable_disable_" . $ref['parent_element_code'] . "' "
-                                            . "style='height:100px' disabled></textarea>"
-                                            . " </div>";
+                        if ($referal->data):
+                            foreach ($referal->data as $key => $r):
+                                if (strtolower($r['input_type']) == 'checkbox'):
+                                    $html .= "<div class='clearfix'></div>";
+                                    $html .= "<div style='margin-left:80px;' class='checkbox hidden multicheckbox_" . $element->json_element . '_' . $ref['parent_element_code'] . "' >"
+                                            . "<input type='checkbox' />" . $r['multi_answer_desc']
+                                            . "</div>";
                                 endif;
-                            endif;
-                        endforeach;
+                                if (strtolower($r['input_type']) == 'freetext'):
+                                    $otherSpecify = false;
+                                    $position = 'right';
+                                    if ($key == 0):
+                                        $html .= "<div class='col-sm-6' style='margin-bottom:10px'>"
+                                                . "<textarea placeholder='Comments'"
+                                                . "data-parentcode='$element->json_element" . '_' . $ref['parent_element_code'] . "'"
+                                                . "name='" . $element->json_element . '_' . str_replace(' ', '_', strtolower($ref['multi_answer_desc'])) . "'"
+                                                . "rows='4' class='form-control freetext_enable_disable_" . $ref['parent_element_code'] . "' "
+                                                . "style='height:100px' disabled></textarea>"
+                                                . " </div>";
+                                    endif;
+                                endif;
+                            endforeach;
                         endif;
                     endif;
                     if (strtolower($ref['multi_answer_desc']) == 'others, specify' && $otherSpecify == true):
@@ -392,53 +392,52 @@ class Input_Type_Controller extends Common_Controller {
 
     public function Label() {
         $element = $this->elementDetail;
-        if($element->element_properties === "SUBSECTION"): 
-            $html = "<div class='text-uppercase' style='background-color: #D3D3D3; border-radius: 2px 2px;color: black '>" . $element->label . "</div>"; 
+        if ($element->element_properties === "SUBSECTION"):
+            $html = "<div class='text-uppercase' style='background-color: #D3D3D3; border-radius: 2px 2px;color: black '>" . $element->label . "</div>";
         else:
             $html = "<h4 class='text-uppercase'>" . $element->label . "</h4>";
         endif;
-        
+
         return $html;
     }
-    
-    public function Method($element=null) {
-    $elementDetail = array(
+
+    public function Method($element = null) {
+        $elementDetail = array(
 //        'label' => $element->element_desc,
-        'element_code' => (isset($element->element_code)) ? $element->element_code : false,
-        'method' => (isset($element->method)) ? $element->method : false,
-        'doc_method_code' => (isset($element->doc_method_code)) ? $element->doc_method_code : false,
-        'json_element'=>(isset($element->json_element)) ? $element->json_element : false,
-    );
-    
-    $class = new Input_Type_Controller();
-    $class->elementDetail = (object) $elementDetail;
-    $class2 = new Document_Template_Model();
-    $result = $class2->MainMethod();
-    $html = '';
+            'element_code' => (isset($element->element_code)) ? $element->element_code : false,
+            'method' => (isset($element->method)) ? $element->method : false,
+            'doc_method_code' => (isset($element->doc_method_code)) ? $element->doc_method_code : false,
+            'json_element' => (isset($element->json_element)) ? $element->json_element : false,
+        );
+
+        $class = new Input_Type_Controller();
+        $class->elementDetail = (object) $elementDetail;
+        $class2 = new Document_Template_Model();
+        $result = $class2->MainMethod();
+        $html = '';
 //    $html .= '<input type=hidden value="'.$element->doc_method_code.'">';
- 
-        $html .= "<div class='form-group form-group-sm' style='margin-left:2px;width:280px;'>" 
-                ."<select id='method' class='form-control'>"
-                .'<option value="0">Please Select Method</option>';
-        if($result){
-        foreach($result as $method){
+
+        $html .= "<div class='form-group form-group-sm' style='margin-left:2px;width:280px;'>"
+                . "<select id='method' class='form-control'>"
+                . '<option value="0">Please Select Method</option>';
+        if ($result) {
+            foreach ($result as $method) {
 //        $html .= '<option value="'.$method['code'].'">'.$method['label'].'</option>';
-        if(((isset($element->doc_method_code)) ? $element->doc_method_code : false) == $method['code']){
-        $html .= '<option id="'.$element->doc_method_code.'" value="'.$method['code'].'" selected >'.$method['label'].'</option>'
-                ."</select>"
-                ."</div>"; 
-        $html .= '<div><img id="'.$element->doc_method_code.'"src="../../../'.$method['image_path'].'"></div>';
-        $methodName=$html;
-        return $methodName;
-        }
-        elseif(((isset($element->doc_method_code)) ? $element->doc_method_code : false) == null){
-            $methodName="Please Update Method";
-            return $methodName;}
-        }
-        }
-        elseif($result== '0'){
-            $msg= 'All Method Not Yet Defined';
-            $methodName=$msg;
+                if (((isset($element->doc_method_code)) ? $element->doc_method_code : false) == $method['code']) {
+                    $html .= '<option id="' . $element->doc_method_code . '" value="' . $method['code'] . '" selected >' . $method['label'] . '</option>'
+                            . "</select>"
+                            . "</div>";
+                    $html .= '<div><img id="' . $element->doc_method_code . '"src="../../../' . $method['image_path'] . '"></div>';
+                    $methodName = $html;
+                    return $methodName;
+                } elseif (((isset($element->doc_method_code)) ? $element->doc_method_code : false) == null) {
+                    $methodName = "Please Update Method";
+                    return $methodName;
+                }
+            }
+        } elseif ($result == '0') {
+            $msg = 'All Method Not Yet Defined';
+            $methodName = $msg;
             return $methodName;
         }
     }
@@ -487,7 +486,7 @@ class Input_Type_Controller extends Common_Controller {
         }
         return $html;
     }
-    
+
     public function Alphanumeric() {
         $element = $this->elementDetail;
         $totalTextBox = $this->is_multiple_textbox;
@@ -572,20 +571,20 @@ class Input_Type_Controller extends Common_Controller {
             $inputColumn = ($this->is_parent) ? 'col-sm-6' : 'col-sm-6';
             $html = "<div class='form-group form-group-sm'>"
                     . "<label class='control-label col-md-12 text-uppercase' style='padding-bottom:5px;'";
-            $html .= ($this->is_parent) ? '' : 'style="font-weight:normal;"';    
+            $html .= ($this->is_parent) ? '' : 'style="font-weight:normal;"';
             switch ($element->label):
-            //if label is empty (no space)
-            case '':
-                $html .= ">" . $element->label . "</label>"
-                    . "<div class='$inputColumn'>"
-                    . "<select name='" . $element->name . "' class='form-control'>"
-                    . "<option value='0' >Please Select</option>";
-                break;
-            default:
-                $html .= ">" . $element->label . "</label>"
-                    . "<div class='$inputColumn'>"
-                    . "<select name='" . $element->name . "' class='form-control'>"
-                    . "<option value='0' >Please Select</option>";
+                //if label is empty (no space)
+                case '':
+                    $html .= ">" . $element->label . "</label>"
+                            . "<div class='$inputColumn'>"
+                            . "<select name='" . $element->name . "' class='form-control'>"
+                            . "<option value='0' >Please Select</option>";
+                    break;
+                default:
+                    $html .= ">" . $element->label . "</label>"
+                            . "<div class='$inputColumn'>"
+                            . "<select name='" . $element->name . "' class='form-control'>"
+                            . "<option value='0' >Please Select</option>";
             endswitch;
             foreach ($referral->data as $ref):
                 $html .= "<option>" . $ref['multi_answer_desc'] . "</option>";
@@ -596,7 +595,7 @@ class Input_Type_Controller extends Common_Controller {
         }
         return $html;
     }
-    
+
     //edited by Fatin Adilah 9/4
     public function RadioButton() {
         $element = $this->elementDetail;
@@ -605,7 +604,7 @@ class Input_Type_Controller extends Common_Controller {
 //        else:
 //            $referral = ReferenceCaller($element->element_code, $element->doc_name_id);
         endif;
-        
+
         if ($element->layout == 1) {
             $html = "<div class='form-group form-group-sm'>"
                     . "<label class='control-label col-md-3 text-uppercase'>" . $element->label . "</label>"
@@ -638,54 +637,54 @@ class Input_Type_Controller extends Common_Controller {
             $html .= "</div></div>"
                     . "</div>";
         }
-        
-        
-        
-        
+
+
+
+
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        
-       else {
+
+        else {
             $html = "<div class='form-group form-group-sm'>"
                     . "<label class='control-label col-md-6 text-uppercase'>" . $element->label . "</label>"
                     . "</div>"
                     . "<div class='form-group form-group-sm'>"
                     . "<div class='col-md-9'>"
                     . "<div class='radio'>";
-            
+
             //display radiobutton
             foreach ($referral->data as $ref):
-            $html .= "<label class='col-md-6'>"
-                . "<input type='radio' id='" . $element->element_code . "' value='".$ref['ref_element_code']."' name='" . $element->json_element . "' data-refcodes='" . $element->json_element . "_" . $ref['ref_element_code'] . "' />" . $ref['multi_answer_desc']
-                . "</label>";
-            
-            if($ref['ref_element_code'] === '9137'):
-                $html .= "<div class='col-md-5' style='padding-left:0;'>"
-                                . "<input type='text' id='textbox' "
-                                . "name='textbox_$element->json_element' "
-                                . "class='form-control hidden' placeholder='Enter Reason..' /></div>";
-                
-            elseif ($ref['ref_element_code'] === '9144'):
-                $html .= "<div name='calendar_$element->json_element'  class='col-md-5 hidden'>"
-                                . "<div id='calendar' data-refcodes='" . $ref['ref_element_code'] . "' class='input-group'>"
-                                . "<input class='form-control datepicker' />"
-                                . "<span class='input-group-addon' ><i class='glyphicon glyphicon-calendar'></i></span>"
-                                . "</div>"
-                                . "</div>";
-            
-            elseif ($ref['ref_element_code'] === '1427'):
-                $html .= "<div class='form-group form-group-sm'>"
-                                . "<div class='col-md-7'>"
-                                . "<textarea id='freetext_' name='freetext_$element->json_element' class='form-control hidden' style='height: 80px; margin-left:15px;'></textarea>"
-                                . "</div>"
-                                . "</div>";    
-            endif;
+                $html .= "<label class='col-md-6'>"
+                        . "<input type='radio' id='" . $element->element_code . "' value='" . $ref['ref_element_code'] . "' name='" . $element->json_element . "' data-refcodes='" . $element->json_element . "_" . $ref['ref_element_code'] . "' />" . $ref['multi_answer_desc']
+                        . "</label>";
 
-            
+                if ($ref['ref_element_code'] === '9137'):
+                    $html .= "<div class='col-md-5' style='padding-left:0;'>"
+                            . "<input type='text' id='textbox' "
+                            . "name='textbox_$element->json_element' "
+                            . "class='form-control hidden' placeholder='Enter Reason..' /></div>";
+
+                elseif ($ref['ref_element_code'] === '9144'):
+                    $html .= "<div name='calendar_$element->json_element'  class='col-md-5 hidden'>"
+                            . "<div id='calendar' data-refcodes='" . $ref['ref_element_code'] . "' class='input-group'>"
+                            . "<input class='form-control datepicker' />"
+                            . "<span class='input-group-addon' ><i class='glyphicon glyphicon-calendar'></i></span>"
+                            . "</div>"
+                            . "</div>";
+
+                elseif ($ref['ref_element_code'] === '1427'):
+                    $html .= "<div class='form-group form-group-sm'>"
+                            . "<div class='col-md-7'>"
+                            . "<textarea id='freetext_' name='freetext_$element->json_element' class='form-control hidden' style='height: 80px; margin-left:15px;'></textarea>"
+                            . "</div>"
+                            . "</div>";
+                endif;
+
+
             endforeach;
-            
+
             $html .= "</div></div></div>";
         }
-           
+
         return $html;
     }
 
@@ -693,7 +692,7 @@ class Input_Type_Controller extends Common_Controller {
         $element = $this->elementDetail;
         $data = $element->additional_attribute;
         $array = json_decode(json_encode($data), true);
-    
+
         $html = "<div class='form-group form-group-sm'>";
         foreach ($array as $key => $in):
             $html .= "<label class='control-label col-md-3 text-uppercase'>" . $in['row_desc'] . "</label>";
@@ -711,7 +710,7 @@ class Input_Type_Controller extends Common_Controller {
                             . "<textarea name='" . $element->name . "' class='form-control' style='height: 80px;'></textarea>"
                             . "</div>";
                     break;
-                case 'NUMBER'   : $html .="<div class='col-md-3'>"
+                case 'NUMBER' : $html .="<div class='col-md-3'>"
                             . "<input class='form-control' type='number' name='" . $element->name . "' />"
                             . "</div>";
                     break;
@@ -729,181 +728,262 @@ class Input_Type_Controller extends Common_Controller {
 
         return $html;
     }
-    
-    public function UpdateMethodInput(){
+
+    public function UpdateMethodInput() {
         $element = $this->elementDetail;
         $data = $element->method;
         $method = json_decode(json_encode($data), true);
         //DISPLAY PRE-SELECTED METHOD
         $document = new Document_Template_Model();
         $result = $document->ListMethodInfo();
-        
-            $html = "<div class='form-group form-group-sm input-list'>"
-                    . "<label class='control-label col-sm-4'>Predefined Method </label>";
-            //predefined text field
-            $html .= "<div class='col-sm-4 list-padding-right'>"
-                    . "<select name='methodList' class='form-control'>";
-            
-                foreach ($result as $meth):
-                    if($method === $meth['method_info']):
-                        $html .= "<option id='".$method."' value='".$meth['doc_method_code']."' selected>".$meth['doc_method_desc']."</option>";
-                    endif;
-                        $html .= "<option value='".$meth['doc_method_code']."' >".$meth['doc_method_desc']."</option>";
-                endforeach;
-            $html .= "</select>"
-                    . "</div></div>";
-            
-            
-            
+
+        $html = "<div class='form-group form-group-sm input-list'>"
+                . "<label class='control-label col-sm-2'>Predefined Method </label>";
+        //predefined text field
+        $html .= "<div class='col-sm-4 list-padding-right'>"
+                . "<select name='methodList' class='form-control'>";
+
+        foreach ($result as $meth):
+            if ($method === $meth['method_info']):
+                $html .= "<option id='" . $method . "' value='" . $meth['doc_method_code'] . "' selected>" . $meth['doc_method_desc'] . "</option>";
+            endif;
+            $html .= "<option value='" . $meth['doc_method_code'] . "' >" . $meth['doc_method_desc'] . "</option>";
+        endforeach;
+        $html .= "</select>"
+                . "</div></div>";
+
+
+
         return $html;
     }
-    
+
     //16AUG
-    public function ListMethodInput(){
+    public function ListMethodInput() {
         $document = new Document_Template_Model();
         $result = $document->ListMethodInfo();
-        
-            $html = "<div class='form-group form-group-sm input-list'>"
-                    . "<label class='control-label col-sm-4'>Predefined Method </label>";
-            $html .= "<div class='col-sm-4 list-padding-right'>"
-                    . "<select name='methodList' class='form-control'>";
-            
-                foreach ($result as $meth):
-                        $html .= "<option value='".$meth['doc_method_code']."' >".$meth['doc_method_desc']."</option>";
-                endforeach;
-            $html .= "</select>"
-                    . "</div></div>";
-            
+
+        $html = "<div class='form-group form-group-sm input-list'>"
+                . "<label class='control-label col-sm-2'>Predefined Method </label>";
+        $html .= "<div class='col-sm-4 list-padding-right'>"
+                . "<select name='methodList' class='form-control'>";
+
+        foreach ($result as $meth):
+            $html .= "<option value='" . $meth['doc_method_code'] . "' >" . $meth['doc_method_desc'] . "</option>";
+        endforeach;
+        $html .= "</select>"
+                . "</div></div>";
+
         return $html;
     }
-    
-    public function ListMultipleAnswerInput(){
+
+    public function ListMultipleAnswerInput() {
         $document = new Document_Template_Model();
         $result = $document->ListMultAns();
         $html = '';
-        
+
         foreach ($result as $multi):
-        $html .= '<option value="'.$multi['input_type'].'">'.$multi['input_type'].'</option>';
+            $html .= '<option value="' . $multi['input_type'] . '">' . $multi['input_type'] . '</option>';
         endforeach;
-            
+
         return $html;
     }
-    
-    public function UpdateMultiAns(){
+
+    public function ListMultiDescInput() {
+        $document = new Document_Template_Model();
+        $result = $document->ListMultAnsDesc();
+        $html = '';
+
+        foreach ($result as $multi):
+            $html .= '<option value="' . $multi['multiple_desc_code'] . '">' . $multi['multiple_desc'] . '</option>';
+        endforeach;
+
+        return $html;
+    }
+
+    public function ListElementDesc() {
+        $document = new Document_Template_Model();
+        $result = $document->ListElementDesc();
+        $html = '';
+
+        foreach ($result as $multi):
+            $html .= '<option value="' . $multi['element_code'] . '">' . $multi['element_desc'] . '</option>';
+        endforeach;
+
+        return $html;
+    }
+
+    public function CheckParent($elementCode, $docCode) {
+        $referP = ReferenceCaller($elementCode, $docCode);
         $document = new Document_Template_Model();
         $result = $document->ListMultAns();
-        $element = $this->elementDetail;
-        
-        #PARENT
-        $referP = ReferenceCaller($element->element_code, $element->doc_name_id);
+        $resultP = $document->ListMultAnsDesc();
+
         $noP = 1;
-        $noL = 1;
-        $noC = 1;
         $html = "";
-        
-        if($referP->data):
         foreach ($referP->data as $refP):
-        $html .= "<div class='prelist$noP' style='background-color: #f5f5f5'>"
-                . "<p class='text-box' value='$noP'>"
-                . "<div class='form-group form-group-sm input-list'>"
-                . "<label class='control-label col-sm-4'>Predefined Value$noP</label>"
-                . "<div class='col-sm-3 list-padding'>"
-                . "<input type='hidden' value='$noP' id='sorting' class='sorting' name='SortParent' />"
-                . "<input class='col-sm-4 form-control' type='text' name='multi_ans_desc$noP' id='multi_ans_desc' value='".$refP['multi_answer_desc']."'/>"
-                . "</div>"
-                . "<div class='col-sm-3 list-padding'>"
-                . "<select id='multi_input_type' name='multi_input_type$noP' class='form-control'>"
-                . "<option value='" . $refP['input_type'] . "'>". $refP['input_type'] . "</option>";
-        foreach ($result as $multi):
-        $html .= "<option value='".$multi["input_type"]."'>".$multi["input_type"]."</option>";
-        endforeach;
-        $html .= "</select>"
-                . "</div>";
-        if($noP === 1):
-            $html .= "<div class='col-sm-2 predefinedActionButton' data-action='prelist$noP'>"
-                    . "<div class='btn btn-default btn-sm addPredefined' style='padding:4px'><i class='glyphicon glyphicon-plus'></i> Parent</div>&nbsp"
-                    . "<div class='btn btn-default btn-sm addLayer' data-layer='prelist$noP'  style='padding:5px' ><i class='fas fa-layer-group'></i></div>"
-                    . "</div>";
-            else:
-            $html .= "<div class='col-sm-2 predefinedActionButton' data-action='prelist$noP'>"
-                    . "<div class='btn btn-default btn-sm addLayer' data-layer='prelist$noP'  style='padding:5px' ><i class='fas fa-layer-group'></i></div>&nbsp"
-                    . "<div class='btn btn-default btn-sm deletePredefined' style='padding:5px'><i class='glyphicon glyphicon-trash'></i></div>"
-                    . "</div>";
-        endif;
-        $html .= "</div>"
-                . "</p>";
-        
-        #LABEL
-        if($refP["ref_element_code"] !== null):
-        $referL = ReferenceCaller("" . $refP["element_code"] . "", $element->doc_name_id, "child");
-            if($referL->data):
-            foreach ($referL->data as $refL):
-                $html .= "<div class='prelist$noP-$noL'>"
-                . "<div class='form-group form-group-sm input-list'>"
-                . "<label class='control-label col-sm-4'></label>"
-                . "<div class='checkbox'>"
-                . "<div class='col-sm-4 list-padding'>";
-                if($refL['show_label'] === 1):
-                    $html .= "<input type='checkbox' id='show_label' name='show_label$noP-$noL' value='".$refL['show_label']."' style='margin-top:6px' checked/>";
-                    else:
-                    $html .= "<input type='checkbox' id='show_label' name='show_label$noP-$noL' value='".$refL['show_label']."' style='margin-top:6px'/>";
-                endif;
-                $html .= "<input class='col-sm-3 form-control' type='text' name='ref_desc$noP-$noL' id='ref_desc' value='".$refL['element_desc']."' />"
-                . "</div>"
-                . "<div class='col-sm-2 predefinedActionButton' data-action='prelist$noP-$noL'>"
-                . "<div class='btn btn-default btn-sm deleteLabel' style='padding:5px'><i class='glyphicon glyphicon-trash'></i></div>&nbsp"
-                . "<div class='btn btn-default btn-sm addDivChild' data-child='prelist$noP-$noL' style='padding:3px'><i class='glyphicon glyphicon-chevron-down'></i> Child</div>"
-                . "</div>"
-                . "</div>"
-                . "</div>";
-                
-                #CHILD
-                $referC = ReferenceCaller("" . $refL["ref_element_code"] . "", $element->doc_name_id);
-                if($referC->data):
-                foreach ($referC->data as $refC):
-                    $html .= "<div class='text-box$noP-$noL'>"
-                    . "<input type='hidden' id='sorting_child$noP-$noL' class='sorting_child$noP-$noL' name='SortChild$noP-$noL' />"
-                    . "<div class='prelist$noP-$noL-$noC'>"
+            $html .= "<div class='prelist$noP' style='background-color: #f5f5f5'>"
+                    . "<p class='text-box' value='$noP'>"
                     . "<div class='form-group form-group-sm input-list'>"
-                    . "<label class='control-label col-sm-4'>Child<span class='box-number$noP-$noL'>". $refC['sorting'] . "</span></label>"
-                    . "<div class='col-sm-3 list-padding'>"
-                    . "<input class='col-sm-4 form-control' type='text' name='multi_child_ans_desc$noP-$noL-$noC' id='multi_child_ans_desc' value='".$refC['multi_answer_desc']."' />"
+                    . "<label class='control-label col-sm-2'>Predefined Value<span class='box-number'>$noP</span></label>"
+                    . "<div class='col-sm-5 list-padding'>"
+                    . "<div class='checkbox' style='margin-left:20px'>";
+            if ($refP['show_label'] === '1'):
+                $html .= "<input type='checkbox' id='show_label' name='show_label$noP' value='" . $refP['show_label'] . "' style='margin-top:6px' checked/>";
+            else:
+                $html .= "<input type='checkbox' id='show_label' name='show_label$noP' value='" . $refP['show_label'] . "' style='margin-top:6px'/>";
+            endif;
+            $html .= "<input type='hidden' value='$noP' id='sorting' class='sorting' name='SortParent' />"
+                    . "<select name='multi_ans_desc$noP' id='multi_ans_desc'  class='form-control'>"
+                    . "<option value='" . $refP['multiple_desc_code'] . "'>" . $refP['multi_answer_desc'] . "</option>";
+            foreach ($resultP as $multiP):
+                $html .= "<option value='" . $multiP["multiple_desc_code"] . "'>" . $multiP["multiple_desc"] . "</option>";
+            endforeach;
+            $html .= "</select>"
+                    . "</div>"
                     . "</div>"
                     . "<div class='col-sm-3 list-padding'>"
-                    . "<select id='multi_child_input_type' name='multi_child_input_type$noP-$noL-$noC' class='form-control'>"
-                    . "<option value='" . $refC['input_type'] . "'>". $refC['input_type'] . "</option>";
-                    foreach ($result as $multi):
-                    $html .= "<option value='".$multi["input_type"]."'>".$multi["input_type"]."</option>";
+                    . "<select id='multi_input_type' name='multi_input_type$noP' class='form-control'>"
+                    . "<option value='" . $refP['input_type'] . "'>" . $refP['input_type'] . "</option>";
+            foreach ($result as $multi):
+                $html .= "<option value='" . $multi["input_type"] . "'>" . $multi["input_type"] . "</option>";
+            endforeach;
+            $html .= "</select>"
+                    . "</div>";
+            if ($noP === 1):
+                $html .= "<div class='col-sm-2 predefinedActionButton' data-action='prelist$noP'>"
+                        . "<div class='btn btn-default btn-sm addPredefined'style='padding:3px'><i class='glyphicon glyphicon-plus'></i> Parent</div>&nbsp"
+                        . "<div class='btn btn-default btn-sm addLayer' data-layer='prelist$noP'  style='padding:5px' ><i class='fas fa-layer-group'></i></div>"
+                        . "</div>";
+            else:
+                $html .= "<div class='col-sm-2 predefinedActionButton' data-action='prelist$noP'>"
+                        . "<div class='btn btn-default btn-sm addLayer' data-layer='prelist$noP'  style='padding:5px' ><i class='fas fa-layer-group'></i></div>&nbsp"
+                        . "<div class='btn btn-default btn-sm deletePredefined' style='padding:5px'><i class='glyphicon glyphicon-trash'></i></div>"
+                        . "</div>";
+            endif;
+            $html .= "</div>"
+                    . "</p>";
+            if ($refP['ref_element_code'] != NULL):
+                $html .= $this->CheckLabel($refP, $docCode, $noP);
+                $html .= "</div>";
+            else:
+                $html .= "</div>";
+            endif;
+            $noP++;
+        endforeach;
+
+        return $html;
+    }
+
+    public function CheckLabel($elementCode, $docCode, $noP) {
+//        $i = 0;
+        $document = new Document_Template_Model();
+        $resultC = $document->ListElementDesc();
+        $html = "";
+        #LABEL NEW
+        $referL = ReferenceCaller($elementCode['element_code'], $docCode, "child");
+
+        if ($referL->data):
+//            $i++;
+            foreach ($referL->data as $refL):
+                if ($elementCode["multiple_desc_code"] === $refL["multiple_desc_code"]):
+                    $noL = 1;
+                    $html .= "<div class='prelist$noP-$noL'>"
+                            . "<div class='form-group form-group-sm input-list'>"
+                            . "<label class='control-label col-sm-3'></label>"
+                            . "<div class='checkbox'>"
+                            . "<div class='col-sm-4 list-padding'>";
+                    if ($refL['show_label'] === '1'):
+                        $html .= "<input type='checkbox' id='show_label_child' name='show_label_child$noP-$noL' value='" . $refL['show_label'] . "' style='margin-top:6px' checked/>";
+                    else:
+                        $html .= "<input type='checkbox' id='show_label_child' name='show_label_child$noP-$noL' value='" . $refL['show_label'] . "' style='margin-top:6px'/>";
+                    endif;
+
+                    $html .= "<select name='ref_desc$noP-$noL' id='ref_desc'  class='form-control'>"
+                            . "<option value='" . $refL['element_code'] . "'>" . $refL['element_desc'] . "</option>";
+                    foreach ($resultC as $multiC):
+                        $html .= "<option value='" . $multiC["element_code"] . "'>" . $multiC["element_desc"] . "</option>";
                     endforeach;
                     $html .= "</select>"
-                    . "</div>"
-                    . "<div class='col-sm-2 predefinedActionButton' data-action='prelist$noP-$noL-$noC'>"
-                    . "<div class='btn btn-default btn-sm deletePredefinedChild' style='padding:5px'><i class='glyphicon glyphicon-trash'></i></div>&nbsp"
-                    . "<div class='btn btn-default btn-sm addLayer' data-layer='prelist$noP-$noL-$noC' style='padding:5px'><i class='fas fa-layer-group'></i></div>"
-                    . "</div>"
-                    . "</div>"
-                    . "</div>"
-                    . "</div>";
-                    
-                $noC++;
-                endforeach;
+                            . "</div>"
+                            . "<div class='col-sm-2 predefinedActionButton' data-action='prelist$noP-$noL'>"
+                            . "<div class='btn btn-default btn-sm deleteLabel' style='padding:5px'><i class='glyphicon glyphicon-trash'></i></div>&nbsp"
+                            . "<div class='btn btn-default btn-sm addDivChild' data-child='prelist$noP-$noL' style='padding:3px'><i class='glyphicon glyphicon-chevron-down'></i> Child</div>"
+                            . "</div>"
+                            . "</div>"
+                            . "</div>";
+                    if ($refL['ref_element_code'] != NULL):
+                        $html .= $this->CheckChild($refL, $docCode, $noP, $noL);
+                        $html .= "</div>";
+                    endif;
+                    $noL++;
                 endif;
+            endforeach;
+        endif;
+//        echo $i;
 
-            $noL++;
-            endforeach;    
-            endif;
-        
-        else:
-        $html .= "</div>";
-        
-        endif;
-    
-        $noP++;
-        endforeach;  
-        endif;
-        
         return $html;
-    
+    }
+
+    public function CheckChild($elementCode, $docCode, $noP, $noL) {
+        $referC = ReferenceCaller($elementCode['ref_element_code'], $docCode);
+        $document = new Document_Template_Model();
+        $result = $document->ListMultAns();
+        $resultP = $document->ListMultAnsDesc();
+        $html = "";
+        #CHILD NEW
+        $noC = 1;
+        if ($referC->data):
+            foreach ($referC->data as $refC):
+                $html .= "<div class='text-box$noP-$noL'>"
+                        . "<input type='hidden' id='sorting_child$noP-$noL' class='sorting_child$noP-$noL' name='SortChild$noP-$noL' />"
+                        . "<div class='prelist$noP-$noL-$noC'>"
+                        . "<div class='form-group form-group-sm input-list'>"
+                        . "<label class='control-label col-sm-3'>Child<span class='box-number$noP-$noL'>" . $refC['sorting'] . "</span></label>"
+                        . "<div class='col-sm-4 list-padding'>"
+                        . "<div class= 'checkbox'>";
+                if ($refC['show_label'] === '1'):
+                    $html .= "<input type='checkbox' id='show_label' name='show_label$noP-$noL-$noC' value='" . $refC['show_label'] . "' style='margin-top:6px' checked/>";
+                else:
+                    $html .= "<input type='checkbox' id='show_label' name='show_label$noP-$noL-$noC' value='" . $refC['show_label'] . "' style='margin-top:6px'/>";
+                endif;
+                $html .= "<select name='multi_child_ans_desc$noP-$noL-$noC' id='multi_child_ans_desc' class='form-control'>"
+                        . "<option  value='" . $refC['multiple_desc_code'] . "' >" . $refC['multi_answer_desc'] . "</option>";
+                foreach ($resultP as $multiP):
+                    $html .= "<option value='" . $multiP["multiple_desc_code"] . "'>" . $multiP["multiple_desc"] . "</option>";
+                endforeach;
+                $html .= "</select>"
+                        . "</div>"
+                        . "</div>"
+                        . "<div class='col-sm-3 list-padding'>"
+                        . "<select id='multi_child_input_type' name='multi_child_input_type$noP-$noL-$noC' class='form-control'>"
+                        . "<option value='" . $refC['input_type'] . "'>" . $refC['input_type'] . "</option>";
+                foreach ($result as $multi):
+                    $html .= "<option value='" . $multi["input_type"] . "'>" . $multi["input_type"] . "</option>";
+                endforeach;
+                $html .= "</select>"
+                        . "</div>"
+                        . "<div class='col-sm-2 predefinedActionButton' data-action='prelist$noP-$noL-$noC'>"
+                        . "<div class='btn btn-default btn-sm deletePredefinedChild' style='padding:5px'><i class='glyphicon glyphicon-trash'></i></div>&nbsp"
+                        . "<div class='btn btn-default btn-sm addLayer' data-layer='prelist$noP-$noL-$noC' style='padding:5px'><i class='fas fa-layer-group'></i></div>"
+                        . "</div>"
+                        . "</div>"
+                        . "</div>"
+                        . "</div>";
+                if ($refC['ref_element_code'] != NULL):
+                    $html .= $this->CheckLabel($refC, $docCode, $noP, $noL, $noC);
+                endif;
+                $noC++;
+            endforeach;
+        endif;
+
+        return $html;
+    }
+
+    public function UpdateMultiAns() {
+        $element = $this->elementDetail;
+
+        $html = $this->CheckParent($element->element_code, $element->doc_name_id);
+        return $html;
     }
 
 }
