@@ -432,6 +432,12 @@
             data: {dummy: null, docDetail: JSON.stringify($('#formFilter').serializeArray()), secDetail: JSON.stringify($('#sectionBuilder').serializeArray()), elemDetail: JSON.stringify($('#elementBuilder').serializeArray())},
             success: function (data) {
                 console.log(data);
+                $('#myModal').modal('hide');
+                    swal({
+                        title: "Section & Element Inserted !",
+                        text: "Data successfully inserted into database",
+                        type: "success"
+                    });
             }
         });
 
