@@ -97,6 +97,22 @@ function ListMultipleAnswer(){
     return $result;
 }
 
+function ListMultiElementDesc(){
+    $methodName = 'ListMultiDescInput';
+    $class = new Input_Type_Controller();
+    $methodCheck = $class->VerifyMethod($methodName);
+    $result = ($methodCheck) ? $class->$methodName (): false;
+    return $result;
+}
+
+function ListElementDesc(){
+    $methodName = 'ListElementDesc';
+    $class = new Input_Type_Controller();
+    $methodCheck = $class->VerifyMethod($methodName);
+    $result = ($methodCheck) ? $class->$methodName (): false;
+    return $result;
+}
+
 function form_array($arrays) {
         $val = array();
         foreach ($arrays as $v):
