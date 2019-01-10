@@ -288,7 +288,7 @@ class Formview_Controller extends Common_Controller {
                 } elseif ($element_properties == 'SUBSECTION') {
 //                    $data['method_name'] = $values['method_name'];
 //                    $data['method_params'] = $values['method_params'];
-//                    $this->CaseMethod($data);    
+                    $this->CaseSubsection($data);
                 }
                 $this->GenerateJSONFormat($document_id, 'update');
                 break;
@@ -549,9 +549,6 @@ class Formview_Controller extends Common_Controller {
 
                 $mapper_data = json_decode($new_data['values'], true); //dri basic->ajax_element_form_group
                 $new_mapper = $this->mapper($mapper_data);
-//                echo '<pre>';
-//                print_r($new_mapper);
-//                echo '</pre>';
 
                 $document_id = $new_mapper['document_id'];
                 $element_code = $new_mapper['element_code'];
@@ -722,23 +719,22 @@ class Formview_Controller extends Common_Controller {
             $document->CleanChild($docID, $key['parent_element_code']);
         }
         $document->CleanMultipleAnswer($data);
+        $document->CleanMultipleItem($data);
         $document->UpdateElementDetails($val);
         return true;
     }
 
     private function CaseBasic(array $data, $new_data) {
-//        echo '<pre>';
-//        print_r($data);
-//        echo '</pre>';
-
         $document = new Document_Template_Model();
         $docID = $data['documentId'];
         $elementID = $data['elementCode'];
         $input_type = $data['input_type']; //method
         $dataType = '(NULL)';
 
+        $document->CleanMultipleAnswer($data);
+        $document->CleanMultipleItem($data);
+
         if ($input_type == 'METHOD') {
-//        $document->CleanMultipleAnswer($data);
 
             $mapper_data = json_decode($new_data['basicMethod'], true); //dri basic->ajax_element_form_group
             $method = $this->mapper($mapper_data);
@@ -752,7 +748,6 @@ class Formview_Controller extends Common_Controller {
             $this->CaseBasicParent($basic, $docID, $elementID);
             $this->CaseBasicChild($basic, $docID);
         } else {
-//                    $document->CleanMultipleAnswer($data);
 
             $methodCode = '(NULL)';
         }
@@ -809,9 +804,9 @@ class Formview_Controller extends Common_Controller {
                 'show_label_child' => isset($result->{"show_label_child$i"}) ? $result->{"show_label_child$i"} : "(NULL)",
                 'ref_element_code' => isset($result->{"ref_desc$i"}) ? $result->{"ref_desc$i"} : "(NULL)"
             );
-//            echo '<pre>';
-//            print_r($multi);
-//            echo '</pre>';
+            echo '<pre>';
+            print_r($multi);
+            echo '</pre>';
             $document->InsertParentMultiAnswer($docID, $elementID, $multi);
         endfor;
     }
@@ -858,9 +853,9 @@ class Formview_Controller extends Common_Controller {
                     'show_label_child' => isset($new_result->{"show_label_child$a-$j"}) ? $new_result->{"show_label_child$a-$j"} : "(NULL)",
                     'ref_element_code' => isset($new_result->{"ref_desc$a-$j"}) ? $new_result->{"ref_desc$a-$j"} : "(NULL)"
                 );
-//                echo '<pre>';
-//                print_r($child);
-//                echo '</pre>';
+                echo '<pre>';
+                print_r($child);
+                echo '</pre>';
                 $document->InsertChildMultiAnswer($docID, $child);
             endfor;
         endforeach;
@@ -894,7 +889,8 @@ class Formview_Controller extends Common_Controller {
         foreach ($childId as $key) {
             $document->CleanChild($docID, $key['parent_element_code']);
         }
-//        $document->CleanMultipleAnswer($data);
+        $document->CleanMultipleAnswer($data);
+        $document->CleanMultipleItem($data);
         $document->UpdateElementDetails($val);
         return true;
     }
@@ -904,6 +900,9 @@ class Formview_Controller extends Common_Controller {
         $docID = $data['documentId'];
         $elementID = $data['elementCode'];
         $input_type = $data['input_type']; //method
+
+        $document->CleanMultipleAnswer($data);
+        $document->CleanMultipleItem($data);
 
         if ($input_type == 'METHOD') {
 
@@ -973,9 +972,9 @@ class Formview_Controller extends Common_Controller {
                 'show_label_child' => isset($result->{"show_label_child$i"}) ? $result->{"show_label_child$i"} : "(NULL)",
                 'ref_element_code' => isset($result->{"ref_desc$i"}) ? $result->{"ref_desc$i"} : "(NULL)"
             );
-//            echo '<pre>';
-//            print_r($multi);
-//            echo '</pre>';
+            echo '<pre>';
+            print_r($multi);
+            echo '</pre>';
             $document->InsertParentMultiAnswer($docID, $elementID, $multi);
         endfor;
     }
@@ -1022,9 +1021,9 @@ class Formview_Controller extends Common_Controller {
                     'show_label_child' => isset($new_result->{"show_label_child$a-$j"}) ? $new_result->{"show_label_child$a-$j"} : "(NULL)",
                     'ref_element_code' => isset($new_result->{"ref_desc$a-$j"}) ? $new_result->{"ref_desc$a-$j"} : "(NULL)"
                 );
-//                echo '<pre>';
-//                print_r($child);
-//                echo '</pre>';
+                echo '<pre>';
+                print_r($child);
+                echo '</pre>';
                 $document->InsertChildMultiAnswer($docID, $child);
             endfor;
         endforeach;
