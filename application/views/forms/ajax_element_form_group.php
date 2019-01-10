@@ -127,10 +127,8 @@
         $('#editElement').submit(function(e){
             e.preventDefault();
             var datas = JSON.stringify($(this).serializeArray());
-//            console.log('data',datas);
             var method = JSON.stringify($('#basicMethod').serializeArray());
             var multAns = JSON.stringify($('#basicMultAns').serializeArray());
-//            console.log('ajax_element_form_group: DATA=',multAns);
             var subSec = JSON.stringify($('#basicSubSec').serializeArray());
             $.ajax({
                 url : '<?= SITE_ROOT;?>/formview/update-section-element/',
