@@ -864,10 +864,8 @@ class Input_Type_Controller extends Common_Controller {
                     . "</p>";
             if ($refP['ref_element_code'] != NULL):
                 $html .= $this->CheckLabel($refP, $docCode, $noP);
-                $html .= "</div>";
-            else:
-                $html .= "</div>";
             endif;
+            $html .= "</div>";
             $noP++;
         endforeach;
 
@@ -875,7 +873,6 @@ class Input_Type_Controller extends Common_Controller {
     }
 
     public function CheckLabel($elementCode, $docCode, $noP) {
-//        $i = 0;
         $document = new Document_Template_Model();
         $resultC = $document->ListElementDesc();
         $html = "";
@@ -883,7 +880,6 @@ class Input_Type_Controller extends Common_Controller {
         $referL = ReferenceCaller($elementCode['element_code'], $docCode, "child");
 
         if ($referL->data):
-//            $i++;
             foreach ($referL->data as $refL):
                 if ($elementCode["multiple_desc_code"] === $refL["multiple_desc_code"]):
                     $noL = 1;
@@ -913,13 +909,12 @@ class Input_Type_Controller extends Common_Controller {
                             . "</div>";
                     if ($refL['ref_element_code'] != NULL):
                         $html .= $this->CheckChild($refL, $docCode, $noP, $noL);
-                        $html .= "</div>";
                     endif;
+                    $html .= "</div>";
                     $noL++;
                 endif;
             endforeach;
         endif;
-//        echo $i;
 
         return $html;
     }
@@ -966,12 +961,11 @@ class Input_Type_Controller extends Common_Controller {
                         . "<div class='btn btn-default btn-sm deletePredefinedChild' style='padding:5px'><i class='glyphicon glyphicon-trash'></i></div>&nbsp"
                         . "<div class='btn btn-default btn-sm addLayer' data-layer='prelist$noP-$noL-$noC' style='padding:5px'><i class='fas fa-layer-group'></i></div>"
                         . "</div>"
-                        . "</div>"
-                        . "</div>"
                         . "</div>";
                 if ($refC['ref_element_code'] != NULL):
                     $html .= $this->CheckLabel($refC, $docCode, $noP, $noL, $noC);
                 endif;
+                $html .= "</div></div>";
                 $noC++;
             endforeach;
         endif;
