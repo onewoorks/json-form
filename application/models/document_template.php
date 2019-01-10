@@ -769,8 +769,8 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-    
-        public function UpdateElementToBasicNew(array $val) {
+
+    public function UpdateElementToBasicNew(array $val) {
         $sql = "UPDATE document_element SET child_element_code='" . (int) $val['child_element_code'] . "', element_level = '" . (int) $val['element_level'] . "',element_position='" . $val['element_position'] . "', element_properties='" . $val['element_properties'] . "', input_type='" . $val['input_type'] . "', data_type = '(NULL)', method = '(NULL)', updated_by='ADMIN', updated_date = now() "
                 . "WHERE doc_name_id='" . (int) $val['doc_name_id'] . "' AND parent_element_code='" . (int) $val['element_code'] . "' ";
         print_r($sql);
@@ -781,8 +781,16 @@ class Document_Template_Model {
     }
 
     public function CleanMultipleAnswer(array $val) {
-        $sql = "DELETE FROM ref_multiple_answer WHERE doc_name_id='" . (int) $val['documentId'] . "' AND element_code='" . (int) $val['elementCode'] . "'; "
-                . "DELETE FROM ref_multiple_item WHERE doc_name_id='" . (int) $val['documentId'] . "' AND element_code='" . (int) $val['elementCode'] . "' ";
+        $sql = "DELETE FROM ref_multiple_answer WHERE doc_name_id='" . (int) $val['documentId'] . "' AND element_code='" . (int) $val['elementCode'] . "' ";
+        print_r($sql);
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+
+    public function CleanMultipleItem(array $val) {
+        $sql = "DELETE FROM ref_multiple_item WHERE doc_name_id='" . (int) $val['documentId'] . "' AND element_code='" . (int) $val['elementCode'] . "' ";
         print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
@@ -801,61 +809,45 @@ class Document_Template_Model {
 
     public function InsertParentMultiAnswer($docID, $elementID, $multi) {
 
-        if ($multi['ref_element_code'] === '(NULL)' && $multi['show_label_child'] === '(NULL)'):
-            $sql = "INSERT INTO ref_multiple_answer (doc_name_id, element_code, multiple_desc_code, sorting, input_type, method, parent_element_code, child_element_code, show_label, active, updated_by, updated_date, multi_answer_desc) "
-                    . "VALUES ('" . (int) $docID . "', '" . (int) $elementID . "', '" . $multi['multi_ans_code'] . "', '" . $multi['sorting'] . "', '" . $multi['multi_input_type'] . "', (NULL), (NULL), (NULL), '" . $multi['show_label'] . "', '1', 'ADMIN', now(),(SELECT multiple_desc FROM ref_multiple_desc WHERE multiple_desc_code = '" . $multi['multi_ans_code'] . "' LIMIT 1)) ";
-        else:
-            $sql = "INSERT INTO ref_multiple_answer (doc_name_id, element_code, multiple_desc_code, sorting, input_type, method, parent_element_code, child_element_code, show_label, active, updated_by, updated_date) "
-                    . "VALUES ('" . (int) $docID . "', '" . (int) $elementID . "', '" . $multi['multi_ans_code'] . "', '" . $multi['sorting'] . "', '" . $multi['multi_input_type'] . "', (NULL), (NULL), (NULL), '" . $multi['show_label'] . "', '1', 'ADMIN', now()); "
-                    . "INSERT INTO ref_multiple_item (doc_name_id, element_code, multiple_desc_code, ref_element_code, show_label, created_by, created_date, multi_answer_desc) "
-                    . " VALUES ('" . (int) $docID . "', '" . (int) $elementID . "','" . $multi['multi_ans_code'] . "', '" . $multi['ref_element_code'] . "', '" . $multi['show_label_child'] . "', 'ADMIN', now(), (SELECT multiple_desc from ref_multiple_desc where multiple_desc_code = '" . $multi['multi_ans_code'] . "')) ";
-        endif;
+        $sql = "INSERT INTO ref_multiple_answer (doc_name_id, element_code, multiple_desc_code, sorting, input_type, method, parent_element_code, child_element_code, show_label, active, updated_by, updated_date, multi_answer_desc) "
+                . " VALUES ('" . (int) $docID . "', '" . (int) $elementID . "', '" . $multi['multi_ans_code'] . "', '" . $multi['sorting'] . "', '" . $multi['multi_input_type'] . "', (NULL), (NULL), (NULL), '" . $multi['show_label'] . "', '1', 'ADMIN', now(),(SELECT multiple_desc FROM ref_multiple_desc WHERE multiple_desc_code = '" . $multi['multi_ans_code'] . "' LIMIT 1)); ";
         print_r($sql);
-
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
+
+        if ($multi['ref_element_code'] !== '(NULL)'):
+            $sql = "INSERT INTO ref_multiple_item (doc_name_id, element_code, multiple_desc_code, ref_element_code, show_label, created_by, created_date, multi_answer_desc) "
+                    . " VALUES ('" . (int) $docID . "', '" . (int) $elementID . "','" . $multi['multi_ans_code'] . "', '" . $multi['ref_element_code'] . "', '" . $multi['show_label_child'] . "', 'ADMIN', now(), (SELECT multiple_desc from ref_multiple_desc where multiple_desc_code = '" . $multi['multi_ans_code'] . "' LIMIT 1)); ";
+            print_r($sql);
+            $this->db->connect();
+            $this->db->prepare($sql);
+            $this->db->queryexecute();
+        endif;
+
         return true;
     }
 
     public function InsertChildMultiAnswer($docID, $child) {
 
-        if ($child['ref_element_code'] === '(NULL)' && $child['show_label_child'] === '(NULL)'):
-            $sql = "INSERT INTO ref_multiple_answer (doc_name_id, element_code, multiple_desc_code, sorting, input_type, method, parent_element_code, child_element_code, show_label, active, updated_by, updated_date) "
-                    . "VALUES ('" . (int) $docID . "', '" . $child['element_code'] . "', '" . $child['multi_ans_code'] . "', '" . $child['sorting'] . "', '" . $child['multi_input_type'] . "', (NULL), (NULL), (NULL), '" . $child['show_label'] . "', '1', 'ADMIN', now()) ";
-        else:
-            $sql = "INSERT INTO ref_multiple_answer (doc_name_id, element_code, multiple_desc_code, sorting, input_type, method, parent_element_code, child_element_code, show_label, active, updated_by, updated_date) "
-                    . "VALUES ('" . (int) $docID . "', '" . $child['element_code'] . "', '" . $child['multi_ans_code'] . "', '" . $child['sorting'] . "', '" . $child['multi_input_type'] . "', (NULL), (NULL), (NULL), '" . $child['show_label'] . "', '1', 'ADMIN', now()); "
-                    . "INSERT INTO ref_multiple_item (doc_name_id, element_code, multiple_desc_code, ref_element_code, show_label, created_by, created_date, multi_answer_desc) "
-                    . " VALUES ('" . (int) $docID . "', '" . $child['element_code'] . "','" . $child['multi_ans_code'] . "', '" . $child['ref_element_code'] . "', '" . $child['show_label_child'] . "', 'ADMIN', now(), (SELECT multiple_desc from ref_multiple_desc where multiple_desc_code = '" . $child['multi_ans_code'] . "')) ";
+        $sql = "INSERT INTO ref_multiple_answer (doc_name_id, element_code, multiple_desc_code, sorting, input_type, method, parent_element_code, child_element_code, show_label, active, updated_by, updated_date, multi_answer_desc) "
+                . "VALUES ('" . (int) $docID . "', '" . $child['element_code'] . "', '" . $child['multi_ans_code'] . "', '" . $child['sorting'] . "', '" . $child['multi_input_type'] . "', (NULL), (NULL), (NULL), '" . $child['show_label'] . "', '1', 'ADMIN', now(),(SELECT multiple_desc FROM ref_multiple_desc WHERE multiple_desc_code = '" . $child['multi_ans_code'] . "' LIMIT 1)); ";
+        print_r($sql);
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+
+        if ($child['ref_element_code'] !== '(NULL)'):
+            $sql = "INSERT INTO ref_multiple_item (doc_name_id, element_code, multiple_desc_code, ref_element_code, show_label, created_by, created_date, multi_answer_desc) "
+                    . " VALUES ('" . (int) $docID . "', '" . $child['element_code'] . "','" . $child['multi_ans_code'] . "', '" . $child['ref_element_code'] . "', '" . $child['show_label_child'] . "', 'ADMIN', now(), (SELECT multiple_desc from ref_multiple_desc where multiple_desc_code = '" . $child['multi_ans_code'] . "')); ";
+            print_r($sql);
+            $this->db->connect();
+            $this->db->prepare($sql);
+            $this->db->queryexecute();
         endif;
-        print_r($sql);
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
+
         return true;
     }
-
-    //23AUG
-    public function InsertMethod($docID, $elementID) {
-        $sql = "INSERT INTO ref_multiple_answer (doc_name_id,element_code,multi_answer_desc,sorting,input_type,parent_element_code)"
-                . "VALUES ('" . (int) $docID . "','" . (int) $elementID . "','" . $label . "','" . $sorting . "','" . $input . "','" . $childcode . "')";
-        print_r($sql);
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-        return true;
-    }
-
-//    public function InsertParentMultiAnswer($docID, $elementID, $label, $sorting, $input) {
-//        $sql = "INSERT INTO ref_multiple_answer (doc_name_id,element_code,multi_answer_desc,sorting,input_type)"
-//                . "VALUES ('" . (int) $docID . "','" . (int) $elementID . "','" . $label . "','" . $sorting . "','" . $input . "')";
-//        print_r($sql);
-//        $this->db->connect();
-//        $this->db->prepare($sql);
-//        $this->db->queryexecute();
-//        return true;
-//    }
 
     public function getMaxItem() {
         $sql = "SELECT MAX(ref_multiple_item_id)+1 AS ref_multiple_item_id FROM ref_multiple_item";
