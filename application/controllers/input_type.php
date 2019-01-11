@@ -813,13 +813,17 @@ class Input_Type_Controller extends Common_Controller {
     }
 
     public function CheckParent($elementCode, $docCode) {
-        $referP = ReferenceCaller($elementCode, $docCode);
         $document = new Document_Template_Model();
         $result = $document->ListMultAns();
         $resultP = $document->ListMultAnsDesc();
-
-        $noP = 1;
         $html = "";
+
+        #PARENT NEW
+        $referP = ReferenceCaller($elementCode, $docCode);
+        $noP = 1;
+        $noL;
+        $noC;
+
         foreach ($referP->data as $refP):
             $html .= "<div class='prelist$noP' style='background-color: #f5f5f5'>"
                     . "<p class='text-box' value='$noP'>"
@@ -863,7 +867,7 @@ class Input_Type_Controller extends Common_Controller {
             $html .= "</div>"
                     . "</p>";
             if ($refP['ref_element_code'] != NULL):
-                $html .= $this->CheckLabel($refP, $docCode, $noP);
+                $html .= $this->CheckLabel($refP, $docCode, $noP, $noL, $noC);
             endif;
             $html .= "</div>";
             $noP++;
@@ -872,7 +876,7 @@ class Input_Type_Controller extends Common_Controller {
         return $html;
     }
 
-    public function CheckLabel($elementCode, $docCode, $noP) {
+    public function CheckLabel($elementCode, $docCode, $noP, $noL, $mixC) {
         $document = new Document_Template_Model();
         $resultC = $document->ListElementDesc();
         $html = "";
@@ -880,68 +884,81 @@ class Input_Type_Controller extends Common_Controller {
         $referL = ReferenceCaller($elementCode['element_code'], $docCode, "child");
 
         if ($referL->data):
+            $count = 1;
+            $count++;
+            if ($count > 1):
+                $noP .= $mixC;
+            endif;
             foreach ($referL->data as $refL):
                 if ($elementCode["multiple_desc_code"] === $refL["multiple_desc_code"]):
                     $noL = 1;
-                    $html .= "<div class='prelist$noP-$noL'>"
+                    $noP .= '-' . $noL;
+                    $html .= "<div class='prelist$noP'>"
                             . "<div class='form-group form-group-sm input-list'>"
                             . "<label class='control-label col-sm-3'></label>"
                             . "<div class='checkbox'>"
                             . "<div class='col-sm-4 list-padding'>";
                     if ($refL['show_label'] === '1'):
-                        $html .= "<input type='checkbox' id='show_label_child' name='show_label_child$noP-$noL' value='" . $refL['show_label'] . "' style='margin-top:6px' checked/>";
+                        $html .= "<input type='checkbox' id='show_label_child' name='show_label_child$noP' value='" . $refL['show_label'] . "' style='margin-top:6px' checked/>";
                     else:
-                        $html .= "<input type='checkbox' id='show_label_child' name='show_label_child$noP-$noL' value='" . $refL['show_label'] . "' style='margin-top:6px'/>";
+                        $html .= "<input type='checkbox' id='show_label_child' name='show_label_child$noP' value='" . $refL['show_label'] . "' style='margin-top:6px'/>";
                     endif;
 
-                    $html .= "<select name='ref_desc$noP-$noL' id='ref_desc'  class='form-control'>"
+                    $html .= "<select name='ref_desc$noP' id='ref_desc'  class='form-control'>"
                             . "<option value='" . $refL['element_code'] . "'>" . $refL['element_desc'] . "</option>";
                     foreach ($resultC as $multiC):
                         $html .= "<option value='" . $multiC["element_code"] . "'>" . $multiC["element_desc"] . "</option>";
                     endforeach;
                     $html .= "</select>"
                             . "</div>"
-                            . "<div class='col-sm-2 predefinedActionButton' data-action='prelist$noP-$noL'>"
+                            . "<div class='col-sm-2 predefinedActionButton' data-action='prelist$noP'>"
                             . "<div class='btn btn-default btn-sm deleteLabel' style='padding:5px'><i class='glyphicon glyphicon-trash'></i></div>&nbsp"
-                            . "<div class='btn btn-default btn-sm addDivChild' data-child='prelist$noP-$noL' style='padding:3px'><i class='glyphicon glyphicon-chevron-down'></i> Child</div>"
+                            . "<div class='btn btn-default btn-sm addDivChild' data-child='prelist$noP' style='padding:3px'><i class='glyphicon glyphicon-chevron-down'></i> Child</div>"
                             . "</div>"
                             . "</div>"
                             . "</div>";
                     if ($refL['ref_element_code'] != NULL):
-                        $html .= $this->CheckChild($refL, $docCode, $noP, $noL);
+                        $html .= $this->CheckChild($refL, $docCode, $noP, $noL, $mixC);
                     endif;
                     $html .= "</div>";
                     $noL++;
                 endif;
             endforeach;
+            echo $count;
+
+
         endif;
 
         return $html;
     }
 
-    public function CheckChild($elementCode, $docCode, $noP, $noL) {
-        $referC = ReferenceCaller($elementCode['ref_element_code'], $docCode);
+    public function CheckChild($elementCode, $docCode, $noP, $noL, $mixC) {
         $document = new Document_Template_Model();
         $result = $document->ListMultAns();
         $resultP = $document->ListMultAnsDesc();
         $html = "";
+
         #CHILD NEW
+        $referC = ReferenceCaller($elementCode['ref_element_code'], $docCode);
         $noC = 1;
+
         if ($referC->data):
             foreach ($referC->data as $refC):
-                $html .= "<div class='text-box$noP-$noL'>"
-                        . "<input type='hidden' id='sorting_child$noP-$noL' class='sorting_child$noP-$noL' name='SortChild$noP-$noL' />"
-                        . "<div class='prelist$noP-$noL-$noC'>"
+                $mixC = '-' . $noC;
+
+                $html .= "<div class='text-box$noP'>"
+                        . "<input type='hidden' id='sorting_child$noP' class='sorting_child$noP' name='SortChild$noP' />"
+                        . "<div class='prelist$noP$mixC'>"
                         . "<div class='form-group form-group-sm input-list'>"
-                        . "<label class='control-label col-sm-3'>Child<span class='box-number$noP-$noL'>" . $refC['sorting'] . "</span></label>"
+                        . "<label class='control-label col-sm-3'>Child<span class='box-number$noP'>" . $refC['sorting'] . "</span></label>"
                         . "<div class='col-sm-4 list-padding'>"
                         . "<div class= 'checkbox'>";
                 if ($refC['show_label'] === '1'):
-                    $html .= "<input type='checkbox' id='show_label' name='show_label$noP-$noL-$noC' value='" . $refC['show_label'] . "' style='margin-top:6px' checked/>";
+                    $html .= "<input type='checkbox' id='show_label' name='show_label$noP$mixC' value='" . $refC['show_label'] . "' style='margin-top:6px' checked/>";
                 else:
-                    $html .= "<input type='checkbox' id='show_label' name='show_label$noP-$noL-$noC' value='" . $refC['show_label'] . "' style='margin-top:6px'/>";
+                    $html .= "<input type='checkbox' id='show_label' name='show_label$noP$mixC' value='" . $refC['show_label'] . "' style='margin-top:6px'/>";
                 endif;
-                $html .= "<select name='multi_child_ans_desc$noP-$noL-$noC' id='multi_child_ans_desc' class='form-control'>"
+                $html .= "<select name='multi_child_ans_desc$noP$mixC' id='multi_child_ans_desc' class='form-control'>"
                         . "<option  value='" . $refC['multiple_desc_code'] . "' >" . $refC['multi_answer_desc'] . "</option>";
                 foreach ($resultP as $multiP):
                     $html .= "<option value='" . $multiP["multiple_desc_code"] . "'>" . $multiP["multiple_desc"] . "</option>";
@@ -950,20 +967,20 @@ class Input_Type_Controller extends Common_Controller {
                         . "</div>"
                         . "</div>"
                         . "<div class='col-sm-3 list-padding'>"
-                        . "<select id='multi_child_input_type' name='multi_child_input_type$noP-$noL-$noC' class='form-control'>"
+                        . "<select id='multi_child_input_type' name='multi_child_input_type$noP$mixC' class='form-control'>"
                         . "<option value='" . $refC['input_type'] . "'>" . $refC['input_type'] . "</option>";
                 foreach ($result as $multi):
                     $html .= "<option value='" . $multi["input_type"] . "'>" . $multi["input_type"] . "</option>";
                 endforeach;
                 $html .= "</select>"
                         . "</div>"
-                        . "<div class='col-sm-2 predefinedActionButton' data-action='prelist$noP-$noL-$noC'>"
+                        . "<div class='col-sm-2 predefinedActionButton' data-action='prelist$noP$mixC'>"
                         . "<div class='btn btn-default btn-sm deletePredefinedChild' style='padding:5px'><i class='glyphicon glyphicon-trash'></i></div>&nbsp"
-                        . "<div class='btn btn-default btn-sm addLayer' data-layer='prelist$noP-$noL-$noC' style='padding:5px'><i class='fas fa-layer-group'></i></div>"
+                        . "<div class='btn btn-default btn-sm addLayer' data-layer='prelist$noP$mixC' style='padding:5px'><i class='fas fa-layer-group'></i></div>"
                         . "</div>"
                         . "</div>";
                 if ($refC['ref_element_code'] != NULL):
-                    $html .= $this->CheckLabel($refC, $docCode, $noP, $noL, $noC);
+                    $html .= $this->CheckLabel($refC, $docCode, $noP, $noL, $mixC);
                 endif;
                 $html .= "</div></div>";
                 $noC++;
