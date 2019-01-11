@@ -821,8 +821,8 @@ class Input_Type_Controller extends Common_Controller {
         #PARENT NEW
         $referP = ReferenceCaller($elementCode, $docCode);
         $noP = 1;
-        $noL;
-        $noC;
+        $noL = '';
+        $noC = '';
 
         foreach ($referP->data as $refP):
             $html .= "<div class='prelist$noP' style='background-color: #f5f5f5'>"
@@ -924,9 +924,6 @@ class Input_Type_Controller extends Common_Controller {
                     $noL++;
                 endif;
             endforeach;
-            echo $count;
-
-
         endif;
 
         return $html;
