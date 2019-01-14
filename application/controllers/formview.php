@@ -759,6 +759,7 @@ class Formview_Controller extends Common_Controller {
             'element_position' => $data['position'],
             'element_properties' => $data['element_properties'],
             'input_type' => $input_type,
+            'element_level' => $data['element_level'],
             'data_type' => $dataType,
             'doc_method_code' => $methodCode
         );
@@ -900,6 +901,7 @@ class Formview_Controller extends Common_Controller {
         $docID = $data['documentId'];
         $elementID = $data['elementCode'];
         $input_type = $data['input_type']; //method
+        $dataType = '(NULL)';
 
         $document->CleanMultipleAnswer($data);
         $document->CleanMultipleItem($data);
@@ -928,7 +930,9 @@ class Formview_Controller extends Common_Controller {
             'element_position' => $data['position'],
             'element_properties' => str_replace('_NEW', '', $data['element_properties']),
             'input_type' => $input_type,
-            'element_level' => $data['element_level']
+            'element_level' => $data['element_level'],
+            'data_type' => $dataType,
+            'doc_method_code' => $methodCode
         );
 //        echo '<pre>';
 //        print_r($val);
