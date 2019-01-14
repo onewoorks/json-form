@@ -165,7 +165,7 @@ class Formview_Controller extends Common_Controller {
                 $result['template_id'] = $documentId;
                 $result['rrr'] = 'pppp';
                 $result['document_id'] = $documentTemplate['doc_name_id'];
-                $result['link_style'] = "<link href='" . SITE_ROOT . "/assets/css/hiskkm.css' rel='stylesheet' />";
+                $result['link_style'] = "<link href='" . SITE_ASSET . "/assets/css/hiskkm.css' rel='stylesheet' />";
                 break;
             case 'duplicate-form':
                 $ajax = true;
@@ -442,7 +442,7 @@ class Formview_Controller extends Common_Controller {
                 break;
             case 'testing':
                 $page = 'forms/test';
-                $result['link_style'] = "<link href='" . SITE_ROOT . "assets/css/hiskkm.css' rel='stylesheet' />";
+                $result['link_style'] = "<link href='" . SITE_ASSET . "assets/css/hiskkm.css' rel='stylesheet' />";
                 break;
             case 'update-attributes':
                 $ajax = true;
