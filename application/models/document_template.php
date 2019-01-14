@@ -816,7 +816,7 @@ class Document_Template_Model {
         $this->db->prepare($sql);
         $this->db->queryexecute();
 
-        if ($multi['ref_element_code'] !== '(NULL)'):
+        if ($multi['ref_element_code'] !== '(NULL)' && $multi['show_label_child'] !== '(NULL)'):
             $sql = "INSERT INTO ref_multiple_item (doc_name_id, element_code, multiple_desc_code, ref_element_code, show_label, created_by, created_date, multi_answer_desc) "
                     . " VALUES ('" . (int) $docID . "', '" . (int) $elementID . "','" . $multi['multi_ans_code'] . "', '" . $multi['ref_element_code'] . "', '" . $multi['show_label_child'] . "', 'ADMIN', now(), (SELECT multiple_desc from ref_multiple_desc where multiple_desc_code = '" . $multi['multi_ans_code'] . "' LIMIT 1)); ";
             print_r($sql);
@@ -837,7 +837,7 @@ class Document_Template_Model {
         $this->db->prepare($sql);
         $this->db->queryexecute();
 
-        if ($child['ref_element_code'] !== '(NULL)'):
+        if ($child['ref_element_code'] !== '(NULL)' && $child['show_label_child'] !== '(NULL)'):
             $sql = "INSERT INTO ref_multiple_item (doc_name_id, element_code, multiple_desc_code, ref_element_code, show_label, created_by, created_date, multi_answer_desc) "
                     . " VALUES ('" . (int) $docID . "', '" . $child['element_code'] . "','" . $child['multi_ans_code'] . "', '" . $child['ref_element_code'] . "', '" . $child['show_label_child'] . "', 'ADMIN', now(), (SELECT multiple_desc from ref_multiple_desc where multiple_desc_code = '" . $child['multi_ans_code'] . "')); ";
             print_r($sql);
