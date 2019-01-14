@@ -161,7 +161,7 @@
 
     <!--DISPLAY JSON-->
     <div class="col-sm-12 pull-right">
-        <div class="btn btn-default pull-right addTitle">Display JSON</div>
+        <!--<div class="btn btn-default pull-right addTitle">Display JSON</div>-->
         <!--SAVE FORM-->
         <div class="btn btn-default pull-right addForm">Save Form</div>
     </div>
