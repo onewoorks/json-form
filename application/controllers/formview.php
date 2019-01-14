@@ -762,9 +762,9 @@ class Formview_Controller extends Common_Controller {
             'data_type' => $dataType,
             'doc_method_code' => $methodCode
         );
-//        echo '<pre>';
-//        print_r($val);
-//        echo '</pre>';
+        echo '<pre>';
+        print_r($val);
+        echo '</pre>';
         $document->UpdateElementToBasic($val);
         return true;
     }
