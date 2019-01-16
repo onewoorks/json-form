@@ -1,7 +1,7 @@
 <?php echo $header; ?>
 
 <div id="formCreator">
-    <div class="col-sm-12">
+    <div class="col-md-12" style="margin-left:30px">
         <div class="panel panel-default">
             <div class="panel-heading">TITLE DETAILS</div>
             <div class="panel-body" style="margin-bottom: -20px">
@@ -93,7 +93,7 @@
     </select>
 
     <!--SECTION ID'S-->
-    <div class="col-sm-6">
+    <div class="col-sm-6" style="margin-left:30px">
         <form id="sectionBuilder" class="form-horizontal">
             <div class='panel panel-default'>
                 <div class='panel-heading'>SECTION DETAILS</div>
@@ -125,7 +125,7 @@
     </div>
 
     <!--ELEMENT'S ID-->
-    <div class="col-sm-6">
+    <div class="col-sm-6" style="margin-right:-30px">
         <form id="elementBuilder" class="form-horizontal">
             <div class="panel panel-default">
                 <div class="panel-heading">ELEMENT DETAILS</div>
@@ -160,7 +160,7 @@
     </div>
 
     <!--DISPLAY JSON-->
-    <div class="col-sm-12 pull-right">
+    <div class="col-sm-12 pull-right" style="margin-right:-30px">
         <!--<div class="btn btn-default pull-right addTitle">Display JSON</div>-->
         <!--SAVE FORM-->
         <div class="btn btn-default pull-right addForm">Save Form</div>
