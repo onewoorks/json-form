@@ -1030,6 +1030,17 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
+    
+    public function checkElementLevel($elementId,$docId){
+        $sql = "SELECT element_level "
+                . "FROM document_element "
+                . "WHERE doc_name_id = '$docId' AND parent_element_code = '$elementId' ";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
 
 //    public function getDocDesc($templateId){
 //        $sql = "SELECT dt.doc_name_id, d.doc_name_desc "
