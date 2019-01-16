@@ -14,57 +14,36 @@ class Input_Type_Controller extends Common_Controller {
 
     public function Textbox() {
         $element = $this->elementDetail;
-        $totalTextBox = $this->is_multiple_textbox;
+
+        #ELEMENT_LEVEL
+        $document = new Document_Template_Model;
+        $level = $document->checkElementLevel($element->element_code, $element->doc_name_id);
+
+        #ELEMENT_LAYOUT
         $layout = (isset($element->layout)) ? $element->layout : 1;
-        if ($layout) {
-            $html = "<div class='form-group form-group-sm'>"
-                    . "<label class='control-label col-md-6 text-uppercase'>" . $element->label . "</label>";
 
-            for ($i = 0; $i < $totalTextBox; $i++):
-                $colSize = ($totalTextBox > 1) ? 'col-sm-1' : 'col-sm-5';
-                $method = ($totalTextBox > 1) ? json_decode($element->listing[$i]['method']) : false;
-                $html .= "<div class='$colSize'>";
-                if (isset($method->form_group->input_group)):
-                    $html .= "<div class='input-group input-group-sm'>";
-                endif;
-                $html .= "<input type='text' name='" . $element->name . "' class='form-control' style='margin-left:15px;'/>";
-                if (isset($method->form_group->input_group)):
-                    if (isset($method->form_group->input_group->group_type)):
-                        if ($method->form_group->input_group->group_type == 'addon'):
-                            $html .= "<span class='input-group-addon'>" . $method->form_group->input_group->addon_text . "</span>";
-                        endif;
-                    endif;
-                    $html .= "</div>";
-                endif;
-                $html .= "</div>";
-            endfor;
-            $html .= "</div>";
-        }else {
-            $html = "<div class='form-group form-group-sm'>"
-                    . "<label class='control-label col-md-12 text-uppercase'>" . $element->label . "</label>"
-                    . "</div>"
-                    . "<div class='form-group form-group-sm'>";
+        foreach ($level as $levels):
 
-            for ($i = 0; $i < $totalTextBox; $i++):
-                $colSize = ($totalTextBox > 1) ? 'col-sm-4' : 'col-sm-8';
-                $method = ($totalTextBox > 1) ? json_decode($element->listing[$i]['method']) : false;
-                $html .= "<div class='$colSize'>";
-                if (isset($method->form_group->input_group)):
-                    $html .= "<div class='input-group input-group-sm'>";
+            if ($layout):
+                if ($levels['element_level'] == 1):
+                    $html = "<div class='form-group form-group-sm'>"
+                            . "<label class='control-label col-md-3 text-uppercase'><b>" . $element->label . "</b></label>"
+                            . "<div class='col-md-8' >"
+                            . "<input type ='text' class='form-control'>"
+                            . "</div>"
+                            . "</div>";
+                else:
+                    $html = "<div class='form-group form-group-sm' style='padding-left:" . $levels['element_level'] . "9px'>"
+                            . "<label class='control-label col-md-3 text-uppercase'>" . $element->label . "</label>"
+                            . "<div class='col-md-8' style='padding-left:30px'>"
+                            . "<input type ='text' class='form-control'>"
+                            . "</div>"
+                            . "</div>";
                 endif;
-                $html .= "<input type='text' name='" . $element->name . "' class='form-control' />";
-                if (isset($method->form_group->input_group)):
-                    if (isset($method->form_group->input_group->group_type)):
-                        if ($method->form_group->input_group->group_type == 'addon'):
-                            $html .= "<span class='input-group-addon'>" . $method->form_group->input_group->addon_text . "</span>";
-                        endif;
-                    endif;
-                    $html .= "</div>";
-                endif;
-                $html .= "</div>";
-            endfor;
-            $html .= "</div>";
-        }
+
+            endif;
+        endforeach;
+
         return $html;
     }
 
@@ -87,9 +66,6 @@ class Input_Type_Controller extends Common_Controller {
             'layout' => $element->layout,
         );
 
-//        $class->is_multiple_textbox = ($inputType == 'Textbox') ? count($referal->data) :true;
-//        $methodName = ($inputType == 'List') ? 'Listdown' : ucfirst($inputType);
-
         $methodName = $inputType;
         if ($methodName) {
             $class = new Input_Type_Controller();
@@ -99,12 +75,6 @@ class Input_Type_Controller extends Common_Controller {
             $result = ($methodCheck) ? $class->$methodName() : false;
             return $result;
         }
-//        edited by Fatin Adilah (TEST ELEMENT)        
-//        else{
-//        $input =  ucwords(strtoupper($element->label));
-//        $inputType=  str_replace('', '', $input);
-//        return '<b style="font-size:12px; padding-left:4px;">' . $inputType . '</b>'.$methodName;
-//        }
     }
 
     public function Calender() {
@@ -369,24 +339,36 @@ class Input_Type_Controller extends Common_Controller {
 
     public function Freetext() {
         $element = $this->elementDetail;
+//        $html = "";
+        #ELEMENT_LEVEL
+        $document = new Document_Template_Model;
+        $level = $document->checkElementLevel($element->element_code, $element->doc_name_id);
+
+        #ELEMENT_LAYOUT
         $layout = (isset($element->layout)) ? $element->layout : 1;
-        if ($layout) {
-            $html = "<div class='form-group form-group-sm'>"
-                    . "<label class='control-label col-md-3 text-uppercase'>" . $element->label . "</label>"
-                    . "<div class='col-md-7'>"
-                    . "<textarea name='" . $element->name . "' class='form-control' style='height: 80px; margin-left:15px;'></textarea>"
-                    . "</div>"
-                    . "</div>";
-        } else {
-            $html = "<div class='form-group form-group-sm'>"
-                    . "<label class='control-label col-md-12 text-uppercase'>" . $element->label . "</label>"
-                    . "</div>"
-                    . "<div class='form-group form-group-sm'>"
-                    . "<div class='col-md-9'>"
-                    . "<textarea name='" . $element->name . "' class='form-control' style='height: 80px;'></textarea>"
-                    . "</div>"
-                    . "</div>";
-        }
+
+        foreach ($level as $levels):
+
+            if ($layout):
+                if ($levels['element_level'] == 1):
+                    $html = "<div class='form-group form-group-sm'>"
+                            . "<label class='control-label col-md-3 text-uppercase'>" . $element->label . "</label>"
+                            . "<div class='col-md-8'>"
+                            . "<textarea name='" . $element->name . "' class='form-control' style='height: 40px; margin-left:15px;'></textarea>"
+                            . "</div>"
+                            . "</div>";
+                else:
+                    $html = "<div class='form-group form-group-sm'  style='padding-left:" . $levels['element_level'] . "9px'>"
+                            . "<label class='control-label col-md-3 text-uppercase'>" . $element->label . "</label>"
+                            . "<div class='col-md-8'>"
+                            . "<textarea name='" . $element->name . "' class='form-control' style='height: 40px; margin-left:15px;'></textarea>"
+                            . "</div>"
+                            . "</div>";
+                endif;
+
+            endif;
+        endforeach;
+
         return $html;
     }
 
@@ -395,7 +377,7 @@ class Input_Type_Controller extends Common_Controller {
         if ($element->element_properties === "SUBSECTION"):
             $html = "<div class='text-uppercase' style='background-color: #D3D3D3; border-radius: 2px 2px;color: black '>" . $element->label . "</div>";
         else:
-            $html = "<h4 class='text-uppercase'>" . $element->label . "</h4>";
+            $html = "<h6 class='text-uppercase'><b>" . $element->label . "</b></h6>";
         endif;
 
         return $html;
@@ -417,7 +399,7 @@ class Input_Type_Controller extends Common_Controller {
         $html = '';
 //    $html .= '<input type=hidden value="'.$element->doc_method_code.'">';
 
-        $html .= "<div class='form-group form-group-sm' style='margin-left:2px;width:280px;'>"
+        $html .= "<div class='form-group form-group-sm' style='margin-left:-3px;width:280px;'>"
                 . "<select id='method' class='form-control'>"
                 . '<option value="0">Please Select Method</option>';
         if ($result) {
@@ -444,107 +426,117 @@ class Input_Type_Controller extends Common_Controller {
 
     public function Richtext() {
         $element = $this->elementDetail;
+
+        #ELEMENT_LEVEL
+        $document = new Document_Template_Model;
+        $level = $document->checkElementLevel($element->element_code, $element->doc_name_id);
+
+        #ELEMENT_LAYOUT
         $layout = (isset($element->layout)) ? $element->layout : 1;
-        if ($layout) {
-            $html = "<div class='form-group form-group-sm'>"
-                    . "<label class='control-label col-md-3 text-uppercase'>" . $element->label . "</label>"
-                    . "<div class='col-md-7'>"
-                    . "<div class='summernote'></div>"
-                    . "</div>"
-                    . "</div>";
-        } else {
-            $html = "<div class='form-group form-group-sm'>"
-                    . "<label class='control-label col-md-6 text-uppercase'>" . $element->label . "</label>"
-                    . "</div>"
-                    . "<div class='form-group form-group-sm'>"
-                    . "<div class='col-md-8'>"
-                    . "<div class='summernote'></div>"
-                    . "</div>"
-                    . "</div>";
-        }
+
+        foreach ($level as $levels):
+
+            if ($layout):
+                if ($levels['element_level'] == 1):
+                    $html = "<div class='form-group form-group-sm'>"
+                            . "<label class='control-label col-md-3 text-uppercase'><b>" . $element->label . "</b></label>"
+                            . "<div class='col-md-8'>"
+                            . "<div class='summernote'></div>"
+                            . "</div>"
+                            . "</div>";
+                else:
+                    $html = "<div class='form-group form-group-sm' style='padding-left:" . $levels['element_level'] . "9px'>"
+                            . "<label class='control-label col-md-3 text-uppercase'>" . $element->label . "</label>"
+                            . "<div class='col-md-8'>"
+                            . "<div class='summernote'></div>"
+                            . "</div>"
+                            . "</div>";
+                endif;
+
+            endif;
+        endforeach;
+
         return $html;
     }
 
     public function Numeric() {
         $element = $this->elementDetail;
-        if ($element->layout == 1) {
-            $html = "<div class='form-group form-group-sm'>"
-                    . "<label class='control-label col-md-3 text-uppercase'>" . $element->label . "</label>"
-                    . "<div class='col-md-3'>"
-                    . "<input class='form-control' type='number'  style='margin-left:15px;' name='" . $element->name . "' />"
-                    . "</div>"
-                    . "</div>";
-        } else {
-            $html = "<div class='form-group form-group-sm'>"
-                    . "<label class='control-label col-md-6 text-uppercase'>" . $element->label . "</label>"
-                    . "</div>"
-                    . "<div class='form-group form-group-sm'>"
-                    . "<div class='col-md-4'>"
-                    . "<input class='form-control' type='number' name='" . $element->name . "' />"
-                    . "</div>"
-                    . "</div>";
-        }
+
+        #ELEMENT_LEVEL
+        $document = new Document_Template_Model;
+        $level = $document->checkElementLevel($element->element_code, $element->doc_name_id);
+
+        #ELEMENT_LAYOUT
+        $layout = (isset($element->layout)) ? $element->layout : 1;
+
+        foreach ($level as $levels):
+
+            if ($layout):
+                if ($levels['element_level'] == 1):
+                    $html = "<div class='form-group form-group-sm'>"
+                            . "<label class='control-label col-md-3 text-uppercase'>" . $element->label . "</label>"
+                            . "<div class='col-md-3' style='margin-left:15px'>"
+                            . "<input class='form-control' type='number'  style='margin-left:15px;' name='" . $element->name . "' />"
+                            . "</div>"
+                            . "</div>";
+                else:
+                    $html = "<div class='form-group form-group-sm'  style='padding-left:" . $levels['element_level'] . "9px'>"
+                            . "<label class='control-label col-md-3 text-uppercase'>" . $element->label . "</label>"
+                            . "<div class='col-md-3' style='margin-left:15px'>"
+                            . "<input class='form-control' type='number'  name='" . $element->name . "' />"
+                            . "</div>"
+                            . "</div>";
+                endif;
+
+            endif;
+        endforeach;
+
         return $html;
     }
 
     public function Alphanumeric() {
         $element = $this->elementDetail;
-        $totalTextBox = $this->is_multiple_textbox;
+
+        #ELEMENT_LEVEL
+        $document = new Document_Template_Model;
+        $level = $document->checkElementLevel($element->element_code, $element->doc_name_id);
+
+        #ELEMENT_LAYOUT
         $layout = (isset($element->layout)) ? $element->layout : 1;
-        if ($layout) {
-            $html = "<div class='form-group form-group-sm'>"
-                    . "<label class='control-label col-md-6 text-uppercase'>" . $element->label . "</label>";
 
-            for ($i = 0; $i < $totalTextBox; $i++):
-                $colSize = ($totalTextBox > 1) ? 'col-sm-1' : 'col-sm-5';
-                $method = ($totalTextBox > 1) ? json_decode($element->listing[$i]['method']) : false;
-                $html .= "<div class='$colSize'>";
-                if (isset($method->form_group->input_group)):
-                    $html .= "<div class='input-group input-group-sm'>";
-                endif;
-                $html .= "<input type='text' name='" . $element->name . "' class='form-control' style='margin-left:15px;'/>";
-                if (isset($method->form_group->input_group)):
-                    if (isset($method->form_group->input_group->group_type)):
-                        if ($method->form_group->input_group->group_type == 'addon'):
-                            $html .= "<span class='input-group-addon'>" . $method->form_group->input_group->addon_text . "</span>";
-                        endif;
-                    endif;
-                    $html .= "</div>";
-                endif;
-                $html .= "</div>";
-            endfor;
-            $html .= "</div>";
-        }else {
-            $html = "<div class='form-group form-group-sm'>"
-                    . "<label class='control-label col-md-12 text-uppercase'>" . $element->label . "</label>"
-                    . "</div>"
-                    . "<div class='form-group form-group-sm'>";
+        foreach ($level as $levels):
 
-            for ($i = 0; $i < $totalTextBox; $i++):
-                $colSize = ($totalTextBox > 1) ? 'col-sm-4' : 'col-sm-8';
-                $method = ($totalTextBox > 1) ? json_decode($element->listing[$i]['method']) : false;
-                $html .= "<div class='$colSize'>";
-                if (isset($method->form_group->input_group)):
-                    $html .= "<div class='input-group input-group-sm'>";
+            if ($layout):
+                if ($levels['element_level'] == 1):
+                    $html = "<div class='form-group form-group-sm'>"
+                            . "<label class='control-label col-md-3 text-uppercase'>" . $element->label . "</label>"
+                            . "<div class='col-md-3' style='margin-left:15px'>"
+                            . "<input class='form-control' type='text' name='" . $element->name . "' />"
+                            . "</div>"
+                            . "</div>";
+                else:
+                    $html = "<div class='form-group form-group-sm'  style='padding-left:" . $levels['element_level'] . "9px'>"
+                            . "<label class='control-label col-md-3 text-uppercase'>" . $element->label . "</label>"
+                            . "<div class='col-md-3' style='margin-left:15px'>"
+                            . "<input class='form-control' type='text'  name='" . $element->name . "' />"
+                            . "</div>"
+                            . "</div>";
                 endif;
-                $html .= "<input type='text' name='" . $element->name . "' class='form-control' />";
-                if (isset($method->form_group->input_group)):
-                    if (isset($method->form_group->input_group->group_type)):
-                        if ($method->form_group->input_group->group_type == 'addon'):
-                            $html .= "<span class='input-group-addon'>" . $method->form_group->input_group->addon_text . "</span>";
-                        endif;
-                    endif;
-                    $html .= "</div>";
-                endif;
-                $html .= "</div>";
-            endfor;
-            $html .= "</div>";
-        }
+
+            endif;
+        endforeach;
+
         return $html;
     }
 
     public function Dropdown() {
         $element = $this->elementDetail;
+
+        #ELEMENT_LEVEL
+        $document = new Document_Template_Model;
+        $level = $document->checkElementLevel($element->element_code, $element->doc_name_id);
+
+        #ELEMENT_LAYOUT
         if ($this->is_parent):
             $referral = ReferenceCaller($element->element_code, $element->doc_name_id);
         else:
@@ -552,57 +544,50 @@ class Input_Type_Controller extends Common_Controller {
             $referral = (object) $listData;
         endif;
 
-        if ($element->layout == 1) {
-            $inputColumn = ($this->is_parent) ? 'col-sm-4' : 'col-sm-4';
-            $html = "<div class='form-group form-group-sm'>"
-                    . "<label class='control-label col-md-3 text-uppercase'";
-            $html .= ($this->is_parent) ? '' : 'style="font-weight:normal;"';
-            $html .= ">" . $element->label . "</label>"
-                    . "<div class='$inputColumn'>"
-                    . "<select name='" . $element->name . "' class='form-control' style='margin-left:15px;'>"
-                    . "<option value='0' >Please Select</option>";
-            foreach ($referral->data as $ref):
-                $html .= "<option>" . $ref['multi_answer_desc'] . "</option>";
-            endforeach;
-            $html .= "</select>"
-                    . "</div>"
-                    . "</div>";
-        }else {
-            $inputColumn = ($this->is_parent) ? 'col-sm-6' : 'col-sm-6';
-            $html = "<div class='form-group form-group-sm'>"
-                    . "<label class='control-label col-md-12 text-uppercase' style='padding-bottom:5px;'";
-            $html .= ($this->is_parent) ? '' : 'style="font-weight:normal;"';
-            switch ($element->label):
-                //if label is empty (no space)
-                case '':
+        foreach ($level as $levels):
+            if ($element->layout == 1):
+                if ($levels['element_level'] == 1):
+                    $inputColumn = ($this->is_parent) ? 'col-sm-4' : 'col-sm-4';
+                    $html = "<div class='form-group form-group-sm'>"
+                            . "<label class='control-label col-md-3 text-uppercase'";
+                    $html .= ($this->is_parent) ? '' : 'style="font-weight:normal;"';
                     $html .= ">" . $element->label . "</label>"
                             . "<div class='$inputColumn'>"
-                            . "<select name='" . $element->name . "' class='form-control'>"
+                            . "<select name='" . $element->name . "' class='form-control' style='margin-left:15px;'>"
                             . "<option value='0' >Please Select</option>";
-                    break;
-                default:
+                    foreach ($referral->data as $ref):
+                        $html .= "<option>" . $ref['multi_answer_desc'] . "</option>";
+                    endforeach;
+                    $html .= "</select>"
+                            . "</div>"
+                            . "</div>";
+                else:
+                    $inputColumn = ($this->is_parent) ? 'col-sm-4' : 'col-sm-4';
+                    $html = "<div class='form-group form-group-sm' style='padding-left:" . $levels['element_level'] . "9px'>"
+                            . "<label class='control-label col-md-3 text-uppercase'";
+                    $html .= ($this->is_parent) ? '' : 'style="font-weight:normal;"';
                     $html .= ">" . $element->label . "</label>"
                             . "<div class='$inputColumn'>"
-                            . "<select name='" . $element->name . "' class='form-control'>"
+                            . "<select name='" . $element->name . "' class='form-control' style='margin-left:15px;'>"
                             . "<option value='0' >Please Select</option>";
-            endswitch;
-            foreach ($referral->data as $ref):
-                $html .= "<option>" . $ref['multi_answer_desc'] . "</option>";
-            endforeach;
-            $html .= "</select>"
-                    . "</div>"
-                    . "</div>";
-        }
+                    foreach ($referral->data as $ref):
+                        $html .= "<option>" . $ref['multi_answer_desc'] . "</option>";
+                    endforeach;
+                    $html .= "</select>"
+                            . "</div>"
+                            . "</div>";
+                endif;
+            endif;
+        endforeach;
+
         return $html;
     }
 
-    //edited by Fatin Adilah 9/4
+//edited by Fatin Adilah 9/4
     public function RadioButton() {
         $element = $this->elementDetail;
         if ($this->is_parent):
             $referral = ReferenceCaller($element->element_code, $element->doc_name_id);
-//        else:
-//            $referral = ReferenceCaller($element->element_code, $element->doc_name_id);
         endif;
 
         if ($element->layout == 1) {
@@ -637,12 +622,6 @@ class Input_Type_Controller extends Common_Controller {
             $html .= "</div></div>"
                     . "</div>";
         }
-
-
-
-
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
         else {
             $html = "<div class='form-group form-group-sm'>"
                     . "<label class='control-label col-md-6 text-uppercase'>" . $element->label . "</label>"
@@ -757,7 +736,7 @@ class Input_Type_Controller extends Common_Controller {
         return $html;
     }
 
-    //16AUG
+//16AUG
     public function ListMethodInput() {
         $document = new Document_Template_Model();
         $result = $document->ListMethodInfo();
