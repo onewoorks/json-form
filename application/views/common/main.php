@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="json form formatted from structured dataset">
         <meta name="author" content="irwan ibrahim">
-        <link rel="shortcut icon" href="<?php echo SITE_ASSET; ?>/assets/favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="<?php echo SITE_ASSET; ?>/assets/favicon-JSON.ico" type="image/x-icon">
         <link rel="icon" href="<?php echo SITE_ASSET; ?>/assets/favicon.ico" type="image/x-icon">
         <link href="<?php echo SITE_ASSET; ?>/assets/css/main.css" rel="stylesheet" />
         <link href="<?php echo SITE_ASSET; ?>/assets/library/bootstrap/css/bootstrap.css" rel="stylesheet">
