@@ -522,7 +522,7 @@ class Formview_Controller extends Common_Controller {
 
                 $document_id = $new_mapper['documentId'];
                 $element_code = $new_mapper['elementCode'];
-                $element_name = $new_mapper['element_desc'];
+                $element_name = $new_mapper['new_element'];
                 $element_properties = $new_mapper['element_properties'];
 
                 if ($element_properties == 'DECORATION') {
@@ -532,9 +532,10 @@ class Formview_Controller extends Common_Controller {
                 } else {
                     $this->CaseSubsection($new_mapper, $new_data);
                 }
-                $document = new Document_Template_Model();
+
                 //update element_desc
-                $document->UpdateElementName($element_code, $element_name);
+                $document = new Document_Template_Model();
+                $document->UpdateElementName($element_code, $element_name, $document_id);
                 $this->GenerateJSONFormat($document_id, 'update');
                 break;
             case 'update-section-element-new':
@@ -552,7 +553,7 @@ class Formview_Controller extends Common_Controller {
 
                 $document_id = $new_mapper['document_id'];
                 $element_code = $new_mapper['element_code'];
-                $element_name = $new_mapper['element_desc'];
+                $element_name = $new_mapper['new_element'];
                 $element_properties = str_replace('_NEW', '', $new_mapper['element_properties']);
 
                 if ($element_properties == 'DECORATION') {
@@ -562,10 +563,9 @@ class Formview_Controller extends Common_Controller {
                 } else {
                     $this->CaseSubsectionNew($new_mapper, $new_data);
                 }
-//                $document = new Document_Template_Model();
-                //update element_desc
-//                $document->UpdateElementName($element_code, $element_name);
-//                $this->GenerateJSONFormat($document_id, 'update');
+                $document = new Document_Template_Model();
+                $document->UpdateElementName($element_code, $element_name, $document_id);
+                $this->GenerateJSONFormat($document_id, 'update');
                 break;
             case 'update-new-form':
                 $document = new Document_Template_Model();
@@ -934,9 +934,9 @@ class Formview_Controller extends Common_Controller {
             'data_type' => $dataType,
             'doc_method_code' => $methodCode
         );
-//        echo '<pre>';
-//        print_r($val);
-//        echo '</pre>';
+        echo '<pre>';
+        print_r($val);
+        echo '</pre>';
         $document->UpdateElementToBasicNew($val);
         return true;
     }
