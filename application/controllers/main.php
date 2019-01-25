@@ -247,14 +247,25 @@ class Main_Controller extends Common_Controller {
                 $result['doc_group'] = $this->RefDocumentSelectedGroup();
                 $result['preset_select'] = false;
                 break;
+//            default:
+//                $page = 'forms/list_of_document';
+//                $document = new Document_Template_Model();
+//                $result['list_of_documents'] = $document->GetListAvailableDocument();
+//                $result['main_discipline'] = $this->RefMainDisciplineGroup();
+//                $result['general_discipline'] = $this->RefGeneralDiscipline();
+//                $result['doc_types'] = $this->RefDocumentType();
+//                $result['doc_group'] = $this->RefDocumentSelectedGroup();
+//                $result['preset_select'] = false;
+//                break;
             default:
-                $page = 'forms/list_of_document';
+                $result['available_documents'] = $this->CompareExistedJSON();
+                $page = 'forms/generate_json_format';
                 $document = new Document_Template_Model();
                 $result['list_of_documents'] = $document->GetListAvailableDocument();
                 $result['main_discipline'] = $this->RefMainDisciplineGroup();
                 $result['general_discipline'] = $this->RefGeneralDiscipline();
                 $result['doc_types'] = $this->RefDocumentType();
-                $result['doc_group'] = $this->RefDocumentSelectedGroup();
+                $result['doc_group'] = $this->RefDocumentGroup();
                 $result['preset_select'] = false;
                 break;
         endswitch;
@@ -292,6 +303,27 @@ class Main_Controller extends Common_Controller {
         endforeach;
 //        $this->GenerateJSONFormat(196);
         return $t;
+    }
+    
+    private function CompareExistedJSON() {
+        $documentElementOnly = $this->GetAvailableDocumentWithElement();
+//         $documentTemplate = $this->GetExistedDocumentTemplate();
+//         print_r($documentTemplate);
+//         $test = array_diff($documentElementOnly, $documentTemplate);
+//         $mergeDocument = array_merge($documentElementOnly,$documentTemplate);
+        return $documentElementOnly;
+    }
+    
+        private function GetAvailableDocumentWithElement() {
+        $document = new Document_Template_Model();
+        $templates = $document->ReadDocumentElementExisted();
+        if ($templates != null):
+            $documentId = array();
+            foreach ($templates as $template):
+                $documentId[] = $template;
+            endforeach;
+            return $documentId;
+        endif;
     }
 
 }
