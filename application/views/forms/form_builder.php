@@ -325,10 +325,10 @@
             $('.sectionMain' + dropid).remove();
         });
         //DELETE SECTION (PANEL ELEMENT)
-        $('#displaySection').on('click', '.delSection', function () {
-            var delid = $(this).data('secid');
-            $('#section_panel' + delid).remove();
-        });
+//        $('#displaySection').on('click', '.delSection', function () {
+//            var delid = $(this).data('secid');
+//            $('#section_panel' + delid).remove();
+//        });
         //REMOVE ELEMENT TEXTFIELD
         $('#displaySection').on('click', '.elementDel', function () {
             var cari = $(this).closest('[class^="elementListing"]').first().attr("data", 'delete');
@@ -350,7 +350,7 @@
                     $sectionPanel += '<div id="section_panel' + no + '">';
                     $sectionPanel += '<div class="panel panel-primary">';
                     $sectionPanel += '<div class="panel-heading" style="height:30px">' + input[key].value + '';
-                    $sectionPanel += '<div class="btn btn-default btn-xs delSection pull-right" data-secid=' + no + '><i class="glyphicon glyphicon-trash"></i></div>';
+//                    $sectionPanel += '<div class="btn btn-default btn-xs delSection pull-right" data-secid=' + no + '><i class="glyphicon glyphicon-trash"></i></div>';
                     $sectionPanel += '<div class="btn btn-default btn-xs expandButton pull-right" data-toggle="collapse" data-target="#demo' + no + '" ><i class="glyphicon glyphicon-chevron-down"></i></div>';
                     $sectionPanel += '</div>';
                     $sectionPanel += '<div id="demo' + no + '" class="collapse">';
@@ -444,10 +444,8 @@
 
 <script>
     $(".addForm").click(function () {
-
-//            console.log('documentDetail',$('#formFilter').serializeArray());
-//            console.log('sectionDetail',$('#sectionBuilder').serializeArray());
-//            console.log('elementDetail',$('#elementBuilder').serializeArray());
+    
+        $('.addDetail').attr('disabled', false);
 
         $.ajax({
             url: '<?= SITE_ROOT; ?>/formview/update-new-form/',
@@ -463,8 +461,11 @@
                     });
             }
         });
+        
+        $('.addForm').attr('disabled', 'disabled');
+        $('.plusElement').attr('disabled', 'disabled');
+        $('.elementDel').attr('disabled', 'disabled');
 
-    $('#addDetail').attr('disabled', false);
     });
 </script>
 
