@@ -356,7 +356,7 @@ class Document_Template_Model {
     }
 
     public function GetElementDetail($elementCode, $documentId) {
-        $sql = "SELECT rde.element_code, rde.json_element,rde.element_desc,de.child_element_code,de.data_type,de.sorting,de.input_type, de.method,de.doc_method_code,de.element_position, de.element_properties, de.additional_attribute "
+        $sql = "SELECT rde.element_code, rde.json_element,rde.element_desc,de.child_element_code,de.data_type,de.sorting,de.element_level,de.input_type, de.method,de.doc_method_code,de.element_position, de.element_properties, de.additional_attribute "
                 . " FROM document_element de INNER JOIN document d ON(d.doc_name_id=de.doc_name_id) "
                 . " INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code) "
                 . " INNER JOIN ref_document_element rde ON (rde.element_code=de.parent_element_code) "
@@ -728,8 +728,19 @@ class Document_Template_Model {
     }
 
     //update element name
-    public function UpdateElementName($code, $name) {
-        $sql = "UPDATE ref_document_element SET element_desc='" . $name . "' WHERE element_code='" . (int) $code . "'";
+//    public function UpdateElementName($code, $name) {
+//        $sql = "UPDATE ref_document_element SET element_desc='" . $name . "' WHERE element_code='" . (int) $code . "'";
+//        $this->db->connect();
+//        $this->db->prepare($sql);
+//        $this->db->queryexecute();
+//        return true;
+//    }
+
+    public function UpdateElementName($code, $name, $document_id) {
+        $sql = " UPDATE document_element "
+                . " SET parent_element_code = '".(int)$name."' "
+                . " WHERE parent_element_code = '".(int)$code."' AND doc_name_id = '" . (int) $document_id . "' ";
+        print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -761,7 +772,7 @@ class Document_Template_Model {
         if (isset($val['data_type'])):
             $data_type = $val['data_type'];
         endif;
-        $sql = "UPDATE document_element SET child_element_code='" . (int) $val['child_element_code'] . "', element_position='" . $val['element_position'] . "', element_properties='" . $val['element_properties'] . "', input_type='" . $val['input_type'] . "', data_type = $data_type, method =(SELECT method_info FROM ref_document_method WHERE doc_method_code = $methodCodes LIMIT 1), doc_method_code=$methodCodes, updated_by='ADMIN', updated_date = now() "
+        $sql = "UPDATE document_element SET child_element_code='" . (int) $val['child_element_code'] . "', element_level='" . $val['element_level'] . "', element_position='" . $val['element_position'] . "', element_properties='" . $val['element_properties'] . "', input_type='" . $val['input_type'] . "', data_type = $data_type, method =(SELECT method_info FROM ref_document_method WHERE doc_method_code = $methodCodes LIMIT 1), doc_method_code=$methodCodes, updated_by='ADMIN', updated_date = now() "
                 . "WHERE doc_name_id='" . (int) $val['doc_name_id'] . "' AND parent_element_code='" . (int) $val['element_code'] . "' ";
         print_r($sql);
         $this->db->connect();
@@ -1030,8 +1041,8 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-    
-    public function checkElementLevel($elementId,$docId){
+
+    public function checkElementLevel($elementId, $docId) {
         $sql = "SELECT element_level "
                 . "FROM document_element "
                 . "WHERE doc_name_id = '$docId' AND parent_element_code = '$elementId' ";
