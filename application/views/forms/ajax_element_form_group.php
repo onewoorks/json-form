@@ -1,39 +1,33 @@
 <form id='editElement' class='form-horizontal'>
-<input type='hidden' name='element_code' value='<?= $values->element_code; ?>' />
-<input type='hidden' name='document_id' value='<?= $document_id; ?>' />
-<input type='hidden' name='template_id' value='<?= $template_id; ?>' />    
-<input type='hidden' name='json_element' value='<?= $values->json_element; ?>' /> 
-<input type='hidden' name='element_desc' value='<?= $values->element_desc; ?>' />
-<input type='hidden' name='input_type' value='<?= $values->input_type; ?>' />
-<input type='hidden' name='additional_attribute' value='<?= $values->additional_attribute; ?>' />
-<input type='hidden' name='method' value='<?= $values->method; ?>' />
-<input type='hidden' name='data_type' value='<?= $values->data_type; ?>' />
-<input type='hidden' name='method_code' value='<?= $values->doc_method_code; ?>' />
-    
-    <div class='form-group form-group-sm' style="margin-right: 0px">    
-                <label class='control-label col-sm-10' style="margin-left:-8px">Search</label>
-                <div class='form-inline'>
-                <input type='text' name='search_desc' id='searchDesc' class='form-control' autocomplete="off" />
-                <input type='hidden' name='element_desc' id='elementName' class='form-control' autocomplete="off" list="elemList" />
-                            <datalist id="elemList">
-                                <?php foreach ($elements as $element): ?>
-                                        <option value='<?php echo $element['element_desc']; ?>'><?php echo $element['json_element']; ?></option>
-                                <?php endforeach; ?>
-                            </datalist>
-                <button type="button" class="btn btn-primary btn-sm searchElement" style='padding-top:5.4px;padding-bottom:5px'>
-                        <span class="glyphicon glyphicon-search"></span>
-                </button>
-                </div>
-                <span class='pull-right' style="font-size: smaller; padding-right: 48px; padding-top:1.7px;" id="check"></span>
-    </div>
-    
-<div class='panel panel-default' style="margin-right: 13px">
+    <input type='hidden' name='element_code' value='<?= $values->element_code; ?>' />
+    <input type='hidden' name='document_id' value='<?= $document_id; ?>' />
+    <input type='hidden' name='template_id' value='<?= $template_id; ?>' />    
+    <input type='hidden' name='json_element' value='<?= $values->json_element; ?>' /> 
+    <input type='hidden' name='element_desc' value='<?= $values->element_desc; ?>' />
+    <input type='hidden' name='input_type' value='<?= $values->input_type; ?>' />
+    <input type='hidden' name='additional_attribute' value='<?= $values->additional_attribute; ?>' />
+    <input type='hidden' name='method' value='<?= $values->method; ?>' />
+    <input type='hidden' name='data_type' value='<?= $values->data_type; ?>' />
+    <input type='hidden' name='method_code' value='<?= $values->doc_method_code; ?>' />
+
+    <div class='panel panel-default' style="margin-right: 13px">
         <div class='panel-heading'>Properties</div>
         <div class='panel-body'>
             <div class='form-group form-group-sm'>
                 <label class='control-label col-sm-2'>Element Description</label>
                 <div class='col-sm-8'>
-                    <input type='text' name='element_desc' value='<?= $values->element_desc; ?>' class='form-control' autocomplete="off"/>
+                    <input name="element_desc" id="element_desc" type="text" class="form-control elemList" list="elemList" value="<?= $values->element_desc; ?>"/>
+                    <datalist id="elemList">
+                        <?php foreach ($elements as $element): ?>
+                            <option value="<?php echo $element['element_desc']; ?>" data-id="<?php echo $element['element_code']; ?>"><?php echo $element['element_code']; ?></option>
+                        <?php endforeach; ?>
+                    </datalist>
+                </div>
+            </div>
+            <div class='form-group form-group-sm'>
+                <label class='control-label col-sm-2'>Element Level</label>
+                <div class='col-sm-8'>
+                    <input type='number' name='element_level' id='element_level' class='form-control' style="width:8%" value="<?= $values->element_level; ?>" autocomplete="off"/>
                 </div>
             </div>
             <div class="form-group form-group-sm">
@@ -46,26 +40,26 @@
                                  }elseif($group['element_code']=== $values->child_element_code){
                                     echo "<option value='".$group['element_code']."'>".$group['element_desc']."</option>";
                                     echo "<option value='".$values->element_code."'>No group</option>";
-                                 }
-                                 endforeach;
-                                 foreach ($grouping as $group):
+                            }
+                        endforeach;
+                        foreach ($grouping as $group):
                                   if($group['element_code']=== $values->child_element_code ){
                                  }else{
-                        ?>
-                        <option value='<?php echo $group['element_code']; ?>'><?php echo $group['element_desc']; ?></option>
-                        <?php } endforeach; ?> 
+                                ?>
+                                <option value='<?php echo $group['element_code']; ?>'><?php echo $group['element_desc']; ?></option>
+    <?php } endforeach; ?> 
                     </select>
                 </div>
             </div>
             <div class="form-group form-group-sm">
                 <label class="control-label col-sm-2">Position</label>
                 <div class="col-sm-8">
-                      <label class="radio-inline">
+                    <label class="radio-inline">
                             <input name="position" type="radio" value="L" <?php if($values->element_position==='L'){echo 'checked';} ?>> Left
-                     </label>
-                     <label class="radio-inline">
+                    </label>
+                    <label class="radio-inline">
                             <input name="position" type="radio" value="R" <?php if($values->element_position==='R'){echo 'checked';} ?> > Right
-                     </label>
+                    </label>
                 </div>
             </div>
             <div class='form-group form-group-sm'>
@@ -107,58 +101,49 @@
             ElementBuilder(selector);
         });
     });
-    
+
     //BAWA KE PAGE->BASIC
     function ElementBuilder(formType) {
         var formValue = $('#editElement').serializeArray();
-        console.log('FORMTYPE:',formType);
-        console.log('ajax_element_form_group: FORMVALUE=',formValue);
+        console.log('FORMTYPE:', formType);
+        console.log('ajax_element_form_group: FORMVALUE=', formValue);
         $.ajax({
-            url: '<?php echo SITE_ROOT;?>/formbuilder/formelement/',
-            data: {value:formType, params:formValue}, //bawa value satu form page ni
+            url: '<?php echo SITE_ROOT; ?>/formbuilder/formelement/',
+            data: {value: formType, params: formValue}, //bawa value satu form page ni
             success: function (data) {
                 $('#formelement').html(data);
             }
         });
     };
-            
+
     //UPDATE_ELEMENT
-    $(function(){
-        $('#editElement').submit(function(e){
+    $(function () {
+        $('#editElement').submit(function (e) {
             e.preventDefault();
-            var datas = JSON.stringify($(this).serializeArray());
+            var test = $(this).serializeArray();
+            var new_desc = $('#element_desc').val();
+            var elemDesc = $('#elemList [value="' + new_desc + '"]').data('id');
+            test.push({name: 'new_element', value: '' + elemDesc + ''});
+
+            var datas = JSON.stringify(test);
             var method = JSON.stringify($('#basicMethod').serializeArray());
             var multAns = JSON.stringify($('#basicMultAns').serializeArray());
             var subSec = JSON.stringify($('#basicSubSec').serializeArray());
             $.ajax({
-                url : '<?= SITE_ROOT;?>/formview/update-section-element/',
-                type : 'POST',
-                data : { dummy: null,values: datas,basicMethod:method, basicMultAns:multAns, basicSubSec:subSec},
-                success : function(data){
-                  console.log(data);
-                  $('#myModal').modal('hide');
-                  swal({
-                      title: "Element Updated!",
-                      text:  "Data successfully updated into database",
-                      type:  "success"
+                url: '<?= SITE_ROOT; ?>/formview/update-section-element/',
+                type: 'POST',
+                data: {dummy: null, values: datas, basicMethod: method, basicMultAns: multAns, basicSubSec: subSec},
+                success: function (data) {
+                    console.log(data);
+                    $('#myModal').modal('hide');
+                    swal({
+                        title: "Element Updated!",
+                        text: "Data successfully updated into database",
+                        type: "success"
                     });
                 }
             });
         });
-        });
-  
-    //SEARCHELEMENT
-        $('.searchElement').click(function () {
-            var values = $('#elementBuilder').serializeArray();
-            var search = $("#searchDesc").val();
-            var obj=$("#elemList").find("option[value='"+search+"']");
-            console.log(obj);
-           
-        if(obj !== null && obj.length>0){
-             $("#check").html("Data Already Exist").css("color", "red");
-             }else{
-             $("#check").html("Data Not Found").css("color", "green");
-             }
-        });
-        
+    });
+
 </script> 
