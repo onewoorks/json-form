@@ -3,7 +3,7 @@
 <div id="formCreator">
     <div class="col-md-12" style="margin-left:30px">
         <div class="panel panel-default">
-            <div class="panel-heading">TITLE DETAILS</div>
+            <div class="panel-heading">TITLE DETAILS<i class='glyphicon glyphicon-info-sign pull-right' title="Fill in Document Title"></i></div>
             <div class="panel-body" style="margin-bottom: -20px">
                 <form id='formFilter' class='form-horizontal'>
                     <div class='form-group form-group-sm'>
@@ -56,13 +56,14 @@
                                 <tr>
                                     <td><b>Document Title</b></td>
                                     <td>
-                                        <input name="doc_name_desc" id="doc_name_desc" type="text" class="form-control docList" list="docList" />
+                                        <input name="doc_name_desc" id="doc_name_desc" type="text" class="form-control docList" list="docList" required/>
                                         <datalist id="docList">
                                             <?php foreach ($list_of_documents as $document): ?>
                                                 <option value="<?php echo $document['doc_name_desc']; ?>" data-id="<?php echo $document['doc_name_id']; ?>"></option>
                                             <?php endforeach; ?>
                                         </datalist>
                                     </td>
+                                    <td class='pull-left' style='margin-left: -25px'><b style='color: red'>*</b></td>
                                 </tr>
                                 <tr>
                                     <td></td>
@@ -96,7 +97,7 @@
     <div class="col-sm-6" style="margin-left:30px">
         <form id="sectionBuilder" class="form-horizontal">
             <div class='panel panel-default'>
-                <div class='panel-heading'>SECTION DETAILS</div>
+                <div class='panel-heading'>SECTION DETAILS<i class='glyphicon glyphicon-info-sign pull-right' title="Insert Section by Order"></i></div>
                 <div class='panel-body'>
                     <div id='sectionGroup'>
                         <div class='sectionMain1'>
@@ -117,7 +118,7 @@
                         </div>
                     </div>
                     <div class="col-sm-2 pull-right">
-                        <div class="btn btn-primary btn-sm" id="addSection" data-number='1'>Add Section</div>
+                        <div class="btn btn-primary btn-sm" id="addSection" data-number='1' disabled="disabled">Add Section</div>
                     </div>
                 </div>
             </div>
@@ -128,7 +129,7 @@
     <div class="col-sm-6" style="margin-right:-30px">
         <form id="elementBuilder" class="form-horizontal">
             <div class="panel panel-default">
-                <div class="panel-heading">ELEMENT DETAILS</div>
+                <div class="panel-heading">ELEMENT DETAILS<i class='glyphicon glyphicon-info-sign pull-right' title="1. Insert Element by Order & Click 'Save Form' &#10;2. Click 'Details' and Update Each Element's Data"></i></div>
                 <div class="panel-body">
                     <div id="displaySection"></div>
                     <!--tmpt display section dlm element (DARI SCRIPT)-->
@@ -249,6 +250,28 @@
     });</script>
 
 <script>
+  $(document).ready(function () {
+      
+      $('#formFilter input').keyup(function() {
+
+        var empty = false;
+        $('#formFilter input').each(function() {
+            if ($(this).val().length === 0) {
+                empty = true;
+            }
+        });
+
+        if (empty) {
+            $('#addSection').attr('disabled', 'disabled');
+        } else {
+            $('#addSection').attr('disabled', false);
+        }
+    });
+  });  
+    
+</script>
+
+<script>
     $(document).ready(function () {
         var count = 2;
         var x;
@@ -341,7 +364,7 @@
                     $sectionPanel += '<datalist id="elemList">' + option2 + '</datalist>';
                     $sectionPanel += '</div>';
                     $sectionPanel += '<div class="col-sm-3 sectionAction" data-target=' + no + '>';
-                    $sectionPanel += '<div class="btn btn-info btn-sm addDetail" data-sectionno=' + no + '-' + x + ' data-elementcount="1"><i></i>Details</div>';
+                    $sectionPanel += '<div class="btn btn-info btn-sm addDetail" data-sectionno=' + no + '-' + x + ' data-elementcount="1" disabled="disabled"><i></i>Details</div>';
                     $sectionPanel += '<div class="btn btn-default btn-xs plusElement" data-target=' + no + ' style="padding:3px;"><i class="glyphicon glyphicon-plus"></i></div>'; //tambah element
                     $sectionPanel += '<br><br>';
                     $sectionPanel += '</div>';
@@ -378,7 +401,7 @@
             $addPanel += '<datalist id="elemList">' + option2 + '</datalist>';
             $addPanel += '</div>';
             $addPanel += '<div class="col-sm-3 sectionAction" data-target=' + y + '>';
-            $addPanel += '<div class="btn btn-info btn-sm addDetail" data-sectionno=' + no + '-' + y + ' data-elementcount="0" ><i></i>Details</div>';
+            $addPanel += '<div class="btn btn-info btn-sm addDetail" data-sectionno=' + no + '-' + y + ' data-elementcount="0" disabled="disabled"><i></i>Details</div>';
             $addPanel += '<div class="btn btn-default btn-xs elementDel" data-delete=' + y + ' style="padding:3px;"><i class="glyphicon glyphicon-minus"></i></div><br><br>'; //remove element
             $addPanel += '</div>';
             $addPanel += '</div>';
@@ -441,6 +464,7 @@
             }
         });
 
+    $('#addDetail').attr('disabled', false);
     });
 </script>
 
