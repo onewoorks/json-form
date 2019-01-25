@@ -17,6 +17,7 @@
                 <?php foreach ($json_elements as $key => $section): ?>
                     <?php if ($section->section_code == '0'): ?>
                         <div class='panel-body' data-section='<?= $key; ?>' style="padding-top: 8px;" >
+                            <!--display element-->
                             <?php echo ColumnRender($section->elements, $section->layout, $document_title, $document_id, $section->layout); ?>
                         </div>
                     <?php endif; ?>
@@ -120,9 +121,11 @@
 </script>
 
 <script>
+    //RADIOBUTTON
     $(function () {
         $('input:radio').change(function () {
-            var className = $(this).attr('name');
+            var className = $(this).attr('data-ref');
+            console.log('radio',className);
             if ($('input:radio[class="' + className + '"]').prop('checked', this.checked)) {
                 console.log(this.checked);
             }
@@ -155,11 +158,11 @@
         $("input[name^=calendar_]").hide();
         $("input[name^=freetext_]").hide();
 
-        $('input[type="radio"]').change(function () {
-            HideAndShowTextbox(this);
-            var $refcode = $(this).data('refcodes');
-            console.log($refcode);
-        });
+//        $('input[type="radio"]').change(function () {
+//            HideAndShowTextbox(this);
+//            var $refcode = $(this).data('refcodes');
+//            console.log($refcode);
+//        });
 
     });
 
