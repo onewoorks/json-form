@@ -1,91 +1,77 @@
 <?php echo $header; ?>
 
-
 <!--DOCUMENT ID'S-->
 <div id="formCreator">
-<!--<div class="col-sm-12">-->
-<!--<div class="panel panel-default">-->
 <div class="panel-body">
     <form id="formBuilder" class="form-horizontal">  
-        
-        <div class="form-group form-group-sm pull-right" style='padding-left:880px'>
-            <label class='control-label col-sm-2'>Search</label>
-                <div class='form-inline col-sm-10'>
-                <input type='text' name='search' class='form-control' placeholder="Search Document...." />
-                <div class="btn btn-primary btn-sm searchTitle" style="padding-top:3px;padding-bottom:3px"><i class="glyphicon glyphicon-search"></i></div>
-                </div>
-        </div>
-        
-        
-        <div class="form-group form-group-sm">
-            <label class="control-label col-sm-2">Discipline</label>
-            <div class="col-sm-8">
-                <select name='discipline' class='form-control'>
-                    <?php foreach ($main_discipline as $discipline): ?>
-                    <option value='<?php echo $discipline['code']; ?>'><?php echo $discipline['label']; ?></option>
-                    <?php endforeach; ?>
-                </select>
+            
+            <div class='form-group form-group-sm'>
+                <table class='listcolumn' style='font-size:12px;margin-left:250px;text-align:right;' >
+                    <tbody>
+                        <tr>
+                            <td><b>Discipline</b>&nbsp;<b style='color: red'>*</b></td>
+                            <td>
+                                <select name='discipline' id='discipline' class='form-control' >
+                                    <?php foreach ($main_discipline as $discipline): ?>
+                                        <option value='<?php echo $discipline['code']; ?>'><?php echo $discipline['label']; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </td>
+                            <td><b>Document Group</b>&nbsp;<b style='color: red'>*</b></td>
+                            <td>
+                                <select name='doc_group' id='doc_group' class='form-control' >
+                                    <option value='0' selected="selected">Please Select Document Group</option>
+                                    <?php foreach ($doc_group as $doc): ?>
+                                        <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Sub Discipline</b>&nbsp;<b style='color: red'>*</b></td>
+                            <td>
+                                <select name='general_discipline' id='general_discipline' class='form-control' >
+                                    <?php if (!$preset_select): ?>
+                                        <option value='0'>Please Select Sub Discipline</option>
+                                    <?php else: ?>
+                                        <option value='0' selected="selected" >Please Select Sub Discipline</option>
+                                        <?php foreach ($general_discipline as $general): ?>
+                                            <option value='<?php echo $general['code']; ?>'><?php echo $general['label']; ?></option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </select>
+                            </td>
+                            <td><b>Document Type</b>&nbsp;<b style='color: red'>*</b></td>
+                            <td>
+                                <select name='doc_type' id='doc_type' class='form-control'>
+                                    <?php if (!$preset_select): ?>
+                                        <option value='0' selected="selected">Please Select Document Type</option>
+                                    <?php else: ?>
+                                        <option value='0' >Please Select Document Type</option>
+                                        <?php foreach ($doc_types as $doc): ?>
+                                            <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        </div>
-                    
-        <div class="form-group form-group-sm">
-            <label class="control-label col-sm-2">Sub Discipline</label>
-            <div class="col-sm-8">
-                <select name='general_discipline' class='form-control' >
-                    <?php if (!$preset_select): ?>
-                    <option value='0'>Please Select Sub Discipline</option>
-                    <?php else: ?>
-                    <option value='0' selected="selected" >Please Select Sub Discipline</option>
-                        <?php foreach ($general_discipline as $general): ?>
-                        <option value='<?php echo $general['code']; ?>'><?php echo $general['label']; ?></option>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </select>
+
+            <div class="form-group form-group-sm" style='margin-left:-55px;margin-top: -5px'>
+                <label class="control-label col-sm-4">Document Title&nbsp;<b style='color: red'>*</b></label>
+                <div class="col-sm-6" style='width:48.55%'>
+                    <input name="doc_name_desc" id="doc_name_desc" type="text" class="form-control" required/>
+                </div>  
             </div>
-        </div>
-                    
-        <div class='form-group form-group-sm'>
-            <label class='control-label col-sm-2'>Document Group</label>
-            <div class='col-sm-8'>
-                <select name='doc_group' class='form-control' >
-                    <option value='0' selected="selected">Please Select Document Group</option>
-                    <?php foreach ($doc_group as $doc): ?>
-                    <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-        </div>
-                    
-        <div class="form-group form-group-sm">
-            <label class="control-label col-sm-2">Document Type</label>
-            <div class="col-sm-8">
-                <select name='doc_type' class='form-control'>
-                    <?php if (!$preset_select): ?>
-                    <option value='0' selected="selected">Please Select Document Type</option>
-                    <?php else: ?>
-                    <option value='0' >Please Select Document Type</option>
-                        <?php foreach ($doc_types as $doc): ?>
-                        <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </select>
-            </div>
-        </div>
         
-        <div class="form-group form-group-sm">
-            <label class="control-label col-sm-2">Document Title</label>
-            <div class="col-sm-8">
-                <input name="doc_name_desc" type="text" class="form-control" />
-            </div>     
-        </div>
-                    
-        <div class='col-sm-10 text-right'>
-            <div class='btn btn-primary btn-sm addForm'>Add Form</div>
-        </div>
-    </form>
+            <div class='col-sm-10 text-right' style='margin-left:-18px'>
+                <div class='btn btn-primary btn-sm addForm' disabled>Add Form</div>
+            </div>
+
+        </form>
 </div>
-<!--</div>-->
-<!--</div>-->
 
 <div class='container-fluid'>
     <div class='panel panel-primary'>
@@ -132,19 +118,19 @@
     
 //TITLE DETAILS
  $(function () {
-             //FILTERTITLE
-        $('.searchTitle').click(function () {
-            var values = $('#formBuilder').serializeArray();
-            var search = $("#search").val();
-            $.ajax({
-                url: '<?php echo SITE_ROOT; ?>/main/search-title/',
-                data: {values: values, search:search},
-                success: function (data) {
-//                    alert(data);
-                    $('#formCreator').html(data);
-                }
-            });
-        });
+        //FILTERTITLE
+//        $('.searchTitle').click(function () {
+//            var values = $('#formBuilder').serializeArray();
+//            var search = $("#search").val();
+//            $.ajax({
+//                url: '<?php echo SITE_ROOT; ?>/main/search-title/',
+//                data: {values: values, search:search},
+//                success: function (data) {
+////                    alert(data);
+//                    $('#formCreator').html(data);
+//                }
+//            });
+//        });
      
      
         $('[name=doc_group]').change(function () {
@@ -240,6 +226,33 @@
         
         
 });
+</script>
+
+<script>
+  $(document).ready(function () {
+      
+      $('#formBuilder input').keyup(function() {
+
+        var empty = false;
+        $('#formBuilder input').each(function() {
+            if ($(this).val().length === 0) {
+                empty = true;
+            }
+        });
+
+        if (empty) {
+            if(($("#general_discipline").val(),$("#doc_group").val(),$("#doc_type").val()) === '0'){
+            $('.addForm').attr('disabled', 'disabled');
+            }
+        } else {
+            if(($("#general_discipline").val(),$("#doc_group").val(),$("#doc_type").val()) !== '0'){
+            $('.addForm').attr('disabled', false);
+            }
+        }
+    });
+    
+  });  
+    
 </script>
 
 <?php echo $footer;
