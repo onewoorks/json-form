@@ -2,9 +2,9 @@
 
 <!--DOCUMENT ID'S-->
 <div id="formCreator">
-<div class="panel-body">
-    <form id="formBuilder" class="form-horizontal">  
-            
+    <div class="panel-body">
+        <form id="formBuilder" class="form-horizontal">  
+
             <div class='form-group form-group-sm'>
                 <table class='listcolumn' style='font-size:12px;margin-left:250px;text-align:right;' >
                     <tbody>
@@ -65,74 +65,60 @@
                     <input name="doc_name_desc" id="doc_name_desc" type="text" class="form-control" required/>
                 </div>  
             </div>
-        
+
             <div class='col-sm-10 text-right' style='margin-left:-18px'>
                 <div class='btn btn-primary btn-sm addForm' disabled>Add Form</div>
             </div>
 
         </form>
-</div>
+    </div>
 
-<div class='container-fluid'>
-    <div class='panel panel-primary'>
-        <div class='panel-heading'>
-            <div class="btn-group pull-right">
-            </div>
+    <div class='container-fluid'>
+        <div class='panel panel-primary'>
+            <div class='panel-heading'>
+                <div class="btn-group pull-right">
+                </div>
 
-            Result of Existing Title</div>
-        <div class='panel-body'>
-            <div class ='pull-left' style=" font-size: 12px; padding-bottom: 3px;"><b>Total Title = <?= count($list_of_titles);?></b></div>
-            <div class='clearfix'></div>
+                Result of Existing Title</div>
+            <div class='panel-body'>
+    <!--            <div class ='pull-left' style=" font-size: 12px; padding-bottom: 3px;"><b>Total Title = <?= count($list_of_titles); ?></b></div>
+                <div class='clearfix'></div>-->
 
-            <table id="tableForm" class='table table-bordered table-condensed'>
-                <thead>
-                    <tr>
-                        <th style=" font-size: smaller;">Document Id</th>
-                        <th style=" font-size: smaller;">Title Description</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if(!$list_of_titles):?>
-                    <tr>
-                        <td colspan="7"><i>No Record Found</i></td>
-                    </tr>
-                    <?php endif;?>
-                    <?php $no=1; foreach ($list_of_titles as $titles): ?>
+                <table id="tableForm" class='table table-bordered table-condensed'>
+                    <thead>
                         <tr>
-                            <td  style=" font-size: smaller; text-align: center"><?php echo $titles['doc_name_id']; ?></td>
-                            <td  style=" font-size: smaller;"><?php echo $titles['doc_name_desc']; ?></td>
+                            <th style=" font-size: smaller;">Document Id</th>
+                            <th style=" font-size: smaller;">Title Description</th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php if (!$list_of_titles): ?>
+                            <tr>
+                                <td colspan="7"><i>No Record Found</i></td>
+                            </tr>
+                        <?php endif; ?>
+                        <?php $no = 1;
+                        foreach ($list_of_titles as $titles): ?>
+                            <tr>
+                                <td  style=" font-size: smaller; text-align: center"><?php echo $titles['doc_name_id']; ?></td>
+                                <td  style=" font-size: smaller;"><?php echo $titles['doc_name_desc']; ?></td>
+                            </tr>
+<?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
-</div>
 
 </div>
-    
+
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#tableForm').DataTable();
-    } );
-    
-//TITLE DETAILS
- $(function () {
-        //FILTERTITLE
-//        $('.searchTitle').click(function () {
-//            var values = $('#formBuilder').serializeArray();
-//            var search = $("#search").val();
-//            $.ajax({
-//                url: '<?php echo SITE_ROOT; ?>/main/search-title/',
-//                data: {values: values, search:search},
-//                success: function (data) {
-////                    alert(data);
-//                    $('#formCreator').html(data);
-//                }
-//            });
-//        });
-     
-     
+    });
+
+    $(function () {
+
         $('[name=doc_group]').change(function () {
             var groupCode = $(this).val();
             $.ajax({
@@ -144,7 +130,7 @@
                 }
             });
         });
-   
+
         $('[name=discipline]').change(function () {
             var disCode = $(this).val();
             $.ajax({
@@ -158,24 +144,15 @@
                 }
             });
         });
-        
+
         $('[name=general_discipline]').change(function () {
             $('[name=doc_group]').html('<option value="0">Please Select</option>');
             $('[name=doc_type]').html('<option value="0">Please Select</option>');
             $('#formBuilder').submit();
-        });  
-        
+        });
+
         $('[name=doc_type]').change(function () {
             $('#formBuilder').submit();
-        });
-    
- $('.syncButton').click(function(){
-            $.ajax({
-                url : '<?php echo SITE_ROOT;?>/main/sync/',
-                success : function(data){
-                    console.log(data);
-                }
-            });
         });
 
 <?php if ($preset_select): ?>
@@ -200,59 +177,63 @@
                 }
             });
         });
-        
+
         //ADDFORMBUTTON
         $('.addForm').click(function () {
-        var values = $('#formBuilder').serializeArray();
-        var dis=$("#discipline").val();
-        var subDis=$("#general_discipline").val();
-        var docGroup=$("#doc_group").val();
-        var docType=$("#doc_type").val();
-        var docName=$("#doc_name_desc").val();
-        console.log(values);
-        $.ajax({
-            url : '<?= SITE_ROOT;?>/formview/add-title/',
-            data : { values: values, dis:dis, subDis:subDis, docGroup:docGroup, docType:docType, docName:docName },
-            success : function(data){
-//                alert(data);
-                swal({
-                title: "Title Created!",
-                text: "Data successfully inserted into database",
-                type: "success"
-                });
-            }
+            var values = $('#formBuilder').serializeArray();
+            var dis = $("#discipline").val();
+            var subDis = $("#general_discipline").val();
+            var docGroup = $("#doc_group").val();
+            var docType = $("#doc_type").val();
+            var docName = $("#doc_name_desc").val();
+            console.log(values);
+            $.ajax({
+                url: '<?= SITE_ROOT; ?>/formview/add-title/',
+                data: {values: values, dis: dis, subDis: subDis, docGroup: docGroup, docType: docType, docName: docName},
+                success: function (data) {
+                    swal({
+                        title: "Title Created!",
+                        text: "Data successfully inserted into database",
+                        type: "success"
+                    });
+                }
+            });
+            setTimeout(
+                    function () {
+                        window.location.reload(true);
+                    }, 1200);
         });
-        });
-        
-        
-});
+
+
+    });
 </script>
 
 <script>
-  $(document).ready(function () {
-      
-      $('#formBuilder input').keyup(function() {
+    $(document).ready(function () {
 
-        var empty = false;
-        $('#formBuilder input').each(function() {
-            if ($(this).val().length === 0) {
-                empty = true;
+        $('#formBuilder input').keyup(function () {
+
+            var empty = false;
+            $('#formBuilder input').each(function () {
+                if ($(this).val().length === 0) {
+                    empty = true;
+                }
+            });
+
+            if (empty) {
+                if (($("#general_discipline").val(), $("#doc_group").val(), $("#doc_type").val()) === '0') {
+                    $('.addForm').attr('disabled', 'disabled');
+                }
+            } else {
+                if (($("#general_discipline").val(), $("#doc_group").val(), $("#doc_type").val()) !== '0') {
+                    $('.addForm').attr('disabled', false);
+                }
             }
         });
 
-        if (empty) {
-            if(($("#general_discipline").val(),$("#doc_group").val(),$("#doc_type").val()) === '0'){
-            $('.addForm').attr('disabled', 'disabled');
-            }
-        } else {
-            if(($("#general_discipline").val(),$("#doc_group").val(),$("#doc_type").val()) !== '0'){
-            $('.addForm').attr('disabled', false);
-            }
-        }
     });
-    
-  });  
-    
+
 </script>
 
-<?php echo $footer;
+<?php
+echo $footer;
