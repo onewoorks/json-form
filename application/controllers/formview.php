@@ -937,7 +937,7 @@ class Formview_Controller extends Common_Controller {
         echo '<pre>';
         print_r($val);
         echo '</pre>';
-        $document->UpdateElementToBasicNew($val);
+        $document->UpdateElementToBasic($val);
         return true;
     }
 
