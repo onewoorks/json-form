@@ -781,22 +781,6 @@ class Document_Template_Model {
         return true;
     }
 
-    public function UpdateElementToBasicNew(array $val) {
-        if (isset($val['doc_method_code'])):
-            $methodCodes = $val['doc_method_code'];
-        endif;
-        if (isset($val['data_type'])):
-            $data_type = $val['data_type'];
-        endif;
-        $sql = "UPDATE document_element SET child_element_code='" . (int) $val['child_element_code'] . "', element_position='" . $val['element_position'] . "', element_properties='" . $val['element_properties'] . "', input_type='" . $val['input_type'] . "', data_type = $data_type, method =(SELECT method_info FROM ref_document_method WHERE doc_method_code = $methodCodes LIMIT 1), doc_method_code=$methodCodes, updated_by='ADMIN', updated_date = now() "
-                . "WHERE doc_name_id='" . (int) $val['doc_name_id'] . "' AND parent_element_code='" . (int) $val['element_code'] . "' ";
-        print_r($sql);
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-        return true;
-    }
-
     public function CleanMultipleAnswer(array $val) {
         $sql = "DELETE FROM ref_multiple_answer WHERE doc_name_id='" . (int) $val['documentId'] . "' AND element_code='" . (int) $val['elementCode'] . "' ";
         print_r($sql);
