@@ -1,8 +1,9 @@
 <?= $header; ?>
 <div class='row'>
-    <div id="setsini" class='col-md-9' style="padding-left: 30px">
+    <!--<div id="setsini" class='col-md-12' style="padding-left: 30px">-->
+    <div id="setsini" class='col-md-12' style="">
         <div class='panel panel-default' >
-            <div class='panel-heading text-uppercase' style='font-size: 12.5px'>
+            <div class='panel-heading text-uppercase' style='font-size: 12px'>
                 <div class='row'>
                     <div class='col-xs-2'>Discipline </div>
                     <div class='col-xs-10'>: <strong><?= $main_discipline; ?></strong></div>
@@ -45,34 +46,34 @@
         </div>-->
 
     <br><br> 
-    <div class='col-md-1-right' style="position: fixed; z-index: 7; right: 30px;">
-        <div class='panel-heading'>
-            <div class="panel-body">
-                <button class="btn btn-default expandComponent" data-current='expand'><i class="glyphicon glyphicon-chevron-up"></i></button>
+    <!--    <div class='col-md-1-right' style="position: fixed; z-index: 7; right: 30px;">
+            <div class='panel-heading'>
+                <div class="panel-body">
+                    <button class="btn btn-default expandComponent" data-current='expand'><i class="glyphicon glyphicon-chevron-up"></i></button>
+                </div>
             </div>
-        </div>
-    </div>   
-    <div class="col-md-3 " id="sidebar" style="position: fixed; z-index: 6; right: 30px; margin-left: 15px;">
-        <div class='panel panel-default' id='notecomponent'>
-            <div class='panel-heading'><b>Notes Component</b></div>
-            <div class='panel-body'>
-                <ul class='list-unstyled' style=" font-size: 12.5px;">
-                    <?php foreach ($json_elements as $key => $section): ?>
-                        <?php if ($section->section_code != '0'): ?>
-                            <li><input type='checkbox' class='selectedsection' name='<?= $key; ?>' value='<?= $key; ?>' checked /> <?= $section->section_desc; ?></li>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
-                </ul>
-
-                <div class='text-right'>
-                    <div class='btn-group btn-group-sm' style="right:10px">
-                        <a href='<?= SITE_ROOT; ?>/formview/edit-form/<?= $template_id; ?>' class='btn btn-default'>Edit Form</a>
-                        <a href='<?= SITE_ROOT; ?>/formview/json-format/<?= $document_id; ?>' target="_blank" class='btn btn-default'>View JSON</a>
+        </div>   
+        <div class="col-md-3 " id="sidebar" style="position: fixed; z-index: 6; right: 30px; margin-left: 15px;">
+            <div class='panel panel-default' id='notecomponent'>
+                <div class='panel-heading'><b>Notes Component</b></div>
+                <div class='panel-body'>
+                    <ul class='list-unstyled' style=" font-size: 12.5px;">
+    <?php foreach ($json_elements as $key => $section): ?>
+        <?php if ($section->section_code != '0'): ?>
+                                        <li><input type='checkbox' class='selectedsection' name='<?= $key; ?>' value='<?= $key; ?>' checked /> <?= $section->section_desc; ?></li>
+        <?php endif; ?>
+    <?php endforeach; ?>
+                    </ul>
+    
+                    <div class='text-right'>
+                        <div class='btn-group btn-group-sm' style="right:10px">
+                            <a href='<?= SITE_ROOT; ?>/formview/edit-form/<?= $template_id; ?>' class='btn btn-default'>Edit Form</a>
+                            <a href='<?= SITE_ROOT; ?>/formview/json-format/<?= $document_id; ?>' target="_blank" class='btn btn-default'>View JSON</a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </div>-->
 
 </div>
 
@@ -104,7 +105,7 @@
 </div>
 <script src='<?= SITE_ASSET; ?>/assets/library/datepicker/js/bootstrap-datepicker.js'></script>
 <script src="<?php echo SITE_ASSET; ?>/assets/library/summernote/summernote.js"></script>
-<script>
+<!--<script>
     function HideAndShowOtherSpecify(object) {
         var $selected = $(object).val();
         if ($selected.toLowerCase() === 'others, specify') {
@@ -118,45 +119,102 @@
         }
     }
 
-</script>
+</script>-->
 
-<script>
+<!--<script>
     //RADIOBUTTON
     $(function () {
         $('input:radio').change(function () {
             var className = $(this).attr('data-ref');
-            console.log('radio',className);
+            console.log('radio', className);
             if ($('input:radio[class="' + className + '"]').prop('checked', this.checked)) {
                 console.log(this.checked);
             }
 
         });
     });
+</script>-->
+
+<script>
+    $(function () {
+        $("input[name^=9137]").hide();
+        //CHECKBOX
+        $('input:checkbox').change(function () {
+            var className = $(this).attr('data-ref');
+            console.log('checkbox', className);
+
+            if ($(this).is(':checked')) {
+                if (className == '9137') {
+                    $(this).closest('[class^="checkbox"]').find("input[id^=9137]").show();
+                }
+            } else {
+                $(this).closest('[class^="checkbox"]').find("input[id^=9137]").hide();
+            }
+        });
+    });
+</script>
+
+<script>
+    $(function () {
+        $("input[name^=9137]").hide();
+        //CHECKBOX
+        $('input:radio').change(function () {
+            var className = $(this).attr('data-ref');
+            console.log('radio', className);
+
+            if ($(this).is(':checked')) {
+                if (className == '9137') {
+                    $(this).closest('[class^="form-group"]').find("input[id^=9137]").show();
+                }else{
+                    $(this).closest('[class^="form-group"]').find("input[id^=9137]").hide();
+                }
+            } else {
+                $(this).closest('[class^="form-group"]').find("input[id^=9137]").hide();
+            }
+        });
+    });
+</script>
+
+<script>
+
+    $(function () {
+        $('.datepicker').datepicker({
+            endDate: '+1d'
+        });
+
+        $('.datetimepicker').datepicker({
+            'format': 'dd/mm/yyyy'
+        });
+
+        $('.timepicker').datepicker({
+            'format': 'HH:mm'
+        });
+    });
+
 </script>
 <script>
     $(function () {
+
         $('.summernote').summernote({
             height: 100
         });
+
         $('.selectedsection').change(function () {
             var section = $(this).val();
             $('#notesForm').find("[data-section='" + section + "']").fadeToggle("fast", "linear");
         });
 
-        $('.datepicker').datepicker({
-            'format': 'dd/mm/yyyy'
-        });
-        $("input[name^=other_specify_]").hide();
+//        $("input[name^=other_specify_]").hide();
+//
+//        $('input[type="checkbox"]').change(function () {
+//            HideAndShowOtherSpecify(this);
+//            var $parentcode = $(this).data('parentcode');
+//            console.log($parentcode);
+//        });
 
-        $('input[type="checkbox"]').change(function () {
-            HideAndShowOtherSpecify(this);
-            var $parentcode = $(this).data('parentcode');
-            console.log($parentcode);
-        });
-
-        $("input[name^=textbox_]").hide();
-        $("input[name^=calendar_]").hide();
-        $("input[name^=freetext_]").hide();
+//        $("input[name^=textbox_]").hide();
+//        $("input[name^=calendar_]").hide();
+//        $("input[name^=freetext_]").hide();
 
 //        $('input[type="radio"]').change(function () {
 //            HideAndShowTextbox(this);
