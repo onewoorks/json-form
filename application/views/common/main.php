@@ -26,12 +26,23 @@
         </style>
     </head>
 
+    <?php if(PROJECT_PATH === 'cd' || PROJECT_PATH === 'rispac'):?>
     <body>
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
                 <ul class="nav navbar-nav">
-                    <li class="hidden"><a href="<?php echo SITE_ROOT; ?>">List Of Documents</a></li>
-                    <li class="dropdown hidden">
+                    <li><a href='<?php echo SITE_ROOT; ?>/formview/generate-json-format'>Generate JSON Format</a></li>
+                </ul>
+            </div>
+        </nav>
+    </body>
+    <?php else:?>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <ul class="nav navbar-nav">
+                    <li><a href="<?php echo SITE_ROOT; ?>">List Of Documents</a></li>
+                    <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="<?php echo SITE_ROOT; ?>/formview/new-form">Create New Form
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu">
@@ -47,3 +58,4 @@
             </div>
         </nav>
     </body>
+    <?php endif;
