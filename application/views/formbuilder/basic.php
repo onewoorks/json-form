@@ -3,7 +3,7 @@
     <div class="form-group form-group-sm">
         <input type="hidden" name='elementCode' value="<?= $vars['element_code']; ?>" />
         <input type="hidden" name='documentId' value="<?= $vars['document_id']; ?>" />
-        <select id="element_desc" hidden>
+        <select name="list_element_desc" id="list_element_desc" hidden>
             <?= ListElementDesc(); ?>
         </select>
     </div>
@@ -132,6 +132,7 @@
         var next = 1;
         var option = $('#multi_input_type').html();
         var list = $('#multi_ans_desc').html();
+        var element = $('#list_element_desc').html();
 
         //ADD DIV PARENT
         $('#predefinedList').on('click', '.addPredefined', function () {
@@ -169,7 +170,6 @@
             next = 1;
             var div = $(this).parents("div").eq(2).attr("class");
             var replace = div.replace('prelist', '');
-            var element = $('#element_desc').html();
 
             var $html = '<div class="' + div + '-' + next + '">';
             $html += ' <div class="form-group form-group-sm input-list">';
