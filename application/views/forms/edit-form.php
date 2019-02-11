@@ -169,12 +169,26 @@
             </div>
         </div>
     </div>
+    
+    <div id="deleteModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!--Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete Element</h4>
+                </div>
+                <div class="modal-body"></div>
+            </div>
+        </div>
+    </div>
 
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!--    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3>Delete Element</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><b>Delete Element</b></h4>
                 </div>
                 <div class="modal-body"></div>
                 <div class="modal-footer">
@@ -183,7 +197,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 
     <script>
         function byId(id) {
@@ -391,56 +405,35 @@
                         swal({
                             title: "Generated!",
                             text: "System successfully created form template for selected data,",
-                            type: "success",
-                            showCancelButton: true,
-                            confirmButtonColor: "#80bf07",
-                            confirmButtonText: "Go To Document List!",
-                            closeOnConfirm: false
-                        },
-                        function (isConfirm) {
-                            if (isConfirm) {
-                                window.location.href = '<?php echo SITE_ROOT; ?>';
-                            } else {
-                                window.location.reload;
-                            }
+                            type: "success"
                         });
                     }
                 });
+                setTimeout(
+                    function () {
+                        window.location.reload(true);
+                    }, 1200);
             });
         });
-
-        $('#deleteModal').on('show', function () {
-            var id = $(this).data('elementid'),
-                    removeBtn = $(this).find('.danger');
+        
+        $('.deleteElement').click(function () {
+                var documentId = '<?= $document_id; ?>';
+                var id = $(this).data('elementid');
+                var sectionCode = $(this).data('sectioncode');
+                $.ajax({
+                    url: '<?= SITE_ROOT; ?>/formview/delete-element/',
+                    data: {documentId: documentId,elementId: id, sectionCode: sectionCode},
+                    success: function (data) {
+                        var obj = $.parseJSON(data);
+                        $('.modal-dialog').removeClass('modal-sm');
+                        $('.modal-title').text(obj.component);
+                        $('.modal-body').html(obj.html);
+                    }
+                });
+                $('#deleteModal').modal('show');
+                return false;
         });
-        $('.deleteElement').on('click', function (e) {
-            e.preventDefault();
-            var id = $(this).data('elementid');
-            var docID = $(this).data('docid');
-            var sectionCode = $(this).data('sectioncode');
-
-            $('#deleteModal').data('elementid', id).modal('show');
-            $('#deleteModal').data('docId', docID);
-            $('#deleteModal').data('sectionCode', sectionCode);
-            $('.modal-body').html('Are you sure ?');
-        });
-        $('#btnYes').click(function () {
-            var id = $('#deleteModal').data('elementid');
-            var docId = $('#deleteModal').data('docId');
-            var sectionCode = $('#deleteModal').data('sectionCode');
-            $.ajax({
-                url: '<?= SITE_ROOT; ?>/formview/delete-element/',
-                data: {elementId: id, documentId: docId, sectionCode: sectionCode},
-                success: function (data) {
-                    $('#deleteModal').modal('hide');
-                    swal({
-                        title: "Element Removed!",
-                        text: "Data successfully removed from database",
-                        type: "success"
-                    });
-                }
-            });
-        });
+        
     </script>
 
 <?= $footer; ?>
