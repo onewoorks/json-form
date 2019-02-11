@@ -81,13 +81,13 @@
                     <th style=" font-size: smaller;">Document Title</th>
                     <th style=" font-size: smaller;">Status</th>
                     <th style=" font-size: smaller;">Action</th>
-                    <th></th>
+                    <th style=" font-size: smaller;">Checked</th>
                 </tr>
             </thead>
             <tbody>
                  <?php if(!$available_documents):?>
                     <tr>
-                        <td colspan="7"><i>No Record Found</i></td>
+                        <td colspan="8"><i>No Record Found</i></td>
                     </tr>
                     <?php endif;?>
                 <?php $no=1; foreach ($available_documents as $document): ?> 
@@ -114,7 +114,8 @@
                         <td class='text-center'>
                             <input type='checkbox' class='<?= ($document['available']) ? 'checkAda' : 'checkTiada'; ?>' 
                                    value='<?= $document['doc_name_id']; ?>' 
-                                   templateId='<?= (isset($document['template_id'])) ? $document['template_id'] : '0'; ?>'/></td>
+                                   templateId='<?= (isset($document['template_id'])) ? $document['template_id'] : '0'; ?>'/>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
                     
@@ -261,21 +262,30 @@
                     swal({
                         title: "Generated!",
                         text: "Form Successfully Updated",
-                        type: "success",
-                        showCancelButton: true,
-                        confirmButtonColor: "#80bf07",
-                        confirmButtonText: "Go To Document List!",
-                        closeOnConfirm: false
-                    },
-                    function (isConfirm) {
-                        if(isConfirm){
-                            window.location.href = '<?php echo SITE_ROOT; ?>';
-                        } else {
-                            window.location.reload;
-                        }
-                    });                   
+                        type: "success"
+                    });  
+//                    swal({
+//                        title: "Generated!",
+//                        text: "Form Successfully Updated",
+//                        type: "success",
+//                        showCancelButton: true,
+//                        confirmButtonColor: "#80bf07",
+//                        confirmButtonText: "Go To Document List!",
+//                        closeOnConfirm: false
+//                    },
+//                    function (isConfirm) {
+//                        if(isConfirm){
+//                            window.location.href = '<?php echo SITE_ROOT; ?>';
+//                        } else {
+//                            window.location.reload;
+//                        }
+//                    });                   
                 }
             });
+            setTimeout(
+                    function () {
+                        window.location.reload(true);
+                    }, 1200);
         });
     });
 </script>
