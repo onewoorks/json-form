@@ -3,7 +3,7 @@
 <div id="formCreator">
     <div class="col-md-12" style="margin-left:30px">
         <div class="panel panel-default">
-            <div class="panel-heading">TITLE DETAILS<i class='glyphicon glyphicon-info-sign pull-right' title="Fill in Document Title"></i></div>
+            <div class="panel-heading"><span style="font-size: 130%;color: #000000;">&#9312;</span>&nbsp;TITLE DETAILS<i class='glyphicon glyphicon-info-sign pull-right' title="Fill in Document Title"></i></div>
             <div class="panel-body" style="margin-bottom: -20px">
                 <form id='formFilter' class='form-horizontal'>
                     <div class='form-group form-group-sm'>
@@ -56,7 +56,7 @@
                                 <tr>
                                     <td><b>Document Title</b></td>
                                     <td>
-                                        <input name="doc_name_desc" id="doc_name_desc" type="text" class="form-control docList" list="docList" required/>
+                                        <input name="doc_name_desc" id="doc_name_desc" type="text" class="form-control docList" list="docList" autocomplete="off" required/>
                                         <datalist id="docList">
                                             <?php foreach ($list_of_documents as $document): ?>
                                                 <option value="<?php echo $document['doc_name_desc']; ?>" data-id="<?php echo $document['doc_name_id']; ?>"></option>
@@ -97,7 +97,7 @@
     <div class="col-sm-6" style="margin-left:30px">
         <form id="sectionBuilder" class="form-horizontal">
             <div class='panel panel-default'>
-                <div class='panel-heading'>SECTION DETAILS<i class='glyphicon glyphicon-info-sign pull-right' title="Insert Section by Order"></i></div>
+                <div class='panel-heading'><span style="font-size: 130%;color: #000000;">&#9313;</span>&nbsp;SECTION DETAILS<i class='glyphicon glyphicon-info-sign pull-right' title="Insert Section by Order"></i></div>
                 <div class='panel-body'>
                     <div id='sectionGroup'>
                         <div class='sectionMain1'>
@@ -129,7 +129,7 @@
     <div class="col-sm-6" style="margin-right:-30px">
         <form id="elementBuilder" class="form-horizontal">
             <div class="panel panel-default">
-                <div class="panel-heading">ELEMENT DETAILS<i class='glyphicon glyphicon-info-sign pull-right' title="1. Insert Element by Order & Click 'Save Form' &#10;2. Click 'Details' and Update Each Element's Data"></i></div>
+                <div class="panel-heading"><span style="font-size: 130%;color: #000000;">&#9314;</span>&nbsp;ELEMENT DETAILS<i class='glyphicon glyphicon-info-sign pull-right' title="1. Insert Element by Order & Click 'Save Form' &#10;2. Click 'Details' and Update Each Element's Data"></i></div>
                 <div class="panel-body">
                     <div id="displaySection"></div>
                     <!--tmpt display section dlm element (DARI SCRIPT)-->
@@ -160,33 +160,9 @@
         </div>
     </div>
 
-    <!--DISPLAY JSON-->
     <div class="col-sm-12 pull-right" style="margin-right:-30px">
-        <!--<div class="btn btn-default pull-right addTitle">Display JSON</div>-->
-        <!--SAVE FORM-->
-        <div class="btn btn-default pull-right addForm">Save Form</div>
+        <div class="btn btn-default pull-right addForm" disabled>Save Form</div>
     </div>
-
-
-</div>
-
-<div id="json">
-    <div class="col-sm-12">
-        <br>
-        <div class="panel panel-default">
-            <div class="panel-heading">JSON FORMAT</div>
-            <div class="panel-body">
-                <div class="text-uppercase">
-                    <div class='jsonTitle'></div>
-                </div>
-                <br><br>
-                <br><br>
-                <br><br>
-                <div class='jsonSection'></div>
-            </div>
-        </div>
-    </div>
-</div>   
 </div>
 
 <script>
@@ -276,32 +252,32 @@
         var count = 2;
         var x;
         var y = 2;
-        $("#json").hide();
+//        $("#json").hide();
         var option = $('#section_desc_list').html();
         var option2 = $('#element_desc_list').html();
-        //DISPLAY JSON
-        $(".addTitle").click(function () {
-            $("#json").toggle();
-            var doc_name_desc = $('#doc_name_desc').val();
-            var input = $('#docList [value="' + doc_name_desc + '"]').data('id');
-            console.log('doc_name_id', input);
-            var discipline = $('#discipline :selected').text();
-            var gen_discipline = $('#general_discipline :selected').text();
-            var doc_group = $('#doc_group :selected').text();
-            var doc_type = $('#doc_type :selected').text();
-            console.log(discipline, gen_discipline, doc_group, doc_type);
-            var $html = '<div class="col-xs-2">Discipline </div>';
-            $html += '<div class="col-xs-10">: <strong>' + discipline + '</strong></div>';
-            $html += '<div class="col-xs-2">Sub Discipline </div>';
-            $html += '<div class="col-xs-10">: <strong>' + gen_discipline + '</strong></div>';
-            $html += '<div class="col-xs-2">Document Group </div>';
-            $html += '<div class="col-xs-10">: <strong>' + doc_group + '</strong></div>';
-            $html += '<div class="col-xs-2">Document Type </div>';
-            $html += '<div class="col-xs-10">: <strong>' + doc_type + '</strong></div>';
-            $html += '<div class="col-xs-2">Document Title </div>';
-            $html += '<div class="col-xs-10">: <strong>' + doc_name_desc + '</strong></div>';
-            $($html).appendTo('.jsonTitle');
-        });
+//        //DISPLAY JSON
+//        $(".addTitle").click(function () {
+//            $("#json").toggle();
+//            var doc_name_desc = $('#doc_name_desc').val();
+//            var input = $('#docList [value="' + doc_name_desc + '"]').data('id');
+//            console.log('doc_name_id', input);
+//            var discipline = $('#discipline :selected').text();
+//            var gen_discipline = $('#general_discipline :selected').text();
+//            var doc_group = $('#doc_group :selected').text();
+//            var doc_type = $('#doc_type :selected').text();
+//            console.log(discipline, gen_discipline, doc_group, doc_type);
+//            var $html = '<div class="col-xs-2">Discipline </div>';
+//            $html += '<div class="col-xs-10">: <strong>' + discipline + '</strong></div>';
+//            $html += '<div class="col-xs-2">Sub Discipline </div>';
+//            $html += '<div class="col-xs-10">: <strong>' + gen_discipline + '</strong></div>';
+//            $html += '<div class="col-xs-2">Document Group </div>';
+//            $html += '<div class="col-xs-10">: <strong>' + doc_group + '</strong></div>';
+//            $html += '<div class="col-xs-2">Document Type </div>';
+//            $html += '<div class="col-xs-10">: <strong>' + doc_type + '</strong></div>';
+//            $html += '<div class="col-xs-2">Document Title </div>';
+//            $html += '<div class="col-xs-10">: <strong>' + doc_name_desc + '</strong></div>';
+//            $($html).appendTo('.jsonTitle');
+//        });
         //PLUS SECTION
         $('#sectionGroup').on('click', '.plusSection', function () {
             var $section = '<div class="sectionMain' + count + '">';
@@ -387,6 +363,7 @@
                 $($html).appendTo('.jsonSection');
             });
             $('#displaySection').html($sectionPanel);
+            $('.addForm').attr('disabled', false);
         });
 
         //PLUS ELEMENT
@@ -440,7 +417,8 @@
             $('#myModal').modal('show');
             return false;
         });
-    });</script>
+    });
+</script>
 
 <script>
     $(".addForm").click(function () {
