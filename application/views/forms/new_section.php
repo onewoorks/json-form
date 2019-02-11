@@ -23,7 +23,7 @@
         </div>
     </form>
 
-    <div class='container-fluid'>
+    <div class='container-fluid col-md-12' style='margin-left: 40px;'>
         <div class='panel panel-primary'>
             <div class='panel-heading'>
                 <div class="btn-group pull-right">
