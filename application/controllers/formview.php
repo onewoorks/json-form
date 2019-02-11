@@ -318,6 +318,21 @@ class Formview_Controller extends Common_Controller {
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
+            case 'delete-element':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $doc_id = $_REQUEST['documentId'];
+                $element_id = $_REQUEST['elementId'];
+                $section_id = $_REQUEST['sectionCode'];
+                $page = 'forms/delete_element';
+                $result['doc_id'] = $doc_id;
+                $result['element_id'] = $element_id;
+                $result['section_id'] = $section_id;
+                $data = array(
+                    'component' => 'Delete Element',
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
             case 'update-layout':
                 $ajax = true;
                 $document = new Document_Template_Model();
@@ -431,12 +446,13 @@ class Formview_Controller extends Common_Controller {
                 $elementForm = $document->InsertElementId($elementDesc);
 //                print_r($elementForm);
                 break;
-            case 'delete-element':
+            case 'delete-current-element':
                 $ajax = true;
-                $docId = $_REQUEST['documentId'];
-                $elementCode = $_REQUEST['elementId'];
-                $sectionCode = $_REQUEST['sectionCode'];
+                $values = $this->form_array($_REQUEST['values']);
                 $document = new Document_Template_Model();
+                $docId = $values['doc_id'];
+                $elementCode = $values['element_id'];
+                $sectionCode = $values['section_id'];
                 $document->DeleteElementData($docId, $sectionCode, $elementCode);
                 $this->GenerateJSONFormat($docId, 'update');
                 break;
