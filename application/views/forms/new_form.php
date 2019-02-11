@@ -62,7 +62,7 @@
             <div class="form-group form-group-sm" style='margin-left:-55px;margin-top: -5px'>
                 <label class="control-label col-sm-4">Document Title&nbsp;<b style='color: red'>*</b></label>
                 <div class="col-sm-6" style='width:48.55%'>
-                    <input name="doc_name_desc" id="doc_name_desc" type="text" class="form-control" required/>
+                    <input name="doc_name_desc" id="doc_name_desc" type="text" class="form-control" autocomplete="off" required/>
                 </div>  
             </div>
 
@@ -73,7 +73,7 @@
         </form>
     </div>
 
-    <div class='container-fluid'>
+    <div class='container-fluid col-md-12' style='margin-left: 40px;'>
         <div class='panel panel-primary'>
             <div class='panel-heading'>
                 <div class="btn-group pull-right">
@@ -81,8 +81,6 @@
 
                 Result of Existing Title</div>
             <div class='panel-body'>
-    <!--            <div class ='pull-left' style=" font-size: 12px; padding-bottom: 3px;"><b>Total Title = <?= count($list_of_titles); ?></b></div>
-                <div class='clearfix'></div>-->
 
                 <table id="tableForm" class='table table-bordered table-condensed'>
                     <thead>
@@ -103,7 +101,7 @@
                                 <td  style=" font-size: smaller; text-align: center"><?php echo $titles['doc_name_id']; ?></td>
                                 <td  style=" font-size: smaller;"><?php echo $titles['doc_name_desc']; ?></td>
                             </tr>
-<?php endforeach; ?>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
