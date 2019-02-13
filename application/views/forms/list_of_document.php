@@ -75,7 +75,7 @@
                             <div class ='pull-left' style=" font-size: smaller; padding-bottom: 3px;"><b>Total Document = <?= count($list_of_documents); ?></b></div>
                             <input type="text" class="pull-right col-sm-2" style="font-size:12px;padding:5px 10px;height:25px;line-height: 1.5;border:1px solid #cccccc;border-radius:4px" id="search" placeholder="Search" hidden/>
                         </div>
-                        <br></br>   
+                        <br><br>  
                         <div class='clearfix'></div>
 
                         <table id="listDoc" class='table table-bordered table-condensed'>
@@ -93,7 +93,7 @@
                             <tbody>
                                 <?php if (!$list_of_documents): ?>
                                     <tr>
-                                        <td colspan="7"><i style="font-size: 12px;">No Record Found</i></td>
+                                        <td colspan="7"><i style="font-size: 11px;">No Record Found</i></td>
                                     </tr>
                                 <?php endif; ?>
                                 <?php $no = 1;
