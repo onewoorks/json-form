@@ -74,7 +74,7 @@
             <div class='btn btn-xs btn-primary generateButton'>Select Generate</div>
             <div class='btn btn-xs btn-warning regenerateButton'>Select Re-generate</div>
             <div class='btn btn-xs btn-default executeAction'>Execute</div>&nbsp
-            <input type="text"  style="font-size:12px;height:25px;padding:6px 12px;line-height: 1.4;color:#555555;background-color: #ffffff;border:1px solid #cccccc;border-radius:4px" id="search" placeholder="Search.."/>
+            <input type="text" class="pull-right col-sm-2" style="font-size:12px;padding:5px 10px;height:25px;line-height: 1.5;border:1px solid #cccccc;border-radius:4px" id="search" placeholder="Search" hidden/>
         </div>
         <!--</div>-->
         <div class='clearfix'></div>
