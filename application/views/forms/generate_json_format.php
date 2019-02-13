@@ -1,62 +1,71 @@
 <?php echo $header;?>
 
 <div id='generateJson'>
-            <form id='documentFilter' class='form-horizontal'>
+            <form id='documentFilter' class='form-horizontal col-md-offset-2 col-md-offset-2'>
 
                 <div class='form-group form-group-sm'>
-                    <table class='listcolumn' style='font-size: 12px; margin-left: 250px;  text-align: right; ' >
-                <tbody>
-                    <tr>
-                        <td><b>Discipline</b></td>
-                        <td>
-                        <select name='discipline' class='form-control col-md-10'>
-                            <option value='0' selected="selected">Please Select Discipline</option>
-                            <?php foreach ($main_discipline as $discipline): ?>
-                                <option value='<?php echo $discipline['code']; ?>'><?php echo $discipline['label']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        </td>
-                        <td><b>Document Group</b></td>
-                        <td><select name='doc_group' class='form-control'>
-                            <option value='0' selected="selected">Please Select Document Group</option>
-                            <?php foreach ($doc_group as $doc): ?>
-                                <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
-                            <?php endforeach; ?>
-                        </select></td>
-                    </tr>
-                    <tr>
-                        <td><b>Sub Discipline</b></td>
-                        <td><select name='general_discipline' class='form-control'>
-                           <?php if (!$preset_select): ?>
-                           <option value='0'>Please Select Discipline</option>
-                           <?php else: ?>
-                           <option value='0' selected="selected" >Please Select Sub Discipline</option>
-                             <?php foreach ($general_discipline as $general): ?>
-                                 <option value='<?php echo $general['code']; ?>'><?php echo $general['label']; ?></option>
-                             <?php endforeach; ?>
-                                 <?php endif; ?>
-                         </select></td>
-                         <td><b>Document Type</b></td>
-                        <td><select name='doc_type' class='form-control'>
-                            <?php if (!$preset_select): ?>
+                <div class="col-md-12">
+                    <div class='row'>
+                        <div class='form-inline'>
+                            <label class="control-label col-md-2">Discipline</label>
+                            <select name='discipline' id='discipline'  class='form-control col-md-8' style="width:20%">
+                                <option value='0' selected="selected">Please Select Discipline</option>
+                                <?php foreach ($main_discipline as $discipline): ?>
+                                    <option value='<?php echo $discipline['code']; ?>'><?php echo $discipline['label']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <label class="control-label col-md-2">Document Group</label>
+                            <select name='doc_group' class='form-control col-md-8' style="width:20%">
                                 <option value='0' selected="selected">Please Select Document Group</option>
-                            <?php else: ?>
-                                <option value='0' >Please Select Document Type</option>
-                                <?php foreach ($doc_types as $doc): ?>
+                                <?php foreach ($doc_group as $doc): ?>
                                     <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
                                 <?php endforeach; ?>
-                            <?php endif; ?>
-                        </select></td>
-                    </tr>
-                </tbody>
-                </table>
+                            </select>
+                        </div>    
+                    </div>
+                </div>
+
+                <br><br>
+
+                <div class="col-md-12">
+                    <div class='row'>
+                        <div class='form-inline'>
+                            <label class="control-label col-md-2">Sub Discipline</label>
+                            <select name='general_discipline' class='form-control col-md-8' style="width:20%">
+                                <?php if (!$preset_select): ?>
+                                    <option value='0'>Please Select Discipline</option>
+                                <?php else: ?>
+                                    <option value='0' selected="selected" >Please Select Sub Discipline</option>
+                                    <?php foreach ($general_discipline as $general): ?>
+                                        <option value='<?php echo $general['code']; ?>'><?php echo $general['label']; ?></option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </select>
+                            <label class="control-label col-md-2">Document Type</label>
+                            <select name='doc_type' class='form-control col-md-8' style="width:20%">
+                                <?php if (!$preset_select): ?>
+                                    <option value='0' selected="selected">Please Select Document Group</option>
+                                <?php else: ?>
+                                    <option value='0' >Please Select Document Type</option>
+                                    <?php if (isset($doc_types)): ?>
+                                        <?php foreach ($doc_types as $doc): ?>
+                                            <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            </select>
+                        </div>    
+                    </div>
+                </div>    
                 </div>
 
             </form>
         <!--</div>-->
     <!--</div>-->
-<div class='container-fluid'>
-<div class='panel panel-primary' style='margin-left:15px'>
+<br>
+
+<div class='container-fluid'  style="margin-left: 70px">
+<div class='panel panel-primary'>
     <div class='panel-heading'>List of Template Documents</div>
     <div class='panel-body'>
         <div class='pull-left' style=" font-size: 12px; "><b>Total Document = <?= count($available_documents);?></b></div>
@@ -124,23 +133,7 @@
     </div>
 </div>
 </div>
-<script>
-    $(document).ready(function() {
-            $("#search").keyup(function () {
-            var value = this.value.toLowerCase().trim();
-
-            $("table tr").each(function (index) {
-                if (!index) return;
-                $(this).find("td").each(function () {
-                    var id = $(this).text().toLowerCase().trim();
-                    var not_found = (id.indexOf(value) === -1);
-                    $(this).closest('tr').toggle(!not_found);
-                    return not_found;
-                });
-            });
-        });
-    });
-    
+<script>   
     $(function () {
         $('[name=doc_group]').change(function () {
             var groupCode = $(this).val();
@@ -287,6 +280,38 @@
                         window.location.reload(true);
                     }, 1200);
         });
+    });
+</script>
+
+
+<script>
+    $(document).ready(function () {
+
+        $("#search").keyup(function () {
+            var value = this.value.toLowerCase().trim();
+
+            $("table tr").each(function (index) {
+                if (!index)
+                    return;
+                $(this).find("td").each(function () {
+                    var id = $(this).text().toLowerCase().trim();
+                    var not_found = (id.indexOf(value) === -1);
+                    $(this).closest('tr').toggle(!not_found);
+                    return not_found;
+                });
+            });
+        });
+
+    });
+    
+    $(document).ready(function () {
+        var selected = $('#discipline').val();
+        if (selected !== '0') {
+            $('#search').removeAttr('hidden');
+        }
+        else {
+            $('#search').addClass('hidden');
+        }
     });
 </script>
 <?php echo $footer; ?>
