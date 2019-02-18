@@ -437,14 +437,42 @@ class Formview_Controller extends Common_Controller {
 //                print_r($secForm);
                 break;
             //23JULAI
+//            case 'create-element':
+//                $ajax = true;
+//                $document = new Document_Template_Model();
+//                $values = $this->form_array($_REQUEST['values']);
+//                $page = 'forms/new_element';
+//                $elementDesc = $values['element_desc'];
+//                $elementForm = $document->InsertElementId($elementDesc);
+////                print_r($elementForm);
+//                break;
             case 'create-element':
                 $ajax = true;
                 $document = new Document_Template_Model();
-                $values = $this->form_array($_REQUEST['values']);
                 $page = 'forms/new_element';
-                $elementDesc = $values['element_desc'];
-                $elementForm = $document->InsertElementId($elementDesc);
-//                print_r($elementForm);
+                $json = file_get_contents('php://input');
+                $array = explode('values=', urldecode($json));
+                $data = json_decode($array[1], true);
+
+                $new_data = array();
+                foreach ($data as $datas):
+                    $new_data[$datas['name']] = $datas['value'];
+                endforeach;
+
+                foreach ($new_data as $key => $value):
+                    $new_key = preg_replace("/[0-9]+/", "", $key);
+                    if ($new_key == 'element_desc'):
+                        $element_desc = $value;
+                    elseif ($new_key == 'json_desc'):
+                        $json_desc = $value;
+                    
+                        $output = array(
+                            'element_desc' => $element_desc,
+                            'json_element' => $json_desc
+                        );
+                        $document->InsertElementId($output);
+                    endif;
+                endforeach;
                 break;
             case 'delete-current-element':
                 $ajax = true;
