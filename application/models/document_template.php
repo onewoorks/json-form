@@ -68,8 +68,10 @@ class Document_Template_Model {
                 . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code) ";
         if (PROJECT_PATH == 'cd'):
             $sql .= "WHERE gd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','PS','RL') ";
-        else:
+        elseif((PROJECT_PATH == 'rispac')):
             $sql .= "WHERE gd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('RR') ";
+        else:
+            $sql .= "WHERE gd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','PS','RL') ";
         endif;
         if ($discipline != "0") {
             $sql.="AND gd.main_discipline_code = '$discipline' ";
@@ -217,8 +219,10 @@ class Document_Template_Model {
                 . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code) ";
         if (PROJECT_PATH == 'cd'):
             $sql .= "WHERE rmd.module='cd' AND rdg.doc_group_code IN ('CN','RL','PS') ";
-        else:
+        elseif (PROJECT_PATH == 'rispac'):
             $sql .= "WHERE rmd.main_discipline_code = '08' AND rdg.doc_group_code IN ('RR') ";
+        else:
+            $sql .= "WHERE rmd.module='cd' AND rdg.doc_group_code IN ('CN','RL','PS') ";
         endif;
         $this->db->connect();
         $this->db->prepare($sql);
@@ -250,9 +254,11 @@ class Document_Template_Model {
                 . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)";
         if (PROJECT_PATH == 'cd'):
             $sql .= "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','RL','PS') ";
-        else:
+        elseif (PROJECT_PATH == 'rispac'):
             //        $discipline = '08';    
             $sql .= "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('RR') ";
+        else:
+            $sql .= "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','RL','PS') ";
         endif;
         if ($discipline != "0") {
             $sql.="AND gd.main_discipline_code = '$discipline' ";
@@ -296,8 +302,10 @@ class Document_Template_Model {
                 . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)";
         if (PROJECT_PATH == 'cd'):
             $sql .= "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','RL','PS') ";
-        else:
+        elseif (PROJECT_PATH == 'rispac'):
             $sql .= "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('RR') ";
+        else:
+            $sql .= "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','RL','PS') ";
         endif;
         if ($discipline != "0") {
             $sql.="AND gd.main_discipline_code = '$discipline' ";
@@ -451,12 +459,11 @@ class Document_Template_Model {
     }
 
     //23JULAI
-    public function InsertElementId($elementDesc) {
-        $replace = str_replace(' ', '_', $elementDesc);
-        $str = strtolower(preg_replace('/[^a-zA-Z0-9_]/', '', $replace));
-        $jsonElement = preg_replace('/_+/', '_', $str);
+    public function InsertElementId($result) {
+        $element_desc = $result['element_desc'];
+        $json_element = $result['json_element'];
         $sql = " INSERT INTO ref_document_element (element_desc, json_element, active_status, created_by, created_date) "
-                . " VALUES ('$elementDesc', '$jsonElement', '1', 'ADMIN', NOW()) ";
+                . " VALUES ('".(string) $element_desc."', '".(string) $json_element."', '1', 'ADMIN', NOW()) ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -812,7 +819,9 @@ class Document_Template_Model {
 
         $sql = "INSERT INTO ref_multiple_answer (doc_name_id, element_code, multiple_desc_code, sorting, input_type, method, parent_element_code, child_element_code, show_label, active, updated_by, updated_date, multi_answer_desc) "
                 . " VALUES ('" . (int) $docID . "', '" . (int) $elementID . "', '" . $multi['multi_ans_code'] . "', '" . $multi['sorting'] . "', '" . $multi['multi_input_type'] . "', (NULL), (NULL), (NULL), '" . $multi['show_label'] . "', '1', 'ADMIN', now(),(SELECT multiple_desc FROM ref_multiple_desc WHERE multiple_desc_code = '" . $multi['multi_ans_code'] . "' LIMIT 1)); ";
+        echo '<pre>';
         print_r($sql);
+        echo '</pre>';
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -820,7 +829,9 @@ class Document_Template_Model {
         if ($multi['ref_element_code'] !== '(NULL)' && $multi['show_label_child'] !== '(NULL)'):
             $sql = "INSERT INTO ref_multiple_item (doc_name_id, element_code, multiple_desc_code, ref_element_code, show_label, created_by, created_date, multi_answer_desc) "
                     . " VALUES ('" . (int) $docID . "', '" . (int) $elementID . "','" . $multi['multi_ans_code'] . "', '" . $multi['ref_element_code'] . "', '" . $multi['show_label_child'] . "', 'ADMIN', now(), (SELECT multiple_desc from ref_multiple_desc where multiple_desc_code = '" . $multi['multi_ans_code'] . "' LIMIT 1)); ";
+            echo '<pre>';
             print_r($sql);
+            echo '</pre>';
             $this->db->connect();
             $this->db->prepare($sql);
             $this->db->queryexecute();
@@ -833,7 +844,9 @@ class Document_Template_Model {
 
         $sql = "INSERT INTO ref_multiple_answer (doc_name_id, element_code, multiple_desc_code, sorting, input_type, method, parent_element_code, child_element_code, show_label, active, updated_by, updated_date, multi_answer_desc) "
                 . "VALUES ('" . (int) $docID . "', '" . $child['element_code'] . "', '" . $child['multi_ans_code'] . "', '" . $child['sorting'] . "', '" . $child['multi_input_type'] . "', (NULL), (NULL), (NULL), '" . $child['show_label'] . "', '1', 'ADMIN', now(),(SELECT multiple_desc FROM ref_multiple_desc WHERE multiple_desc_code = '" . $child['multi_ans_code'] . "' LIMIT 1)); ";
+        echo '<pre>';
         print_r($sql);
+        echo '</pre>';
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -841,7 +854,9 @@ class Document_Template_Model {
         if ($child['ref_element_code'] !== '(NULL)' && $child['show_label_child'] !== '(NULL)'):
             $sql = "INSERT INTO ref_multiple_item (doc_name_id, element_code, multiple_desc_code, ref_element_code, show_label, created_by, created_date, multi_answer_desc) "
                     . " VALUES ('" . (int) $docID . "', '" . $child['element_code'] . "','" . $child['multi_ans_code'] . "', '" . $child['ref_element_code'] . "', '" . $child['show_label_child'] . "', 'ADMIN', now(), (SELECT multiple_desc from ref_multiple_desc where multiple_desc_code = '" . $child['multi_ans_code'] . "')); ";
+            echo '<pre>';
             print_r($sql);
+            echo '</pre>';
             $this->db->connect();
             $this->db->prepare($sql);
             $this->db->queryexecute();
@@ -887,14 +902,26 @@ class Document_Template_Model {
         return true;
     }
 
+//    public function DeleteElementData($docId, $sectionCode, $elementCode) {
+//        $sql = "DELETE FROM document_element WHERE doc_name_id='" . (int) $docId . "' AND section_code='" . (int) $sectionCode . "' AND parent_element_code='" . (int) $elementCode . "'";
+//        print_r($sql);
+//        $this->db->connect();
+//        $this->db->prepare($sql);
+//        $this->db->queryexecute();
+//        return true;
+//    }
+
     public function DeleteElementData($docId, $sectionCode, $elementCode) {
-        $sql = "DELETE FROM document_element WHERE doc_name_id='" . (int) $docId . "' AND section_code='" . (int) $sectionCode . "' AND parent_element_code='" . (int) $elementCode . "'";
+        $sql = "UPDATE document_element "
+                ."SET active = '0' "
+                ."WHERE doc_name_id='" . (int) $docId . "' AND section_code='" . (int) $sectionCode . "' AND parent_element_code='" . (int) $elementCode . "'";
+        print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
         return true;
     }
-
+    
 //    public function UpdateElementToMethod(array $val) {
 //        $sql = "UPDATE document_element SET element_properties='" . $val['element_properties'] . "',input_type='METHOD',data_type=NULL,method='".$val['method_name']."',additional_attribute='".$val['method_json']."' "
 //                . "WHERE doc_name_id='".(int) $val['doc_id']."' AND parent_element_code='" . (int) $val['element_code'] . "'";
@@ -1030,6 +1057,17 @@ class Document_Template_Model {
         $sql = "SELECT element_level "
                 . "FROM document_element "
                 . "WHERE doc_name_id = '$docId' AND parent_element_code = '$elementId' ";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+    public function checkShowLabel($elementId, $docId) {
+        $sql = "SELECT show_label "
+                . "FROM ref_multiple_answer "
+                . "WHERE doc_name_id = '$docId' AND element_code = '$elementId' ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
