@@ -6,6 +6,12 @@
         <select name="list_element_desc" id="list_element_desc" hidden>
             <?= ListElementDesc(); ?>
         </select>
+        <select id="list_multi_ans_desc" name="list_multi_ans_desc" hidden>
+            <?= ListMultiElementDesc(); ?>
+        </select>
+        <select id="list_multi_input_type" name="list_multi_input_type" hidden>
+            <?= ListMultipleAnswer(); ?>
+        </select>
     </div>
 
     <div class="form-group form-group-sm">
@@ -130,8 +136,8 @@
     $(document).ready(function () {
         var count = 2;
         var next = 1;
-        var option = $('#multi_input_type').html();
-        var list = $('#multi_ans_desc').html();
+        var option = $('#list_multi_input_type').html();
+        var list = $('#list_multi_ans_desc').html();
         var element = $('#list_element_desc').html();
 
         //ADD DIV PARENT
@@ -139,22 +145,22 @@
             var n = $('.text-box').length + 1;
 
             var $html = '<div class="prelist' + count + '" style="background-color: #f5f5f5">';
-            $html += '<p class="text-box">';
+            $html += '<p class="text-box" value="'+ n +'">';
             $html += '<div class="form-group form-group-sm input-list">';
             $html += '<label class="control-label col-sm-2">Predefined Value<span class="box-number">' + n + '</span></label>';
             $html += '<div class="col-sm-5 list-padding">';
             $html += '<div class="checkbox" style="margin-left:20px">';
-            $html += '<input type="hidden" id="show_label" name="show_label' + count + '" value="0" style="margin-top:6px"/>';
-            $html += '<input type="checkbox" id="show_label" name="show_label' + count + '" value="1" style="margin-top:6px"/>';
+            $html += '<input type="hidden" id="show_label" name="show_label' + n + '" value="0" style="margin-top:6px"/>';
+            $html += '<input type="checkbox" id="show_label" name="show_label' + n + '" value="1" style="margin-top:6px"/>';
             $html += '<input type="hidden" id="sorting" class="sorting" name="SortParent" />';
-            $html += '<select name="multi_ans_desc' + count + '" id="multi_ans_desc"  class="form-control">' + list + '</select>';
+            $html += '<select name="multi_ans_desc' + n + '" id="multi_ans_desc"  class="form-control">' + list + '</select>';
             $html += '</div>';
             $html += '</div>';
             $html += '<div class="col-sm-3 list-padding">';
-            $html += '<select id="multi_input_type" name="multi_input_type" class="form-control">' + option + '</select>';
+            $html += '<select id="multi_input_type" name="multi_input_type' + n + '" class="form-control">' + option + '</select>';
             $html += '</div>';
-            $html += '<div class="col-sm-2 predefinedActionButton" data-action="prelist' + count + '">';
-            $html += '<div class="btn btn-default btn-sm addLayer" data-layer="prelist' + count + '" style="padding:5px"><i class="fas fa-layer-group"></i></div>&nbsp';
+            $html += '<div class="col-sm-2 predefinedActionButton" data-action="prelist' + n + '">';
+            $html += '<div class="btn btn-default btn-sm addLayer" data-layer="prelist' + n + '" style="padding:5px"><i class="fas fa-layer-group"></i></div>&nbsp';
             $html += '<div class="btn btn-default btn-sm deletePredefined" style="padding:5px"><i class="glyphicon glyphicon-trash"></i></div>';
             $html += '</div>';
             $html += '</div>';
