@@ -165,6 +165,7 @@
         });
 
         $('#elementGrouping').on('click', '.plusSection', function () {
+            $('.addElement').attr('disabled', 'disabled');
             var $element = '<div class="elementNew' + no + '">';
             $element += '<div class="form-group form-group-sm">';
             $element += '<label class="control-label col-sm-1">Name&nbsp;<b style="color: red">*</b></label>';
@@ -230,9 +231,11 @@
                         $('#validateT' + thisValue).attr('hidden', false);
                         $('#validateF' + thisValue).attr('hidden', 'hidden');
                     }
+                    $('.addElement').attr('disabled', false);
                 } else {
                     $('#validateT' + thisValue).attr('hidden', 'hidden');
                     $('#validateF' + thisValue).attr('hidden', 'hidden');
+                    $('.addElement').attr('disabled', 'disabled');
                 }
 
                 var element = $(this).val().toLowerCase().replace(/ /g, '_');
