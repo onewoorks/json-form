@@ -997,6 +997,17 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
+    
+    public function searchMethod($method_code) {
+        $sql = " SELECT image_path "
+                . " FROM ref_document_method "
+                . " WHERE doc_method_code = $method_code ";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
 
     public function MainMethod() {
         $sql = " SELECT rde.element_code, rdm.doc_method_code as code,rdm.doc_method_desc as label, rdm.image_path, rde.element_desc "
