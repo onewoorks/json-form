@@ -3,7 +3,7 @@
                         <div class="form-group form-group-sm">
                                 <input type="hidden" name='elementCode' value="<?= $vars['element_code'];?>" />
                                 <input type="hidden" name='documentId' value="<?= $vars['document_id'];?>" />
-                                <select id="element_desc" hidden>
+                                <select id="list_element_desc" hidden>
                                     <?=ListElementDesc();?>
                                 </select>
                         </div>
@@ -27,6 +27,9 @@
                                     <label class="radio-inline">
                                         <input type="radio" name='input_type'  value="TIME" > Time
                                     </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name='input_type'  value="DATE" > Date
+                                    </label>
                                 </div>
                                 <div>
                                     <label class="radio-inline">
@@ -37,6 +40,9 @@
                                     </label>
                                     <label class="radio-inline">
                                         <input type="radio" name='input_type'  value="ALPHANUMERIC" > Alphanumeric                                       
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name='input_type'  value="NUMBER" > Number                                       
                                     </label>
                                     <label class="radio-inline">
                                         <input type="radio" name='input_type'  value="MULTIPLE ANSWER" > Multiple Answer                                       
@@ -131,7 +137,7 @@ $(document).ready(function(){
         next = 1;
         var div = $(this).parents("div").eq(2).attr("class");
         var replace = div.replace('prelist','');
-        var element = $('#element_desc').html();
+        var element = $('#list_element_desc').html();
 	
 	var $html = '<div class="'+div+'-'+next+'">';
 	$html += ' <div class="form-group form-group-sm input-list">';

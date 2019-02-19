@@ -39,6 +39,9 @@
                 <label class="radio-inline">
                     <input type="radio" name='input_type'  value="TIME" <?php if($input_type==='TIME'){echo 'checked';} ?>> Time
                 </label>
+                <label class="radio-inline">
+                    <input type="radio" name='input_type'  value="DATE" <?php if($input_type==='DATE'){echo 'checked';} ?>> Date
+                </label>
             </div>
             <div>
                 <label class="radio-inline">
@@ -49,6 +52,9 @@
                 </label>
                 <label class="radio-inline">
                     <input type="radio" name='input_type'  value="ALPHANUMERIC" <?php if($input_type==='ALPHANUMERIC'){echo 'checked';} ?>> Alphanumeric                                       
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name='input_type'  value="NUMBER" <?php if($input_type==='NUMBER'){echo 'checked';} ?>> Number                                       
                 </label>
                 <label class="radio-inline">
                     <input type="radio" name='input_type'  value="MULTIPLE ANSWER" <?php if($input_type==='MULTIPLE ANSWER'){echo 'checked';} ?>> Multiple Answer                                       
