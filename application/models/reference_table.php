@@ -47,8 +47,10 @@ class Reference_Table_Model  { //dari class sini
                 . " FROM ref_main_disciplines ";
         if(PROJECT_PATH == 'cd'):
         $sql .= "WHERE module='cd' ORDER BY main_discipline_name ASC ";
-        else:
+        elseif (PROJECT_PATH == 'rispac'):
         $sql .= "WHERE main_discipline_code = '08' ";
+        else:
+        $sql .= "WHERE module='cd' ORDER BY main_discipline_name ASC ";
         endif;
         $this->db->connect();
         $this->db->prepare($sql);
@@ -81,8 +83,10 @@ class Reference_Table_Model  { //dari class sini
                 . " FROM ref_document_group ";
         if(PROJECT_PATH == 'cd'):
         $sql .= "WHERE doc_group_code IN ('CN','RL','PS') ";
-        else:
+        elseif(PROJECT_PATH == 'rispac'):
         $sql .= "WHERE doc_group_code IN ('RR') ";
+        else:
+        $sql .= "WHERE doc_group_code IN ('CN','RL','PS') ";
         endif;
         $this->db->connect();
         $this->db->prepare($sql);
@@ -118,8 +122,10 @@ class Reference_Table_Model  { //dari class sini
                 . " FROM ref_generaldisciplines ";
         if(PROJECT_PATH == 'cd'):
         $sql .= "WHERE main_discipline_code = '$disCode' AND module = 'CD' ";
-        else:
+        elseif(PROJECT_PATH == 'rispac'):
         $sql .= "WHERE main_discipline_code = '$disCode' ";
+        else:
+        $sql .= "WHERE main_discipline_code = '$disCode' AND module = 'CD' ";    
         endif;
         $this->db->connect();
         $this->db->prepare($sql);

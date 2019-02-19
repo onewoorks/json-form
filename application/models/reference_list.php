@@ -7,10 +7,11 @@ class Reference_List_Model {
     }
 
     public function GetReferenceList($elementCode,$docNameId) {
-        $sql = "SELECT rma.element_code, rde.element_desc,rma.multiple_desc_code, rma.multi_answer_desc, rma.input_type, rma.sorting, rma.parent_element_code,rma.child_element_code, rma.show_label, rmi.ref_element_code "
+        $sql = "SELECT rma.element_code, rde.element_desc,rma.multiple_desc_code, rmd.multiple_desc, rma.multi_answer_desc, rma.input_type, rma.sorting, rma.parent_element_code,rma.child_element_code, rma.show_label, rmi.ref_element_code "
                 . " FROM ref_multiple_answer rma "
                 . " LEFT JOIN ref_document_element rde ON(rde.element_code = rma.element_code) "
                 . " LEFT JOIN ref_multiple_item rmi ON(rmi.element_code=rma.element_code AND rmi.multiple_desc_code=rma.multiple_desc_code AND rmi.doc_name_id=rma.doc_name_id) "
+                . " LEFT JOIN ref_multiple_desc rmd ON(rmd.multiple_desc_code=rma.multiple_desc_code) "
                 . " WHERE rma.element_code='" . (int) $elementCode . "' AND rma.doc_name_id='$docNameId' "
                 . " GROUP BY rma.multi_answer_desc "
                 . " ORDER BY rde.element_desc,rma.sorting ";
