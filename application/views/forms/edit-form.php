@@ -20,16 +20,16 @@
 
     <div class="row">
         <form id="notesForm">
-            <div class="col-sm-9">
+            <div class="col-md-12">
                 <div id='maintitle'>
                     <div class="form-inline">
                         <label class='control-label' style='padding: 15px;font-size: 15px'><b><?= $document_title; ?>&nbsp;</b></label>
                         <div class="btn btn-primary btn-xs editTitle"></i>Edit Title</div>
-                        <div class="btn btn-primary btn-xs pull-right updateSection" style="margin-top:15px"></i>Update Section Sorting</div>
-                        <div class="btn btn-primary btn-xs pull-right updateElement" style="margin-top:15px"></i>Update Element Sorting</div>
+                        <div class="btn btn-primary btn-xs updateSection" style="margin-top:0px"></i>Update Section Sorting</div>
+                        <div class="btn btn-primary btn-xs updateElement" style="margin-top:0px"></i>Update Element Sorting</div>
                     </div>
                 </div>
-                <div id="panel-group1" class="panel-group" role="tablist">
+                <div id="panel-group1" class="panel-group col-md-9" role="tablist">
                     <?php foreach ($json_elements as $key => $section): $sectionKod = $section->section_code; ?>
                         <div class="panel panel-default dragble" data-section='<?= $key; ?>' style="cursor:move">
                             <div class="panel-heading" role="tab" id="collapseListGroupHeading1" style='margin-bottom:-5px'>
