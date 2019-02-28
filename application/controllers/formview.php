@@ -189,8 +189,8 @@ class Formview_Controller extends Common_Controller {
                 if ($component == 'element'):
                     #DISPLAY DETAIL POPUP EDIT FORM
                     $doc_id = $_REQUEST['documentId'];
-                    $found = $document->GetElementDetail($key, $doc_id);
                     $section_id = $_REQUEST['sectionId'];
+                    $found = $document->GetElementDetail($key, $doc_id, $section_id);
                     $grouping = $document->GetElementGrouping($section_id, $doc_id);
                     $page = 'forms/ajax_element_form_group';
                     $title = $found->element_desc;
@@ -214,6 +214,7 @@ class Formview_Controller extends Common_Controller {
                 $page = 'forms/add_new_document';
                 $result['doc_id'] = $_REQUEST['docId'];
                 $result['elemCode'] = $_REQUEST['elemCode'];
+                $result['sectCode'] = $_REQUEST['sectCode'];
                 $result['elements'] = $document->ListElementDesc(); //List of ref_document_element
                 $element = $_REQUEST['div']; //Panel Header (Element)
                 $result['element'] = $_REQUEST['div']; //TextField (Element)
@@ -314,7 +315,7 @@ class Formview_Controller extends Common_Controller {
                 $result['title'] = $val;
                 $result['doc_id'] = $doc_id;
                 $data = array(
-                    'component' => 'Document Detail',
+                    'component' => 'Document Title',
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
@@ -465,7 +466,7 @@ class Formview_Controller extends Common_Controller {
                         $element_desc = $value;
                     elseif ($new_key == 'json_desc'):
                         $json_desc = $value;
-                    
+
                         $output = array(
                             'element_desc' => $element_desc,
                             'json_element' => $json_desc
@@ -773,6 +774,7 @@ class Formview_Controller extends Common_Controller {
         $docID = $data['documentId'];
         $elementID = $data['elementCode'];
         $input_type = $data['input_type']; //method
+        $sectionId = $data['section_code'];
         $dataType = '(NULL)';
 
         $document->CleanMultipleAnswer($data);
@@ -805,7 +807,8 @@ class Formview_Controller extends Common_Controller {
             'input_type' => $input_type,
             'element_level' => $data['element_level'],
             'data_type' => $dataType,
-            'doc_method_code' => $methodCode
+            'doc_method_code' => $methodCode,
+            'section_code' => $sectionId
         );
         echo '<pre>';
         print_r($val);
@@ -945,6 +948,7 @@ class Formview_Controller extends Common_Controller {
         $docID = $data['documentId'];
         $elementID = $data['elementCode'];
         $input_type = $data['input_type']; //method
+        $sectionId = $data['section_code'];
         $dataType = '(NULL)';
 
         $document->CleanMultipleAnswer($data);
@@ -976,7 +980,8 @@ class Formview_Controller extends Common_Controller {
             'input_type' => $input_type,
             'element_level' => $data['element_level'],
             'data_type' => $dataType,
-            'doc_method_code' => $methodCode
+            'doc_method_code' => $methodCode,
+            'section_code' => $sectionId
         );
         echo '<pre>';
         print_r($val);
