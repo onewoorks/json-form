@@ -226,25 +226,25 @@
     });</script>
 
 <script>
-  $(document).ready(function () {
-      
-      $('#formFilter input').keyup(function() {
+    $(document).ready(function () {
 
-        var empty = false;
-        $('#formFilter input').each(function() {
-            if ($(this).val().length === 0) {
-                empty = true;
+        $('#formFilter input').keyup(function () {
+
+            var empty = false;
+            $('#formFilter input').each(function () {
+                if ($(this).val().length === 0) {
+                    empty = true;
+                }
+            });
+
+            if (empty) {
+                $('#addSection').attr('disabled', 'disabled');
+            } else {
+                $('#addSection').attr('disabled', false);
             }
         });
-
-        if (empty) {
-            $('#addSection').attr('disabled', 'disabled');
-        } else {
-            $('#addSection').attr('disabled', false);
-        }
     });
-  });  
-    
+
 </script>
 
 <script>
@@ -321,6 +321,9 @@
                 var no = key + 1;
                 console.log('no', no);
                 x = 1;
+                var section_desc = input[key].value;
+                var section_code = $('#secList [value="' + section_desc + '"]').data('code');
+
                 //DISPLAY SECTION DLM ELEMENT PANEL
                 if (input[key].value === "" || input[key].value) {
                     $sectionPanel += '<div id="section_panel' + no + '">';
@@ -332,7 +335,7 @@
                     $sectionPanel += '<div id="demo' + no + '" class="collapse">';
                     $sectionPanel += '<div class="col-sm-4 list-padding"><input type="hidden" name="section_desc" class="form-control" value="' + input[key].value + '" disabled /></div> ';
                     $sectionPanel += '<div id="section_body' + no + '" class="panel-body">';
-                    $sectionPanel += '<div class="elementDetail' + no + '">';
+                    $sectionPanel += '<div class="elementDetail' + no + '" data-section="' + input[key].value + '">';
                     $sectionPanel += '<div class="elementListing1">';
                     $sectionPanel += '<label class="control-label col-sm-3">Element Name</label>';
                     $sectionPanel += '<div class="col-sm-6">';
@@ -340,7 +343,7 @@
                     $sectionPanel += '<datalist id="elemList">' + option2 + '</datalist>';
                     $sectionPanel += '</div>';
                     $sectionPanel += '<div class="col-sm-3 sectionAction" data-target=' + no + '>';
-                    $sectionPanel += '<div class="btn btn-info btn-sm addDetail" data-sectionno=' + no + '-' + x + ' data-elementcount="1" disabled="disabled"><i></i>Details</div>';
+                    $sectionPanel += '<div class="btn btn-info btn-sm addDetail" data-sectionno=' + no + '-' + x + ' data-sectionCode = "' + section_code + '" data-elementcount="1" disabled="disabled"><i></i>Details</div>';
                     $sectionPanel += '<div class="btn btn-default btn-xs plusElement" data-target=' + no + ' style="padding:3px;"><i class="glyphicon glyphicon-plus"></i></div>'; //tambah element
                     $sectionPanel += '<br><br>';
                     $sectionPanel += '</div>';
@@ -371,6 +374,9 @@
             var no = $(this).data('target');
             console.log('plusElement No', no);
 
+            var section_desc = $(this).closest('[class^=elementDetail]').attr('data-section');
+            var section_code = $('#secList [value="' + section_desc + '"]').data('code');
+
             var $addPanel = '<div class="elementListing' + y + '">';
             $addPanel += '<label class="control-label col-sm-3">Element Name</label>';
             $addPanel += '<div class="col-sm-6">';
@@ -378,7 +384,7 @@
             $addPanel += '<datalist id="elemList">' + option2 + '</datalist>';
             $addPanel += '</div>';
             $addPanel += '<div class="col-sm-3 sectionAction" data-target=' + y + '>';
-            $addPanel += '<div class="btn btn-info btn-sm addDetail" data-sectionno=' + no + '-' + y + ' data-elementcount="0" disabled="disabled"><i></i>Details</div>';
+            $addPanel += '<div class="btn btn-info btn-sm addDetail" data-sectionno=' + no + '-' + y + ' data-sectionCode = "' + section_code + '" data-elementcount="0" disabled="disabled"><i></i>Details</div>';
             $addPanel += '<div class="btn btn-default btn-xs elementDel" data-delete=' + y + ' style="padding:3px;"><i class="glyphicon glyphicon-minus"></i></div><br><br>'; //remove element
             $addPanel += '</div>';
             $addPanel += '</div>';
@@ -404,10 +410,12 @@
             var div = $(this).closest('div[class^="col-sm-6"]').find('input[id^="elementName' + data + '"]').val();
             console.log('div', div);
             var elemCode = $('#elemList [value="' + div + '"]').data('id');
-            console.log('elemCode',elemCode);
+            console.log('elemCode', elemCode);
+            var sectCode = $(this).attr('data-sectionCode');
+            console.log('sectCode', sectCode);
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/new-doc-element/',
-                data: {div: div, docId: docId, elemCode:elemCode},
+                data: {div: div, docId: docId, elemCode: elemCode, sectCode: sectCode},
                 success: function (data) {
                     var obj = $.parseJSON(data);
                     $('.modal-title').text(obj.component);
@@ -422,7 +430,7 @@
 
 <script>
     $(".addForm").click(function () {
-    
+
         $('.addDetail').attr('disabled', false);
 
         $.ajax({
@@ -432,14 +440,14 @@
             success: function (data) {
                 console.log(data);
                 $('#myModal').modal('hide');
-                    swal({
-                        title: "Section & Element Inserted !",
-                        text: "Data successfully inserted into database",
-                        type: "success"
-                    });
+                swal({
+                    title: "Section & Element Inserted !",
+                    text: "Data successfully inserted into database",
+                    type: "success"
+                });
             }
         });
-        
+
         $('.addForm').attr('disabled', 'disabled');
         $('.plusElement').attr('disabled', 'disabled');
         $('.elementDel').attr('disabled', 'disabled');
