@@ -47,11 +47,17 @@ class Column_Render_Method {
     }
 
     function panel_render($data, $noOfColumn, $document_title, $document_id, $column) {
+        #$data : apa yg ad dlm JSON ([input_type] => FREETEXT)
+        #$noOfColumn : layout section (table ref_doc_sect)
+        #$document_title :title doc
+        #$document_id :title id
+        #$column : sama mcm no of column
+
         $numrow = 0;
         $row_items = array();
         $cols = array();
         $classColumn = '';
-        
+
         foreach ($data as $elem => $element):
             $cols[] = $elem;
             $row_items['row_' . $numrow][] = $element;
@@ -75,7 +81,7 @@ class Column_Render_Method {
         $html .= '<div class="row">';
         for ($i = 0; $i < $numrow; $i++):
             $html .= '<div class="">' . self::Column_Element($render_result['row_'.$i], $document_title, $document_id, $column) . '</div>';
-           
+
         endfor;
 
         $html .= '</div>';
@@ -88,7 +94,7 @@ class Column_Render_Method {
         $classColumn = '';
         $elements = array();
         $item1 = array();
-   
+
         foreach ($data as $key => $element):
             $elements[] = $element;
             $totalElement++;
@@ -114,8 +120,8 @@ class Column_Render_Method {
         endfor;
 
         for ($r = 0; $r < $noOfColumn; $r++):
-               $item1[$r];
-            endfor;
+            $item1[$r];
+        endfor;
 
         switch ($noOfColumn):
             case '1':
@@ -139,27 +145,37 @@ class Column_Render_Method {
     }
 
     function Column_Element($data, $document_title, $document_id, $column) {
-        
+
         $classColumn = '';
         $html = '';
         $element = $data['column_0'][0];
 
         if($this->check_input_type($element)):
             $classColumn = 'col-md-12';
-        else :
-            $colnum = 12/$column;
-            $classColumn = 'col-md-'. $colnum;
+//        else :
+//            $colnum = 12/$column;
+//            $classColumn = 'col-md-'. $colnum;
         endif;
-        
-        $html .= '<div class="'.$classColumn.'">';
+
+//        echo '<pre>';
+//        print_r($element);
+//        echo '</pre>';
+
+        #$element (list dlm json) eg:[input_type] => METHOD
+        #$element->json_element (nama element)
+        #$document_title
+        #$document_id
+        #$column (ambik dri ats)
+
+        $html .= '<div class="' . $classColumn . '">';
         $html.= InputTypeCaller($element, $element->json_element, $document_title, $document_id, $column);
-        $html .= "</div>";  
- 
+        $html .= "</div>";
+
         return $html;
     }
 
     function Column_Element2($data, $document_title, $document_id, $column) {
-         $html = '';
+        $html = '';
         foreach ($data as $element):
             $html.= InputTypeCaller($element, $element->json_element, $document_title, $document_id, $column);
             $html .= '<br />';
@@ -167,12 +183,13 @@ class Column_Render_Method {
         endforeach;
         return $html;
     }
+
     function column_data($data, $no_of_columns) {
         //multiplecolumns
         $items = array();
         $col_items = 0;
         $col = array();
-        
+
         foreach ($data as $index => $element):
             $items[] = $element;
             $col_items++;
@@ -184,21 +201,45 @@ class Column_Render_Method {
 
         return $col;
     }
-    
+
     function check_input_type($data) {
         $input_type = $data->input_type;
         $result = false;
         switch ($input_type):
             case 'RICHTEXT':
             case 'FREETEXT':
+            case 'NUMBER':
+                $result = true;
+                break;
+            case 'RADIOBUTTON':
+                $result = true;
+                break;
+            case 'NUMERIC':
+                $result = true;
+                break;
+            case 'ALPHANUMERIC':
+                $result = true;
+                break;
+            case 'TEXTBOX':
+                $result = true;
+                break;
             case 'LABEL':
-                $result = true;               
+                $result = true;
+                break;
+            case 'CALENDER':
+                $result = true;
+                break;
+            case 'DATE':
+                $result = true;
+                break;
+            case 'TIME':
+                $result = true;
                 break;
             case 'METHOD':
-                $result = true;               
+                $result = true;
                 break;
             default:
-               $result = false;
+                $result = false;
         endswitch;
 
         return $result;
