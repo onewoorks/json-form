@@ -21,12 +21,12 @@
     <div class="row">
         <form id="notesForm">
             <div class="col-md-12">
-                <div id='maintitle'>
+                <div id='maintitle' style="padding-left: 15px">
                     <div class="form-inline">
                         <label class='control-label' style='padding: 15px;font-size: 15px'><b><?= $document_title; ?>&nbsp;</b></label>
-                        <div class="btn btn-primary btn-xs editTitle"></i>Edit Title</div>
-                        <div class="btn btn-primary btn-xs updateSection" style="margin-top:0px"></i>Update Section Sorting</div>
-                        <div class="btn btn-primary btn-xs updateElement" style="margin-top:0px"></i>Update Element Sorting</div>
+                        <div class="btn btn-default btn-sm editTitle" style='padding:3px' title="Rename Title"><i class='glyphicon glyphicon-pencil'></i></div>
+                        <div class="btn btn-default btn-sm updateSection" style="margin-top:0px"></i>Update Section Sorting</div>
+                        <div class="btn btn-default btn-sm updateElement" style="margin-top:0px"></i>Update Element Sorting</div>
                     </div>
                 </div>
                 <div id="panel-group1" class="panel-group col-md-9" role="tablist">
@@ -41,8 +41,8 @@
                                         <a href="#collapseListGroup1" role="button" data-toggle="collapse"  aria-expanded="true"  data-section='<?= $key; ?>'>&nbsp;<i class="glyphicon glyphicon-move" style="font-size:11px;"></i></a>
                                     <?php endif; ?>
                                     <div class="btn-group pull-right" style="margin-top: -3px;margin-right:-10px">        
-                                        <a class="btn btn-xs btn-default editSection" data-section='<?= $key; ?>' data-sectioncode='<?= $section->section_code; ?>'></i> Edit Section</a>
-                                        <a class="btn btn-default btn-xs expandButton" data-section='<?= $key; ?>' data-current='expand'><i class='glyphicon glyphicon-resize-full'></i> Expand</a>
+                                        <a class="btn btn-default btn-sm editSection" style='padding:3px' data-section='<?= $key; ?>' data-sectioncode='<?= $section->section_code; ?>' title="Rename Section"><i class='glyphicon glyphicon-pencil'></i></a>
+                                        <a class="btn btn-default btn-xs expandButton" style='padding:2px' data-section='<?= $key; ?>' data-current='expand'><i class='glyphicon glyphicon-resize-full'></i> Expand</a>
                                     </div>
                                 </div>
                             </div>
@@ -51,14 +51,14 @@
                                 <div class="list-group" data-sectionkey='<?= $key; ?>' data-sectioncode='<?= $section->section_code; ?>'>
                                     <?php $column = $section->layout;
                                     switch ($column):case '1': $set = 12; ?>
-            <?php foreach ($section->elements as $elem => $element): $thecode = $element->element_code;
-                if ($element->element_code === $element->child_element_code): ?>
+                                    <?php foreach ($section->elements as $elem => $element): $thecode = $element->element_code;
+                                        if ($element->element_code === $element->child_element_code): ?>
                                                     <div class='form-group form-group-sm' data-elemsort='<?= $elem; ?>'style='border:1px solid #ccc; margin:4px;cursor:move;display: inline-block;width:99%'>
                                                         <label class='control-label col-md-6' style='padding-top:7px;text-align: right' data-elem="<?= $element->element_code; ?>" data-sectioncode='<?= $section->section_code; ?>'><?= $element->element_desc; ?></label>
                                                         <div class='btn btn-link editElement' data-elementid='<?= $element->element_code; ?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
                                                         <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code; ?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
                                                     </div>
-                <?php else: ?>
+                                    <?php else: ?>
                                                     <div class='form-group form-group-sm' data-elemsort='<?= $elem; ?>'style='border:1px solid #ccc; margin:4px;cursor:move;display: inline-block;width:99%'>
                                                         <label class='control-label col-md-6' style='padding-top:7px;text-align: right;color:#737373' data-elem="<?= $element->element_code; ?>" data-sectioncode='<?= $section->section_code; ?>'><?= $element->element_desc; ?></label>
                                                         <div class='btn btn-link editElement' data-elementid='<?= $element->element_code; ?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
@@ -79,8 +79,8 @@
                                                     $dir = 'right-defaults';
                                                 }
                                                 ?>
-                <?php foreach ($section->elements as $elem => $element): if ($element->element_position === $position):$thecode = $element->element_code;
-                        if ($element->element_code === $element->child_element_code): ?> 
+                                        <?php foreach ($section->elements as $elem => $element): if ($element->element_position === $position):$thecode = $element->element_code;
+                                                if ($element->element_code === $element->child_element_code): ?> 
                                                             <div class='form-group form-group-sm'  data-elemsort='<?= $elem; ?>' style='border:1px solid #ccc;margin:4px;padding-top:5px;cursor:move;display: inline-block;width:99%'>
                                                                 <label class='control-label col-md-6' style='padding-top:7px;text-align: right' data-elem="<?= $element->element_code; ?>" data-sectioncode='<?= $section->section_code; ?>'><?= $element->element_desc; ?></label>
                                                                 <div class='btn btn-link editElement' data-elementid='<?= $element->element_code; ?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
