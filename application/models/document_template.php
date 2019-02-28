@@ -68,7 +68,7 @@ class Document_Template_Model {
                 . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code) ";
         if (PROJECT_PATH == 'cd'):
             $sql .= "WHERE gd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','PS','RL') ";
-        elseif((PROJECT_PATH == 'rispac')):
+        elseif ((PROJECT_PATH == 'rispac')):
             $sql .= "WHERE gd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('RR') ";
         else:
             $sql .= "WHERE gd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','PS','RL') ";
@@ -363,14 +363,14 @@ class Document_Template_Model {
         return $result;
     }
 
-    public function GetElementDetail($elementCode, $documentId) {
-        $sql = "SELECT rde.element_code, rde.json_element,rde.element_desc,de.child_element_code,de.data_type,de.sorting,de.element_level,de.input_type, de.method,de.doc_method_code,de.element_position, de.element_properties, de.additional_attribute "
+    public function GetElementDetail($elementCode, $documentId, $sectionId) {
+        $sql = "SELECT rde.element_code, de.section_code, rde.json_element,rde.element_desc,de.child_element_code,de.data_type,de.sorting,de.element_level,de.input_type, de.method,de.doc_method_code,de.element_position, de.element_properties, de.additional_attribute "
                 . " FROM document_element de INNER JOIN document d ON(d.doc_name_id=de.doc_name_id) "
                 . " INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code) "
                 . " INNER JOIN ref_document_element rde ON (rde.element_code=de.parent_element_code) "
                 . " INNER JOIN ref_document_element rdee ON (rdee.element_code=de.child_element_code) "
 //                . " LEFT JOIN ref_document_method rdm ON (rdm.doc_method_code=de.doc_method_code) "
-                . " WHERE de.doc_name_id='" . (int) $documentId . "' and rde.element_code='" . (int) $elementCode . "'";
+                . " WHERE de.doc_name_id='" . (int) $documentId . "' AND rde.element_code='" . (int) $elementCode . "' AND de.section_code = '" . (int) $sectionId . "' ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -463,7 +463,7 @@ class Document_Template_Model {
         $element_desc = $result['element_desc'];
         $json_element = $result['json_element'];
         $sql = " INSERT INTO ref_document_element (element_desc, json_element, active_status, created_by, created_date) "
-                . " VALUES ('".(string) $element_desc."', '".(string) $json_element."', '1', 'ADMIN', NOW()) ";
+                . " VALUES ('" . (string) $element_desc . "', '" . (string) $json_element . "', '1', 'ADMIN', NOW()) ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -745,8 +745,8 @@ class Document_Template_Model {
 
     public function UpdateElementName($code, $name, $document_id) {
         $sql = " UPDATE document_element "
-                . " SET parent_element_code = '".(int)$name."' "
-                . " WHERE parent_element_code = '".(int)$code."' AND doc_name_id = '" . (int) $document_id . "' ";
+                . " SET parent_element_code = '" . (int) $name . "' "
+                . " WHERE parent_element_code = '" . (int) $code . "' AND doc_name_id = '" . (int) $document_id . "' ";
         print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
@@ -780,7 +780,7 @@ class Document_Template_Model {
             $data_type = $val['data_type'];
         endif;
         $sql = "UPDATE document_element SET child_element_code='" . (int) $val['child_element_code'] . "', element_level='" . $val['element_level'] . "', element_position='" . $val['element_position'] . "', element_properties='" . $val['element_properties'] . "', input_type='" . $val['input_type'] . "', data_type = $data_type, method =(SELECT method_info FROM ref_document_method WHERE doc_method_code = $methodCodes LIMIT 1), doc_method_code=$methodCodes, updated_by='ADMIN', updated_date = now() "
-                . "WHERE doc_name_id='" . (int) $val['doc_name_id'] . "' AND parent_element_code='" . (int) $val['element_code'] . "' ";
+                . "WHERE doc_name_id='" . (int) $val['doc_name_id'] . "' AND parent_element_code='" . (int) $val['element_code'] . "' AND section_code ='" . (int) $val['section_code'] . "' ";
         print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
@@ -913,15 +913,15 @@ class Document_Template_Model {
 
     public function DeleteElementData($docId, $sectionCode, $elementCode) {
         $sql = "UPDATE document_element "
-                ."SET active = '0' "
-                ."WHERE doc_name_id='" . (int) $docId . "' AND section_code='" . (int) $sectionCode . "' AND parent_element_code='" . (int) $elementCode . "'";
+                . "SET active = '0' "
+                . "WHERE doc_name_id='" . (int) $docId . "' AND section_code='" . (int) $sectionCode . "' AND parent_element_code='" . (int) $elementCode . "'";
         print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
         return true;
     }
-    
+
 //    public function UpdateElementToMethod(array $val) {
 //        $sql = "UPDATE document_element SET element_properties='" . $val['element_properties'] . "',input_type='METHOD',data_type=NULL,method='".$val['method_name']."',additional_attribute='".$val['method_json']."' "
 //                . "WHERE doc_name_id='".(int) $val['doc_id']."' AND parent_element_code='" . (int) $val['element_code'] . "'";
@@ -997,7 +997,7 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-    
+
     public function searchMethod($method_code) {
         $sql = " SELECT image_path "
                 . " FROM ref_document_method "
@@ -1074,7 +1074,7 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return $result;
     }
-    
+
     public function checkShowLabel($elementId, $docId) {
         $sql = "SELECT show_label "
                 . "FROM ref_multiple_answer "
