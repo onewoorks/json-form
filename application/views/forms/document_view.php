@@ -1,7 +1,7 @@
 <?= $header; ?>
-<div class='row'>
+<div class='row' style="margin-left:30px">
     <!--<div id="setsini" class='col-md-12' style="padding-left: 30px">-->
-    <div id="setsini" class='col-md-12' style="">
+    <div id="setsini" class='col-md-offset-0 col-md-12'>
         <div class='panel panel-default' >
             <div class='panel-heading text-uppercase' style='font-size: 12px'>
                 <div class='row'>
@@ -41,28 +41,20 @@
         </form>
     </div>
 
-    <!--    <div class='col-md-1' style="position: fixed; z-index: 7; right: 0; margin-right:-30px;">
-             <div class='btn btn-primary updatelayout' style="padding: 5px 10px;">Update</div>  
-        </div>-->
-
     <br><br> 
-    <!--    <div class='col-md-1-right' style="position: fixed; z-index: 7; right: 30px;">
-            <div class='panel-heading'>
-                <div class="panel-body">
-                    <button class="btn btn-default expandComponent" data-current='expand'><i class="glyphicon glyphicon-chevron-up"></i></button>
-                </div>
-            </div>
+        <div class='col-md-1-right' style="position: fixed; z-index: 7; right: 25px;">
+            <button class="btn btn-default expandComponent" style='background-color:#f5f5f5' data-current='expand'><i class="glyphicon glyphicon-chevron-down"></i></button>
         </div>   
-        <div class="col-md-3 " id="sidebar" style="position: fixed; z-index: 6; right: 30px; margin-left: 15px;">
+        <div class="col-md-3 hidden" id="sidebar" style="position: fixed; z-index: 6; right: 16px;">
             <div class='panel panel-default' id='notecomponent'>
                 <div class='panel-heading'><b>Notes Component</b></div>
                 <div class='panel-body'>
-                    <ul class='list-unstyled' style=" font-size: 12.5px;">
-    <?php foreach ($json_elements as $key => $section): ?>
-        <?php if ($section->section_code != '0'): ?>
-                                        <li><input type='checkbox' class='selectedsection' name='<?= $key; ?>' value='<?= $key; ?>' checked /> <?= $section->section_desc; ?></li>
-        <?php endif; ?>
-    <?php endforeach; ?>
+                    <ul class='list-unstyled'>
+                    <?php foreach ($json_elements as $key => $section): ?>
+                        <?php if ($section->section_code != '0'): ?>
+                                                                                                                                                                                                                                <li><input type='checkbox' class='selectedsection' name='<?= $key; ?>' value='<?= $key; ?>' checked /> <?= $section->section_desc; ?></li>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
                     </ul>
     
                     <div class='text-right'>
@@ -73,7 +65,7 @@
                     </div>
                 </div>
             </div>
-        </div>-->
+        </div>
 
 </div>
 
@@ -105,78 +97,55 @@
 </div>
 <script src='<?= SITE_ASSET; ?>/assets/library/datepicker/js/bootstrap-datepicker.js'></script>
 <script src="<?php echo SITE_ASSET; ?>/assets/library/summernote/summernote.js"></script>
-<!--<script>
-    function HideAndShowOtherSpecify(object) {
-        var $selected = $(object).val();
-        if ($selected.toLowerCase() === 'others, specify') {
-            var $name = 'other_specify_' + $(object).attr('name');
-            $("[name='" + $name + "']").show();
-            if ($(object).is(':checked')) {
-                $("[name='" + $name + "']").removeClass('hidden');
-            } else {
-                $("[name='" + $name + "']").addClass('hidden');
-            }
-        }
-    }
-
-</script>-->
-
-<!--<script>
-    //RADIOBUTTON
-    $(function () {
-        $('input:radio').change(function () {
-            var className = $(this).attr('data-ref');
-            console.log('radio', className);
-            if ($('input:radio[class="' + className + '"]').prop('checked', this.checked)) {
-                console.log(this.checked);
-            }
-
-        });
-    });
-</script>-->
 
 <script>
-    $(function () {
-        $("input[name^=9137]").hide();
+    $(document).ready(function () {
+
+        //DROPDOWN
+        $(document).on('click', '.selectList', function () {
+            var className = $(this).val();
+            console.log('dropdown refCode:', className);
+
+            if (className) {
+                $(this).closest('[class^="dropdown"]').find("[id^=" + className + "]").removeClass('hidden');
+            } else {
+                $(this).closest('[class^="dropdown"]').find("div").addClass('hidden');
+            }
+        });
+
         //CHECKBOX
         $('input:checkbox').change(function () {
             var className = $(this).attr('data-ref');
-            console.log('checkbox', className);
+            console.log('checkbox refCode:', className);
 
-            if ($(this).is(':checked')) {
-                if (className == '9137') {
-                    $(this).closest('[class^="checkbox"]').find("input[id^=9137]").show();
+            if (className) {
+                if ($(this).is(':checked')) {
+                    $(this).closest('[class^="checkbox"]').find("[id^=" + className + "]").removeClass('hidden');
                 }
-            } else {
-                $(this).closest('[class^="checkbox"]').find("input[id^=9137]").hide();
+                else {
+                    $(this).closest('[class^="checkbox"]').find("[id^=" + className + "]").addClass('hidden');
+                }
             }
         });
-    });
-</script>
 
-<script>
-    $(function () {
-        $("input[name^=9137]").hide();
-        //CHECKBOX
+        //RADIOBUTTON
         $('input:radio').change(function () {
             var className = $(this).attr('data-ref');
-            console.log('radio', className);
+            console.log('radio refCode:', className);
+            var find = $(this).closest('div').children('div').first().attr('id');
+            console.log('find div:', find);
 
-            if ($(this).is(':checked')) {
-                if (className == '9137') {
-                    $(this).closest('[class^="form-group"]').find("input[id^=9137]").show();
-                }else{
-                    $(this).closest('[class^="form-group"]').find("input[id^=9137]").hide();
-                }
+            if (className) {
+                $(this).closest('div').find("[id^=" + find + "]").removeClass('hidden');
             } else {
-                $(this).closest('[class^="form-group"]').find("input[id^=9137]").hide();
+                $(this).closest('div').find("[id^=" + find + "]").addClass('hidden');
             }
         });
+
     });
 </script>
 
 <script>
-
     $(function () {
         $('.datepicker').datepicker({
             endDate: '+1d'
@@ -190,7 +159,6 @@
             'format': 'HH:mm'
         });
     });
-
 </script>
 <script>
     $(function () {
@@ -204,37 +172,18 @@
             $('#notesForm').find("[data-section='" + section + "']").fadeToggle("fast", "linear");
         });
 
-//        $("input[name^=other_specify_]").hide();
-//
-//        $('input[type="checkbox"]').change(function () {
-//            HideAndShowOtherSpecify(this);
-//            var $parentcode = $(this).data('parentcode');
-//            console.log($parentcode);
-//        });
-
-//        $("input[name^=textbox_]").hide();
-//        $("input[name^=calendar_]").hide();
-//        $("input[name^=freetext_]").hide();
-
-//        $('input[type="radio"]').change(function () {
-//            HideAndShowTextbox(this);
-//            var $refcode = $(this).data('refcodes');
-//            console.log($refcode);
-//        });
-
     });
-
 
     $('.expandComponent').click(function () {
         var a = $('#sidebar').toggleClass('hidden');
         var current = $(this).data('current');
         console.log(current);
-        if (current === 'expand') {
-            $(this).data('current', 'hide');
+        if (current !== 'expand') {
+            $(this).data('current', 'expand');
             $(this).html('<i class="glyphicon glyphicon-chevron-down"></i>');
             document.getElementById("setsini").className = "col-md-12";
         } else {
-            $(this).data('current', 'expand');
+            $(this).data('current', 'hide');
             $(this).html('<i class="glyphicon glyphicon-chevron-up"></i>');
             document.getElementById("setsini").className = "col-md-9";
         }
