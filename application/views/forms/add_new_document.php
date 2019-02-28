@@ -5,6 +5,7 @@
         <div class='panel-body'>
             <input type='hidden' name='document_id' value='<?= $doc_id; ?>' class='form-control' autocomplete="off"/>
             <input type='hidden' name='element_code' value='<?= $elemCode; ?>' class='form-control' autocomplete="off"/>
+            <input type='hidden' name='section_code' value='<?= $sectCode; ?>' class='form-control' autocomplete="off"/>
             <div class='form-group form-group-sm'>
                 <label class='control-label col-sm-2'>Element Description</label>
                 <div class='col-sm-8'>
@@ -16,7 +17,7 @@
                     </datalist>
                 </div>
             </div>
-            
+
             <div class='form-group form-group-sm'>
                 <label class='control-label col-sm-2'>Element Level</label>
                 <div class='col-sm-8'>
@@ -89,7 +90,6 @@
 
     //BAWA KE PAGE->BASIC
     function ElementBuilder(formType) {
-//        console.log('formType',formType);
         var formValue = $('#editElement').serializeArray();
 
         $.ajax({

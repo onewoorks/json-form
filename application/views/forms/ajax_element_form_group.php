@@ -9,6 +9,7 @@
     <input type='hidden' name='method' value='<?= $values->method; ?>' />
     <input type='hidden' name='data_type' value='<?= $values->data_type; ?>' />
     <input type='hidden' name='method_code' value='<?= $values->doc_method_code; ?>' />
+    <input type='hidden' name='section_code' value='<?= $values->section_code; ?>' />
 
     <div class='panel panel-default' style="margin-right: 13px">
         <div class='panel-heading'>Properties</div>
