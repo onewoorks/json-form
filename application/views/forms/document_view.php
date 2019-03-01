@@ -42,30 +42,30 @@
     </div>
 
     <br><br> 
-        <div class='col-md-1-right' style="position: fixed; z-index: 7; right: 25px;">
-            <button class="btn btn-default expandComponent" style='background-color:#f5f5f5' data-current='expand'><i class="glyphicon glyphicon-chevron-down"></i></button>
-        </div>   
-        <div class="col-md-3 hidden" id="sidebar" style="position: fixed; z-index: 6; right: 16px;">
-            <div class='panel panel-default' id='notecomponent'>
-                <div class='panel-heading'><b>Notes Component</b></div>
-                <div class='panel-body'>
-                    <ul class='list-unstyled'>
+    <div class='col-md-1-right' style="position: fixed; z-index: 7; right: 25px;">
+        <button class="btn btn-default expandComponent" style='background-color:#f5f5f5' data-current='expand'><i class="glyphicon glyphicon-chevron-down"></i></button>
+    </div>   
+    <div class="col-md-3 hidden" id="sidebar" style="position: fixed; z-index: 6; right: 16px;">
+        <div class='panel panel-default' id='notecomponent'>
+            <div class='panel-heading'><b>Notes Component</b></div>
+            <div class='panel-body'>
+                <ul class='list-unstyled'>
                     <?php foreach ($json_elements as $key => $section): ?>
                         <?php if ($section->section_code != '0'): ?>
-                                                                                                                                                                                                                                <li><input type='checkbox' class='selectedsection' name='<?= $key; ?>' value='<?= $key; ?>' checked /> <?= $section->section_desc; ?></li>
+                            <li><input type='checkbox' class='selectedsection' name='<?= $key; ?>' value='<?= $key; ?>' checked /> <?= $section->section_desc; ?></li>
                         <?php endif; ?>
                     <?php endforeach; ?>
-                    </ul>
-    
-                    <div class='text-right'>
-                        <div class='btn-group btn-group-sm' style="right:10px">
-                            <a href='<?= SITE_ROOT; ?>/formview/edit-form/<?= $template_id; ?>' class='btn btn-default'>Edit Form</a>
-                            <a href='<?= SITE_ROOT; ?>/formview/json-format/<?= $document_id; ?>' target="_blank" class='btn btn-default'>View JSON</a>
-                        </div>
+                </ul>
+
+                <div class='text-right'>
+                    <div class='btn-group btn-group-sm' style="right:10px">
+                        <a href='<?= SITE_ROOT; ?>/formview/edit-form/<?= $template_id; ?>' class='btn btn-default'>Edit Form</a>
+                        <a href='<?= SITE_ROOT; ?>/formview/json-format/<?= $document_id; ?>' target="_blank" class='btn btn-default'>View JSON</a>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
 </div>
 
@@ -100,6 +100,8 @@
 
 <script>
     $(document).ready(function () {
+        
+        var checkName;
 
         //DROPDOWN
         $(document).on('click', '.selectList', function () {
@@ -108,8 +110,10 @@
 
             if (className) {
                 $(this).closest('[class^="dropdown"]').find("[id^=" + className + "]").removeClass('hidden');
-            } else {
-                $(this).closest('[class^="dropdown"]').find("div").addClass('hidden');
+                checkName = className;
+            }
+            else{
+                $(this).closest('[class^="dropdown"]').find("[id^=" + checkName + "]").addClass('hidden');
             }
         });
 
