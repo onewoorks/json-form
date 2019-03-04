@@ -444,14 +444,27 @@ class Document_Template_Model {
     }
 
     //19JULAI
-    public function InsertSecId($layout, $secDesc) {
-        $sectionDesc = strtoupper($secDesc);
-        $replace = str_replace(' ', '_', $sectionDesc);
-        $str = strtolower(preg_replace('/[^a-zA-Z0-9_]/', '', $replace));
-        $jsonSection = preg_replace('/_+/', '_', $str);
+   //28Feb19
+    public function InsertMethodId($result) {
+        $method_desc = $result['method_desc'];
+        $method_info = $result['method_info'];
+//        $sql = " SELECT COUNT(section_desc) FROM ref_document_section WHERE section_desc LIKE '%$sectionDesc%' ";
+        $sql = " INSERT INTO ref_document_method (doc_method_code, doc_method_desc, method_info, active_status, created_by, created_date) "
+                . " VALUES ((SELECT MAX(doc_method_code)+1 FROM ref_document_method AS doc_method_code), '$method_desc', '$method_info', '1', 'ADMIN', NOW()) ";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+
+   //27Feb19
+    public function InsertSecId($result) {
+        $section_desc = $result['section_desc'];
+        $json_section = $result['json_section'];
+        $layout = $result['layout'];
 //        $sql = " SELECT COUNT(section_desc) FROM ref_document_section WHERE section_desc LIKE '%$sectionDesc%' ";
         $sql = " INSERT INTO ref_document_section (section_code, section_desc, json_section, layout, active_status, created_by, created_date) "
-                . " VALUES ((SELECT MAX(section_code)+1 FROM ref_document_section AS section_code), '$sectionDesc', '$jsonSection', '$layout', '1', 'ADMIN', NOW()) ";
+                . " VALUES ((SELECT MAX(section_code)+1 FROM ref_document_section AS section_code), '$section_desc', '$json_section', '$layout', '1', 'ADMIN', NOW()) ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -522,6 +535,15 @@ class Document_Template_Model {
     //23JULAI
     public function searchElement($search) {
         $sql = " SELECT element_code, element_desc, json_element, active_status FROM ref_document_element WHERE element_desc LIKE '%$search%' ";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+     public function GetAllmethodDesc() {
+        $sql = " SELECT doc_method_code, doc_method_desc, section_code, json_method, method_info, image_path, active_status FROM ref_document_method ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
