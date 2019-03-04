@@ -47,6 +47,7 @@
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="<?php echo SITE_ROOT; ?>/formview/new-form">Add New Form</a></li>
+                                <li><a href="<?php echo SITE_ROOT; ?>/formview/new-method">Add New Method</a></li>
                                 <li><a href="<?php echo SITE_ROOT; ?>/formview/new-section">Add New Section</a></li>
                                 <li><a href="<?php echo SITE_ROOT; ?>/formview/new-element">Add New Element</a></li>
                                 <li><a href="<?php echo SITE_ROOT; ?>/formview/form-builder">Form Builder</a></li>
