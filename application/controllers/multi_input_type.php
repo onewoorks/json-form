@@ -4,6 +4,8 @@ class Multi_Input_Type_Controller extends Input_Type_Controller {
 
     public $childDetail;
     public $ref_element_code;
+    public $child_show_label;
+    public $child_element_desc;
 
     public function MultiVerifyMethod($methodName) {
         $check = method_exists($this, $methodName);
@@ -11,18 +13,18 @@ class Multi_Input_Type_Controller extends Input_Type_Controller {
     }
 
     public function CheckboxMulti() {
-//        echo 'SAMPAI DI CheckboxMulti';
         $child = $this->childDetail;
         $ref_code = $this->ref_element_code;
-//        echo '<pre>';
-//        print_r($ref_code);
-//        echo '</pre>';
+        $child_label = $this->child_show_label;
+        $child_desc = $this->child_element_desc;
 
         $html = "";
 
         if ($child):
             $html .= "<div class='col-sm-12 hidden' style='margin-left:16px' id='" . $ref_code . "'>";
-            $html .= "<label class='control-label col-md-3 text-uppercase' style='font-weight:normal'></label>";
+            if ($child_label !== '0'):
+                $html .= "<label class='control-label col-md-3 text-uppercase' style='font-weight:normal'>$child_desc</label>";
+            endif;
             $html .= "<div class='col-md-8'>";
             foreach ($child as $ref):
                 $optionValue = $ref['multiple_desc'];
@@ -34,7 +36,7 @@ class Multi_Input_Type_Controller extends Input_Type_Controller {
                         . "value='$optionValue' data-ref='" . $ref['ref_element_code'] . "'/>" . $ref['multiple_desc']
                         . "</label>";
                 if ($ref['ref_element_code'] !== NULL):
-                    $html .= $this->checkC($ref['ref_element_code'], $ref['doc_name_id']);
+                    $html .= $this->checkC($ref['ref_element_code'], $ref['doc_name_id'], $ref['child_show_label'], $ref['child_element_desc']);
                 endif;
                 $html .= "</div>";
                 $html .= "</div>";
@@ -48,24 +50,29 @@ class Multi_Input_Type_Controller extends Input_Type_Controller {
     }
 
     public function RadiobuttonMulti() {
-//        echo 'SAMPAI DI RadiobuttonMulti';
         $child = $this->childDetail;
         $ref_code = $this->ref_element_code;
-//        echo '<pre>';
-//        print_r($child);
-//        echo '</pre>';
+        $child_label = $this->child_show_label;
+        $child_desc = $this->child_element_desc;
+
         $html = "";
+        $output = "";
 
         if ($child):
             $html .= "<div class='col-sm-12 hidden' style='margin-left:17px' id='" . $ref_code . "'>";
             $html .= "<div class='form-group form-group-sm' >";
-            $html .= "<label class='control-label col-md-2 text-uppercase' style='font-weight:normal;'></label>";
+            if ($child_label !== '0'):
+                $html .= "<label class='control-label col-md-2 text-uppercase' style='font-weight:normal;'>$child_desc</label>";
+            endif;
             $html .= "<div class='radio col-sm-9' style='padding-bottom:5px'>";
             foreach ($child as $ref):
                 $html .= "<label class='control-label' style='width:auto;padding-right:30px'><input type='radio' class='custom-control-input' data-ref='" . $ref['ref_element_code'] . "'>" . $ref['multiple_desc'] . "</label>";
+                if ($ref['ref_element_code'] !== NULL):
+                    $output = $this->checkC($ref['ref_element_code'], $ref['doc_name_id'], $ref['child_show_label'], $ref['child_element_desc']);
+                endif;
             endforeach;
-            if ($ref['ref_element_code'] !== NULL):
-                $html .= $this->checkC($ref['ref_element_code'], $ref['doc_name_id']);
+            if ($output):
+                $html .= $output;
             endif;
             $html .= "</div>";
             $html .= "</div>";
@@ -76,19 +83,20 @@ class Multi_Input_Type_Controller extends Input_Type_Controller {
     }
 
     public function DropdownMulti() {
-//        echo 'SAMPAI DI DropdownMulti';
         $child = $this->childDetail;
         $ref_code = $this->ref_element_code;
-//        echo '<pre>';
-//        print_r($child);
-//        echo '</pre>';
+        $child_label = $this->child_show_label;
+        $child_desc = $this->child_element_desc;
+        
         $html = "";
         $output = "";
 
         if ($child):
             $html .= "<div class='col-sm-12 hidden' style='margin-left:17px;margin-top:5px' id='$ref_code'>";
             $html .= "<div class='form-group form-group-sm'>";
-            $html .= "<label class='control-label col-md-2 text-uppercase' style='padding-bottom:5px;font-weight:normal'></label>";
+            if ($child_label !== '0'):
+                $html .= "<label class='control-label col-md-2 text-uppercase' style='padding-bottom:5px;font-weight:normal'>$child_desc</label>";
+            endif;
             $html .= "<div class='col-md-3'>";
             $html .= "<div class='dropdown'>";
             $html .= "<select class='form-control selectList'>";
@@ -97,7 +105,7 @@ class Multi_Input_Type_Controller extends Input_Type_Controller {
                 $refValue = $ref['ref_element_code'];
                 $html .= "<option value='$refValue'>" . $ref['multiple_desc'] . "</option>";
                 if ($ref['ref_element_code'] !== NULL):
-                    $output = $this->checkC($ref['ref_element_code'], $ref['doc_name_id']);
+                    $output = $this->checkC($ref['ref_element_code'], $ref['doc_name_id'], $ref['child_show_label'], $ref['child_element_desc']);
                 endif;
             endforeach;
             $html .= "</select>";
@@ -114,20 +122,19 @@ class Multi_Input_Type_Controller extends Input_Type_Controller {
     }
 
     public function TextboxMulti() {
-//        echo 'SAMPAI DI TextboxMulti';
         $child = $this->childDetail;
         $ref_code = $this->ref_element_code;
-//        echo '<pre>';
-//        print_r($child);
-//        echo '</pre>';
+        $child_label = $this->child_show_label;
+        $child_desc = $this->child_element_desc;
+        
         $html = "";
 
         if ($child):
             $html .= "<div class='col-sm-12 hidden' style='margin-left:2px' id='" . $ref_code . "'>";
             $html .= "<div class='form-group form-group-sm' >";
-            foreach ($child as $ref):
-                $html .= "<label class='control-label col-md-2 text-uppercase' style='font-weight:normal'>" . $ref['element_desc'] . "</label>";
-            endforeach;
+            if ($child_label !== '0'):
+                $html .= "<label class='control-label col-md-2 text-uppercase' style='font-weight:normal'>$child_desc</label>";
+            endif;
             $html .= "<div class='col-md-8' style='margin-left:7px'>"
                     . "<input type ='text' class='form-control' style='width:450px'>"
                     . "</div>"
@@ -139,18 +146,19 @@ class Multi_Input_Type_Controller extends Input_Type_Controller {
     }
 
     public function FreetextMulti() {
-//        echo 'SAMPAI DI FreetextMulti';
         $child = $this->childDetail;
         $ref_code = $this->ref_element_code;
-//        echo '<pre>';
-//        print_r($child);
-//        echo '</pre>';
+        $child_label = $this->child_show_label;
+        $child_desc = $this->child_element_desc;
+        
         $html = "";
 
         if ($child):
             $html .= "<div class='col-sm-12 hidden' style='margin-left:1px' id='" . $ref_code . "'>";
             $html .= "<div class='form-group form-group-sm' >";
-            $html .= "<label class='control-label col-md-2 text-uppercase' style='font-weight:normal'></label>";
+            if ($child_label !== '0'):
+                $html .= "<label class='control-label col-md-2 text-uppercase' style='font-weight:normal'>$child_desc</label>";
+            endif;
             $html .= "<div class='col-md-8' style='margin-left:8px'>"
                     . "<textarea class='form-control' style='height: 50px;width:560px'></textarea>"
                     . "</div>"
