@@ -97,7 +97,7 @@ class Input_Type_Controller extends Common_Controller {
         $html .= "<div class='col-sm-12' style='margin-left:2px'>";
         $html .= "<div class='form-group form-group-sm' style='margin-left:" . $element->element_level . "0px'>";
         if ($element->element_level == '1'):
-            $html .= "<label class='control-label col-md-3 text-uppercase'>" . $element->label . $element->element_level . "</label>";
+            $html .= "<label class='control-label col-md-3 text-uppercase'>" . $element->label . "</label>";
         else:
             $html .= "<label class='control-label col-md-3 text-uppercase' style='font-weight:normal'>" . $element->label . $element->element_level . "</label>";
         endif;
@@ -313,22 +313,27 @@ class Input_Type_Controller extends Common_Controller {
         return $result;
     }
 
-    public function checkC($ref_element_code, $doc_name_id) {
+    public function checkC($ref_element_code, $doc_name_id, $child_show_label, $child_element_desc) {
 
         $html = "";
 
         switch ($ref_element_code):
             case '9137':
                 $html .= "<div id='9137' class='form-group hidden'>";
+                if ($child_show_label !== '0'):
+                    $html .= "<label class='control-label col-md-2 text-uppercase' style='font-weight:normal'>$child_element_desc</label>";
+                endif;
                 $html .= "<div class='col-sm-4'>";
                 $html .= "<input type ='text' name = '9137' id = '9137' class='form-control' style ='margin-bottom:5px'>";
                 $html .= "</div>";
                 $html .= "</div>";
                 break;
             case '9144':
-                $html .= "<div class='form-group form-group-sm hidden' name = '9144' id = '9144'>"
-                        . "<label class='control-label col-md-3 text-uppercase'></label>"
-                        . "<div class='col-md-3' style='padding-left:30px'>"
+                $html .= "<div class='form-group form-group-sm hidden' name = '9144' id = '9144'>";
+                if ($child_show_label !== '0'):
+                    $html .= "<label class='control-label col-md-3 text-uppercase'>$child_element_desc</label>";
+                endif;
+                $html .= "<div class='col-md-3' style='padding-left:30px'>"
                         . "<div class='input-group'>"
                         . "<input class='form-control datetimepicker' />"
                         . "<span class='input-group-addon'><i class='glyphicon glyphicon-calendar'></i></span>"
@@ -337,25 +342,31 @@ class Input_Type_Controller extends Common_Controller {
                         . "</div>";
                 break;
             case '11960':
-                $html .= "<div class='form-group form-group-sm hidden' name = '11960' id = '11960'>"
-                        . "<label class='control-label col-md-3 text-uppercase'></label>"
-                        . "<div class='col-md-4' style='padding-left:30px'>"
+                $html .= "<div class='form-group form-group-sm hidden' name = '11960' id = '11960'>";
+                if ($child_show_label !== '0'):
+                    $html .= "<label class='control-label col-md-3 text-uppercase'>$child_element_desc</label>";
+                endif;
+                $html .= "<div class='col-md-4' style='padding-left:30px'>"
                         . "<input type ='text' class='form-control'>"
                         . "</div>"
                         . "</div>";
                 break;
             case '12747':
-                $html .= "<div class='form-group form-group-sm hidden' name = '12747' id = '12747'>"
-                        . "<label class='control-label col-md-3 text-uppercase'></label>"
-                        . "<div class='col-md-4' style='padding-left:30px'>"
+                $html .= "<div class='form-group form-group-sm hidden' name = '12747' id = '12747'>";
+                if ($child_show_label !== '0'):
+                    $html .= "<label class='control-label col-md-3 text-uppercase'>$child_element_desc</label>";
+                endif;
+                $html .= "<div class='col-md-4' style='padding-left:30px'>"
                         . "<input type ='text' class='form-control'>"
                         . "</div>"
                         . "</div>";
                 break;
             case '13151':
-                $html .= "<div class='form-group form-group-sm hidden' name = '13151' id = '13151'>"
-                        . "<label class='control-label col-md-3 text-uppercase'></label>"
-                        . "<div class='col-md-3' style='padding-left:30px'>"
+                $html .= "<div class='form-group form-group-sm hidden' name = '13151' id = '13151'>";
+                if ($child_show_label !== '0'):
+                    $html .= "<label class='control-label col-md-3 text-uppercase'>$child_element_desc</label>";
+                endif;
+                $html .= "<div class='col-md-3' style='padding-left:30px'>"
                         . "<div class='input-group'>"
                         . "<input type = 'text' class='form-control datepicker' />"
                         . "<span class='input-group-addon'><i class='glyphicon glyphicon-calendar'></i></span>"
@@ -364,21 +375,21 @@ class Input_Type_Controller extends Common_Controller {
                         . "</div>";
                 break;
             default:
-//                $result = ReferenceCaller($ref_element_code, $doc_name_id, 'child');
-                $result = $this->checkP($ref_element_code, $doc_name_id, 'child');
+                $result = $this->checkP($ref_element_code, $doc_name_id);
 
 //                echo '<pre>';
-//                print_r($ref_element_code);
+//                print_r($result);
 //                echo '</pre>';
 
                 $inputType = $result->type . 'Multi';
                 $class = new Multi_Input_Type_Controller();
                 $class->childDetail = (object) $result->data;
                 $class->ref_element_code = $ref_element_code;
+                $class->child_show_label = $child_show_label;
+                $class->child_element_desc = $child_element_desc;
                 $methodCheck = $class->MultiVerifyMethod($inputType);
                 $checking = ($methodCheck) ? $class->$inputType() : false;
                 return $checking;
-                break;
         endswitch;
 
         return $html;
@@ -393,40 +404,42 @@ class Input_Type_Controller extends Common_Controller {
             $image = $result[0]['image_path'];
         endif;
 
-        $level = check_level($element->element_code, $element->doc_name_id, $element);
-        #NEW ELEMENT
-        $element->{'element_level'} = $level->element_level;
-
         $html = "";
 
-        if (isset($image)):
-            $html .= "<div class='col-sm-12' style='margin-left:2px'>";
-            $html .= "<div class='form-group form-group-sm' style='margin-left:" . $element->element_level . "0px'>";
-            if ($element->element_level == '0'):
-            elseif ($element->element_level == '1'):
-                $html .= "<label class='control-label col-md-12 text-uppercase' style='padding-bottom:5px;'>" . $element->label . "</label>";
+        if ($element):
+            $level = check_level($element->element_code, $element->doc_name_id, $element);
+            #NEW ELEMENT
+            $element->{'element_level'} = $level->element_level;
+
+            if (isset($image)):
+                $html .= "<div class='col-sm-12' style='margin-left:2px'>";
+                $html .= "<div class='form-group form-group-sm' style='margin-left:" . $element->element_level . "0px'>";
+                if ($element->element_level == '0'):
+                elseif ($element->element_level == '1'):
+                    $html .= "<label class='control-label col-md-12 text-uppercase' style='padding-bottom:5px;'>" . $element->label . "</label>";
+                else:
+                    $html .= "<label class='control-label col-md-12 text-uppercase' style='padding-bottom:5px;font-weight:normal'>" . $element->label . "</label>";
+                endif;
+                $html .= "<div class='col-md-12'>"
+                        . "<div><img id=" . $element->doc_method_code . " src='../../../" . $image . "' style='border: solid 1px #DCDCDC'></div>"
+                        . "</div>"
+                        . "</div>";
+                $html .= "</div>";
             else:
-                $html .= "<label class='control-label col-md-12 text-uppercase' style='padding-bottom:5px;font-weight:normal'>" . $element->label . "</label>";
+                $html .= "<div class='col-sm-12' style='margin-left:2px'>";
+                $html .= "<div class='form-group form-group-sm' style='margin-left:" . $element->element_level . "0px'>";
+                if ($element->element_level == '0'):
+                elseif ($element->element_level == '1'):
+                    $html .= "<label class='control-label col-md-12 text-uppercase' style='padding-bottom:5px;'>" . $element->label . "</label>";
+                else:
+                    $html .= "<label class='control-label col-md-12 text-uppercase' style='padding-bottom:5px;font-weight:normal'>" . $element->label . "</label>";
+                endif;
+                $html .= "<div class='col-md-12'>"
+                        . "<div><span><i>Please Update Method</i></span></div>"
+                        . "</div>"
+                        . "</div>";
+                $html .= "</div>";
             endif;
-            $html .= "<div class='col-md-12'>"
-                    . "<div><img id=" . $element->doc_method_code . " src='../../../" . $image . "' style='border: solid 1px #DCDCDC'></div>"
-                    . "</div>"
-                    . "</div>";
-            $html .= "</div>";
-        else:
-            $html .= "<div class='col-sm-12' style='margin-left:2px'>";
-            $html .= "<div class='form-group form-group-sm' style='margin-left:" . $element->element_level . "0px'>";
-            if ($element->element_level == '0'):
-            elseif ($element->element_level == '1'):
-                $html .= "<label class='control-label col-md-12 text-uppercase' style='padding-bottom:5px;'>" . $element->label . "</label>";
-            else:
-                $html .= "<label class='control-label col-md-12 text-uppercase' style='padding-bottom:5px;font-weight:normal'>" . $element->label . "</label>";
-            endif;
-            $html .= "<div class='col-md-12'>"
-                    . "<div><span><i>Please Update Method</i></span></div>"
-                    . "</div>"
-                    . "</div>";
-            $html .= "</div>";
         endif;
 
         return $html;
@@ -441,40 +454,42 @@ class Input_Type_Controller extends Common_Controller {
             $image = $result[0]['image_path'];
         endif;
 
-        $level = check_level($element->element_code, $element->doc_name_id, $element);
-        #NEW ELEMENT
-        $element->{'element_level'} = $level->element_level;
-
         $html = "";
 
-        if (isset($image)):
-            $html .= "<div class='col-sm-12' style='margin-left:16px'>";
-            $html .= "<div class='form-group form-group-sm' style='margin-left:" . $element->element_level . "0px'>";
-            if ($element->element_level == '0'):
-            elseif ($element->element_level == '1'):
-                $html .= "<label class='control-label col-md-3 text-uppercase' style='padding-bottom:5px;'>" . $element->label . "</label>";
+        if ($element):
+            $level = check_level($element->element_code, $element->doc_name_id, $element);
+            #NEW ELEMENT
+            $element->{'element_level'} = $level->element_level;
+
+            if (isset($image)):
+                $html .= "<div class='col-sm-12' style='margin-left:16px'>";
+                $html .= "<div class='form-group form-group-sm' style='margin-left:" . $element->element_level . "0px'>";
+                if ($element->element_level == '0'):
+                elseif ($element->element_level == '1'):
+                    $html .= "<label class='control-label col-md-3 text-uppercase' style='padding-bottom:5px;'>" . $element->label . "</label>";
+                else:
+                    $html .= "<label class='control-label col-md-3 text-uppercase' style='padding-bottom:5px;font-weight:normal'>" . $element->label . "</label>";
+                endif;
+                $html .= "<div class='col-md-3'>"
+                        . "<div><img id=" . $element->doc_method_code . " src='../../../" . $image . "' style='border: solid 1px #DCDCDC'></div>"
+                        . "</div>"
+                        . "</div>";
+                $html .= "</div>";
             else:
-                $html .= "<label class='control-label col-md-3 text-uppercase' style='padding-bottom:5px;font-weight:normal'>" . $element->label . "</label>";
+                $html .= "<div class='col-sm-12' style='margin-left:16px'>";
+                $html .= "<div class='form-group form-group-sm' style='margin-left:" . $element->element_level . "0px'>";
+                if ($element->element_level == '0'):
+                elseif ($element->element_level == '1'):
+                    $html .= "<label class='control-label col-md-3 text-uppercase' style='padding-bottom:5px;'>" . $element->label . "</label>";
+                else:
+                    $html .= "<label class='control-label col-md-3 text-uppercase' style='padding-bottom:5px;font-weight:normal'>" . $element->label . "</label>";
+                endif;
+                $html .= "<div class='col-md-3'>"
+                        . "<div><span><i>Please Update Method</i></span></div>"
+                        . "</div>"
+                        . "</div>";
+                $html .= "</div>";
             endif;
-            $html .= "<div class='col-md-3'>"
-                    . "<div><img id=" . $element->doc_method_code . " src='../../../" . $image . "' style='border: solid 1px #DCDCDC'></div>"
-                    . "</div>"
-                    . "</div>";
-            $html .= "</div>";
-        else:
-            $html .= "<div class='col-sm-12' style='margin-left:16px'>";
-            $html .= "<div class='form-group form-group-sm' style='margin-left:" . $element->element_level . "0px'>";
-            if ($element->element_level == '0'):
-            elseif ($element->element_level == '1'):
-                $html .= "<label class='control-label col-md-3 text-uppercase' style='padding-bottom:5px;'>" . $element->label . "</label>";
-            else:
-                $html .= "<label class='control-label col-md-3 text-uppercase' style='padding-bottom:5px;font-weight:normal'>" . $element->label . "</label>";
-            endif;
-            $html .= "<div class='col-md-3'>"
-                    . "<div><span><i>Please Update Method</i></span></div>"
-                    . "</div>"
-                    . "</div>";
-            $html .= "</div>";
         endif;
 
         return $html;
@@ -499,7 +514,7 @@ class Input_Type_Controller extends Common_Controller {
         foreach ($result->data as $ref):
             $html .= "<label class='control-label' style='width:auto;padding-right:30px;padding-bottom:5px'><input type='radio' class='custom-control-input' name='" . $element->json_element . "' data-parentcodes='" . $element->json_element . "_" . $element->element_code . "' data-ref='" . $ref['ref_element_code'] . "'>" . $ref['multiple_desc'] . "</label>";
             if ($ref['ref_element_code'] !== NULL):
-                $output = $this->checkC($ref['ref_element_code'], $element->doc_name_id);
+                $output = $this->checkC($ref['ref_element_code'], $element->doc_name_id, $ref['child_show_label'], $ref['child_element_desc']);
             endif;
         endforeach;
         if ($output):
@@ -539,7 +554,7 @@ class Input_Type_Controller extends Common_Controller {
                     . "value='$optionValue'/>" . $ref['multiple_desc']
                     . "</label>";
             if ($ref['ref_element_code'] !== NULL):
-                $html .= $this->checkC($ref['ref_element_code'], $element->doc_name_id);
+                $html .= $this->checkC($ref['ref_element_code'], $element->doc_name_id, $ref['child_show_label'], $ref['child_element_desc']);
             endif;
             $html .= "</div>";
             $html .= "</div>";
@@ -575,7 +590,7 @@ class Input_Type_Controller extends Common_Controller {
             $refValue = $ref['ref_element_code'];
             $html .= "<option value='$refValue' >" . $ref['multiple_desc'] . "</option>";
             if ($ref['ref_element_code'] !== NULL):
-                $output = $this->checkC($ref['ref_element_code'], $element->doc_name_id);
+                $output = $this->checkC($ref['ref_element_code'], $element->doc_name_id, $ref['child_show_label'], $ref['child_element_desc']);
             endif;
         endforeach;
         $html .= "</select>";
