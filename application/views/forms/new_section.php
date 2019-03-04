@@ -9,11 +9,9 @@
                 <div id='sectionGrouping'>   
                     <div class="sectionNew1">
                         <div class='form-group form-group-sm'>
-                            <!--<div class='row'>-->
-                            <label class='control-label col-sm-1'>Section Description&nbsp;<b style='color: red'>*</b></label>
+                            <label class='control-label col-sm-1'>Name&nbsp;<b style='color: red'>*</b></label>
                             <div class='col-sm-3'>
                                 <input type='text' data-no = '1' name='section_desc1' id='section_desc1' class='form-control' autocomplete="off" required/>
-                                <!--20feb wani-->
                                 <span id='validateF1' name='validateF1' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
                                 <span id='validateT1' name='validateT1' style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
                                 <select id='list_section_desc' class='form-control hidden'>
@@ -40,14 +38,12 @@
                             <label class="control-label col-sm-1">Layout&nbsp;<b style='color: red'>*</b></label>
                             <div class="col-sm-2">
                                 <label class="radio-inline">
-                                    <input name="layout" id="layout" type="radio" value="1"> 1
+                                    <input name="layout" id="layout" type="radio" value="1" /> 1
                                 </label>
                                 <label class="radio-inline">
-                                    <input name="layout" id="layout" type="radio" value="2" /> 2
+                                    <input name="layout" id="layout" type="radio" value="2" checked/> 2
                                 </label>
                             </div>
-                            <!--&nbsp;&nbsp;-->
-                            <!--<div class="col-sm-3">-->
                             <div class='col-sm-1 sectionAction' data-sectionno='1'>
                                 <div class='btn btn-default btn-sm renameSection1' data-sectionno='1' style='padding:3.5px' title="Rename JSON"><i class='glyphicon glyphicon-pencil'></i></div>
                                 <div class='btn btn-default btn-sm plusSection' data-sectionno='1' style='padding:3.5px'><i class='glyphicon glyphicon-plus'></i></div>
@@ -61,14 +57,6 @@
             </div>
         </div>
     </form>
-    <!--</div>-->
-
-
-    <!--    <div class='container-fluid col-md-8' style='margin-left: 60px;'>
-            <div class='panel panel-primary'>
-                <div class='panel-heading'>
-                    <div class="btn-group pull-right">
-                    </div>-->
     <div class='container-fluid'>
         <div class='row'>
             <div class="col-md-offset-1 col-md-offset-1">
@@ -89,7 +77,7 @@
                             <tbody>
                                 <?php if (!$list_of_sections): ?>
                                     <tr>
-                                        <td colspan="7"><i>No Record Found</i></td>
+                                        <td colspan="4"><i>No Record Found</i></td>
                                     </tr>
                                 <?php endif; ?>
                                 <?php
@@ -102,7 +90,7 @@
                                         <td  style=" font-size: smaller;"><?php echo $sections['json_section']; ?></td>
                                         <td  style=" font-size: smaller;"><?php echo $sections['layout']; ?></td>
                                     </tr>
-<?php endforeach; ?>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
@@ -121,25 +109,14 @@
     $(function () {
 
         //ADDSECTION
-
         $('.addSection').click(function () {
            $("input[id^='json_desc']").removeAttr('disabled');
-
-//            var values = $('#sectionBuilder').serializeArray();
-//            var layout = $("#layout").val();
-//            var secDesc = $("#section_desc").val();
-        
-
-//            console.log(values);
-
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/create-section/',
                 type: 'POST',
-//                data: {values: values, layout: layout, secDesc: secDesc},
                 data: {values: JSON.stringify($('#sectionBuilder').serializeArray())},
                 success: function (data) {
                  console.log(data);
-//                alert(data);
                     swal({                        
                         title: "Section Created!",
                         text: "Data successfully inserted into database",
@@ -204,9 +181,8 @@
             array2.push(selText2);
         });
 
-
-
         $('#sectionGrouping').on('click', '.plusSection', function () {
+            $('.addSection').attr('disabled', 'disabled');
             var $sections = '<div class="sectionNew' + no + '">';
             $sections += '<div class="form-group form-group-sm">';
             $sections += '<label class="control-label col-sm-1">Section Description&nbsp;<b style="color: red">*</b></label>';
@@ -231,7 +207,6 @@
             $sections += '<label class="radio-inline">';
             $sections += '<input name="layout' + no + '" id="layout' + no + '" type="radio" value="2" > 2';
             $sections += '</label>';
-//            $sections += '  &nbsp;&nbsp  ';
             $sections += '</div>';
             $sections += '<div class="col-sm-1 sectionAction" data-sectionno="' + no + '">';
             $sections += '<div class="btn btn-default btn-sm renameSection' + no + '" data-sectionno="' + no + '" style="padding:3.5px" title="Rename JSON"><i class="glyphicon glyphicon-pencil"></i></div>&nbsp;';
@@ -242,11 +217,6 @@
             $($sections).appendTo('#sectionGrouping');
             no++;
         });
-//        //MINUS SECTION
-//        $('#sectionGrouping').on('click', '.minusSection', function () {
-//            var dropid = $(this).data('sectionno');
-//            $('.sectionNew' + dropid).remove();
-//        });
 
     });
 </script>
@@ -288,9 +258,11 @@
                         $('#validateT' + thisValue).attr('hidden', false);
                         $('#validateF' + thisValue).attr('hidden', 'hidden');
                     }
+                    $('.addSection').attr('disabled', false);
                 } else {
                     $('#validateT' + thisValue).attr('hidden', 'hidden');
                     $('#validateF' + thisValue).attr('hidden', 'hidden');
+                    $('.addSection').attr('disabled', 'disabled');
                 }
 
                 var sections = $(this).val().toLowerCase().replace(/ /g, '_');
