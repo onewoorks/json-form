@@ -40,6 +40,17 @@ class Formview_Controller extends Common_Controller {
                 $result['preset_select'] = false;
                 $result['list_of_titles'] = $document->GetAllTitle();
                 break;
+            case 'new-method':
+                $page = 'forms/new_method';
+                $document = new Document_Template_Model();
+                $result['list_of_method'] = $document->GetAllmethodDesc();
+                break;
+            //28feb
+            case 'new-method':
+                $page = 'forms/new_method';
+                $document = new Document_Template_Model();
+                $result['list_of_method'] = $document->GetAllmethodDesc();
+                break;
             //19julai    
             case 'new-section':
                 $page = 'forms/new_section';
@@ -47,7 +58,7 @@ class Formview_Controller extends Common_Controller {
 //                $result['section_desc'] = $document->GetSecDesc();
                 $result['list_of_sections'] = $document->GetAllSecDesc();
                 break;
-            //19julai    
+            //19julai  
             case 'new-element':
                 $page = 'forms/new_element';
                 $document = new Document_Template_Model();
@@ -427,15 +438,87 @@ class Formview_Controller extends Common_Controller {
 //                print_r($docForm);
                 break;
             //19JULAI
+//            case 'create-section':
+//                $ajax = true;
+//                $document = new Document_Template_Model();
+//                $values = $this->form_array($_REQUEST['values']);
+//                $page = 'forms/new_section';
+//                $layout = $values['layout'];
+//                $secDesc = $values['section_desc'];
+//                $secForm = $document->InsertSecId($layout, $secDesc);
+//                print_r($secForm);
+//                break;
+            case 'create-method':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $page = 'forms/new_method';
+                $json = file_get_contents('php://input');
+                $array = explode('values=', urldecode($json));
+                $data = json_decode($array[1], true);
+
+                $new_data = array();
+                foreach ($data as $datas):
+                    $new_data[$datas['name']] = $datas['value'];
+                endforeach;
+                
+
+
+                foreach ($new_data as $key => $value):
+                    $new_key = preg_replace("/[0-9]+/", "", $key);
+                    if ($new_key == 'method_desc'):
+                        $method_desc = $value;
+                    elseif ($new_key == 'method_info'):
+                        $method_info = $value;
+                   
+////                    
+                        $output = array(
+                            'method_desc' => $method_desc,
+                            'method_info' => $method_info,
+                            
+                        );
+                        $document->InsertMethodId($output);
+                        
+
+                    endif;
+                endforeach;
+                break;
+            
+            
             case 'create-section':
                 $ajax = true;
                 $document = new Document_Template_Model();
-                $values = $this->form_array($_REQUEST['values']);
                 $page = 'forms/new_section';
-                $layout = $values['layout'];
-                $secDesc = $values['section_desc'];
-                $secForm = $document->InsertSecId($layout, $secDesc);
-//                print_r($secForm);
+                $json = file_get_contents('php://input');
+                $array = explode('values=', urldecode($json));
+                $data = json_decode($array[1], true);
+
+                $new_data = array();
+                foreach ($data as $datas):
+                    $new_data[$datas['name']] = $datas['value'];
+                endforeach;
+                
+
+
+                foreach ($new_data as $key => $value):
+                    $new_key = preg_replace("/[0-9]+/", "", $key);
+                    if ($new_key == 'section_desc'):
+                        $section_desc = $value;
+                    elseif ($new_key == 'json_desc'):
+                        $json_desc = $value;
+                    elseif ($new_key == 'layout'):
+                        $layout = $value;
+                    
+////                    
+                        $output = array(
+                            'section_desc' => $section_desc,
+                            'json_section' => $json_desc,
+                            'layout' => $layout
+                        );
+                        $document->InsertSecId($output);
+                        
+
+                    endif;
+                endforeach;
                 break;
             //23JULAI
 //            case 'create-element':
