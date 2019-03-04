@@ -185,7 +185,7 @@
             $('.addSection').attr('disabled', 'disabled');
             var $sections = '<div class="sectionNew' + no + '">';
             $sections += '<div class="form-group form-group-sm">';
-            $sections += '<label class="control-label col-sm-1">Section Description&nbsp;<b style="color: red">*</b></label>';
+            $sections += '<label class="control-label col-sm-1">Name&nbsp;<b style="color: red">*</b></label>';
             $sections += '<div class="col-sm-3">';
             $sections += '<input type="text" data-no = "' + no + '" name="section_desc' + no + '" id="section_desc' + no + '" class="form-control" autocomplete="off" required/>';
             $sections += '<span id="validateF' + no + '" name="validateF' + no + '" style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>';
