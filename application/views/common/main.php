@@ -53,6 +53,7 @@
                                 <li><a href="<?php echo SITE_ROOT; ?>/formview/form-builder">Form Builder</a></li>
                             </ul>
                         </li>
+                        <li><a href="<?php echo SITE_ROOT; ?>/formview/json-method">JSON Method</a></li>
                         <li class="hidden"><a href="<?php echo SITE_ROOT; ?>/formview/sql-raw-data">SQL Raw Data</a></li>
                         <li><a href='<?php echo SITE_ROOT; ?>/formview/generate-json-format'>Generate JSON Format</a></li>
                     </ul>
