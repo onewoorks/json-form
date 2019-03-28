@@ -75,6 +75,10 @@ class Formview_Controller extends Common_Controller {
                 $result['doc_group'] = $this->RefDocumentGroup();
                 $result['preset_select'] = false;
                 break;
+            //6MAC
+            case 'json-method':
+                $page = 'forms/json_method';
+                break;
             //14OGOS
             case 'basic-form':
                 $page = 'formbuilder/basic';
@@ -460,7 +464,7 @@ class Formview_Controller extends Common_Controller {
                 foreach ($data as $datas):
                     $new_data[$datas['name']] = $datas['value'];
                 endforeach;
-                
+
 
 
                 foreach ($new_data as $key => $value):
@@ -469,21 +473,20 @@ class Formview_Controller extends Common_Controller {
                         $method_desc = $value;
                     elseif ($new_key == 'method_info'):
                         $method_info = $value;
-                   
+
 ////                    
                         $output = array(
                             'method_desc' => $method_desc,
                             'method_info' => $method_info,
-                            
                         );
                         $document->InsertMethodId($output);
-                        
+
 
                     endif;
                 endforeach;
                 break;
-            
-            
+
+
             case 'create-section':
                 $ajax = true;
                 $document = new Document_Template_Model();
@@ -496,7 +499,7 @@ class Formview_Controller extends Common_Controller {
                 foreach ($data as $datas):
                     $new_data[$datas['name']] = $datas['value'];
                 endforeach;
-                
+
 
 
                 foreach ($new_data as $key => $value):
@@ -507,7 +510,7 @@ class Formview_Controller extends Common_Controller {
                         $json_desc = $value;
                     elseif ($new_key == 'layout'):
                         $layout = $value;
-                    
+
 ////                    
                         $output = array(
                             'section_desc' => $section_desc,
@@ -515,7 +518,7 @@ class Formview_Controller extends Common_Controller {
                             'layout' => $layout
                         );
                         $document->InsertSecId($output);
-                        
+
 
                     endif;
                 endforeach;
@@ -823,6 +826,47 @@ class Formview_Controller extends Common_Controller {
 //
 //        return true;
 //    }
+//    $result = array();
+//            $out = array();
+//            foreach($basic as $key=>$value):
+//                $filteredNumbers = array_filter(preg_split("/\D+/", $key));
+//                $firstOccurence = reset($filteredNumbers);
+//                if($firstOccurence):
+//                    $hyphen = substr_count($key, '-');
+//                    if($hyphen == 0 || $hyphen == 1):
+//                        $result[$firstOccurence][$key] = $value;
+//                    else:
+//                        substr_count($key,'SortChild')
+//                        $result[$firstOccurence]['childElement'][$key] = $value;
+//                    endif;
+//                endif;
+//            endforeach; 
+    //12MAC
+    private function YJSON(array $data) {
+
+        $result = array();
+        foreach ($data as $key => $value):
+            $numberOnly = preg_replace("/[^0-9-]/i", '', $key);
+            $filteredNumbers = array_filter(preg_split("/\D+/", $key));
+            $firstOccurence = reset($filteredNumbers);
+            if ($firstOccurence):
+                $hyphen = substr_count($key, '-');
+                if ($hyphen > 1):
+                    $result[$firstOccurence][$key] = $value;
+                    if ($key === 'multi_ans_desc1-1-1'):
+                        $result[$firstOccurence]['ref'][$key] = $value;
+                    endif;
+                else:
+                    $result[$firstOccurence][$key] = $value;
+                endif;
+            endif;
+        endforeach;
+
+        echo '<pre>';
+        print_r(json_encode($result));
+        echo '</pre>';
+    }
+
     private function CaseDecoration(array $data) {
         $document = new Document_Template_Model();
         $docID = $data['documentId'];
