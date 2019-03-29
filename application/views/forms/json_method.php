@@ -22,7 +22,7 @@
                                         <input name="id" type="checkbox" style="margin-top:5px" checked="checked">
                                         <p style="display: inline-block;width:150px">id</p>
                                         <input name="id" type="text" class="form-control" value="">
-                                        <div class='btn btn-default btn-sm plusD' data-no='1' style='padding:3px'><i class='glyphicon glyphicon-plus'></i></div>
+                                        <div class='btn btn-default btn-sm plusD' data-no='1' style='padding:3px' ><i class='glyphicon glyphicon-plus'></i></div>
                                     </div>
                                     <div class="checkbox form-inline grandchild">
                                         <input name="showLabel" type="checkbox" style="margin-top:5px" checked="checked">
@@ -71,8 +71,8 @@
                                         <p style="display: inline-block;width:150px">id</p>
                                         <input name="id" type="text" class="form-control" value="">
                                         <div class='btn btn-default btn-sm plusX' data-no='1' style='padding:3px'><i class='glyphicon glyphicon-plus'></i></div>
-                                        <div class='btn btn-default btn-sm addX' data-no='1' style='padding:3px'><i class='glyphicon glyphicon-plus-sign'></i></div>
-                                        <div class='btn btn-default btn-sm arrayX' data-no='1' style='padding:3px'><i class='glyphicon glyphicon-chevron-down'></i></div>
+                                        <div class='btn btn-default btn-sm addX' data-no='1' style='padding:3px' title="add array"><i class='glyphicon glyphicon-plus-sign'></i></div>
+                                        <div class='btn btn-default btn-sm arrayX' data-no='1' style='padding:3px' title='add ref'><i class='glyphicon glyphicon-chevron-down'></i></div>
                                     </div>
                                     <div class="checkbox form-inline grandchild">
                                         <input name="type" type="checkbox" style="margin-top:5px" checked="checked">
@@ -116,8 +116,8 @@
                                         <p style="display: inline-block;width:150px">id</p>
                                         <input name="id" type="text" class="form-control" value="">
                                         <div class='btn btn-default btn-sm plusY' data-no='1' style='padding:3px'><i class='glyphicon glyphicon-plus'></i></div>
-                                        <div class='btn btn-default btn-sm addY' data-no='1' style='padding:3px'><i class='glyphicon glyphicon-plus-sign'></i></div>
-                                        <div class='btn btn-default btn-sm arrayY' data-no='1' style='padding:3px'><i class='glyphicon glyphicon-chevron-down'></i></div>
+                                        <div class='btn btn-default btn-sm addY' data-no='1' style='padding:3px' title="add array"><i class='glyphicon glyphicon-plus-sign'></i></div>
+                                        <div class='btn btn-default btn-sm arrayY' data-no='1' style='padding:3px' title='add ref'><i class='glyphicon glyphicon-chevron-down'></i></div>
                                     </div>
                                     <div class="checkbox form-inline grandchild">
                                         <input name="type" type="checkbox" style="margin-top:5px" checked="checked">
@@ -254,7 +254,7 @@
             $html += "<p style='display: inline-block;width:150px'>id</p>";
             $html += "&nbsp<input name='id' type='text' class='form-control' >";
             $html += "&nbsp<div class='btn btn-default btn-sm plusX' data-no='" + no + "' style='padding:3px'><i class='glyphicon glyphicon-plus'></i></div>";
-            $html += "&nbsp<div class='btn btn-default btn-sm arrayX' data-no='" + no + "' style='padding:3px'><i class='glyphicon glyphicon-chevron-down'></i></div>";
+            $html += "&nbsp<div class='btn btn-default btn-sm arrayX' data-no='" + no + "' style='padding:3px' title='add ref'><i class='glyphicon glyphicon-chevron-down'></i></div>";
             $html += "</div>";
             $html += "<div class='checkbox form-inline grandchild'>";
             $html += "<input name='type' type='checkbox' style='margin-top:5px' checked='checked'>";
@@ -328,8 +328,8 @@
             $html += "<p style='display: inline-block;width:150px'>id</p>";
             $html += "&nbsp<input name='id' type='text' class='form-control' >";
             $html += "<div class='btn btn-default btn-sm plusX' data-no='" + no + "' style='padding:3px;margin-left:3px'><i class='glyphicon glyphicon-plus'></i></div>";
-            $html += "<div class='btn btn-default btn-sm addX' data-no='" + no + "' style='padding:3px;margin-left:3px'><i class='glyphicon glyphicon-plus-sign'></i></div>";
-            $html += "<div class='btn btn-default btn-sm arrayX' data-no='" + no + "' style='padding:3px;margin-left:3px'><i class='glyphicon glyphicon-chevron-down'></i></div>";
+            $html += "<div class='btn btn-default btn-sm addX' data-no='" + no + "' style='padding:3px;margin-left:3px' title='add array'><i class='glyphicon glyphicon-plus-sign'></i></div>";
+            $html += "<div class='btn btn-default btn-sm arrayX' data-no='" + no + "' style='padding:3px;margin-left:3px' title='add ref'><i class='glyphicon glyphicon-chevron-down'></i></div>";
             $html += "<div class='btn btn-default btn-sm deleteX' data-no='" + no + "' style='padding:3px;margin-left:3px'><i class='glyphicon glyphicon-trash'></i></div>";
             $html += "</div>";
             $html += "</div>";
@@ -358,7 +358,7 @@
             $html += "<p style='display: inline-block;width:150px'>id</p>";
             $html += "&nbsp<input name='id' type='text' class='form-control' >";
             $html += "&nbsp<div class='btn btn-default btn-sm plusY' data-no='" + no + "' style='padding:3px'><i class='glyphicon glyphicon-plus'></i></div>";
-            $html += "&nbsp<div class='btn btn-default btn-sm arrayY' data-no='" + no + "' style='padding:3px'><i class='glyphicon glyphicon-chevron-down'></i></div>";
+            $html += "&nbsp<div class='btn btn-default btn-sm arrayY' data-no='" + no + "' style='padding:3px' title='add ref'><i class='glyphicon glyphicon-chevron-down'></i></div>";
             $html += "</div>";
             $html += "<div class='checkbox form-inline grandchild'>";
             $html += "<input name='type' type='checkbox' style='margin-top:5px' checked='checked'>";
@@ -432,8 +432,8 @@
             $html += "<p style='display: inline-block;width:150px'>id</p>";
             $html += "<input name='id' type='text' class='form-control' >";
             $html += "<div class='btn btn-default btn-sm plusY' data-no='" + no + "' style='padding:3px;margin-left:3px'><i class='glyphicon glyphicon-plus'></i></div>";
-            $html += "<div class='btn btn-default btn-sm addY' data-no='" + no + "' style='padding:3px;margin-left:3px'><i class='glyphicon glyphicon-plus-sign'></i></div>";
-            $html += "<div class='btn btn-default btn-sm arrayY' data-no='" + no + "' style='padding:3px;margin-left:3px'><i class='glyphicon glyphicon-chevron-down'></i></div>";
+            $html += "<div class='btn btn-default btn-sm addY' data-no='" + no + "' style='padding:3px;margin-left:3px' title='add array'><i class='glyphicon glyphicon-plus-sign'></i></div>";
+            $html += "<div class='btn btn-default btn-sm arrayY' data-no='" + no + "' style='padding:3px;margin-left:3px' title='add ref'><i class='glyphicon glyphicon-chevron-down'></i></div>";
             $html += "<div class='btn btn-default btn-sm deleteY' data-no='" + no + "' style='padding:3px;margin-left:3px'><i class='glyphicon glyphicon-trash'></i></div>";
             $html += "</div>";
             $html += "</div>";
