@@ -218,6 +218,9 @@ class Input_Type_Controller extends Common_Controller {
 
     public function Numeric() {
         $element = $this->elementDetail;
+
+        $result = $this->checkP($element->element_code, $element->doc_name_id);
+
         $level = check_level($element->element_code, $element->doc_name_id, $element);
         #NEW ELEMENT
         $element->{'element_level'} = $level->element_level;
@@ -231,10 +234,22 @@ class Input_Type_Controller extends Common_Controller {
         else:
             $html .= "<label class='control-label col-md-3 text-uppercase' style='font-weight:normal'>" . $element->label . "</label>";
         endif;
-        $html .= "<div class='col-md-4' style='margin-left:0px'>"
-                . "<input type ='text' class='form-control'>"
-                . "</div>"
-                . "</div>";
+
+        if ($result->data):
+            $html .= "<div class='col-md-2' style='margin-left:0px'>";
+            $html .= "<div class='group' style='display: flex'>";
+            foreach ($result->data as $ref):
+                $html .= "<input type ='text' class='form-control' style='width:100px' />&nbsp<span style='margin-top: 5px;font-size:12px;margin-right:0px'>" . $ref['multiple_desc'] . "</span>&nbsp";
+            endforeach;
+            $html .= "</div>";
+            $html .= "</div>";
+        else:
+            $html .= "<div class='col-md-1' style='margin-left:0px'>";
+            $html .= "<input type ='text' class='form-control'>";
+            $html .= "</div>";
+
+        endif;
+        $html .= "</div>";
         $html .= "</div>";
 
         return $html;
@@ -319,7 +334,7 @@ class Input_Type_Controller extends Common_Controller {
 
         switch ($ref_element_code):
             case '9137':
-                $html .= "<div id='9137' class='form-group hidden'>";
+                $html .= "<div class='form-group hidden' id='9137'>";
                 if ($child_show_label !== '0'):
                     $html .= "<label class='control-label col-md-2 text-uppercase' style='font-weight:normal'>$child_element_desc</label>";
                 endif;
@@ -329,7 +344,7 @@ class Input_Type_Controller extends Common_Controller {
                 $html .= "</div>";
                 break;
             case '9144':
-                $html .= "<div class='form-group form-group-sm hidden' name = '9144' id = '9144'>";
+                $html .= "<div class='form-group form-group-sm hidden' id = '9144'>";
                 if ($child_show_label !== '0'):
                     $html .= "<label class='control-label col-md-3 text-uppercase'>$child_element_desc</label>";
                 endif;
@@ -342,7 +357,7 @@ class Input_Type_Controller extends Common_Controller {
                         . "</div>";
                 break;
             case '11960':
-                $html .= "<div class='form-group form-group-sm hidden' name = '11960' id = '11960'>";
+                $html .= "<div class='form-group form-group-sm hidden' id = '11960'>";
                 if ($child_show_label !== '0'):
                     $html .= "<label class='control-label col-md-3 text-uppercase'>$child_element_desc</label>";
                 endif;
@@ -352,7 +367,7 @@ class Input_Type_Controller extends Common_Controller {
                         . "</div>";
                 break;
             case '12747':
-                $html .= "<div class='form-group form-group-sm hidden' name = '12747' id = '12747'>";
+                $html .= "<div class='form-group form-group-sm hidden' id = '12747'>";
                 if ($child_show_label !== '0'):
                     $html .= "<label class='control-label col-md-3 text-uppercase'>$child_element_desc</label>";
                 endif;
@@ -362,7 +377,7 @@ class Input_Type_Controller extends Common_Controller {
                         . "</div>";
                 break;
             case '13151':
-                $html .= "<div class='form-group form-group-sm hidden' name = '13151' id = '13151'>";
+                $html .= "<div class='form-group form-group-sm hidden' id = '13151'>";
                 if ($child_show_label !== '0'):
                     $html .= "<label class='control-label col-md-3 text-uppercase'>$child_element_desc</label>";
                 endif;
@@ -512,7 +527,8 @@ class Input_Type_Controller extends Common_Controller {
         endif;
         $html .= "<div class='radio col-sm-9'>";
         foreach ($result->data as $ref):
-            $html .= "<label class='control-label' style='width:auto;padding-right:30px;padding-bottom:5px'><input type='radio' class='custom-control-input' name='" . $element->json_element . "' data-parentcodes='" . $element->json_element . "_" . $element->element_code . "' data-ref='" . $ref['ref_element_code'] . "'>" . $ref['multiple_desc'] . "</label>";
+            $html .= "<label class='control-label' style='width:auto;padding-right:30px;padding-bottom:5px'>";
+            $html .= "<input type='radio' class='custom-control-input' name='" . $element->json_element . "' data-parentcodes='" . $element->json_element . "_" . $element->element_code . "' data-ref='" . $ref['ref_element_code'] . "'>" . $ref['multiple_desc'] . "</label>";
             if ($ref['ref_element_code'] !== NULL):
                 $output = $this->checkC($ref['ref_element_code'], $element->doc_name_id, $ref['child_show_label'], $ref['child_element_desc']);
             endif;
