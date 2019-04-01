@@ -168,5 +168,29 @@ class Multi_Input_Type_Controller extends Input_Type_Controller {
             return $html;
         endif;
     }
+    
+    public function NumericMulti() {
+        $child = $this->childDetail;
+        $ref_code = $this->ref_element_code;
+        $child_label = $this->child_show_label;
+        $child_desc = $this->child_element_desc;
+        
+        $html = "";
+
+        if ($child):
+            $html .= "<div class='col-sm-12' style='margin-left:1px' id='" . $ref_code . "'>";
+            $html .= "<div class='form-group form-group-sm' >";
+            if ($child_label !== '0'):
+                $html .= "<label class='control-label col-md-2 text-uppercase' style='font-weight:normal'>$child_desc</label>";
+            endif;
+            $html .= "<div class='col-md-1' style='margin-left:8px'>"
+                    . "<input type ='text' class='form-control'>"
+                    . "</div>"
+                    . "</div>";
+            $html .= "</div>";
+
+            return $html;
+        endif;
+    }
 
 }
