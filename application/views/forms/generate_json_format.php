@@ -90,7 +90,7 @@
                                     <th style=" font-size: smaller;">Document Title</th>
                                     <th style=" font-size: smaller;">Status</th>
                                     <th style=" font-size: smaller;">Action</th>
-                                    <th style=" font-size: smaller;">Checked</th>
+                                    <th style=" font-size: smaller;"><input type="checkbox" onclick="checkAll('check');" ></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -141,6 +141,17 @@
             </div>
         </div>
     </div>
+    
+    <script>
+    function checkAll(checked){
+    var inputs = document.getElementsByTagName("input");
+    for (var i = 0; i < inputs.length; i++) { 
+        if (inputs[i].type === "checkbox") { 
+            inputs[i].checked = checked; 
+        }  
+    }  
+}
+    </script>
 
 
     <script>
