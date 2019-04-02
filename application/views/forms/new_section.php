@@ -110,14 +110,14 @@
 
         //ADDSECTION
         $('.addSection').click(function () {
-           $("input[id^='json_desc']").removeAttr('disabled');
+            $("input[id^='json_desc']").removeAttr('disabled');
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/create-section/',
                 type: 'POST',
                 data: {values: JSON.stringify($('#sectionBuilder').serializeArray())},
                 success: function (data) {
-                 console.log(data);
-                    swal({                        
+                    console.log(data);
+                    swal({
                         title: "Section Created!",
                         text: "Data successfully inserted into database",
                         type: "success"
@@ -210,7 +210,7 @@
             $sections += '</div>';
             $sections += '<div class="col-sm-1 sectionAction" data-sectionno="' + no + '">';
             $sections += '<div class="btn btn-default btn-sm renameSection' + no + '" data-sectionno="' + no + '" style="padding:3.5px" title="Rename JSON"><i class="glyphicon glyphicon-pencil"></i></div>&nbsp;';
-            $sections += '<div class="btn btn-default btn-sm minusSection' + no + '" data-sectionno="' + no + '" style="padding:3.5px"><i class="glyphicon glyphicon-minus"></i></div>';
+            $sections += '<div class="btn btn-default btn-sm minusSection" data-sectionno="' + no + '" style="padding:3.5px"><i class="glyphicon glyphicon-minus"></i></div>';
             $sections += '</div>';
             $sections += '</div>';
             $sections += '</div>';
@@ -307,13 +307,13 @@
                 });
             });
 
-            $('#sectionGrouping').on('click', '.minusSection' + thisValue, function () {
-                var dropid = $(this).data('sectionno');
-                console.log('dropid', dropid);
-                $('.sectionNew' + dropid).remove();
-            });
-
         });//endOfFocus
+
+        $('#sectionGrouping').on('click', '.minusSection', function () {
+            var dropid = $(this).data('sectionno');
+            console.log('dropid', dropid);
+            $('.sectionNew' + dropid).remove();
+        });
 
     });//endOfDocument
 </script>   

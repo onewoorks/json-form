@@ -187,7 +187,7 @@
             $method += '</div>';
             $method += '<div class="col-sm-1 sectionAction" data-sectionno="' + no + '">';
             $method += '<div class="btn btn-default btn-sm renameSection' + no + '" data-sectionno="' + no + '" style="padding:3.5px" title="Rename INFO"><i class="glyphicon glyphicon-pencil"></i></div>&nbsp;';
-            $method += '<div class="btn btn-default btn-sm minusSection' + no + '" data-sectionno="' + no + '" style="padding:3.5px"><i class="glyphicon glyphicon-minus"></i></div>';
+            $method += '<div class="btn btn-default btn-sm minusSection" data-sectionno="' + no + '" style="padding:3.5px"><i class="glyphicon glyphicon-minus"></i></div>';
             $method += '</div>';
             $method += '</div>';
             $method += '</div>';
@@ -284,13 +284,15 @@
                 });
             });
 
-            $('#methodGrouping').on('click', '.minusSection' + thisValue, function () {
+
+
+        });//endOfFocus
+
+            $('#methodGrouping').on('click', '.minusSection', function () {
                 var dropid = $(this).data('sectionno');
                 console.log('dropid', dropid);
                 $('.methodNew' + dropid).remove();
             });
-
-        });//endOfFocus
 
     });//endOfDocument
 </script>   

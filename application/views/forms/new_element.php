@@ -182,7 +182,7 @@
             $element += '</div>';
             $element += '<div class="col-sm-2 sectionAction" data-sectionno="' + no + '">';
             $element += '<div class="btn btn-default btn-sm renameSection' + no + '" data-sectionno="' + no + '" style="padding:3.5px" title="Rename JSON"><i class="glyphicon glyphicon-pencil"></i></div>&nbsp;';
-            $element += '<div class="btn btn-default btn-sm minusSection' + no + '" data-sectionno="' + no + '" style="padding:3.5px"><i class="glyphicon glyphicon-minus"></i></div>';
+            $element += '<div class="btn btn-default btn-sm minusSection" data-sectionno="' + no + '" style="padding:3.5px"><i class="glyphicon glyphicon-minus"></i></div>';
             $element += '</div>';
             $element += '</div>';
             $element += '</div>';
@@ -278,13 +278,13 @@
                 });
             });
 
-            $('#elementGrouping').on('click', '.minusSection' + thisValue, function () {
-                var dropid = $(this).data('sectionno');
-                console.log('dropid', dropid);
-                $('.elementNew' + dropid).remove();
-            });
-
         });//endOfFocus
+
+        $('#elementGrouping').on('click', '.minusSection', function () {
+            var dropid = $(this).data('sectionno');
+            console.log('dropid', dropid);
+            $('.elementNew' + dropid).remove();
+        });
 
     });//endOfDocument
 </script>
