@@ -827,7 +827,7 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-
+    
     public function CleanChild($docID, $elementID) {
         $sql = "DELETE FROM ref_multiple_answer WHERE doc_name_id='" . (int) $docID . "' AND element_code='" . (int) $elementID . "'";
         print_r($sql);
@@ -840,7 +840,7 @@ class Document_Template_Model {
     public function InsertParentMultiAnswer($docID, $elementID, $multi) {
 
         $sql = "INSERT INTO ref_multiple_answer (doc_name_id, element_code, multiple_desc_code, sorting, input_type, method, parent_element_code, child_element_code, show_label, active, updated_by, updated_date, multi_answer_desc) "
-                . " VALUES ('" . (int) $docID . "', '" . (int) $elementID . "', '" . $multi['multi_ans_code'] . "', '" . $multi['sorting'] . "', '" . $multi['multi_input_type'] . "', (NULL), (NULL), (NULL), '" . $multi['show_label'] . "', '1', 'ADMIN', now(),(SELECT multiple_desc FROM ref_multiple_desc WHERE multiple_desc_code = '" . $multi['multi_ans_code'] . "' LIMIT 1)); ";
+                . " VALUES ('" . (int) $docID . "', '" . (int) $elementID . "', (SELECT multiple_desc_code FROM ref_multiple_desc WHERE multiple_desc = '" . $multi['multi_ans_code'] . "' LIMIT 1), '" . $multi['sorting'] . "', '" . $multi['multi_input_type'] . "', (NULL), (NULL), (NULL), '" . $multi['show_label'] . "', '1', 'ADMIN', now(),'" . $multi['multi_ans_code'] . "'); ";
         echo '<pre>';
         print_r($sql);
         echo '</pre>';
@@ -850,7 +850,7 @@ class Document_Template_Model {
 
         if ($multi['ref_element_code'] !== '(NULL)' && $multi['show_label_child'] !== '(NULL)'):
             $sql = "INSERT INTO ref_multiple_item (doc_name_id, element_code, multiple_desc_code, ref_element_code, show_label, created_by, created_date, multi_answer_desc) "
-                    . " VALUES ('" . (int) $docID . "', '" . (int) $elementID . "','" . $multi['multi_ans_code'] . "', '" . $multi['ref_element_code'] . "', '" . $multi['show_label_child'] . "', 'ADMIN', now(), (SELECT multiple_desc from ref_multiple_desc where multiple_desc_code = '" . $multi['multi_ans_code'] . "' LIMIT 1)); ";
+                    . " VALUES ('" . (int) $docID . "', '" . (int) $elementID . "',(SELECT multiple_desc_code FROM ref_multiple_desc WHERE multiple_desc = '" . $multi['multi_ans_code'] . "' LIMIT 1), (SELECT element_code FROM ref_document_element WHERE element_desc = '" . $multi['ref_element_code'] . "' LIMIT 1), '" . $multi['show_label_child'] . "', 'ADMIN', now(), '" . $multi['multi_ans_code'] . "'); ";
             echo '<pre>';
             print_r($sql);
             echo '</pre>';
@@ -865,7 +865,7 @@ class Document_Template_Model {
     public function InsertChildMultiAnswer($docID, $child) {
 
         $sql = "INSERT INTO ref_multiple_answer (doc_name_id, element_code, multiple_desc_code, sorting, input_type, method, parent_element_code, child_element_code, show_label, active, updated_by, updated_date, multi_answer_desc) "
-                . "VALUES ('" . (int) $docID . "', '" . $child['element_code'] . "', '" . $child['multi_ans_code'] . "', '" . $child['sorting'] . "', '" . $child['multi_input_type'] . "', (NULL), (NULL), (NULL), '" . $child['show_label'] . "', '1', 'ADMIN', now(),(SELECT multiple_desc FROM ref_multiple_desc WHERE multiple_desc_code = '" . $child['multi_ans_code'] . "' LIMIT 1)); ";
+                . "VALUES ('" . (int) $docID . "', (SELECT element_code FROM ref_document_element WHERE element_desc = '" . $child['element_code'] . "' LIMIT 1), (SELECT multiple_desc_code FROM ref_multiple_desc WHERE multiple_desc = '" . $child['multi_ans_code'] . "' LIMIT 1), '" . $child['sorting'] . "', '" . $child['multi_input_type'] . "', (NULL), (NULL), (NULL), '" . $child['show_label'] . "', '1', 'ADMIN', now(),'" . $child['multi_ans_code'] . "'); ";
         echo '<pre>';
         print_r($sql);
         echo '</pre>';
@@ -875,7 +875,7 @@ class Document_Template_Model {
 
         if ($child['ref_element_code'] !== '(NULL)' && $child['show_label_child'] !== '(NULL)'):
             $sql = "INSERT INTO ref_multiple_item (doc_name_id, element_code, multiple_desc_code, ref_element_code, show_label, created_by, created_date, multi_answer_desc) "
-                    . " VALUES ('" . (int) $docID . "', '" . $child['element_code'] . "','" . $child['multi_ans_code'] . "', '" . $child['ref_element_code'] . "', '" . $child['show_label_child'] . "', 'ADMIN', now(), (SELECT multiple_desc from ref_multiple_desc where multiple_desc_code = '" . $child['multi_ans_code'] . "')); ";
+                    . " VALUES ('" . (int) $docID . "', '" . $child['element_code'] . "',(SELECT multiple_desc_code FROM ref_multiple_desc WHERE multiple_desc = '" . $child['multi_ans_code'] . "' LIMIT 1), '" . $child['ref_element_code'] . "', '" . $child['show_label_child'] . "', 'ADMIN', now(), (SELECT multiple_desc from ref_multiple_desc where multiple_desc_code = '" . $child['multi_ans_code'] . "')); ";
             echo '<pre>';
             print_r($sql);
             echo '</pre>';

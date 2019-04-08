@@ -708,7 +708,7 @@ class Input_Type_Controller extends Common_Controller {
         $html = '';
 
         foreach ($result as $multi):
-            $html .= '<option value="' . $multi['multiple_desc_code'] . '">' . $multi['multiple_desc'] . '</option>';
+            $html .= '<option value="' . $multi['multiple_desc'] . '">' . $multi['multiple_desc_code'] . '</option>';
         endforeach;
 
         return $html;
@@ -720,7 +720,7 @@ class Input_Type_Controller extends Common_Controller {
         $html = '';
 
         foreach ($result as $multi):
-            $html .= '<option value="' . $multi['element_code'] . '">' . $multi['element_desc'] . '</option>';
+            $html .= '<option value="' . $multi['element_desc'] . '">' . $multi['element_code'] . '</option>';
         endforeach;
 
         return $html;
@@ -752,13 +752,13 @@ class Input_Type_Controller extends Common_Controller {
                 $html .= "<input type='hidden' id='show_label' name='show_label$noP' value='0' style='margin-top:6px' />";
                 $html .= "<input type='checkbox' id='show_label' name='show_label$noP' value='1' style='margin-top:6px'/>";
             endif;
-            $html .= "<input type='hidden' value='$noP' id='sorting' class='sorting' name='SortParent' />"
-                    . "<select name='multi_ans_desc$noP' id='multi_ans_desc'  class='form-control'>"
-                    . "<option value='" . $refP['multiple_desc_code'] . "'>" . $refP['multi_answer_desc'] . "</option>";
+            $html .= "<input type='hidden' value='$noP' id='sorting' class='sorting' name='SortParent' />";
+            $html .= "<input class='form-control' name='multi_ans_desc$noP' id='multi_ans_desc' list='multiList' value='" . $refP['multi_answer_desc'] . "' />"
+                    . "<datalist id='multiList'>";
             foreach ($resultP as $multiP):
-                $html .= "<option value='" . $multiP["multiple_desc_code"] . "'>" . $multiP["multiple_desc"] . "</option>";
+                $html .= "<option value='" . $multiP["multiple_desc"] . "'>" . $multiP["multiple_desc_code"] . "</option>";
             endforeach;
-            $html .= "</select>"
+            $html .= "</datalist>"
                     . "</div>"
                     . "</div>"
                     . "<div class='col-sm-3 list-padding'>"
@@ -821,12 +821,12 @@ class Input_Type_Controller extends Common_Controller {
                         $html .= "<input type='hidden' id='show_label_child' name='show_label_child$noP' value='0' style='margin-top:6px' />";
                         $html .= "<input type='checkbox' id='show_label_child' name='show_label_child$noP' value='1' style='margin-top:6px'/>";
                     endif;
-                    $html .= "<select name='ref_desc$noP' id='ref_desc'  class='form-control'>"
-                            . "<option value='" . $refL['ref_element_code'] . "'>" . $refL['element_desc'] . "</option>";
+                    $html .= "<input name='ref_desc$noP' id='ref_desc' class='form-control' value='" . $refL['element_desc'] . "' list='refList'/>"
+                            . "<datalist id='refList'>";
                     foreach ($resultC as $multiC):
-                        $html .= "<option value='" . $multiC["element_code"] . "'>" . $multiC["element_desc"] . "</option>";
+                        $html .= "<option value='" . $multiC["element_desc"] . "'>" . $multiC["element_code"] . "</option>";
                     endforeach;
-                    $html .= "</select>"
+                    $html .= "</datalist>"
                             . "</div>"
                             . "<div class='col-sm-2 predefinedActionButton' data-action='prelist$noP'>"
                             . "<div class='btn btn-default btn-sm deleteLabel' style='padding:5px'><i class='glyphicon glyphicon-trash'></i></div>&nbsp"
@@ -874,12 +874,12 @@ class Input_Type_Controller extends Common_Controller {
                     $html .= "<input type='hidden' id='show_label' name='show_label$noP$mixC' value='0' style='margin-top:6px' />";
                     $html .= "<input type='checkbox' id='show_label' name='show_label$noP$mixC' value='1' style='margin-top:6px'/>";
                 endif;
-                $html .= "<select name='multi_child_ans_desc$noP$mixC' id='multi_child_ans_desc' class='form-control'>"
-                        . "<option  value='" . $refC['multiple_desc_code'] . "' >" . $refC['multi_answer_desc'] . "</option>";
+                $html .= "<input class='form-control' name='multi_child_ans_desc$noP$mixC' id='multi_child_ans_desc' list='multiList' value='" . $refC['multi_answer_desc'] . "' />"
+                        . "<datalist id='multiList'>";
                 foreach ($resultP as $multiP):
-                    $html .= "<option value='" . $multiP["multiple_desc_code"] . "'>" . $multiP["multiple_desc"] . "</option>";
+                    $html .= "<option value='" . $multiP["multiple_desc"] . "'>" . $multiP["multiple_desc_code"] . "</option>";
                 endforeach;
-                $html .= "</select>"
+                $html .= "</datalist>"
                         . "</div>"
                         . "</div>"
                         . "<div class='col-sm-3 list-padding'>"
