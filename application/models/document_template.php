@@ -524,7 +524,8 @@ class Document_Template_Model {
 //    }
     //26JULAI
     public function ListElementDesc() {
-        $sql = " SELECT element_code, element_desc, json_element FROM ref_document_element ";
+        $sql = " SELECT element_code, element_desc, json_element FROM ref_document_element "
+                . "WHERE ( element_code = 9137 OR element_code = 9144 OR element_code=11960 OR element_code= 12747 OR element_code= 13151) ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
