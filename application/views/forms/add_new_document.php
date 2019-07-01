@@ -12,7 +12,7 @@
                     <input type='text' name='element_desc' id='element_desc' value='<?= $element; ?>' class="form-control elemList" list="elemList" autocomplete="off"/>
                     <datalist id="elemList">
                         <?php foreach ($elements as $element): ?>
-                            <option value="<?php echo $element['element_desc']; ?>" data-id="<?php echo $element['element_code']; ?>"><?php echo $element['element_code']; ?></option>
+                            <option value="<?php echo $element['element_desc']; ?>" data-id="<?php echo $element['element_code']; ?>"></option>
                         <?php endforeach; ?>
                     </datalist>
                 </div>
