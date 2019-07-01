@@ -152,7 +152,7 @@ $(document).ready(function(){
         $html += '</div>';
         $html += '<div class="col-sm-2 predefinedActionButton" data-action="'+div+'-'+next+'">';
         $html += '<div class="btn btn-default btn-sm deleteLabel" style="padding:5px"><i class="glyphicon glyphicon-trash"></i></div>&nbsp';
-      	$html += '<div class="btn btn-default btn-sm addDivChild" data-child="'+div+'-'+next+'" style="padding:3px"><i class="glyphicon glyphicon-chevron-down"></i> Child</div>';
+      	//$html += '<div class="btn btn-default btn-sm addDivChild" data-child="'+div+'-'+next+'" style="padding:3px"><i class="glyphicon glyphicon-chevron-down"></i> Child</div>';
         $html += '</div>';
         $html += '</div>';
 	$html += '</div>';
