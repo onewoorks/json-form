@@ -59,7 +59,7 @@
                                         <input name="doc_name_desc" id="doc_name_desc" type="text" class="form-control docList" list="docList" autocomplete="off" required/>
                                         <datalist id="docList">
                                             <?php foreach ($list_of_documents as $document): ?>
-                                                <option value="<?php echo $document['doc_name_desc']; ?>" data-id="<?php echo $document['doc_name_id']; ?>"></option>
+                                                <option value="<?php echo $document['doc_name_desc']; ?>" data-id="<?php echo $document['doc_name_id']; ?>"><?php echo $document['doc_name_desc']; ?></option>
                                             <?php endforeach; ?>
                                         </datalist>
                                     </td>
@@ -83,13 +83,13 @@
 
     <select id="section_desc_list" name="section_desc_list" class="form-control hidden">
         <?php foreach ($sections as $section): ?>
-            <option value="<?php echo $section['section_desc']; ?>" data-code="<?php echo $section['section_code']; ?>" data-id="<?php echo $section['json_section']; ?>"></option>
+            <option value="<?php echo $section['section_desc']; ?>" data-code="<?php echo $section['section_code']; ?>" data-id="<?php echo $section['json_section']; ?>"><?php echo $section['section_desc']; ?></option>
         <?php endforeach; ?>    
     </select>
 
     <select id="element_desc_list" name="element_desc_list" class="form-control hidden">
         <?php foreach ($elements as $element): ?>
-            <option value='<?php echo $element['element_desc']; ?>' data-id="<?php echo $element['element_code']; ?>"></option>
+            <option value='<?php echo $element['element_desc']; ?>' data-id="<?php echo $element['element_code']; ?>"><?php echo $element['element_desc']; ?></option>
         <?php endforeach; ?>    
     </select>
 
@@ -107,7 +107,7 @@
                                     <input type='text' name='section_desc1' id="section_desc" class='form-control secList' list="secList" />
                                     <datalist name="secList" id="secList">
                                         <?php foreach ($sections as $section): ?>
-                                            <option value="<?php echo $section['section_desc']; ?>" data-code="<?php echo $section['section_code']; ?>" data-id="<?php echo $section['json_section']; ?>"></option>
+                                            <option value="<?php echo $section['section_desc']; ?>" data-code="<?php echo $section['section_code']; ?>" data-id="<?php echo $section['json_section']; ?>"><?php echo $section['section_desc']; ?></option>
                                         <?php endforeach; ?>
                                     </datalist>
                                 </div>

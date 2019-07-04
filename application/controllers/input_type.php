@@ -708,7 +708,7 @@ class Input_Type_Controller extends Common_Controller {
         $html = '';
 
         foreach ($result as $multi):
-            $html .= '<option value="' . $multi['multiple_desc'] . '"></option>'; //' . $multi['multiple_desc_code'] . '
+            $html .= '<option value="' . $multi['multiple_desc'] . '">' . $multi['multiple_desc'] . '</option>'; //' . $multi['multiple_desc_code'] . '
         endforeach;
 
         return $html;
@@ -718,10 +718,18 @@ class Input_Type_Controller extends Common_Controller {
         $document = new Document_Template_Model();
         $result = $document->ListElementDesc();
         $html = '';
-
+ 
         foreach ($result as $multi):
-            $html .= '<option value="' . $multi['element_desc'] . '"></option>'; //' . $multi['element_code'] . '
+            $html .= '<option value="' .  $multi['element_desc']. '">' .  $multi['element_desc']. '</option>'; //' . $multi['element_code'] . '
         endforeach;
+        
+//        foreach ($result as $multi):
+//        if (isset($multi['element_desc']['Common Textbox'])):
+//            $html .= '<option value="' . $multi['element_desc']['Common Textbox'] . '"></option>'; //' . $multi['element_code'] . '
+////        else:
+////            $html .= '<option value="' . $multi['element_code'][0] . '"></option>'; //' . $multi['element_code'] . '
+//        endif;
+//        endforeach;
 
         return $html;
     }
