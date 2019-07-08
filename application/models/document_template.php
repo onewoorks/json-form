@@ -522,16 +522,26 @@ class Document_Template_Model {
 //        $result = $this->db->fetchOut('array');
 //        return $result;
 //    }
+//    
     //26JULAI
     public function ListElementDesc() {
-        $sql = " SELECT element_code, element_desc, json_element FROM ref_document_element "
-                . "WHERE ( element_code = 9137 OR element_code = 9144 OR element_code=11960 OR element_code= 12747 OR element_code= 13151) ";
+        $sql = " SELECT element_code, element_desc, json_element FROM ref_document_element ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
         $result = $this->db->fetchOut('array');
         return $result;
     }
+    
+    //zarith: 8/7
+//    public function ListElementDescNew() {
+//        $sql = " SELECT element_code, element_desc, json_element FROM ref_document_element "
+//               . "WHERE element_code IN( '9137','9144','11960','12747','13151' ) ";      
+//        $this->db->connect();
+//        $this->db->prepare($sql);
+//        $this->db->queryexecute();
+//        $result = $this->db->fetchOut('array');
+//    }
 
     //23JULAI
     public function searchElement($search) {
