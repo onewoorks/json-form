@@ -22,7 +22,7 @@
                                         <input name="id" type="checkbox" style="margin-top:5px" checked="checked">
                                         <p style="display: inline-block;width:150px">id</p>
                                         <input name="id" type="text" class="form-control" value="">
-                                        <div class='btn btn-default btn-sm plusD' data-no='1' style='padding:3px' ><i class='glyphicon glyphicon-plus'></i></div>
+                                        <div class='btn btn-default btn-sm plusD'  data-no='1' style='padding:3px' ><i class='glyphicon glyphicon-plus'></i></div>
                                     </div>
                                     <div class="checkbox form-inline grandchild">
                                         <input name="showLabel" type="checkbox" style="margin-top:5px" checked="checked">
@@ -70,24 +70,19 @@
                                         <input name="id" type="checkbox" style="margin-top:5px" checked="checked">
                                         <p style="display: inline-block;width:150px">id</p>
                                         <input name="id" type="text" class="form-control" value="">
-                                        <div class='btn btn-default btn-sm plusX' data-no='1' style='padding:3px'><i class='glyphicon glyphicon-plus'></i></div>
+                                        <div class='btn btn-default btn-sm plusX' data-no='1' style='padding:3px' title='add label'><i class='glyphicon glyphicon-plus'></i></div>
                                         <div class='btn btn-default btn-sm addX' data-no='1' style='padding:3px' title="add array"><i class='glyphicon glyphicon-plus-sign'></i></div>
                                         <div class='btn btn-default btn-sm arrayX' data-no='1' style='padding:3px' title='add ref'><i class='glyphicon glyphicon-chevron-down'></i></div>
                                     </div>
                                     <div class="checkbox form-inline grandchild">
                                         <input name="type" type="checkbox" style="margin-top:5px" checked="checked">
                                         <p style="display: inline-block;width:150px">type</p>
-                                        <input name="type" type="text"class="form-control">
+                                        <input name="type" type="text"class="form-control" value="LABEL">
                                     </div>
                                     <div class="checkbox form-inline grandchild">
                                         <input name="elementName" type="checkbox" style="margin-top:5px" checked="checked">
                                         <p style="display: inline-block;width:150px">elementName</p>
                                         <input name="elementName" type="text"class="form-control">
-                                    </div>
-                                    <div class="checkbox form-inline grandchild">
-                                        <input name="showFunction" type="checkbox" style="margin-top:5px" checked="checked">
-                                        <p style="display: inline-block;width:150px">showFunction</p>
-                                        <input name="showFunction" type="text"class="form-control">
                                     </div>
                                     <div class="checkbox form-inline grandchild">
                                         <input name="isDuplicate" type="checkbox" style="margin-top:5px" checked="checked">
@@ -115,7 +110,7 @@
                                         <input name="id" type="checkbox" style="margin-top:5px" checked="checked">
                                         <p style="display: inline-block;width:150px">id</p>
                                         <input name="id" type="text" class="form-control" value="">
-                                        <div class='btn btn-default btn-sm plusY' data-no='1' style='padding:3px'><i class='glyphicon glyphicon-plus'></i></div>
+                                        <div class='btn btn-default btn-sm plusY' data-no='1' style='padding:3px' title='add label'><i class='glyphicon glyphicon-plus'></i></div>
                                         <div class='btn btn-default btn-sm addY' data-no='1' style='padding:3px' title="add array"><i class='glyphicon glyphicon-plus-sign'></i></div>
                                         <div class='btn btn-default btn-sm arrayY' data-no='1' style='padding:3px' title='add ref'><i class='glyphicon glyphicon-chevron-down'></i></div>
                                     </div>
@@ -128,16 +123,6 @@
                                         <input name="elementName" type="checkbox" style="margin-top:5px" checked="checked">
                                         <p style="display: inline-block;width:150px">elementName</p>
                                         <input name="elementName" type="text"class="form-control">
-                                    </div>
-                                    <div class="checkbox form-inline grandchild">
-                                        <input name="showFunction" type="checkbox" style="margin-top:5px" checked="checked">
-                                        <p style="display: inline-block;width:150px">showFunction</p>
-                                        <input name="showFunction" type="text"class="form-control">
-                                    </div>
-                                    <div class="checkbox form-inline grandchild">
-                                        <input name="isDuplicate" type="checkbox" style="margin-top:5px" checked="checked">
-                                        <p style="display: inline-block;width:150px">isDuplicate</p>
-                                        <input name="isDuplicate" type="text"class="form-control"  value="true">
                                     </div>
                                 </div>
                             </ul>
@@ -259,17 +244,12 @@
             $html += "<div class='checkbox form-inline grandchild'>";
             $html += "<input name='type' type='checkbox' style='margin-top:5px' checked='checked'>";
             $html += "<p style='display: inline-block;width:150px'>type</p>";
-            $html += "&nbsp<input name='type' type='text' class='form-control' >";
+            $html += "&nbsp<input name='type' type='text' class='form-control' value='LABEL' >";
             $html += "</div>";
             $html += "<div class='checkbox form-inline grandchild'>";
             $html += "<input name='elementName' type='checkbox' style='margin-top:5px' checked='checked'>";
             $html += "<p style='display: inline-block;width:150px'>elementName</p>";
             $html += "&nbsp<input name='elementName' type='text' class='form-control' >";
-            $html += "</div>";
-            $html += "<div class='checkbox form-inline grandchild'>";
-            $html += "<input name='showFunction' type='checkbox' style='margin-top:5px' checked='checked'>";
-            $html += "<p style='display: inline-block;width:150px'>showFunction</p>";
-            $html += "&nbsp<input name='showFunction' type='text' class='form-control' >";
             $html += "</div>";
             $html += "<div class='checkbox form-inline grandchild'>";
             $html += "<input name='isDuplicate' type='checkbox' style='margin-top:5px' checked='checked'>";
@@ -372,8 +352,9 @@
 
         //Y: ARRAY
         $('#formY').on('click', '.addY', function () {
-
-            var $html = "<br><div class='child' id='childy" + no + "' style='background-color:#f8f8f8'>";
+            
+            var $html="<table id='child-box'>";
+            $html += "<br><div class='child' id='childy" + no + "' style='background-color:#f8f8f8'>";
             $html += "<div class='checkbox form-inline' name='id'>";
             $html += "<input name='id' type='checkbox' style='margin-top:5px' checked='checked'>";
             $html += "<p style='display: inline-block;width:150px'>id</p>";
@@ -391,18 +372,8 @@
             $html += "<p style='display: inline-block;width:150px'>elementName</p>";
             $html += "&nbsp<input name='elementName' type='text' class='form-control' >";
             $html += "</div>";
-            $html += "<div class='checkbox form-inline grandchild'>";
-            $html += "<input name='showFunction' type='checkbox' style='margin-top:5px' checked='checked'>";
-            $html += "<p style='display: inline-block;width:150px'>showFunction</p>";
-            $html += "&nbsp<input name='showFunction' type='text' class='form-control' >";
-            $html += "</div>";
-            $html += "<div class='checkbox form-inline grandchild'>";
-            $html += "<input name='showFunction' type='checkbox' style='margin-top:5px' checked='checked'>";
-            $html += "<p style='display: inline-block;width:150px'>showFunction</p>";
-            $html += "&nbsp<input name='showFunction' type='text' class='form-control' value='true'>";
-            $html += "</div>";
-            $html += "</div>";
-
+            $html += "</table>"
+            
             $($html).appendTo('#treeY');
             no++;
 
@@ -423,24 +394,6 @@
             no++;
         });
 
-        $('#formY').on('click', '.renameY', function () {
-
-            var id = $(this).data('no');
-            console.log('renameY', id);
-
-            var input = $('<input name="textPasteY" id="textPasteY" style="width:150px;border:none" class="form-control" />');
-            console.log('input', input);
-            $('.inputY' + id).text('').append(input);
-
-            $('#textPasteY').keyup(delay(function (e) {
-                str = $(this).val();
-                $("#renameLabely" + id).attr("name", str);
-                $('.inputY' + id).text(str);
-
-            }, 1000));
-
-        });
-
         $('#formY').on('click', '.arrayY', function () {
 
             var id = $(this).data('no');
@@ -449,9 +402,10 @@
             var $html = "<ul>";
             $html += "<div class='child' id='childy" + no + "'>";
             $html += "<div class='checkbox form-inline' name='id'>";
-            $html += "<input name='id' type='checkbox' style='margin-top:5px' checked='checked'>";
-            $html += "<p style='display: inline-block;width:150px'>id</p>";
+            $html += "<input name='id" + no + "' id='id" + no + "' type='checkbox' style='margin-top:5px' checked='checked'>";
+            $html += "<p style='display: inline-block;width:150px' class='inputY" + no + "'>id</p>";
             $html += "<input name='id' type='text' class='form-control' >";
+            $html += "&nbsp<div class='btn btn-default btn-sm renameYid' data-no='" + no + "' style='padding:3px'><i class='glyphicon glyphicon-pencil'></i></div>";
             $html += "<div class='btn btn-default btn-sm plusY' data-no='" + no + "' style='padding:3px;margin-left:3px'><i class='glyphicon glyphicon-plus'></i></div>";
             $html += "<div class='btn btn-default btn-sm addChildY' data-no='" + no + "' style='padding:3px;margin-left:3px' title='add array'><i class='glyphicon glyphicon-plus-sign'></i></div>";
             $html += "<div class='btn btn-default btn-sm arrayY' data-no='" + no + "' style='padding:3px;margin-left:3px' title='add ref'><i class='glyphicon glyphicon-chevron-down'></i></div>";
@@ -471,15 +425,18 @@
             var id = $(this).data('no');
             console.log('idY', id);
 
+            var $html = "<ul>";
             var $html = "<br><div class='child' id='childy" + no + "'>";
             $html += "<div class='checkbox form-inline' name='id'>";
-            $html += "<input name='id' type='checkbox' style='margin-top:5px' checked='checked'>";
-            $html += "<p style='display: inline-block;width:150px'>id</p>";
+            $html += "<input  name='id" + no + "' id='id" + no + "' type='checkbox' checked='checked'>";
+            $html += "<p style='display: inline-block;width:150px' class='inputY" + no + "'>id</p>";
             $html += "<input name='id' type='text' class='form-control' >";
+            $html += "&nbsp<div class='btn btn-default btn-sm renameYid' data-no='" + no + "' style='padding:3px'><i class='glyphicon glyphicon-pencil'></i></div>";
             $html += "<div class='btn btn-default btn-sm plusY' data-no='" + no + "' style='padding:3px;margin-left:3px'><i class='glyphicon glyphicon-plus'></i></div>";
             $html += "<div class='btn btn-default btn-sm arrayY' data-no='" + no + "' style='padding:3px;margin-left:3px' title='add ref'><i class='glyphicon glyphicon-chevron-down'></i></div>";
             $html += "</div>";
             $html += "</div>";
+            $html += "</ul>";
 
             $(this).closest('.arrayY').addClass("hidden");
             $($html).insertAfter('#childy' + id);
@@ -487,6 +444,45 @@
             
         });
         
+        //rename Y Label
+        $('#formY').on('click', '.renameY', function () {
+
+            var id = $(this).data('no');
+            console.log('renameY', id);
+
+            var input = $('<input name="textPasteY" id="textPasteY" style="width:150px;border:none" class="form-control" />');
+            console.log('input', input);
+            $('.inputY' + id).text('').append(input);
+
+            $('#textPasteY').keyup(delay(function (e) {
+                str = $(this).val();
+                $("#renameLabelId" + id).attr("name", str);
+                $('.inputY' + id).text(str);
+
+            }, 1000));
+
+        });
+        
+        //rename Y add Child id
+        $('#formY').on('click', '.renameYid', function () {
+
+            var id = $(this).data('no');
+            console.log('renameYid', id);
+
+            var input = $('<input name="textPasteY" id="textPasteY" style="width:150px;border:none" class="form-control" />');
+            console.log('input', input);
+            $('.inputY' + id).text('').append(input);
+
+            $('#textPasteY').keyup(delay(function (e) {
+                str = $(this).val();
+                $("#id" + id).attr("name", str);
+                $('.inputY' + id).text(str);
+
+            }, 1000));
+
+        });
+        
+        //Delete Y array
         $('#formY').on('click', '.deleteY', function () {
             
             var finds = $(this).closest('ul').prevAll();
@@ -494,7 +490,6 @@
             var div = $(this).closest('ul').remove();
             
         });
-
     });
 </script>
 
