@@ -353,14 +353,16 @@
         //Y: ARRAY
         $('#formY').on('click', '.addY', function () {
             
-            var $html="<table id='child-box'>";
+            var $html ="<table id='child-box'>";
             $html += "<br><div class='child' id='childy" + no + "' style='background-color:#f8f8f8'>";
             $html += "<div class='checkbox form-inline' name='id'>";
+            console.log(no);
             $html += "<input name='id' type='checkbox' style='margin-top:5px' checked='checked'>";
             $html += "<p style='display: inline-block;width:150px'>id</p>";
             $html += "&nbsp<input name='id' type='text' class='form-control' >";
-            $html += "&nbsp<div class='btn btn-default btn-sm plusY' data-no='" + no + "' style='padding:3px'><i class='glyphicon glyphicon-plus'></i></div>";
+            $html += "&nbsp<div class='btn btn-default btn-sm plusY' data-no='" + no + "' style='padding:3px' title='add label'><i class='glyphicon glyphicon-plus'></i></div>";
             $html += "&nbsp<div class='btn btn-default btn-sm arrayY' data-no='" + no + "' style='padding:3px' title='add ref'><i class='glyphicon glyphicon-chevron-down'></i></div>";
+            $html += "&nbsp<div class='btn btn-default btn-sm deleteYarr' data-no='" + no + "' style='padding:3px;margin-left:3px'><i class='glyphicon glyphicon-trash'></i></div>";       
             $html += "</div>";
             $html += "<div class='checkbox form-inline grandchild'>";
             $html += "<input name='type' type='checkbox' style='margin-top:5px' checked='checked'>";
@@ -372,8 +374,8 @@
             $html += "<p style='display: inline-block;width:150px'>elementName</p>";
             $html += "&nbsp<input name='elementName' type='text' class='form-control' >";
             $html += "</div>";
-            $html += "</table>"
-            
+            $html += "</table>";
+                       
             $($html).appendTo('#treeY');
             no++;
 
@@ -406,7 +408,7 @@
             $html += "<p style='display: inline-block;width:150px' class='inputY" + no + "'>id</p>";
             $html += "<input name='id' type='text' class='form-control' >";
             $html += "&nbsp<div class='btn btn-default btn-sm renameYid' data-no='" + no + "' style='padding:3px'><i class='glyphicon glyphicon-pencil'></i></div>";
-            $html += "<div class='btn btn-default btn-sm plusY' data-no='" + no + "' style='padding:3px;margin-left:3px'><i class='glyphicon glyphicon-plus'></i></div>";
+            $html += "<div class='btn btn-default btn-sm plusY' data-no='" + no + "' style='padding:3px;margin-left:3px' title='add label'><i class='glyphicon glyphicon-plus'></i></div>";
             $html += "<div class='btn btn-default btn-sm addChildY' data-no='" + no + "' style='padding:3px;margin-left:3px' title='add array'><i class='glyphicon glyphicon-plus-sign'></i></div>";
             $html += "<div class='btn btn-default btn-sm arrayY' data-no='" + no + "' style='padding:3px;margin-left:3px' title='add ref'><i class='glyphicon glyphicon-chevron-down'></i></div>";
             $html += "<div class='btn btn-default btn-sm deleteY' data-no='" + no + "' style='padding:3px;margin-left:3px'><i class='glyphicon glyphicon-trash'></i></div>";
@@ -425,18 +427,15 @@
             var id = $(this).data('no');
             console.log('idY', id);
 
-            var $html = "<ul>";
             var $html = "<br><div class='child' id='childy" + no + "'>";
             $html += "<div class='checkbox form-inline' name='id'>";
-            $html += "<input  name='id" + no + "' id='id" + no + "' type='checkbox' checked='checked'>";
-            $html += "<p style='display: inline-block;width:150px' class='inputY" + no + "'>id</p>";
+            $html += "<input name='id' type='checkbox' style='margin-top:5px' checked='checked'>";
+            $html += "<p style='display: inline-block;width:150px'>id</p>";
             $html += "<input name='id' type='text' class='form-control' >";
-            $html += "&nbsp<div class='btn btn-default btn-sm renameYid' data-no='" + no + "' style='padding:3px'><i class='glyphicon glyphicon-pencil'></i></div>";
-            $html += "<div class='btn btn-default btn-sm plusY' data-no='" + no + "' style='padding:3px;margin-left:3px'><i class='glyphicon glyphicon-plus'></i></div>";
-            $html += "<div class='btn btn-default btn-sm arrayY' data-no='" + no + "' style='padding:3px;margin-left:3px' title='add ref'><i class='glyphicon glyphicon-chevron-down'></i></div>";
+            $html += "<div class='btn btn-default btn-sm plusY' data-no='" + no + "' style='padding:3px;margin-left:3px' title='add label2'><i class='glyphicon glyphicon-plus'></i></div>";
+            $html += "<div class='btn btn-default btn-sm arrayY' data-no='" + no + "' style='padding:3px;margin-left:3px' title='add ref2'><i class='glyphicon glyphicon-chevron-down'></i></div>";
             $html += "</div>";
             $html += "</div>";
-            $html += "</ul>";
 
             $(this).closest('.arrayY').addClass("hidden");
             $($html).insertAfter('#childy' + id);
@@ -489,6 +488,11 @@
             var search = finds.parent().find('.arrayY').removeClass("hidden");
             var div = $(this).closest('ul').remove();
             
+        });
+       
+        $('#formY').on('click', '.deleteYarr', function () {
+            var cari = $(this).closest('[class^="child"]').first().attr("data", 'no');
+            $(cari).remove();
         });
     });
 </script>
