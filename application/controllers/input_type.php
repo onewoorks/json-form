@@ -708,7 +708,7 @@ class Input_Type_Controller extends Common_Controller {
         $html = '';
 
         foreach ($result as $multi):
-            $html .= '<option value="' . $multi['multiple_desc'] . '">' . $multi['multiple_desc'] . '</option>'; //' . $multi['multiple_desc_code'] . '
+             $html .= '<option value="' . $multi['multiple_desc'] . '">' . $multi['multiple_desc_code'] . '</option>';
         endforeach;
 
         return $html;
@@ -720,7 +720,7 @@ class Input_Type_Controller extends Common_Controller {
         $html = '';
  
         foreach ($result as $multi):
-            $html .= '<option value="' .  $multi['element_desc']. '">' .  $multi['element_desc']. '</option>'; //' . $multi['element_code'] . '
+            $html .= '<option value="' . $multi['element_desc'] . '">' . $multi['element_code'] . '</option>';
         endforeach;
 
         return $html;
