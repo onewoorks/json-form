@@ -89,7 +89,7 @@
 
     <select id="element_desc_list" name="element_desc_list" class="form-control hidden">
         <?php foreach ($elements as $element): ?>
-            <option value='<?php echo $element['element_desc']; ?>' data-id="<?php echo $element['element_code']; ?>"><?php echo $element['element_desc']; ?></option>
+            <option value='<?php echo $element['element_desc']; ?>' data-id="<?php echo $element['element_code']; ?>"><?php echo $element['element_code']; ?></option>
         <?php endforeach; ?>    
     </select>
 
