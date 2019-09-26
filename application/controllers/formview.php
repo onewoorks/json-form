@@ -55,7 +55,7 @@ class Formview_Controller extends Common_Controller {
             case 'new-section':
                 $page = 'forms/new_section';
                 $document = new Document_Template_Model();
-//                $result['section_desc'] = $document->GetSecDesc();
+//              $result['section_desc'] = $document->GetSecDesc();
                 $result['list_of_sections'] = $document->GetAllSecDesc();
                 break;
             //19julai  
@@ -158,6 +158,7 @@ class Formview_Controller extends Common_Controller {
                 $result['sub_discipline'] = $documentTemplate['discipline_name'];
                 $result['document_title'] = $documentTemplate['doc_name_desc'];
                 $result['json_elements'] = $documentTemplate['json_template'];
+                $result['template_id'] = $documentTemplate['template_id'];
                 break;
             case 'form-template':
                 $page = 'forms/document_view';
