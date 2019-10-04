@@ -62,7 +62,7 @@
             <div class="form-group form-group-sm" style='margin-left:-55px;margin-top: -5px'>
                 <label class="control-label col-sm-4">Document Title&nbsp;<b style='color: red'>*</b></label>
                 <div class="col-sm-6" style='width:48.55%'>
-                    <input name="doc_name_desc" id="doc_name_desc" type="text" class="form-control" autocomplete="off" required/>
+                    <input name="doc_name_desc" id="doc_name_desc" type="text" class="form-control text-uppercase" autocomplete="off" required/>
                 </div>  
             </div>
 
@@ -99,7 +99,7 @@
                         foreach ($list_of_titles as $titles): ?>
                             <tr>
                                 <td  style=" font-size: smaller; text-align: center"><?php echo $titles['doc_name_id']; ?></td>
-                                <td  style=" font-size: smaller;"><?php echo $titles['doc_name_desc']; ?></td>
+                                <td  class="text-uppercase" style=" font-size: smaller;"><?php echo $titles['doc_name_desc']; ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
