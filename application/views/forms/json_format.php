@@ -9,7 +9,7 @@
                    <div class='col-xs-2'>Sub Discipline </div>
                    <div class='col-xs-10'>: <strong><?= $sub_discipline; ?></strong></div>
                    <div class='col-xs-2'>Document Title </div>
-                   <div class='col-xs-10 upperCase'>: <strong><a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $template_id; ?>'><?php echo $document_title; ?></a></strong></div>
+                   <div class='col-xs-10'>: <strong><a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $template_id; ?>'><?php echo $document_title; ?></a></strong></div>
         </div>
                    <br><br><br><br><br>
         <div id='formJson' style='white-space: pre'></div>

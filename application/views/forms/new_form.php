@@ -62,7 +62,14 @@
             <div class="form-group form-group-sm" style='margin-left:-55px;margin-top: -5px'>
                 <label class="control-label col-sm-4">Document Title&nbsp;<b style='color: red'>*</b></label>
                 <div class="col-sm-6" style='width:48.55%'>
-                    <input name="doc_name_desc" id="doc_name_desc" type="text" class="form-control text-uppercase" autocomplete="off" required/>
+                    <input name="doc_name_desc" data-no = '1' id="doc_name_desc1" type="text" class="form-control text-uppercase" autocomplete="off" required/>
+                       <span id='validateF1' name='validateF1' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
+                       <span id='validateT1' name='validateT1' style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
+                       <select id='list_doc_desc' class='form-control hidden'>
+                        <?php foreach ($list_of_titles as $titles): ?>
+                            <option value='<?php echo $titles['doc_name_desc']; ?>'><?php echo $titles['doc_name_desc']; ?></option>
+                        <?php endforeach; ?>
+                    </select>  
                 </div>  
             </div>
 
@@ -232,6 +239,46 @@
     });
 
 </script>
+
+<script>
+    $(document).ready(function () {
+
+        var selText;
+        var array = [];
+
+        var thisValue;
+
+        $("#list_doc_desc option").each(function () {
+            var $this = $(this);
+            selText = $this.text();
+            array.push(selText);
+        });
+
+        $(document).on('focus', 'input', function () {
+            thisValue = $(this).attr('data-no');
+
+            $('#doc_name_desc' + thisValue).keyup(function () {
+                var str = $(this).val();
+
+                if (str !== "") {
+                    if (array.indexOf(str) > -1) {
+                        $('#validateT' + thisValue).attr('hidden', 'hidden');
+                        $('#validateF' + thisValue).attr('hidden', false);
+                    } else {
+                        $('#validateT' + thisValue).attr('hidden', false);
+                        $('#validateF' + thisValue).attr('hidden', 'hidden');
+                    }
+                    $('.addForm').attr('disabled', false);
+                } else {
+                    $('#validateT' + thisValue).attr('hidden', 'hidden');
+                    $('#validateF' + thisValue).attr('hidden', 'hidden');
+                    $('.addForm').attr('disabled', 'disabled');
+                }
+
+            });
+        });//endOfFocus
+    });//endOfDocument
+</script>   
 
 <?php
 echo $footer;
