@@ -56,10 +56,10 @@
                                 <tr>
                                     <td><b>Document Title</b></td>
                                     <td>
-                                        <input name="doc_name_desc" id="doc_name_desc" type="text" class="form-control docList" list="docList" autocomplete="off" required/>
+                                        <input name="doc_name_desc" id="doc_name_desc" type="text" class="form-control docList text-uppercase" list="docList" autocomplete="off" required/>
                                         <datalist id="docList">
                                             <?php foreach ($list_of_documents as $document): ?>
-                                                <option value="<?php echo $document['doc_name_desc']; ?>" data-id="<?php echo $document['doc_name_id']; ?>"><?php echo $document['doc_name_desc']; ?></option>
+                                                <option class="form-control text-uppercase" value="<?php echo $document['doc_name_desc']; ?>" data-id="<?php echo $document['doc_name_id']; ?>"><?php echo $document['doc_name_desc']; ?></option>
                                             <?php endforeach; ?>
                                         </datalist>
                                     </td>
