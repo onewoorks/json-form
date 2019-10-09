@@ -94,12 +94,13 @@
                         <tr>
                             <th style=" font-size: smaller;">Document Id</th>
                             <th style=" font-size: smaller;">Title Description</th>
+                            <th style=" font-size: smaller;">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (!$list_of_titles): ?>
                             <tr>
-                                <td colspan="7"><i>No Record Found</i></td>
+                                <td colspan="4"><i>No Record Found</i></td>
                             </tr>
                         <?php endif; ?>
                         <?php $no = 1;
@@ -107,6 +108,12 @@
                             <tr>
                                 <td  style=" font-size: smaller; text-align: center"><?php echo $titles['doc_name_id']; ?></td>
                                 <td  class="text-uppercase" style=" font-size: smaller;"><?php echo $titles['doc_name_desc']; ?></td>
+                                <td  style=" font-size: smaller; text-align: center">
+                                        <div>
+                                            <a class='btn btn-default btn-sm editTitle' id='<?php  echo $titles['doc_name_id'];  ?>' style='padding:2px' title="Rename TITLE"><i class='glyphicon glyphicon-pencil'></i></a>
+                                            <a class='btn btn-default btn-sm deleteTitle1' id='<?php  echo $titles['doc_name_id'];  ?>'  style='padding:2px' title="Delete TITLE"><i class='glyphicon glyphicon-trash'></i></a>
+                                        </div>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -114,8 +121,20 @@
             </div>
         </div>
     </div>
-
 </div>
+
+    <div id="title" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!--Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Change Title</h4>
+                </div>
+                <div class="modal-body"></div>
+            </div>
+        </div>
+    </div>
 
 <script>
     $(document).ready(function () {
@@ -208,8 +227,23 @@
                         window.location.reload(true);
                     }, 1200);
         });
-
-
+        
+        $('#tableForm').on('click', '.editTitle', function(){
+                var documentId = $(this).attr('id');
+                console.log(documentId);
+                $.ajax({
+                    url: '<?= SITE_ROOT; ?>/formview/change-title/',
+                    data: {documentId: documentId},
+                    success: function (data) {
+                        var obj = $.parseJSON(data);
+                        $('.modal-dialog').removeClass('modal-lg');
+                        $('.modal-title').text(obj.component);
+                        $('.modal-body').html(obj.html);
+                    }
+                });
+                $('#title').modal('show');
+                return false;
+            });
     });
 </script>
 

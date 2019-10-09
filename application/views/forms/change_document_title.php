@@ -3,7 +3,7 @@
     <label class='control-label col-sm-3'>Description</label>
     <div class='col-sm-8 column'>
         <div>
-        <input type='text' name='title_desc'  value='<?= $title->doc_name_desc;?>' class='form-control' autocomplete="off"/>
+        <input type='text' name='title_desc'  value='<?= $title->doc_name_desc;?>' class='form-control text-uppercase' autocomplete="off"/>
         <input type='hidden' name='doc_id' value='<?= $doc_id;?>' autocomplete="off"/>
         </div>
         <input type='hidden' name='selected_title' value='<?= $title->doc_name_desc;?>' />
@@ -33,6 +33,10 @@
                     });
                 }
             });
+             setTimeout(
+                    function () {
+                        window.location.reload(true);
+                    }, 1200);
     };
     
     $(function(){
