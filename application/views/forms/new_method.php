@@ -52,8 +52,8 @@
             <div class="col-md-offset-1 col-md-offset-1">
                 <div class='panel panel-primary'>
                     <div class='panel-heading'>
-
-                        Result of Existing Section</div>
+                        
+                        Result of Existing Method</div>
                     <div class='panel-body'>
                         <table id="tableForm" class='table table-bordered table-condensed'>
                             <thead>
