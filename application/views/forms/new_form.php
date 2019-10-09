@@ -109,10 +109,10 @@
                                 <td  style=" font-size: smaller; text-align: center"><?php echo $titles['doc_name_id']; ?></td>
                                 <td  class="text-uppercase" style=" font-size: smaller;"><?php echo $titles['doc_name_desc']; ?></td>
                                 <td  style=" font-size: smaller; text-align: center">
-                                        <div>
-                                            <a class='btn btn-default btn-sm editTitle' id='<?php  echo $titles['doc_name_id'];  ?>' style='padding:2px' title="Rename TITLE"><i class='glyphicon glyphicon-pencil'></i></a>
-                                            <a class='btn btn-default btn-sm deleteTitle1' id='<?php  echo $titles['doc_name_id'];  ?>'  style='padding:2px' title="Delete TITLE"><i class='glyphicon glyphicon-trash'></i></a>
-                                        </div>
+                                    <div>
+                                        <a class='btn btn-default btn-sm editTitle' id='<?php  echo $titles['doc_name_id'];  ?>' style='padding:2px' title="Rename TITLE"><i class='glyphicon glyphicon-pencil'></i></a>
+                                        <a class='btn btn-default btn-sm deleteTitle' id='<?php  echo $titles['doc_name_id'];  ?>'  style='padding:2px' title="Delete TITLE"><i class='glyphicon glyphicon-trash'></i></a>
+                                    </div>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -130,6 +130,19 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Change Title</h4>
+                </div>
+                <div class="modal-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="deleteModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!--Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete Document</h4>
                 </div>
                 <div class="modal-body"></div>
             </div>
@@ -243,7 +256,23 @@
                 });
                 $('#title').modal('show');
                 return false;
-            });
+        });
+            
+        $('#tableForm').on('click', '.deleteTitle', function(){
+              var documentId = $(this).attr('id');
+              $.ajax({
+                  url: '<?= SITE_ROOT; ?>/formview/delete-document/',
+                  data: {documentId: documentId},
+                  success: function (data) {
+                      var obj = $.parseJSON(data);
+                      $('.modal-dialog').removeClass('modal-sm');
+                      $('.modal-title').text(obj.component);
+                      $('.modal-body').html(obj.html);
+                  }
+              });
+              $('#deleteModal').modal('show');
+              return false;
+      });
     });
 </script>
 

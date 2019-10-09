@@ -573,7 +573,7 @@ class Document_Template_Model {
     }
 
     public function GetAllTitle() {
-        $sql = " SELECT doc_name_id, doc_name_desc FROM document ";
+        $sql = " SELECT doc_name_id, doc_name_desc, active_status FROM document WHERE active_status='1' ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -626,7 +626,7 @@ class Document_Template_Model {
     }
 
     //9AUG
-    public function copyBaru($docName, $curName, $subdis, $type, $group) {
+    public function copyBaru($docName, $curName, $subdis, $type, $group) { 
         if (isset($subdis)):
             $subdiscipline = "SELECT '$subdis', (SELECT MAX(doc_name_id) FROM document), favourite, doc_sorting, gender_code, age_from, age_to, NOW(),'ADMIN' ";
         else:
@@ -948,6 +948,17 @@ class Document_Template_Model {
         $sql = "UPDATE document_element "
                 . "SET active = '0' "
                 . "WHERE doc_name_id='" . (int) $docId . "' AND section_code='" . (int) $sectionCode . "' AND parent_element_code='" . (int) $elementCode . "'";
+        print_r($sql);
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+     public function DeleteDocumentData($docId) {
+        $sql = "UPDATE document "
+                . "SET active_status = '0' "
+                . "WHERE doc_name_id='" . (int) $docId . "'";
         print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);

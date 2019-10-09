@@ -350,6 +350,19 @@ class Formview_Controller extends Common_Controller {
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
+            case 'delete-document':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $doc_id = $_REQUEST['documentId'];
+                $val = $document->GetTitleDetail($doc_id);
+                $page = 'forms/delete_document';
+                $result['doc_id'] = $doc_id;
+                $result['title'] = $val;
+                $data = array(
+                    'component' => 'Delete Document',
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
             case 'update-layout':
                 $ajax = true;
                 $document = new Document_Template_Model();
@@ -570,6 +583,14 @@ class Formview_Controller extends Common_Controller {
                 $elementCode = $values['element_id'];
                 $sectionCode = $values['section_id'];
                 $document->DeleteElementData($docId, $sectionCode, $elementCode);
+                $this->GenerateJSONFormat($docId, 'update');
+                break;
+            case 'delete-current-document':
+                $ajax = true;
+                $values = $this->form_array($_REQUEST['values']);
+                $document = new Document_Template_Model();
+                $docId = $values['doc_id'];
+                $document->DeleteDocumentData($docId);
                 $this->GenerateJSONFormat($docId, 'update');
                 break;
             case 'testing':
