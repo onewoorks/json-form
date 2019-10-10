@@ -327,11 +327,13 @@
                     if (array.indexOf(str) > -1) {
                         $('#validateT' + thisValue).attr('hidden', 'hidden');
                         $('#validateF' + thisValue).attr('hidden', false);
+                        $('.addForm').attr('disabled', true);
                     } else {
                         $('#validateT' + thisValue).attr('hidden', false);
                         $('#validateF' + thisValue).attr('hidden', 'hidden');
+                        
                     }
-                    $('.addForm').attr('disabled', false);
+                  //  $('.addForm').attr('disabled', false);
                 } else {
                     $('#validateT' + thisValue).attr('hidden', 'hidden');
                     $('#validateF' + thisValue).attr('hidden', 'hidden');
