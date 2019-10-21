@@ -40,11 +40,11 @@ class Formview_Controller extends Common_Controller {
                 $result['preset_select'] = false;
                 $result['list_of_titles'] = $document->GetAllTitle();
                 break;
-            case 'new-method':
-                $page = 'forms/new_method';
-                $document = new Document_Template_Model();
-                $result['list_of_method'] = $document->GetAllmethodDesc();
-                break;
+//            case 'new-method':
+//                $page = 'forms/new_method';
+//                $document = new Document_Template_Model();
+//                $result['list_of_method'] = $document->GetAllmethodDesc();
+//                break;
             //28feb
             case 'new-method':
                 $page = 'forms/new_method';
@@ -452,7 +452,7 @@ class Formview_Controller extends Common_Controller {
                 $docType = $values['doc_type'];
                 $docGroup = $values['doc_group'];
                 $titleDesc = $values['doc_name_desc'];
-                $docForm = $document->InsertDocId($subDis, $docGroup, $docType, $titleDesc);
+                $docForm = $document->InsertDocId($subDis, $docGroup, $docType, strtoupper($titleDesc));
 //                print_r($docForm);
                 break;
             //19JULAI
