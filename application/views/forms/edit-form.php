@@ -116,7 +116,7 @@
                         </ul>
                         <div class='text-right'>
                             <div class='btn-group btn-group-sm'>
-                                <a href='#' class='btn btn-default changelayout' >Change Layout</a>
+<!--                                <a href='#' class='btn btn-default changelayout'  >Change Layout</a>-->
                                 <input type='hidden' id='documentId' value='<?= $document_id; ?>'/>
                                 <input type='hidden' id='templateId' value='<?= $template_id; ?>'/>
                                 <a href='#' class='btn btn-xs btn-default executeAction' />Generate JSON</a>
