@@ -11,7 +11,7 @@
                         <div class='form-group form-group-sm'>
                             <label class='control-label col-sm-1'>Name&nbsp;<b style='color: red'>*</b></label>
                             <div class='col-sm-3'>
-                                <input type='text' data-no = '1' name='section_desc1' id='section_desc1' class='form-control' autocomplete="off" required/>
+                                <input type='text' data-no = '1' name='section_desc1' id='section_desc1' class='form-control text-uppercase' autocomplete="off" required/>
                                 <span id='validateF1' name='validateF1' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
                                 <span id='validateT1' name='validateT1' style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
                                 <select id='list_section_desc' class='form-control hidden'>
@@ -35,9 +35,9 @@
                             </div>
 
 
-                            <label class="control-label col-sm-1">Layout&nbsp;<b style='color: red'>*</b></label>
-                            <div class="col-sm-2">
-                                <label class="radio-inline">
+                            <label class="control-label col-sm-1 hidden">Layout&nbsp;<b style='color: red'>*</b></label>
+                            <div class="col-sm-2 hidden">
+                                <label class="radio-inline ">
                                     <input name="layout" id="layout" type="radio" value="1" /> 1
                                 </label>
                                 <label class="radio-inline">
@@ -86,7 +86,7 @@
                                     ?>
                                     <tr>
                                         <td  style=" font-size: smaller; text-align: center"><?php echo $sections['section_code']; ?></td>
-                                        <td  style=" font-size: smaller;"><?php echo $sections['section_desc']; ?></td>
+                                        <td class="text-uppercase" style=" font-size: smaller;"><?php echo $sections['section_desc']; ?></td>
                                         <td  style=" font-size: smaller;"><?php echo $sections['json_section']; ?></td>
                                         <td  style=" font-size: smaller;"><?php echo $sections['layout']; ?></td>
                                     </tr>
