@@ -436,6 +436,17 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('object');
         return $result[0];
     }
+    
+    public function GetElementsDetail($docId) {
+        $sql = "SELECT element_code, element_desc, json_element"
+                . " FROM ref_document_element"
+                . " WHERE element_code='" . (int) $docId . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('object');
+        return $result[0];
+    }
 
     public function GetTitleId($docId) {
         $sql = "SELECT DISTINCT doc_name_id, doc_name_desc FROM document WHERE doc_name_id='" . (int) $docId . "'";
@@ -458,6 +469,15 @@ class Document_Template_Model {
     
     public function GetSectionsId($docId) {
         $sql = "SELECT DISTINCT section_code, section_desc FROM ref_document_section WHERE section_code='" . (int) $docId . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+    public function GetElementId($docId) {
+        $sql = "SELECT DISTINCT element_code, element_desc FROM ref_document_element WHERE element_code='" . (int) $docId . "'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -678,6 +698,14 @@ class Document_Template_Model {
     
     public function UpdateSectionInfo($code, $title) {
         $sql = "UPDATE ref_document_section SET section_desc='" . $title . "' WHERE section_code='" . (int) $code . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+    public function UpdateElementInfo($code, $title) {
+        $sql = "UPDATE ref_document_element SET element_desc='" . $title . "' WHERE element_code='" . (int) $code . "'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -1040,6 +1068,17 @@ class Document_Template_Model {
         $sql = "UPDATE ref_document_section "
                 . "SET active_status = '0' "
                 . "WHERE section_code='" . (int) $docId . "'";
+        print_r($sql);
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+     public function DeleteElementsData($docId) {
+        $sql = "UPDATE ref_document_element "
+                . "SET active_status = '0' "
+                . "WHERE element_code='" . (int) $docId . "'";
         print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);

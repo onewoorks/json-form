@@ -362,6 +362,19 @@ class Formview_Controller extends Common_Controller {
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
+            case 'change-element':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $doc_id = $_REQUEST['documentId'];
+                $val = $document->GetElementsDetail($doc_id);
+                $page = 'forms/change_element_detail';
+                $result['element'] = $val;
+                $result['doc_id'] = $doc_id;
+                $data = array(
+                    'component' => 'Element Name',
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
             case 'delete-element':
                 $ajax = true;
                 $document = new Document_Template_Model();
@@ -414,6 +427,19 @@ class Formview_Controller extends Common_Controller {
                 $result['section'] = $val;
                 $data = array(
                     'component' => 'Delete Section',
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
+            case 'delete-elements':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $doc_id = $_REQUEST['documentId'];
+                $val = $document->GetElementsDetail($doc_id);
+                $page = 'forms/delete_element_new';
+                $result['doc_id'] = $doc_id;
+                $result['element'] = $val;
+                $data = array(
+                    'component' => 'Delete Element',
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
@@ -508,6 +534,19 @@ class Formview_Controller extends Common_Controller {
                 foreach ($section_id as $key):
                     $document->UpdateSectionInfo($key['section_code'], $title);
                     echo $key['section_code'] . "<br>";
+                endforeach;
+                $this->GenerateJSONFormat($docId, 'update');
+                break;
+            case 'edit-element':
+                $ajax = true;
+                $values = $this->form_array($_REQUEST['values']);
+                $document = new Document_Template_Model();
+                $docId = $values['doc_id'];
+                $title = $values['selected_element'];
+                $element_id = $document->GetElementId($docId);
+                foreach ($element_id as $key):
+                    $document->UpdateElementInfo($key['element_code'], $title);
+                    echo $key['element_code'] . "<br>";
                 endforeach;
                 $this->GenerateJSONFormat($docId, 'update');
                 break;
@@ -688,6 +727,14 @@ class Formview_Controller extends Common_Controller {
                 $document = new Document_Template_Model();
                 $docId = $values['doc_id'];
                 $document->DeleteSectionData($docId);
+                $this->GenerateJSONFormat($docId, 'update');
+                break;
+            case 'delete-new-element':
+                $ajax = true;
+                $values = $this->form_array($_REQUEST['values']);
+                $document = new Document_Template_Model();
+                $docId = $values['doc_id'];
+                $document->DeleteElementsData($docId);
                 $this->GenerateJSONFormat($docId, 'update');
                 break;
             case 'testing':

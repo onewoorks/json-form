@@ -12,19 +12,19 @@
                             <label class='control-label col-sm-1'>Name&nbsp;<b style='color: red'>*</b></label>
                             <div class='col-sm-4'>
                                 <input type='text' data-no = '1' name='element_desc1' id='element_desc1' class='form-control' autocomplete="off" required/>
-                                <span id='validateF1' name='validateF1' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
-                                <span id='validateT1' name='validateT1' style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
+                                <span id='validateF1' name='validateF1' style="font-size:10px;color:red;text-align:left" hidden></span>
+                                <span id='validateT1' name='validateT1' style="font-size:10px;color:green;text-align:left" hidden></span>
                                 <select id='list_element_desc' class='form-control hidden'>
                                     <?php foreach ($list_of_elements as $elements): ?>
                                         <option value='<?php echo $elements['element_code']; ?>'><?php echo $elements['element_desc']; ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            <label class='control-label col-sm-1'>Json&nbsp;<b style='color: red'>*</b></label>
-                            <div class='col-sm-4'>
+                            <label class='control-label col-sm-1 hidden'>Json&nbsp;<b style='color: red'>*</b></label>
+                            <div class='col-sm-4 hidden'>
                                 <input type='text' name='json_desc1' data-no = '1' id='json_desc1' class='form-control' autocomplete="off" required disabled/>
-                                <span id='validateFF1' name='validateFF1' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
-                                <span id='validateTT1' name='validateTT1' style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
+                                <span id='validateFF1' name='validateFF1' style="font-size:10px;color:red;text-align:left" hidden></span>
+                                <span id='validateTT1' name='validateTT1' style="font-size:10px;color:green;text-align:left" hidden></span>
                                 <select id='list_json_desc' class='form-control hidden'>
                                     <?php foreach ($list_of_elements as $elements): ?>
                                         <option value='<?php echo $elements['element_desc']; ?>'><?php echo $elements['json_element']; ?></option>
@@ -56,7 +56,7 @@
                                 <tr>
                                     <th style=" font-size: smaller; text-align: center">Element Code</th>
                                     <th style=" font-size: smaller; text-align: center">Element Description</th>
-                                    <th style=" font-size: smaller; text-align: center">JSON Element</th>
+                                    <th style=" font-size: smaller; text-align: center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -72,7 +72,12 @@
                                     <tr>
                                         <td  style=" font-size: smaller; text-align: center"><?php echo $elements['element_code']; ?></td>
                                         <td  style=" font-size: smaller;"><?php echo $elements['element_desc']; ?></td>
-                                        <td  style=" font-size: smaller;"><?php echo $elements['json_element']; ?></td>
+                                        <td  style=" font-size: smaller; text-align: center">
+                                        <div>
+                                            <a class='btn btn-default btn-sm editElement' id='<?php  echo $elements['element_code'];  ?>' style='padding:2px' title="Rename Element"><i class='glyphicon glyphicon-pencil'></i></a>
+                                            <a class='btn btn-default btn-sm deleteElement' id='<?php echo $elements['element_code'];  ?>'  style='padding:2px' title="Delete Element"><i class='glyphicon glyphicon-trash'></i></a>
+                                        </div>
+                                </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -82,8 +87,34 @@
             </div>
         </div>
     </div>
-
 </div>
+
+<div id="title" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!--Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Change Element</h4>
+                </div>
+                <div class="modal-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="deleteModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!--Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete Element</h4>
+                </div>
+                <div class="modal-body"></div>
+            </div>
+        </div>
+    </div>
+
 
 <script>
     $(document).ready(function () {
@@ -189,6 +220,40 @@
             $($element).appendTo('#elementGrouping');
             no++;
         });
+        
+        $('#tableForm').on('click', '.editElement', function(){
+                var documentId = $(this).attr('id');
+                console.log(documentId);
+                $.ajax({
+                    url: '<?= SITE_ROOT; ?>/formview/change-element/',
+                    data: {documentId: documentId},
+                    success: function (data) {
+                        var obj = $.parseJSON(data);
+                        $('.modal-dialog').removeClass('modal-lg');
+                        $('.modal-title').text(obj.component);
+                        $('.modal-body').html(obj.html);
+                    }
+                });
+                $('#title').modal('show');
+                return false;
+        });
+            
+        $('#tableForm').on('click', '.deleteElement', function(){
+              var documentId = $(this).attr('id');
+              console.log(documentId);
+              $.ajax({
+                  url: '<?= SITE_ROOT; ?>/formview/delete-elements/',
+                  data: {documentId: documentId},
+                  success: function (data) {
+                      var obj = $.parseJSON(data);
+                      $('.modal-dialog').removeClass('modal-sm');
+                      $('.modal-title').text(obj.component);
+                      $('.modal-body').html(obj.html);
+                  }
+              });
+              $('#deleteModal').modal('show');
+              return false;
+      });
 
     });
 </script>
