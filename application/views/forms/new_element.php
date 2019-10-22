@@ -32,7 +32,6 @@
                                 </select>
                             </div>
                             <div class='col-sm-2 sectionAction' data-sectionno='1'>
-                                <div class='btn btn-default btn-sm renameSection1' data-sectionno='1' style='padding:3.5px' title="Rename JSON"><i class='glyphicon glyphicon-pencil'></i></div>
                                 <div class='btn btn-default btn-sm plusSection' data-sectionno='1' style='padding:3.5px'><i class='glyphicon glyphicon-plus'></i></div>
                             </div>
                         </div>
@@ -55,7 +54,7 @@
                             <thead>
                                 <tr>
                                     <th style=" font-size: smaller; text-align: center">Element Code</th>
-                                    <th style=" font-size: smaller; text-align: center">Element Description</th>
+                                    <th style=" font-size: smaller; text-align: center">Element Name</th>
                                     <th style=" font-size: smaller; text-align: center">Action</th>
                                 </tr>
                             </thead>
@@ -194,25 +193,24 @@
         });
 
         $('#elementGrouping').on('click', '.plusSection', function () {
-            $('.addElement').attr('disabled', 'disabled');
+            $('.addElement').attr('disabled', false);
             var $element = '<div class="elementNew' + no + '">';
             $element += '<div class="form-group form-group-sm">';
             $element += '<label class="control-label col-sm-1">Name&nbsp;<b style="color: red">*</b></label>';
             $element += '<div class="col-sm-4">';
             $element += '<input type="text" data-no = "' + no + '" name="element_desc' + no + '" id="element_desc' + no + '" class="form-control" autocomplete="off" required/>';
-            $element += '<span id="validateF' + no + '" name="validateF' + no + '" style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>';
-            $element += '<span id="validateT' + no + '" name="validateT' + no + '" style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>';
+            $element += '<span id="validateF' + no + '" name="validateF' + no + '" style="font-size:10px;color:red;text-align:left" hidden></span>';
+            $element += '<span id="validateT' + no + '" name="validateT' + no + '" style="font-size:10px;color:green;text-align:left" hidden></span>';
             $element += '<select id="list_element_desc" class="form-control hidden">' + optionE + '</select>';
             $element += '</div>';
-            $element += '<label class="control-label col-sm-1">Json&nbsp;<b style="color: red">*</b></label>';
-            $element += '<div class="col-sm-4">';
+            $element += '<label class="control-label col-sm-1 hidden">Json&nbsp;<b style="color: red">*</b></label>';
+            $element += '<div class="col-sm-4 hidden">';
             $element += '<input type="text" data-no = "' + no + '" name="json_desc' + no + '" id="json_desc' + no + '" class="form-control" autocomplete="off" required disabled>';
-            $element += '<span id="validateFF' + no + '" name="validateFF' + no + '" style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>';
-            $element += '<span id="validateTT' + no + '" name="validateTT' + no + '" style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>';
+            $element += '<span id="validateFF' + no + '" name="validateFF' + no + '" style="font-size:10px;color:red;text-align:left" hidden></span>';
+            $element += '<span id="validateTT' + no + '" name="validateTT' + no + '" style="font-size:10px;color:green;text-align:left" hidden></span>';
             $element += '<select id="list_json_desc" class="form-control hidden">' + optionJ + '</select>';
             $element += '</div>';
             $element += '<div class="col-sm-2 sectionAction" data-sectionno="' + no + '">';
-            $element += '<div class="btn btn-default btn-sm renameSection' + no + '" data-sectionno="' + no + '" style="padding:3.5px" title="Rename JSON"><i class="glyphicon glyphicon-pencil"></i></div>&nbsp;';
             $element += '<div class="btn btn-default btn-sm minusSection" data-sectionno="' + no + '" style="padding:3.5px"><i class="glyphicon glyphicon-minus"></i></div>';
             $element += '</div>';
             $element += '</div>';
@@ -290,11 +288,12 @@
                     if (array.indexOf(str) > -1) {
                         $('#validateT' + thisValue).attr('hidden', 'hidden');
                         $('#validateF' + thisValue).attr('hidden', false);
+                        $('.addElement').attr('disabled', true);
                     } else {
                         $('#validateT' + thisValue).attr('hidden', false);
                         $('#validateF' + thisValue).attr('hidden', 'hidden');
                     }
-                    $('.addElement').attr('disabled', false);
+                    
                 } else {
                     $('#validateT' + thisValue).attr('hidden', 'hidden');
                     $('#validateF' + thisValue).attr('hidden', 'hidden');

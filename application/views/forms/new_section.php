@@ -45,7 +45,7 @@
                                 </label>
                             </div>
                             <div class='col-sm-1 sectionAction' data-sectionno='1'>
-                                <div class='btn btn-default btn-sm renameSection1' data-sectionno='1' style='padding:3.5px' title="Rename JSON"><i class='glyphicon glyphicon-pencil'></i></div>
+                            <!-- <div class='btn btn-default btn-sm renameSection1' data-sectionno='1' style='padding:3.5px' title="Rename JSON"><i class='glyphicon glyphicon-pencil'></i></div>-->
                                 <div class='btn btn-default btn-sm plusSection' data-sectionno='1' style='padding:3.5px'><i class='glyphicon glyphicon-plus'></i></div>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                             <thead>
                                 <tr>
                                     <th style=" font-size: smaller;">Section Code</th>
-                                    <th style=" font-size: smaller;">Section Desc</th>
+                                    <th style=" font-size: smaller;">Section Name</th>
                                     <th style=" font-size: smaller;">Action</th>
                                 </tr>
                             </thead>
@@ -211,34 +211,33 @@
         });
 
         $('#sectionGrouping').on('click', '.plusSection', function () {
-            $('.addSection').attr('disabled', 'disabled');
+            $('.addSection').attr('disabled', false);
             var $sections = '<div class="sectionNew' + no + '">';
             $sections += '<div class="form-group form-group-sm">';
             $sections += '<label class="control-label col-sm-1">Name&nbsp;<b style="color: red">*</b></label>';
             $sections += '<div class="col-sm-3">';
-            $sections += '<input type="text" data-no = "' + no + '" name="section_desc' + no + '" id="section_desc' + no + '" class="form-control" autocomplete="off" required/>';
+            $sections += '<input type="text" data-no = "' + no + '" name="section_desc' + no + '" id="section_desc' + no + '" class="form-control text-uppercase" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" required/>';
             $sections += '<span id="validateF' + no + '" name="validateF' + no + '" style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>';
             $sections += '<span id="validateT' + no + '" name="validateT' + no + '" style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>';
             $sections += '<select id="list_section_desc" class="form-control hidden">' + optionS + '</select>';
             $sections += '</div>';
-            $sections += '<label class="control-label col-sm-1">Json&nbsp;<b style="color: red">*</b></label>';
-            $sections += '<div class="col-sm-3">';
+            $sections += '<label class="control-label col-sm-1 hidden">Json&nbsp;<b style="color: red">*</b></label>';
+            $sections += '<div class="col-sm-3 hidden">';
             $sections += '<input type="text" data-no = "' + no + '" name="json_desc' + no + '" id="json_desc' + no + '" class="form-control" autocomplete="off" required disabled>';
             $sections += '<span id="validateFF' + no + '" name="validateFF' + no + '" style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>';
             $sections += '<span id="validateTT' + no + '" name="validateTT' + no + '" style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>';
             $sections += '<select id="list_json_desc" class="form-control hidden">' + optionJ + '</select>';
             $sections += '</div>';
-            $sections += '<label class="control-label col-sm-1">Layout&nbsp;<b style="color: red">*</b></label>';
-            $sections += '<div class="col-sm-2">';
+            $sections += '<label class="control-label col-sm-1 hidden">Layout&nbsp;<b style="color: red">*</b></label>';
+            $sections += '<div class="col-sm-2 hidden">';
             $sections += '<label class="radio-inline">';
             $sections += '<input name="layout' + no + '" id="layout' + no + '"type="radio" value="1" > 1';
             $sections += '</label>';
             $sections += '<label class="radio-inline">';
-            $sections += '<input name="layout' + no + '" id="layout' + no + '" type="radio" value="2" > 2';
+            $sections += '<input name="layout' + no + '" id="layout' + no + '" type="radio" value="2" checked="checked"> 2';
             $sections += '</label>';
             $sections += '</div>';
             $sections += '<div class="col-sm-1 sectionAction" data-sectionno="' + no + '">';
-            $sections += '<div class="btn btn-default btn-sm renameSection' + no + '" data-sectionno="' + no + '" style="padding:3.5px" title="Rename JSON"><i class="glyphicon glyphicon-pencil"></i></div>&nbsp;';
             $sections += '<div class="btn btn-default btn-sm minusSection" data-sectionno="' + no + '" style="padding:3.5px"><i class="glyphicon glyphicon-minus"></i></div>';
             $sections += '</div>';
             $sections += '</div>';

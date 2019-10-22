@@ -34,7 +34,7 @@
                             </div>
 
                             <div class='col-sm-1 sectionAction' data-sectionno='1'>
-                                <div class='btn btn-default btn-sm renameSection1' data-sectionno='1' style='padding:3.5px' title="Rename INFO"><i class='glyphicon glyphicon-pencil'></i></div>
+<!--                                <div class='btn btn-default btn-sm renameSection1' data-sectionno='1' style='padding:3.5px' title="Rename INFO"><i class='glyphicon glyphicon-pencil'></i></div>-->
                                 <div class='btn btn-default btn-sm plusSection' data-sectionno='1' style='padding:3.5px'><i class='glyphicon glyphicon-plus'></i></div>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                             <thead>
                                 <tr>
                                     <th style=" font-size: smaller;">Method<br>Code</th>
-                                    <th style=" font-size: smaller;">Method Desc</th>
+                                    <th style=" font-size: smaller;">Method Name</th>
                                     <th style=" font-size: smaller;">Action</th>
                                 </tr>
                             </thead>
@@ -199,25 +199,24 @@
         });
 
         $('#methodGrouping').on('click', '.plusSection', function () {
-            $('.addMethod').attr('disabled', 'disabled');
+            $('.addMethod').attr('disabled', false);
             var $method = '<div class="methodNew' + no + '">';
             $method += '<div class="form-group form-group-sm">';
             $method += '<label class="control-label col-sm-1">Name&nbsp;<b style="color: red">*</b></label>';
             $method += '<div class="col-sm-4">';
-            $method += '<input type="text" data-no = "' + no + '" name="method_desc' + no + '" id="method_desc' + no + '" class="form-control" autocomplete="off" required/>';
+            $method += '<input type="text" data-no = "' + no + '" name="method_desc' + no + '" id="method_desc' + no + '" class="form-control" onkeyup="this.value = this.value.toLocaleLowerCase();" autocomplete="off" required/>';
             $method += '<span id="validateF' + no + '" name="validateF' + no + '" style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>';
             $method += '<span id="validateT' + no + '" name="validateT' + no + '" style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>';
             $method += '<select id="list_method_desc" class="form-control hidden">' + optionS + '</select>';
             $method += '</div>';
-            $method += '<label class="control-label col-sm-2">Method Info&nbsp;<b style="color: red">*</b></label>';
-            $method += '<div class="col-sm-4">';
+            $method += '<label class="control-label col-sm-2 hidden">Method Info&nbsp;<b style="color: red">*</b></label>';
+            $method += '<div class="col-sm-4 hidden">';
             $method += '<input type="text" data-no = "' + no + '" name="method_info' + no + '" id="method_info' + no + '" class="form-control" autocomplete="off" required disabled>';
             $method += '<span id="validateFF' + no + '" name="validateFF' + no + '" style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>';
             $method += '<span id="validateTT' + no + '" name="validateTT' + no + '" style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>';
             $method += '<select id="list_method_info" class="form-control hidden">' + optionI + '</select>';
             $method += '</div>';
             $method += '<div class="col-sm-1 sectionAction" data-sectionno="' + no + '">';
-            $method += '<div class="btn btn-default btn-sm renameSection' + no + '" data-sectionno="' + no + '" style="padding:3.5px" title="Rename INFO"><i class="glyphicon glyphicon-pencil"></i></div>&nbsp;';
             $method += '<div class="btn btn-default btn-sm minusSection" data-sectionno="' + no + '" style="padding:3.5px"><i class="glyphicon glyphicon-minus"></i></div>';
             $method += '</div>';
             $method += '</div>';
