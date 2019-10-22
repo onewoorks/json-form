@@ -11,7 +11,7 @@
                         <div class='form-group form-group-sm'>
                             <label class='control-label col-sm-1'>Name&nbsp;<b style='color: red'>*</b></label>
                             <div class='col-sm-4'>
-                                <input type='text' data-no = '1' name='method_desc1' id='method_desc1' class='form-control' autocomplete="off" required/>
+                                <input type='text' data-no = '1' name='method_desc1' id='method_desc1' class='form-control' onkeyup="this.value = this.value.toLocaleLowerCase();" autocomplete="off" required/>
                                 <span id='validateF1' name='validateF1' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
                                 <span id='validateT1' name='validateT1' style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
                                 <select id='list_method_desc' class='form-control hidden'>
@@ -21,8 +21,8 @@
                                 </select>
                             </div>
 
-                            <label class='control-label col-sm-2'>Method Info&nbsp;<b style='color: red'>*</b></label>
-                            <div class='col-sm-4'>
+                            <label class='control-label col-sm-2 hidden'>Method Info&nbsp;<b style='color: red'>*</b></label>
+                            <div class='col-sm-4 hidden'>
                                 <input type='text' name='method_info1' data-no = '1' id='method_info1' class='form-control' autocomplete="off" required disabled/>
                                 <span id='validateFF1' name='validateFF1' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
                                 <span id='validateTT1' name='validateTT1' style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
@@ -58,9 +58,9 @@
                         <table id="tableForm" class='table table-bordered table-condensed'>
                             <thead>
                                 <tr>
-                                    <th style=" font-size: smaller;">Method Code</th>
+                                    <th style=" font-size: smaller;">Method<br>Code</th>
                                     <th style=" font-size: smaller;">Method Desc</th>
-                                    <th style=" font-size: smaller;">Method Info</th>
+                                    <th style=" font-size: smaller;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -76,7 +76,12 @@
                                     <tr>
                                         <td  style=" font-size: smaller; text-align: center"><?php echo $method['doc_method_code']; ?></td>
                                         <td  style=" font-size: smaller;"><?php echo $method['doc_method_desc']; ?></td>
-                                        <td  style=" font-size: smaller;"><?php echo $method['method_info']; ?></td>
+                                        <td  style=" font-size: smaller; text-align: center">
+                                            <div>
+                                            <a class='btn btn-default btn-sm editMethod' id='<?php  echo $method['doc_method_code'];  ?>' style='padding:2px' title="Rename Method"><i class='glyphicon glyphicon-pencil'></i></a>
+                                            <a class='btn btn-default btn-sm deleteMethod' id='<?php  echo $method['doc_method_code'];  ?>'  style='padding:2px' title="Delete Method"><i class='glyphicon glyphicon-trash'></i></a>
+                                            </div>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -87,6 +92,32 @@
         </div>
     </div>
 </div>
+
+<div id="title" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!--Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Change Method</h4>
+                </div>
+                <div class="modal-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="deleteModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!--Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Delete Method</h4>
+                    </div>
+                    <div class="modal-body"></div>
+                </div>
+            </div>
+        </div>
 
 <script>
     $(document).ready(function () {
@@ -194,6 +225,40 @@
             $($method).appendTo('#methodGrouping');
             no++;
         });
+        
+        $('#tableForm').on('click', '.editMethod', function(){
+                var documentId = $(this).attr('id');
+                console.log(documentId);
+                $.ajax({
+                    url: '<?= SITE_ROOT; ?>/formview/change-method/',
+                    data: {documentId: documentId},
+                    success: function (data) {
+                        var obj = $.parseJSON(data);
+                        $('.modal-dialog').removeClass('modal-lg');
+                        $('.modal-title').text(obj.component);
+                        $('.modal-body').html(obj.html);
+                    }
+                });
+                $('#title').modal('show');
+                return false;
+        });
+        
+         $('#tableForm').on('click', '.deleteMethod', function(){
+              var documentId = $(this).attr('id');
+              console.log(documentId);
+              $.ajax({
+                  url: '<?= SITE_ROOT; ?>/formview/delete-method/',
+                  data: {documentId: documentId},
+                  success: function (data) {
+                      var obj = $.parseJSON(data);
+                      $('.modal-dialog').removeClass('modal-sm');
+                      $('.modal-title').text(obj.component);
+                      $('.modal-body').html(obj.html);
+                  }
+              });
+              $('#deleteModal').modal('show');
+              return false;
+      });
 
     });
 </script>
@@ -211,7 +276,7 @@
 
         $("#list_method_desc option").each(function () {
             var $this = $(this);
-            selText = $this.text();
+            selText = $this.text().toLocaleLowerCase();
             array.push(selText);
         });
 
@@ -226,16 +291,18 @@
 
             $('#method_desc' + thisValue).keyup(function () {
                 var str = $(this).val();
+                console.log(str);
 
                 if (str !== "") {
                     if (array.indexOf(str) > -1) {
                         $('#validateT' + thisValue).attr('hidden', 'hidden');
                         $('#validateF' + thisValue).attr('hidden', false);
+                        $('.addMethod').attr('disabled', true);
                     } else {
                         $('#validateT' + thisValue).attr('hidden', false);
                         $('#validateF' + thisValue).attr('hidden', 'hidden');
                     }
-                    $('.addMethod').attr('disabled', false);
+                   
                 } else {
                     $('#validateT' + thisValue).attr('hidden', 'hidden');
                     $('#validateF' + thisValue).attr('hidden', 'hidden');
