@@ -335,6 +335,20 @@ class Formview_Controller extends Common_Controller {
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
+            //22OCT19
+            case 'change-method':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $doc_id = $_REQUEST['documentId'];
+                $val = $document->GetMethodDetail($doc_id);
+                $page = 'forms/change_method_detail';
+                $result['method'] = $val;
+                $result['doc_id'] = $doc_id;
+                $data = array(
+                    'component' => 'Method Detail',
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
             case 'delete-element':
                 $ajax = true;
                 $document = new Document_Template_Model();
@@ -360,6 +374,20 @@ class Formview_Controller extends Common_Controller {
                 $result['title'] = $val;
                 $data = array(
                     'component' => 'Delete Document',
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
+            //22OCT19
+            case 'delete-method':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $doc_id = $_REQUEST['documentId'];
+                $val = $document->GetMethodDetail($doc_id);
+                $page = 'forms/delete_method';
+                $result['doc_id'] = $doc_id;
+                $result['title'] = $val;
+                $data = array(
+                    'component' => 'Delete Method',
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
@@ -425,8 +453,22 @@ class Formview_Controller extends Common_Controller {
                 $title = $values['selected_title'];
                 $title_id = $document->GetTitleId($docId);
                 foreach ($title_id as $key):
-                    $document->UpdateDocTitle($key['doc_name_id'], $title);
+                    $document->UpdateDocTitle($key['doc_name_id'], strtoupper($title));
                     echo $key['doc_name_id'] . "<br>";
+                endforeach;
+                $this->GenerateJSONFormat($docId, 'update');
+                break;
+            //22OCT19
+            case 'edit-method':
+                $ajax = true;
+                $values = $this->form_array($_REQUEST['values']);
+                $document = new Document_Template_Model();
+                $docId = $values['doc_id'];
+                $title = $values['selected_method'];
+                $method_id = $document->GetMethodId($docId);
+                foreach ($method_id as $key):
+                    $document->UpdateMethodInfo($key['doc_method_code'], ucwords($title));
+                    echo $key['doc_method_code'] . "<br>";
                 endforeach;
                 $this->GenerateJSONFormat($docId, 'update');
                 break;
@@ -591,6 +633,14 @@ class Formview_Controller extends Common_Controller {
                 $document = new Document_Template_Model();
                 $docId = $values['doc_id'];
                 $document->DeleteDocumentData($docId);
+                $this->GenerateJSONFormat($docId, 'update');
+                break;
+            case 'delete-current-method':
+                $ajax = true;
+                $values = $this->form_array($_REQUEST['values']);
+                $document = new Document_Template_Model();
+                $docId = $values['doc_id'];
+                $document->DeleteMethodData($docId);
                 $this->GenerateJSONFormat($docId, 'update');
                 break;
             case 'testing':

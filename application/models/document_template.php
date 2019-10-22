@@ -413,9 +413,31 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('object');
         return $result[0];
     }
+    
+     //22OCT
+    public function GetMethodDetail($docId) {
+        $sql = "SELECT doc_method_code, doc_method_desc, method_info"
+                . " FROM ref_document_method"
+                . " WHERE doc_method_code='" . (int) $docId . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('object');
+        return $result[0];
+    }
 
     public function GetTitleId($docId) {
         $sql = "SELECT DISTINCT doc_name_id, doc_name_desc FROM document WHERE doc_name_id='" . (int) $docId . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+    //22OCT
+    public function GetMethodId($docId) {
+        $sql = "SELECT DISTINCT doc_method_code, doc_method_desc FROM ref_document_method WHERE doc_method_code='" . (int) $docId . "'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -446,7 +468,7 @@ class Document_Template_Model {
     //19JULAI
    //28Feb19
     public function InsertMethodId($result) {
-        $method_desc = $result['method_desc'];
+        $method_desc = ucwords($result['method_desc']);
         $method_info = $result['method_info'];
 //        $sql = " SELECT COUNT(section_desc) FROM ref_document_section WHERE section_desc LIKE '%$sectionDesc%' ";
         $sql = " INSERT INTO ref_document_method (doc_method_code, doc_method_desc, method_info, active_status, created_by, created_date) "
@@ -554,7 +576,7 @@ class Document_Template_Model {
     }
     
      public function GetAllmethodDesc() {
-        $sql = " SELECT doc_method_code, doc_method_desc, section_code, json_method, method_info, image_path, active_status FROM ref_document_method ";
+        $sql = " SELECT doc_method_code, doc_method_desc, section_code, json_method, method_info, image_path, active_status FROM ref_document_method WHERE active_status='1'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -619,6 +641,15 @@ class Document_Template_Model {
 
     public function UpdateDocTitle($code, $title) {
         $sql = "UPDATE document SET doc_name_desc='" . $title . "' WHERE doc_name_id='" . (int) $code . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+    //22OCT
+    public function UpdateMethodInfo($code, $title) {
+        $sql = "UPDATE ref_document_method SET doc_method_desc='" . $title . "' WHERE doc_method_code='" . (int) $code . "'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -959,6 +990,17 @@ class Document_Template_Model {
         $sql = "UPDATE document "
                 . "SET active_status = '0' "
                 . "WHERE doc_name_id='" . (int) $docId . "'";
+        print_r($sql);
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+    public function DeleteMethodData($docId) {
+        $sql = "UPDATE ref_document_method "
+                . "SET active_status = '0' "
+                . "WHERE doc_method_code='" . (int) $docId . "'";
         print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
