@@ -11,7 +11,7 @@
                         <div class='form-group form-group-sm'>
                             <label class='control-label col-sm-1'>Name&nbsp;<b style='color: red'>*</b></label>
                             <div class='col-sm-3'>
-                                <input type='text' data-no = '1' name='section_desc1' id='section_desc1' class='form-control text-uppercase' autocomplete="off" required/>
+                                <input type='text' data-no = '1' name='section_desc1' id='section_desc1' class='form-control text-uppercase' onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" required/>
                                 <span id='validateF1' name='validateF1' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
                                 <span id='validateT1' name='validateT1' style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
                                 <select id='list_section_desc' class='form-control hidden'>
@@ -22,8 +22,8 @@
 
                             </div>
 
-                            <label class='control-label col-sm-1'>Json&nbsp;<b style='color: red'>*</b></label>
-                            <div class='col-sm-3'>
+                            <label class='control-label col-sm-1 hidden'>Json&nbsp;<b style='color: red'>*</b></label>
+                            <div class='col-sm-3 hidden'>
                                 <input type='text' name='json_desc1' data-no = '1' id='json_desc1' class='form-control' autocomplete="off" required disabled/>
                                 <span id='validateFF1' name='validateFF1' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
                                 <span id='validateTT1' name='validateTT1' style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
@@ -70,8 +70,7 @@
                                 <tr>
                                     <th style=" font-size: smaller;">Section Code</th>
                                     <th style=" font-size: smaller;">Section Desc</th>
-                                    <th style=" font-size: smaller;">JSON Section</th>
-                                    <th style=" font-size: smaller;">Layout</th>
+                                    <th style=" font-size: smaller;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -87,8 +86,12 @@
                                     <tr>
                                         <td  style=" font-size: smaller; text-align: center"><?php echo $sections['section_code']; ?></td>
                                         <td class="text-uppercase" style=" font-size: smaller;"><?php echo $sections['section_desc']; ?></td>
-                                        <td  style=" font-size: smaller;"><?php echo $sections['json_section']; ?></td>
-                                        <td  style=" font-size: smaller;"><?php echo $sections['layout']; ?></td>
+                                        <td  style=" font-size: smaller; text-align: center">
+                                            <div>
+                                                <a class='btn btn-default btn-sm editSection' id='<?php  echo $sections['section_code'];  ?>' style='padding:2px' title="Rename Section"><i class='glyphicon glyphicon-pencil'></i></a>
+                                                <a class='btn btn-default btn-sm deleteSection' id='<?php  echo $sections['section_code'];  ?>'  style='padding:2px' title="Delete Section"><i class='glyphicon glyphicon-trash'></i></a>
+                                            </div>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -99,6 +102,32 @@
         </div>
     </div>
 </div>
+
+<div id="title" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!--Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Change Section</h4>
+                </div>
+                <div class="modal-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="deleteModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!--Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete Section</h4>
+                </div>
+                <div class="modal-body"></div>
+            </div>
+        </div>
+    </div>
 
 <script>
     $(document).ready(function () {
@@ -217,6 +246,39 @@
             $($sections).appendTo('#sectionGrouping');
             no++;
         });
+        
+         $('#tableForm').on('click', '.editSection', function(){
+                var documentId = $(this).attr('id');
+                console.log(documentId);
+                $.ajax({
+                    url: '<?= SITE_ROOT; ?>/formview/change-section/',
+                    data: {documentId: documentId},
+                    success: function (data) {
+                        var obj = $.parseJSON(data);
+                        $('.modal-dialog').removeClass('modal-lg');
+                        $('.modal-title').text(obj.component);
+                        $('.modal-body').html(obj.html);
+                    }
+                });
+                $('#title').modal('show');
+                return false;
+        });
+            
+        $('#tableForm').on('click', '.deleteSection', function(){
+              var documentId = $(this).attr('id');
+              $.ajax({
+                  url: '<?= SITE_ROOT; ?>/formview/delete-section/',
+                  data: {documentId: documentId},
+                  success: function (data) {
+                      var obj = $.parseJSON(data);
+                      $('.modal-dialog').removeClass('modal-sm');
+                      $('.modal-title').text(obj.component);
+                      $('.modal-body').html(obj.html);
+                  }
+              });
+              $('#deleteModal').modal('show');
+              return false;
+      });
 
     });
 </script>
@@ -254,11 +316,12 @@
                     if (array.indexOf(str) > -1) {
                         $('#validateT' + thisValue).attr('hidden', 'hidden');
                         $('#validateF' + thisValue).attr('hidden', false);
+                        $('.addSection').attr('disabled', true);
                     } else {
                         $('#validateT' + thisValue).attr('hidden', false);
                         $('#validateF' + thisValue).attr('hidden', 'hidden');
                     }
-                    $('.addSection').attr('disabled', false);
+                   
                 } else {
                     $('#validateT' + thisValue).attr('hidden', 'hidden');
                     $('#validateF' + thisValue).attr('hidden', 'hidden');

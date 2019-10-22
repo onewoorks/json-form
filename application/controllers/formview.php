@@ -349,6 +349,19 @@ class Formview_Controller extends Common_Controller {
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
+            case 'change-section':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $doc_id = $_REQUEST['documentId'];
+                $val = $document->GetSectionsDetail($doc_id);
+                $page = 'forms/change_section_detail';
+                $result['section'] = $val;
+                $result['doc_id'] = $doc_id;
+                $data = array(
+                    'component' => 'Section Title',
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
             case 'delete-element':
                 $ajax = true;
                 $document = new Document_Template_Model();
@@ -388,6 +401,19 @@ class Formview_Controller extends Common_Controller {
                 $result['title'] = $val;
                 $data = array(
                     'component' => 'Delete Method',
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
+            case 'delete-section':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $doc_id = $_REQUEST['documentId'];
+                $val = $document->GetSectionsDetail($doc_id);
+                $page = 'forms/delete_section';
+                $result['doc_id'] = $doc_id;
+                $result['section'] = $val;
+                $data = array(
+                    'component' => 'Delete Section',
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
@@ -453,7 +479,7 @@ class Formview_Controller extends Common_Controller {
                 $title = $values['selected_title'];
                 $title_id = $document->GetTitleId($docId);
                 foreach ($title_id as $key):
-                    $document->UpdateDocTitle($key['doc_name_id'], strtoupper($title));
+                    $document->UpdateDocTitle($key['doc_name_id'], $title);
                     echo $key['doc_name_id'] . "<br>";
                 endforeach;
                 $this->GenerateJSONFormat($docId, 'update');
@@ -469,6 +495,19 @@ class Formview_Controller extends Common_Controller {
                 foreach ($method_id as $key):
                     $document->UpdateMethodInfo($key['doc_method_code'], ucwords($title));
                     echo $key['doc_method_code'] . "<br>";
+                endforeach;
+                $this->GenerateJSONFormat($docId, 'update');
+                break;
+            case 'edit-section':
+                $ajax = true;
+                $values = $this->form_array($_REQUEST['values']);
+                $document = new Document_Template_Model();
+                $docId = $values['doc_id'];
+                $title = $values['selected_section'];
+                $section_id = $document->GetSectionsId($docId);
+                foreach ($section_id as $key):
+                    $document->UpdateSectionInfo($key['section_code'], $title);
+                    echo $key['section_code'] . "<br>";
                 endforeach;
                 $this->GenerateJSONFormat($docId, 'update');
                 break;
@@ -641,6 +680,14 @@ class Formview_Controller extends Common_Controller {
                 $document = new Document_Template_Model();
                 $docId = $values['doc_id'];
                 $document->DeleteMethodData($docId);
+                $this->GenerateJSONFormat($docId, 'update');
+                break;
+            case 'delete-current-section':
+                $ajax = true;
+                $values = $this->form_array($_REQUEST['values']);
+                $document = new Document_Template_Model();
+                $docId = $values['doc_id'];
+                $document->DeleteSectionData($docId);
                 $this->GenerateJSONFormat($docId, 'update');
                 break;
             case 'testing':

@@ -62,7 +62,7 @@
             <div class="form-group form-group-sm" style='margin-left:-55px;margin-top: -5px'>
                 <label class="control-label col-sm-4">Document Title&nbsp;<b style='color: red'>*</b></label>
                 <div class="col-sm-6" style='width:48.55%'>
-                    <input name="doc_name_desc" data-no = '1' id="doc_name_desc1" type="text" class="form-control" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" required/>
+                    <input name="doc_name_desc" data-no = '1' id="doc_name_desc1" type="text" class="form-control text-uppercase" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" required/>
                        <span id='validateF1' name='validateF1' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
                        <span id='validateT1' name='validateT1' style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
                        <select id='list_doc_desc' class='form-control hidden'>

@@ -414,11 +414,22 @@ class Document_Template_Model {
         return $result[0];
     }
     
-     //22OCT
+    //22OCT
     public function GetMethodDetail($docId) {
         $sql = "SELECT doc_method_code, doc_method_desc, method_info"
                 . " FROM ref_document_method"
                 . " WHERE doc_method_code='" . (int) $docId . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('object');
+        return $result[0];
+    }
+    
+    public function GetSectionsDetail($docId) {
+        $sql = "SELECT section_code, section_desc, json_section"
+                . " FROM ref_document_section"
+                . " WHERE section_code='" . (int) $docId . "'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -438,6 +449,15 @@ class Document_Template_Model {
     //22OCT
     public function GetMethodId($docId) {
         $sql = "SELECT DISTINCT doc_method_code, doc_method_desc FROM ref_document_method WHERE doc_method_code='" . (int) $docId . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+    public function GetSectionsId($docId) {
+        $sql = "SELECT DISTINCT section_code, section_desc FROM ref_document_section WHERE section_code='" . (int) $docId . "'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -586,7 +606,7 @@ class Document_Template_Model {
 
     //19JULAI
     public function GetAllSecDesc() {
-        $sql = " SELECT section_code, section_desc, json_section, layout, active_status FROM ref_document_section ";
+        $sql = " SELECT section_code, section_desc, json_section, layout, active_status FROM ref_document_section WHERE active_status='1'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -614,7 +634,7 @@ class Document_Template_Model {
 //    }
     //23JULAI
     public function GetAllElementDesc() {
-        $sql = " SELECT element_code, element_desc, json_element, active_status FROM ref_document_element ";
+        $sql = " SELECT element_code, element_desc, json_element, active_status FROM ref_document_element WHERE active_status='1'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -650,6 +670,14 @@ class Document_Template_Model {
     //22OCT
     public function UpdateMethodInfo($code, $title) {
         $sql = "UPDATE ref_document_method SET doc_method_desc='" . $title . "' WHERE doc_method_code='" . (int) $code . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+    public function UpdateSectionInfo($code, $title) {
+        $sql = "UPDATE ref_document_section SET section_desc='" . $title . "' WHERE section_code='" . (int) $code . "'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -1001,6 +1029,17 @@ class Document_Template_Model {
         $sql = "UPDATE ref_document_method "
                 . "SET active_status = '0' "
                 . "WHERE doc_method_code='" . (int) $docId . "'";
+        print_r($sql);
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+     public function DeleteSectionData($docId) {
+        $sql = "UPDATE ref_document_section "
+                . "SET active_status = '0' "
+                . "WHERE section_code='" . (int) $docId . "'";
         print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
