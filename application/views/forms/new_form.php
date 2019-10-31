@@ -93,7 +93,7 @@
                     <thead>
                         <tr>
                             <th style=" font-size: smaller;">Document Id</th>
-                            <th style=" font-size: smaller;">Title Description</th>
+                            <th style=" font-size: smaller;">Document Title</th>
                             <th style=" font-size: smaller;">Action</th>
                         </tr>
                     </thead>
