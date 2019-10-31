@@ -102,7 +102,7 @@
                     <div id='sectionGroup'>
                         <div class='sectionMain1'>
                             <div class='form-group form-group-sm' >
-                                <label class='control-label col-sm-4'>Section Description</label>
+                                <label class='control-label col-sm-4'>Section Name</label>
                                 <div class='col-sm-6'>
                                     <input type='text' name='section_desc1' id="section_desc" class='form-control secList' list="secList" />
                                     <datalist name="secList" id="secList">
@@ -282,7 +282,7 @@
         $('#sectionGroup').on('click', '.plusSection', function () {
             var $section = '<div class="sectionMain' + count + '">';
             $section += '<div class="form-group form-group-sm">';
-            $section += '<label class="control-label col-sm-4">Section Description</label>';
+            $section += '<label class="control-label col-sm-4">Section Name</label>';
             $section += '<div class="col-sm-6">';
             $section += '<input type="text" name="section_desc' + count + '" id="section_desc" class="form-control secList" list="secList" />';
             $section += '<datalist name="secList" id="secList">' + option + '</datalist>';
