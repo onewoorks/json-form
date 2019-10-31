@@ -139,7 +139,7 @@
                     <div class="modal-body">
                         <div style="padding-bottom:5px"class="form-inline">
                             <label style="padding-left:29px;padding-right:27px" class="control-label">Change Title</label>
-                            <input class="form-control" style="height:25px;width:600px"type="text" id="doc_name_desc" name="doc_name_desc" autocomplete="off"/>
+                            <input class="form-control text-uppercase" onkeyup="this.value = this.value.toUpperCase();" style="height:25px;width:600px"type="text" id="doc_name_desc" name="doc_name_desc" autocomplete="off"/>
                         </div>
 
                     </div>
