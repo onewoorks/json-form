@@ -330,6 +330,7 @@ class Formview_Controller extends Common_Controller {
                 $page = 'forms/change_document_title';
                 $result['title'] = $val;
                 $result['doc_id'] = $doc_id;
+                $result['list_of_titles'] = $document->GetAllTitle();
                 $data = array(
                     'component' => 'Document Title',
                     'html' => $this->RenderOutput($page, $result));
