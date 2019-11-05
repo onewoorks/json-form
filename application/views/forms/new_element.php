@@ -12,8 +12,8 @@
                             <label class='control-label col-sm-1'>Name&nbsp;<b style='color: red'>*</b></label>
                             <div class='col-sm-4'>
                                 <input type='text' data-no = '1' name='element_desc1' id='element_desc1' class='form-control' autocomplete="off" required/>
-                                <span id='validateF1' name='validateF1' style="font-size:10px;color:red;text-align:left" hidden></span>
-                                <span id='validateT1' name='validateT1' style="font-size:10px;color:green;text-align:left" hidden></span>
+                                <span id='validateF1' name='validateF1' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
+                                <span id='validateT1' name='validateT1' style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
                                 <select id='list_element_desc' class='form-control hidden'>
                                     <?php foreach ($list_of_elements as $elements): ?>
                                         <option value='<?php echo $elements['element_code']; ?>'><?php echo $elements['element_desc']; ?></option>
@@ -23,8 +23,8 @@
                             <label class='control-label col-sm-1 hidden'>Json&nbsp;<b style='color: red'>*</b></label>
                             <div class='col-sm-4 hidden'>
                                 <input type='text' name='json_desc1' data-no = '1' id='json_desc1' class='form-control' autocomplete="off" required disabled/>
-                                <span id='validateFF1' name='validateFF1' style="font-size:10px;color:red;text-align:left" hidden></span>
-                                <span id='validateTT1' name='validateTT1' style="font-size:10px;color:green;text-align:left" hidden></span>
+                                <span id='validateFF1' name='validateFF1' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
+                                <span id='validateTT1' name='validateTT1' style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
                                 <select id='list_json_desc' class='form-control hidden'>
                                     <?php foreach ($list_of_elements as $elements): ?>
                                         <option value='<?php echo $elements['element_desc']; ?>'><?php echo $elements['json_element']; ?></option>
@@ -292,6 +292,7 @@
                     } else {
                         $('#validateT' + thisValue).attr('hidden', false);
                         $('#validateF' + thisValue).attr('hidden', 'hidden');
+                        $('.addElement').attr('disabled', false);
                     }
                     
                 } else {

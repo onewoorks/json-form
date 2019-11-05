@@ -644,15 +644,6 @@ class Document_Template_Model {
     }
 
     //23JULAI
-//    public function GetSecDesc(){
-//        $sql = " SELECT section_desc FROM ref_document_section ";
-//        $this->db->connect();
-//        $this->db->prepare($sql);
-//        $this->db->queryexecute();
-//        $result = $this->db->fetchOut('array');
-//        return $result;
-//    }
-    //23JULAI
     public function GetAllElementDesc() {
         $sql = " SELECT element_code, element_desc, json_element, active_status FROM ref_document_element WHERE active_status='1'";
         $this->db->connect();
@@ -688,24 +679,24 @@ class Document_Template_Model {
     }
     
     //22OCT
-    public function UpdateMethodInfo($code, $title) {
-        $sql = "UPDATE ref_document_method SET doc_method_desc='" . $title . "' WHERE doc_method_code='" . (int) $code . "'";
+    public function UpdateMethodInfo($code, $title , $info) {
+        $sql = "UPDATE ref_document_method SET doc_method_desc='" . $title . "', method_info='" . $info . "' WHERE doc_method_code='" . (int) $code . "'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
         return true;
     }
     
-    public function UpdateSectionInfo($code, $title) {
-        $sql = "UPDATE ref_document_section SET section_desc='" . $title . "' WHERE section_code='" . (int) $code . "'";
+    public function UpdateSectionInfo($code, $title, $info) {
+        $sql = "UPDATE ref_document_section SET section_desc='" . $title . "', json_section='" . $info . "' WHERE section_code='" . (int) $code . "'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
         return true;
     }
     
-    public function UpdateElementInfo($code, $title) {
-        $sql = "UPDATE ref_document_element SET element_desc='" . $title . "' WHERE element_code='" . (int) $code . "'";
+    public function UpdateElementInfo($code, $title, $info) {
+        $sql = "UPDATE ref_document_element SET element_desc='" . $title . "', json_element='" . $info . "' WHERE element_code='" . (int) $code . "'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();

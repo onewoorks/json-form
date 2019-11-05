@@ -343,8 +343,9 @@ class Formview_Controller extends Common_Controller {
                 $doc_id = $_REQUEST['documentId'];
                 $val = $document->GetMethodDetail($doc_id);
                 $page = 'forms/change_method_detail';
-                $result['method'] = $val;
+                $result['methods'] = $val;
                 $result['doc_id'] = $doc_id;
+                $result['list_of_method'] = $document->GetAllmethodDesc();
                 $data = array(
                     'component' => 'Method Detail',
                     'html' => $this->RenderOutput($page, $result));
@@ -357,7 +358,8 @@ class Formview_Controller extends Common_Controller {
                 $val = $document->GetSectionsDetail($doc_id);
                 $page = 'forms/change_section_detail';
                 $result['section'] = $val;
-                $result['doc_id'] = $doc_id;
+                $result['doc_id']=$doc_id;
+                $result['list_of_sections'] = $document->GetAllSecDesc();
                 $data = array(
                     'component' => 'Section Title',
                     'html' => $this->RenderOutput($page, $result));
@@ -371,6 +373,7 @@ class Formview_Controller extends Common_Controller {
                 $page = 'forms/change_element_detail';
                 $result['element'] = $val;
                 $result['doc_id'] = $doc_id;
+                $result['list_of_elements'] = $document->GetAllElementDesc();
                 $data = array(
                     'component' => 'Element Name',
                     'html' => $this->RenderOutput($page, $result));
@@ -517,10 +520,11 @@ class Formview_Controller extends Common_Controller {
                 $values = $this->form_array($_REQUEST['values']);
                 $document = new Document_Template_Model();
                 $docId = $values['doc_id'];
-                $title = $values['selected_method'];
+                $title = $values['method_descs'];
+                $info = $values['json_method'];
                 $method_id = $document->GetMethodId($docId);
                 foreach ($method_id as $key):
-                    $document->UpdateMethodInfo($key['doc_method_code'], ucwords($title));
+                    $document->UpdateMethodInfo($key['doc_method_code'], ucwords($title) , $info);
                     echo $key['doc_method_code'] . "<br>";
                 endforeach;
                 $this->GenerateJSONFormat($docId, 'update');
@@ -530,10 +534,11 @@ class Formview_Controller extends Common_Controller {
                 $values = $this->form_array($_REQUEST['values']);
                 $document = new Document_Template_Model();
                 $docId = $values['doc_id'];
-                $title = $values['selected_section'];
+                $title = $values['section_descs'];
+                $info = $values['json_section'];
                 $section_id = $document->GetSectionsId($docId);
                 foreach ($section_id as $key):
-                    $document->UpdateSectionInfo($key['section_code'], $title);
+                    $document->UpdateSectionInfo($key['section_code'], $title , $info);
                     echo $key['section_code'] . "<br>";
                 endforeach;
                 $this->GenerateJSONFormat($docId, 'update');
@@ -543,10 +548,11 @@ class Formview_Controller extends Common_Controller {
                 $values = $this->form_array($_REQUEST['values']);
                 $document = new Document_Template_Model();
                 $docId = $values['doc_id'];
-                $title = $values['selected_element'];
+                $title = $values['element_descs'];
+                $info = $values['json_element'];
                 $element_id = $document->GetElementId($docId);
                 foreach ($element_id as $key):
-                    $document->UpdateElementInfo($key['element_code'], $title);
+                    $document->UpdateElementInfo($key['element_code'], $title, $info);
                     echo $key['element_code'] . "<br>";
                 endforeach;
                 $this->GenerateJSONFormat($docId, 'update');

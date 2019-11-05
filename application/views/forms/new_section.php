@@ -265,6 +265,7 @@
             
         $('#tableForm').on('click', '.deleteSection', function(){
               var documentId = $(this).attr('id');
+              console.log(documentId);
               $.ajax({
                   url: '<?= SITE_ROOT; ?>/formview/delete-section/',
                   data: {documentId: documentId},
@@ -319,6 +320,7 @@
                     } else {
                         $('#validateT' + thisValue).attr('hidden', false);
                         $('#validateF' + thisValue).attr('hidden', 'hidden');
+                        $('.addSection').attr('disabled', false);
                     }
                    
                 } else {

@@ -11,7 +11,7 @@
                         <div class='form-group form-group-sm'>
                             <label class='control-label col-sm-1'>Name&nbsp;<b style='color: red'>*</b></label>
                             <div class='col-sm-4'>
-                                <input type='text' data-no = '1' name='method_desc1' id='method_desc1' class='form-control' onkeyup="this.value = this.value.toLocaleLowerCase();" autocomplete="off" required/>
+                                <input type='text' data-no = '1' name='method_desc1' id='method_desc1' class='form-control text-capitalize' onkeyup="this.value = this.value.toLocaleLowerCase();" autocomplete="off" required/>
                                 <span id='validateF1' name='validateF1' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
                                 <span id='validateT1' name='validateT1' style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
                                 <select id='list_method_desc' class='form-control hidden'>
@@ -34,7 +34,7 @@
                             </div>
 
                             <div class='col-sm-1 sectionAction' data-sectionno='1'>
-<!--                                <div class='btn btn-default btn-sm renameSection1' data-sectionno='1' style='padding:3.5px' title="Rename INFO"><i class='glyphicon glyphicon-pencil'></i></div>-->
+                                <div class='btn btn-default btn-sm renameSection1' data-sectionno='1' style='padding:3.5px' title="Rename INFO"><i class='glyphicon glyphicon-pencil'></i></div>
                                 <div class='btn btn-default btn-sm plusSection' data-sectionno='1' style='padding:3.5px'><i class='glyphicon glyphicon-plus'></i></div>
                             </div>
                         </div>
@@ -204,7 +204,7 @@
             $method += '<div class="form-group form-group-sm">';
             $method += '<label class="control-label col-sm-1">Name&nbsp;<b style="color: red">*</b></label>';
             $method += '<div class="col-sm-4">';
-            $method += '<input type="text" data-no = "' + no + '" name="method_desc' + no + '" id="method_desc' + no + '" class="form-control" onkeyup="this.value = this.value.toLocaleLowerCase();" autocomplete="off" required/>';
+            $method += '<input type="text" data-no = "' + no + '" name="method_desc' + no + '" id="method_desc' + no + '" class="form-control text-capitalize" onkeyup="this.value = this.value.toLocaleLowerCase();" autocomplete="off" required/>';
             $method += '<span id="validateF' + no + '" name="validateF' + no + '" style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>';
             $method += '<span id="validateT' + no + '" name="validateT' + no + '" style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>';
             $method += '<select id="list_method_desc" class="form-control hidden">' + optionS + '</select>';
@@ -300,6 +300,7 @@
                     } else {
                         $('#validateT' + thisValue).attr('hidden', false);
                         $('#validateF' + thisValue).attr('hidden', 'hidden');
+                         $('.addMethod').attr('disabled', false);
                     }
                    
                 } else {
