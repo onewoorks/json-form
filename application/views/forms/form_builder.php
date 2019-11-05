@@ -161,9 +161,25 @@
     </div>
 
     <div class="col-sm-12 pull-right" style="margin-right:-30px">
+        <div class="btn btn-default pull-right viewForm" disabled><a href="<?php echo SITE_ROOT; ?> "style="color:#333333;" target="_blank">View Form</a></div>
+        <div class="btn btn-default pull-right genForm" disabled><a href='<?php echo SITE_ROOT; ?>/formview/generate-json-format' style="color:#333333;" target="_blank">Generate</a></div>
         <div class="btn btn-default pull-right addForm" disabled>Save Form</div>
+       
     </div>
 </div>
+
+<div id="view" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!--Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                   
+                </div>
+                <div class="modal-body"></div>
+            </div>
+        </div>
+    </div>
 
 <script>
     $(function () {
@@ -448,6 +464,26 @@
             }
         });
 
+        $('.addForm').attr('disabled', 'disabled');
+        $('.plusElement').attr('disabled', 'disabled');
+        $('.elementDel').attr('disabled', 'disabled');
+
+    });
+</script>
+<script>
+    $(".genForm").click(function () {
+
+        $('.viewForm').attr('disabled', false);
+        $('.addForm').attr('disabled', 'disabled');
+        $('.plusElement').attr('disabled', 'disabled');
+        $('.elementDel').attr('disabled', 'disabled');
+
+    });
+</script>
+<script>
+    $(".viewForm").click(function () {
+
+        $('.genForm').attr('disabled', 'disabled');
         $('.addForm').attr('disabled', 'disabled');
         $('.plusElement').attr('disabled', 'disabled');
         $('.elementDel').attr('disabled', 'disabled');

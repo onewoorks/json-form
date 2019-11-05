@@ -40,7 +40,6 @@
             <nav class="navbar navbar-default navbar-fixed-top">
                 <div class="container-fluid">
                     <ul class="nav navbar-nav">
-                        <!--<a class="navbar-brand" href="<?php echo SITE_ASSET; ?>/assets/favicon-JSON.ico"><img src="<?php echo SITE_ASSET; ?>/assets/favicon-JSON.ico" width="30" height="30" alt=""></a>-->
                         <li><a href="<?php echo SITE_ROOT; ?>">List Of Documents</a></li>
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="<?php echo SITE_ROOT; ?>/formview/new-form">Create New Form

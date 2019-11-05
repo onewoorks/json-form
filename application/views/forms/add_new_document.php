@@ -19,16 +19,16 @@
             </div>
 
             <div class='form-group form-group-sm'>
-                <label class='control-label col-sm-2'>Element Level</label>
+                <label class='control-label col-sm-2'>Element Level<b style='color: red'>*</b></label>
                 <div class='col-sm-8'>
-                    <input type='number' name='element_level' class='form-control' style="width:8%" autocomplete="off"/>
+                    <input type='number' name='element_level' class='form-control' style="width:8%" autocomplete="off" required/>
                 </div>
             </div>
 
             <div class="form-group form-group-sm">
-                <label class="control-label col-sm-2">Element Group</label>
+                <label class="control-label col-sm-2">Element Group<b style='color: red'>*</b></label>
                 <div class="col-sm-8">
-                    <select name="element_group" class="form-control">
+                    <select name="element_group" class="form-control" required="">
                         <?php foreach ($elements as $element): ?>
                             <option value='<?php echo $element['element_code']; ?>'><?php echo $element['element_desc']; ?></option>
                         <?php endforeach; ?>
@@ -40,7 +40,7 @@
                 <label class="control-label col-sm-2">Position</label>
                 <div class="col-sm-8">
                     <label class="radio-inline">
-                        <input name="position" type="radio" value="L"> Left
+                        <input name="position" type="radio" value="L" checked> Left
                     </label>
                     <label class="radio-inline">
                         <input name="position" type="radio" value="R"> Right
@@ -131,6 +131,7 @@
                 }
             });
         });
+         $('.genForm').attr('disabled', false);
     });
 
 </script>

@@ -13,7 +13,7 @@
                             <div class="col-sm-8">
                                 <div>          
                                     <label class="radio-inline">
-                                        <input type="radio" name='input_type'  value="FREETEXT" > Freetext
+                                        <input type="radio" name='input_type'  value="FREETEXT" checked> Freetext
                                     </label>
                                     <label class="radio-inline">
                                         <input type="radio" name='input_type'  value="RICHTEXT" > Richtext
