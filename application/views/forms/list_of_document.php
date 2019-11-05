@@ -195,9 +195,10 @@
                     $('#myModal').modal('hide');
                 }
             });
-            setTimeout(function () {
-                return false;
-            }, 1200);
+            setTimeout(
+                    function () {
+                        window.location.reload(true);
+                    }, 1200);
         });
 
         $('.cancel').click(function () {
