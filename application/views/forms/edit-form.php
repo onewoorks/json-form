@@ -25,6 +25,7 @@
                     <div class="form-inline">
                         <label class='control-label text-uppercase' style='padding: 15px;font-size: 15px'><b><a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $template_id; ?>'><?php echo $document_title; ?></a></b></label>
                         <div class="btn btn-default btn-sm editTitle" style='padding:3px' title="Rename Title"><i class='glyphicon glyphicon-pencil'></i></div>
+                        
                         <div class="btn btn-default btn-sm updateSection" style="margin-top:0px"></i>Update Section Sorting</div>
                         <div class="btn btn-default btn-sm updateElement" style="margin-top:0px"></i>Update Element Sorting</div>
                     </div>
@@ -357,8 +358,9 @@
 
             $('.editTitle').click(function () {
                 var documentId = '<?= $document_id; ?>';
+                console.log(documentId);
                 $.ajax({
-                    url: '<?= SITE_ROOT; ?>/formview/change-title/',
+                    url: '<?= SITE_ROOT; ?>/formview/change-title-new/',
                     data: {documentId: documentId},
                     success: function (data) {
                         var obj = $.parseJSON(data);

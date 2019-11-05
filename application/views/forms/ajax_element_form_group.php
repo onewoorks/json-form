@@ -66,15 +66,15 @@
             <div class='form-group form-group-sm'>
                 <label class='control-label col-sm-2'>Element Properties</label>
                 <div class='col-sm-8'>
-                    <label class='radio-inline'>
+<!--                    <label class='radio-inline'>
                         <input type='radio' name='element_properties' value='DECORATION' <?php if($values->element_properties==='DECORATION'){echo 'checked';} ?>  /> Decoration
-                    </label>
+                    </label>-->
                     <label class='radio-inline'>
                         <input type='radio' name='element_properties' value='BASIC'<?php if($values->element_properties==='BASIC'){echo 'checked';} ?>/> Basic
                     </label>
-                    <label class='radio-inline'>
+<!--                    <label class='radio-inline'>
                         <input type='radio' name='element_properties' value='SUBSECTION'<?php if($values->element_properties==='SUBSECTION'){echo 'checked';} ?>/> Subsection
-                    </label>
+                    </label>-->
                 </div>
                 <div id='formelement'></div>
             </div>   

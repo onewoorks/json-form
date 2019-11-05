@@ -125,6 +125,7 @@ class Formview_Controller extends Common_Controller {
                 $result['json_elements'] = $cleanSorting;
                 $result['document_id'] = $documentTemplate['doc_name_id'];
                 $result['template_id'] = $documentTemplate['template_id'];
+                $result['list_of_titles'] = $documentData->GetAllTitle();
                 break;
             case 'sql-raw-data':
                 $page = 'forms/sql_raw_data';
@@ -321,6 +322,32 @@ class Formview_Controller extends Common_Controller {
                     'component' => 'Change Layout',
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
+                break;
+            case 'change-title-new':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $doc_id = $_REQUEST['documentId'];
+                $val = $document->GetTitleDetail($doc_id);
+                $page = 'forms/change_document_title_new';
+                $result['title'] = $val;
+                $result['doc_id'] = $doc_id;
+                $data = array(
+                    'component' => 'Document Title',
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
+            case 'edit-title-new':
+                $ajax = true;
+                $values = $this->form_array($_REQUEST['values']);
+                $document = new Document_Template_Model();
+                $docId = $values['doc_id'];
+                $title = $values['selected_title'];
+                $title_id = $document->GetTitleId($docId);
+                foreach ($title_id as $key):
+                    $document->UpdateDocTitle($key['doc_name_id'], $title);
+                    echo $key['doc_name_id'] . "<br>";
+                endforeach;
+                $this->GenerateJSONFormat($docId, 'update');
                 break;
             case 'change-title':
                 $ajax = true;
