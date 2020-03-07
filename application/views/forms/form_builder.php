@@ -1,5 +1,4 @@
 <?php echo $header; ?>
-
 <div id="formCreator">
     <div class="col-md-12" style="margin-left:30px">
         <div class="panel panel-default">
@@ -12,22 +11,23 @@
                                 <tr>
                                     <td><b>Discipline</b></td>
                                     <td>
-                                        <select name='discipline' id='discipline' class='form-control col-md-10'>
+                                        <select name='discipline' id='discipline' class='form-control col-md-10' style="background-color:#ffff33">
                                             <option value='0' selected="selected">Please Select Discipline</option>
                                             <?php foreach ($main_discipline as $discipline): ?>
                                                 <option value='<?php echo $discipline['code']; ?>'><?php echo $discipline['label']; ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </td>
-                                    <td><b>Document Group</b></td>
-                                    <td><select name='doc_group' id='doc_group' class='form-control'>
+                                     <td class='pull-left' style='margin-left: -25px'><b style='color: red'>*</b></td>
+                                    <td class="hidden"><b>Document Group</b></td>
+                                    <td><select name='doc_group' id='doc_group' class='form-control hidden'>
                                             <option value='0' selected="selected">Please Select Document Group</option>
                                             <?php foreach ($doc_group as $doc): ?>
                                                 <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
                                             <?php endforeach; ?>
                                         </select></td>
                                 </tr>
-                                <tr>
+                                <tr class="hidden">
                                     <td><b>Sub Discipline</b></td>
                                     <td><select name='general_discipline' id='general_discipline' class='form-control'>
                                             <?php if (!$preset_select): ?>
@@ -56,7 +56,7 @@
                                 <tr>
                                     <td><b>Document Title</b></td>
                                     <td>
-                                        <input name="doc_name_desc" id="doc_name_desc" type="text" class="form-control docList text-uppercase" list="docList" autocomplete="off" required/>
+                                        <input name="doc_name_desc" id="doc_name_desc" type="text" style="background-color:#ffff33" class="form-control docList text-uppercase" list="docList" autocomplete="off" required/>
                                         <datalist id="docList">
                                             <?php foreach ($list_of_documents as $document): ?>
                                                 <option class="form-control text-uppercase" value="<?php echo $document['doc_name_desc']; ?>" data-id="<?php echo $document['doc_name_id']; ?>"><?php echo $document['doc_name_desc']; ?></option>
@@ -271,29 +271,7 @@
 //        $("#json").hide();
         var option = $('#section_desc_list').html();
         var option2 = $('#element_desc_list').html();
-//        //DISPLAY JSON
-//        $(".addTitle").click(function () {
-//            $("#json").toggle();
-//            var doc_name_desc = $('#doc_name_desc').val();
-//            var input = $('#docList [value="' + doc_name_desc + '"]').data('id');
-//            console.log('doc_name_id', input);
-//            var discipline = $('#discipline :selected').text();
-//            var gen_discipline = $('#general_discipline :selected').text();
-//            var doc_group = $('#doc_group :selected').text();
-//            var doc_type = $('#doc_type :selected').text();
-//            console.log(discipline, gen_discipline, doc_group, doc_type);
-//            var $html = '<div class="col-xs-2">Discipline </div>';
-//            $html += '<div class="col-xs-10">: <strong>' + discipline + '</strong></div>';
-//            $html += '<div class="col-xs-2">Sub Discipline </div>';
-//            $html += '<div class="col-xs-10">: <strong>' + gen_discipline + '</strong></div>';
-//            $html += '<div class="col-xs-2">Document Group </div>';
-//            $html += '<div class="col-xs-10">: <strong>' + doc_group + '</strong></div>';
-//            $html += '<div class="col-xs-2">Document Type </div>';
-//            $html += '<div class="col-xs-10">: <strong>' + doc_type + '</strong></div>';
-//            $html += '<div class="col-xs-2">Document Title </div>';
-//            $html += '<div class="col-xs-10">: <strong>' + doc_name_desc + '</strong></div>';
-//            $($html).appendTo('.jsonTitle');
-//        });
+        
         //PLUS SECTION
         $('#sectionGroup').on('click', '.plusSection', function () {
             var $section = '<div class="sectionMain' + count + '">';
@@ -316,11 +294,6 @@
             var dropid = $(this).data('sectionno');
             $('.sectionMain' + dropid).remove();
         });
-        //DELETE SECTION (PANEL ELEMENT)
-//        $('#displaySection').on('click', '.delSection', function () {
-//            var delid = $(this).data('secid');
-//            $('#section_panel' + delid).remove();
-//        });
         //REMOVE ELEMENT TEXTFIELD
         $('#displaySection').on('click', '.elementDel', function () {
             var cari = $(this).closest('[class^="elementListing"]').first().attr("data", 'delete');
@@ -329,13 +302,13 @@
         //ADD SECTION
         $('#addSection').click(function () {
             var input = $('#sectionBuilder').serializeArray();
-            console.log('input', input);
+          //  console.log('input', input);
             var $sectionPanel = '';
             $(input).each(function (key, value) {
-                console.log('key', key);
-                console.log('value', value);
+//                console.log('key', key);
+//                console.log('value', value);
                 var no = key + 1;
-                console.log('no', no);
+//                console.log('no', no);
                 x = 1;
                 var section_desc = input[key].value;
                 var section_code = $('#secList [value="' + section_desc + '"]').data('code');
@@ -388,7 +361,7 @@
         //PLUS ELEMENT
         $('#displaySection').on('click', '.plusElement', function () {
             var no = $(this).data('target');
-            console.log('plusElement No', no);
+//            console.log('plusElement No', no);
 
             var section_desc = $(this).closest('[class^=elementDetail]').attr('data-section');
             var section_code = $('#secList [value="' + section_desc + '"]').data('code');
@@ -420,15 +393,15 @@
         $('#displaySection').on('click', '.addDetail', function () {
             var doc_name_desc = $('#doc_name_desc').val();
             var docId = $('#docList [value="' + doc_name_desc + '"]').data('id');
-            console.log('Display doc_name_id', docId);
+//            console.log('Display doc_name_id', docId);
             var data = $(this).attr('data-sectionno');
-            console.log('data', data);
+//            console.log('data', data);
             var div = $(this).closest('div[class^="col-sm-6"]').find('input[id^="elementName' + data + '"]').val();
-            console.log('div', div);
+//            console.log('div', div);
             var elemCode = $('#elemList [value="' + div + '"]').data('id');
-            console.log('elemCode', elemCode);
+//            console.log('elemCode', elemCode);
             var sectCode = $(this).attr('data-sectionCode');
-            console.log('sectCode', sectCode);
+//            console.log('sectCode', sectCode);
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/new-doc-element/',
                 data: {div: div, docId: docId, elemCode: elemCode, sectCode: sectCode},
@@ -448,7 +421,7 @@
     $(".addForm").click(function () {
 
         $('.addDetail').attr('disabled', false);
-
+        
         $.ajax({
             url: '<?= SITE_ROOT; ?>/formview/update-new-form/',
             type: 'POST',
@@ -470,7 +443,7 @@
 
     });
 </script>
-<script>
+<!--<script>
     $(".genForm").click(function () {
 
         $('.viewForm').attr('disabled', false);
@@ -489,6 +462,6 @@
         $('.elementDel').attr('disabled', 'disabled');
 
     });
-</script>
+</script>-->
 
 <?php echo $footer; ?>

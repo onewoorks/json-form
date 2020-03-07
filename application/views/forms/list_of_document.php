@@ -1,26 +1,30 @@
 <?php echo $header; ?>
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>        
 
 <div id='listOfDocument' >
     <form id='documentFilter' class='form-horizontal col-md-offset-2 col-md-offset-2'>
         <div class='form-group form-group-sm'>
             <div class="col-md-12">
                 <div class='row'>
-                    <div class='form-inline'>
+                    <div class='form form-inline'>
                         <label class="control-label col-md-2">Discipline</label>
-                        <select name='discipline' id='discipline'  class='form-control col-md-8' style="width:20%">
-                            <option value='0' selected="selected">Please Select Discipline</option>
+                        <select name='discipline' id='discipline'  class='form-control col-md-8 required' style="width:20%; background-color:#ffff33"> 
+                            <option value='0' selected="selected" >Please Select Discipline</option>
                             <?php foreach ($main_discipline as $discipline): ?>
                                 <option value='<?php echo $discipline['code']; ?>'><?php echo $discipline['label']; ?></option>
                             <?php endforeach; ?>
                         </select>
-                        <label class="control-label col-md-2">Document Group</label>
-                        <select name='doc_group' class='form-control col-md-8' style="width:20%">
+<!--                        &nbsp;<span style='color: red'>*</span>-->
+                        <label class="control-label col-sm-2" >Document Group</label>
+                        <select name='doc_group' class='form-control col-md-8' style="width:20% ; background-color:#ffff33">
                             <option value='0' selected="selected">Please Select Document Group</option>
                             <?php foreach ($doc_group as $doc): ?>
                                 <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
                             <?php endforeach; ?>
                         </select>
-                    </div>    
+
+                    </div>
                 </div>
             </div>
 
@@ -28,9 +32,9 @@
 
             <div class="col-md-12">
                 <div class='row'>
-                    <div class='form-inline'>
+                    <div class='form form-inline'  >
                         <label class="control-label col-md-2">Sub Discipline</label>
-                        <select name='general_discipline' class='form-control col-md-8' style="width:20%">
+                        <select name='general_discipline' class='form-control col-md-8' style="width:20%; background-color:#ffff33">
                             <?php if (!$preset_select): ?>
                                 <option value='0'>Please Select Discipline</option>
                             <?php else: ?>
@@ -40,8 +44,9 @@
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </select>
-                        <label class="control-label col-md-2">Document Type</label>
-                        <select name='doc_type' class='form-control col-md-8' style="width:20%">
+
+                        <label class="control-label col-sm-2" >Document Type</label>
+                        <select name='doc_type' class='form-control col-md-8' style="width:20%; background-color:#ffff33">
                             <?php if (!$preset_select): ?>
                                 <option value='0' selected="selected">Please Select Document Group</option>
                             <?php else: ?>
@@ -53,73 +58,109 @@
                                 <?php endif; ?>
                             <?php endif; ?>
                         </select>
+<!--                        &nbsp;<span style='color: red'>*</span>-->
                     </div>    
                 </div>
             </div>
+            <br><br>
+            <div class="col-md-12">
+                <div class='row'>
+                    <div class='form-inline'>
+                        <label class="control-label col-md-2">Document Title</label>
+                        <input type="text" name="doc_name_desc" id='doc_name_desc1'  data-no ='1' class="form-control text-uppercase" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" style="width:56.58%; background-color:#ffff33"/>
+<!--                        &nbsp;<b style='color: red'>*</b>-->
+                        <br>
+                        <span id='validateF1' style="margin-left:177px;font-size:10px;color:red;text-align:left" hidden>Record Found</span>
+                        <span id='validateT1'  style="margin-left:177px;font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
+                        <select id='list_doc_desc' class='form-control hidden'>
+                            <?php foreach ($list_of_titles as $titles): ?>
+                                <option value='<?php echo $titles['doc_name_desc']; ?>'><?php echo $titles['doc_name_desc']; ?></option>
+                            <?php endforeach; ?>
+                        </select>  
+                    </div>
+                </div>    
+            </div>
         </div>
+
+        <div class='col-sm-10 text-right' style='margin-left:-85px'>
+            <div class='btn btn-primary btn-sm addForm' disabled="disabled">Add Form</div>
+        </div>
+        <br>
     </form>
 
     <br>
 
-    <div class='container-fluid'>
+    <!--    <div class='container-fluid'>-->
+    <div class='container-fluid col-md-12' style='margin-left: 45px;'>
         <div class='row'>
-            <div class="col-md-offset-1 col-md-offset-1">
-                <div class='panel panel-primary'>
-                    <div class='panel-heading'>
-                        <!--            <div class="btn-group pull-right">
-                                        <a href="#" class="btn btn-default btn-xs syncButton"><i class='glyphicon glyphicon-refresh'></i> Synchronize</a>
-                                    </div>-->
-                        List of Template Documents</div>
-                    <div class='panel-body'>
-                        <div class="form-inline">
-                            <div class ='pull-left' style=" font-size: smaller; padding-bottom: 3px;"><b>Total Document = <?= count($list_of_documents); ?></b></div>
-                            <input type="text" class="pull-right col-sm-2 text-uppercase" style="font-size:12px;padding:5px 10px;height:25px;line-height: 1.5;border:1px solid #cccccc;border-radius:4px" id="search" placeholder="Search" hidden/>
-                        </div>
-                        <br><br>  
-                        <div class='clearfix'></div>
-
-                        <table id="listDoc" class='table table-bordered table-condensed'>
-                            <thead>
-                                <tr>
-                                    <th style=" font-size: smaller;">No</th>
-                                    <th style=" font-size: smaller;">Discipline</th>
-                                    <th style=" font-size: smaller;">Sub Discipline</th>
-                                    <th style=" font-size: smaller;">Document Group</th>
-                                    <th style=" font-size: smaller;">Document Type</th>
-                                    <th style=" font-size: smaller;">Document Title</th>
-                                    <th style=" font-size: smaller;">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if (!$list_of_documents): ?>
-                                    <tr>
-                                        <td colspan="7"><i style="font-size: 11px;">No Record Found</i></td>
-                                    </tr>
-                                <?php endif; ?>
-                                <?php $no = 1;
-                                foreach ($list_of_documents as $document): ?>
-                                    <tr>
-                                        <td  style=" font-size: smaller; text-align: center;"><?php echo $no;
-                                    $no++; ?></td>
-                                        <td  style=" font-size: smaller;"><?php echo $document['main_discipline_name']; ?></td>
-                                        <td  style=" font-size: smaller;"><?php echo $document['discipline_name']; ?></td>
-                                        <td  style=" font-size: smaller;"><?php echo $document['doc_group_desc']; ?></td>
-                                        <td  style=" font-size: smaller;"><?php echo $document['dc_type_desc']; ?></td>
-                                        <td class='text-uppercase'  style=" font-size: smaller;"><a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $document['template_id']; ?>'><?php echo $document['doc_name_desc']; ?></a></td>
-                                        <td class='text-center'>
-                                            <div class='btn-group btn-group-xs'>
-                                                <a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $document['template_id']; ?>' class='btn btn-default' target="_blank">VIEW</a>
-                                                <a href='<?php echo SITE_ROOT; ?>/formview/edit-form/<?php echo $document['template_id']; ?>' class='btn btn-default' target="_blank">UPDATE</a>
-                                                <div data-docid="<?php echo $document['doc_name_id']; ?>" data-tempid="<?php echo $document['template_id']; ?>" data-tempdesc="<?php echo $document['doc_name_desc']; ?>" class='btn btn-default cloneForm'>CLONE</div>                                    
-                                            </div>
-                                        </td>
-                                    </tr>
-<?php endforeach; ?>
-                            </tbody>
-                        </table>
+            <div class='panel panel-primary'>
+                <div class='panel-heading'>
+                    List of Template Documents</div>
+                <div class='panel-body'>
+                    <div class="form-inline">
+                        <div class ='pull-left' style=" font-size: smaller; padding-bottom: 3px;"><b>Total Document = <?= count($list_of_documents); ?></b></div>
+                        <input type="text" class="pull-right col-sm-2 text-uppercase" style="font-size:12px;padding:5px 10px;height:25px;line-height: 1.5;border:1px solid #cccccc;border-radius:4px" id="search" placeholder="Search" hidden/>
                     </div>
+                    <br><br>  
+                    <div class='clearfix'></div>
+
+                    <table id="listDoc" class='table table-bordered table-condensed'>
+                        <thead>
+                            <tr>
+                                <th style=" font-size: smaller;">No</th>
+                                <th style=" font-size: smaller;">Discipline</th>
+                                <th style=" font-size: smaller;">Sub Discipline</th>
+                                <th style=" font-size: smaller;">Document Group</th>
+                                <th style=" font-size: smaller;">Document Type</th>
+                                <th style=" font-size: smaller;">Document Title</th>
+                                <th style=" font-size: smaller;">Status</th>
+                                <th style=" font-size: smaller;">Trigger by Diagnosis</th>
+                                <th style=" font-size: smaller;">Trigger by Procedure</th>
+                                <th style=" font-size: smaller;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (!$list_of_documents): ?>
+                                <tr>
+                                    <td colspan="12"><i style="font-size: 11px;">No Record Found</i></td>
+                                </tr>
+                            <?php endif; ?>
+                            <?php
+                            $no = 1;
+                            foreach ($list_of_documents as $document):
+                                ?>
+                                <tr>
+                                    <td  style=" font-size: smaller; text-align: center;"><?php
+                                        echo $no;
+                                        $no++;
+                                        ?></td>
+                                    <td  style=" font-size: smaller;"><?php echo $document['main_discipline_name']; ?></td>
+                                    <td  style=" font-size: smaller;"><?php echo $document['discipline_name']; ?></td>
+                                    <td  style=" font-size: smaller;"><?php echo $document['doc_group_desc']; ?></td>
+                                    <td  style=" font-size: smaller;"><?php echo $document['dc_type_desc']; ?></td>
+                                    <td class='text-uppercase'  style=" font-size: smaller;"><a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $document['template_id']; ?>'><?php echo $document['doc_name_desc']; ?></a></td>
+                                    <td class='text-uppercase'  style=" font-size: smaller;">
+                                        <?php if ($document['available']) : ?>
+                                            <input type="checkbox" data-toggle="toggle"  name="opt1" class="docStatus" id="<?php echo $document['template_id']; ?>"  data-size="mini" data-onstyle="success" data-offstyle="danger" checked="checked">
+                                        <?php else : ?>
+                                            <input type="checkbox" data-toggle="toggle"  name="opt2" class="docStatus" id="<?php echo $document['template_id']; ?>"  data-size="mini" data-onstyle="success" data-offstyle="danger" >
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class='text-uppercase'  style=" font-size: smaller;"><a>settings</a></td>
+                                    <td class='text-uppercase'  style=" font-size: smaller;"><a>settings</a></td>
+                                    <td class='text-center'>
+                                        <div class='btn-group btn-group-xs'>    
+                                            <a href='<?php echo SITE_ROOT; ?>/formview/edit-form-new/<?php echo $document['template_id']; ?>' class='btn btn-default' >EDIT</a>
+                                            <div data-docid="<?php echo $document['doc_name_id']; ?>" data-tempid="<?php echo $document['template_id']; ?>" data-tempdesc="<?php echo $document['doc_name_desc']; ?>" class='btn btn-default cloneForm'>CLONE</div>                                    
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+            <!--            </div>-->
         </div>
     </div>
 </div>
@@ -137,16 +178,25 @@
                         </h4>
                     </div>
                     <div class="modal-body">
-                        <div style="padding-bottom:5px"class="form-inline">
+                        <div style="padding-bottom:5px" class="form-inline">
                             <label style="padding-left:29px;padding-right:27px" class="control-label">Change Title</label>
-                            <input class="form-control text-uppercase" onkeyup="this.value = this.value.toUpperCase();" style="height:25px;width:600px"type="text" id="doc_name_desc" name="doc_name_desc" autocomplete="off"/>
+                            <input id="doc_name1" name="doc_name" data-no="1" class="form-control text-uppercase" onkeyup="this.value = this.value.toUpperCase();" style="height:25px;width:600px;background-color:#ffff33" type="text"  autocomplete="off"/>
+                            &nbsp;<b style='color: red'>*</b>
+                            <br>
+                            <span id='validateFF1' style="margin-left:132px;font-size:10px;color:red;text-align:left" hidden>Record Found</span>
+                            <span id='validateTT1' style="margin-left:132px;font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
+                            <select id='list_doc' class='form-control hidden'>
+                                <?php foreach ($list_of_titles as $titles): ?>
+                                    <option value='<?php echo $titles['doc_name_desc']; ?>'><?php echo $titles['doc_name_desc']; ?></option>
+                                <?php endforeach; ?>
+                            </select> 
                         </div>
 
                     </div>
                     <div class="modal-footer">
-                        <div class='btn btn-primary btn-md edit' onclick="$('.save').submit();">Edit</div>
-                        <div class='btn btn-success btn-md save'>Save</div>
-                        <div class='btn btn-danger btn-md cancel'>Cancel</div>
+                        <!--                        <div class='btn btn-primary btn-md edit' onclick="$('.save').submit();">Edit</div>-->
+                        <div class='btn btn-success btn-md save' disabled="disabled" >Save</div>
+                        <div class='btn btn-danger btn-md' data-dismiss="modal">Cancel</div>
                     </div>
                 </div>
             </div>
@@ -180,7 +230,7 @@
         });
 
         $('.save').click(function () {
-            var docDesc = $('#doc_name_desc').val();
+            var docDesc = $('#doc_name1').val();
             console.log(docDesc);
 
             $.ajax({
@@ -255,7 +305,7 @@
             $.ajax({
                 url: '<?php echo SITE_ROOT; ?>/main/sync/',
                 success: function (data) {
-                    console.log(data);
+//                    console.log(data);
                 }
             });
         });
@@ -274,17 +324,43 @@
             e.preventDefault();
             var values = $(this).serializeArray();
             $.ajax({
-                url: '<?php echo SITE_ROOT; ?>/main/search-by-filter/',
+                url: '<?php echo SITE_ROOT; ?>/main/create-filter/',
                 data: {documentValues: values},
                 success: function (data) {
+//                    console.log("data", data);
                     $('#listOfDocument').html(data);
                 }
             });
-
         });
+
+        //ADDFORMBUTTON
+        $('.addForm').click(function () {
+            var values = $('#documentFilter').serializeArray();
+            var dis = $("#discipline").val();
+            var subDis = $("#general_discipline").val();
+            var docGroup = $("#doc_group").val();
+            var docType = $("#doc_type").val();
+            var docName = $("#doc_name_desc").val();
+            console.log(values);
+            $.ajax({
+                url: '<?= SITE_ROOT; ?>/formview/add-title/',
+                data: {values: values, dis: dis, subDis: subDis, docGroup: docGroup, docType: docType, docName: docName},
+//                success: function (data) {
+//                    swal({
+//                        title: "Title Created!",
+//                        text: "Data successfully inserted into database",
+//                        type: "success"
+//                    });
+//                }
+            });
+            setTimeout(
+                    function () {
+                        window.location.reload(true);
+                    }, 1000);
+        });
+
     });
 </script>
-
 <script>
     $(document).ready(function () {
 
@@ -304,15 +380,120 @@
         });
 
     });
-    
+
     $(document).ready(function () {
         var selected = $('#discipline').val();
         if (selected !== '0') {
             $('#search').removeAttr('hidden');
-        }
-        else {
+        } else {
             $('#search').addClass('hidden');
         }
     });
 </script>
+<script>
+    //add new form
+    $(document).ready(function () {
+
+        var selText;
+        var array = [];
+
+        var thisValue;
+
+        $("#list_doc_desc option").each(function () {
+            var $this = $(this);
+            selText = $this.text();
+            array.push(selText);
+        });
+
+        $(document).on('focus', 'input', function () {
+            thisValue = $(this).attr('data-no');
+
+            $('#doc_name_desc' + thisValue).keyup(function () {
+                var str = $(this).val();
+                console.log("string", str);
+
+                if (str !== "") {
+                    if (array.indexOf(str) > -1) {
+                        $('#validateT' + thisValue).attr('hidden', 'hidden');
+                        $('#validateF' + thisValue).attr('hidden', false);
+                        $('.addForm').attr('disabled', true);
+                    } else {
+                        $('#validateT' + thisValue).attr('hidden', false);
+                        $('#validateF' + thisValue).attr('hidden', 'hidden');
+                        $('.addForm').attr('disabled', false);
+                    }
+                    $('.addForm').attr('disabled', false);
+                } else {
+                    $('#validateT' + thisValue).attr('hidden', 'hidden');
+                    $('#validateF' + thisValue).attr('hidden', 'hidden');
+                    $('.addForm').attr('disabled', 'disabled');
+                }
+
+            });
+        });//endOfFocus
+    });//endOfDocument
+</script>   
+<script>
+    $(document).ready(function () {
+        //clone form
+        var selText;
+        var array = [];
+
+        var thisValue;
+
+        $("#list_doc option").each(function () {
+            var $this = $(this);
+            selText = $this.text();
+            array.push(selText);
+        });
+
+        $(document).on('focus', 'input', function () {
+            thisValue = $(this).attr('data-no');
+
+            $('#doc_name' + thisValue).keyup(function () {
+                var str = $(this).val();
+
+                if (str !== "") {
+                    if (array.indexOf(str) > -1) {
+                        $('#validateTT' + thisValue).attr('hidden', 'hidden');
+                        $('#validateFF' + thisValue).attr('hidden', false);
+                        $('.save').attr('disabled', true);
+                    } else {
+                        $('#validateTT' + thisValue).attr('hidden', false);
+                        $('#validateFF' + thisValue).attr('hidden', 'hidden');
+                        $('.save').attr('disabled', false);
+                    }
+                    //  $('.addForm').attr('disabled', false);
+                } else {
+                    $('#validateTT' + thisValue).attr('hidden', 'hidden');
+                    $('#validateFF' + thisValue).attr('hidden', 'hidden');
+                    $('.save').attr('disabled', true);
+                }
+                return false;
+            });
+        });//endOfFocus
+    });//endOfDocument
+</script>   
+<script>
+    $(document).ready(function (e) {
+        $('.docStatus').change(function () {
+            var templateId = $(this).attr('id');
+            var val;
+            if ($('.docStatus').prop('checked'))
+            {
+                val = '1';
+            } else
+            {
+                val = '0';
+            }
+            $.ajax({
+                type: "POST",
+                url: '<?= SITE_ROOT; ?>/formview/change-status/',
+                data: {templateId: templateId, value: val}
+            });
+        });//end change
+        return false;
+    });//end ready
+</script>
+
 <?php echo $footer; ?>

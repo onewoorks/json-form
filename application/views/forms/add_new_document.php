@@ -3,9 +3,9 @@
     <div class='panel panel-default'>
         <div class='panel-heading'>Properties</div>
         <div class='panel-body'>
-            <input type='hidden' name='document_id' value='<?= $doc_id; ?>' class='form-control' autocomplete="off"/>
-            <input type='hidden' name='element_code' value='<?= $elemCode; ?>' class='form-control' autocomplete="off"/>
-            <input type='hidden' name='section_code' value='<?= $sectCode; ?>' class='form-control' autocomplete="off"/>
+            <input type='hidden' name='document_id' value='<?= $doc_id; ?>' class='form-control' />
+            <input type='hidden' name='element_code' value='<?= $elemCode; ?>' class='form-control' />
+            <input type='hidden' name='section_code' value='<?= $sectCode; ?>' class='form-control' />
             <div class='form-group form-group-sm'>
                 <label class='control-label col-sm-2'>Element Description</label>
                 <div class='col-sm-8'>
@@ -15,13 +15,6 @@
                             <option value="<?php echo $element['element_desc']; ?>" data-id="<?php echo $element['element_code']; ?>"><?php echo $element['element_code']; ?></option>
                         <?php endforeach; ?>
                     </datalist>
-                </div>
-            </div>
-
-            <div class='form-group form-group-sm'>
-                <label class='control-label col-sm-2'>Element Level<b style='color: red'>*</b></label>
-                <div class='col-sm-8'>
-                    <input type='number' name='element_level' class='form-control' style="width:8%" autocomplete="off" required/>
                 </div>
             </div>
 
@@ -35,6 +28,14 @@
                     </select>
                 </div>
             </div>
+            
+            <div class='form-group form-group-sm'>
+                <label class='control-label col-sm-2'>Element Level<b style='color: red'>*</b></label>
+                <div class='col-sm-8'>
+                    <input type='number' name='element_level' class='form-control' style="width:8%" autocomplete="off" required/>
+                </div>
+            </div>
+
 
             <div class="form-group form-group-sm">
                 <label class="control-label col-sm-2">Position</label>
@@ -51,15 +52,15 @@
             <div class='form-group form-group-sm'>
                 <label class='control-label col-sm-2'>Element Properties</label>
                 <div class='col-sm-8'>
-<!--                    <label class='radio-inline'>
+                    <label class='radio-inline'>
                         <input type='radio' name='element_properties' value='DECORATION_NEW'/> Decoration
-                    </label>-->
+                    </label>
                     <label class='radio-inline'>
                         <input type='radio' name='element_properties' value='BASIC_NEW' checked="checked"/> Basic
                     </label>
-<!--                    <label class='radio-inline'>
+                    <label class='radio-inline'>
                         <input type='radio' name='element_properties' value='SUBSECTION_NEW'/> Subsection
-                    </label>-->
+                    </label>
                 </div>
                 <div id='formelement'></div>
             </div>   
@@ -82,6 +83,7 @@
         $('[name=form_element').val(formType);
         $('[name=element_properties]').on('change', function () {
             var selector = $(this).val();
+            console.log("selector",selector);
             $('#' + selector).show();
             $('[name=form_element').val(selector);
             ElementBuilder(selector);
@@ -99,8 +101,7 @@
                 $('#formelement').html(data);
             }
         });
-    }
-    ;
+    };
 
     //UPDATE_ELEMENT
     $(function () {
@@ -131,7 +132,7 @@
                 }
             });
         });
-         $('.genForm').attr('disabled', false);
+     //    $('.genForm').attr('disabled', false);
     });
 
 </script>

@@ -255,7 +255,9 @@ class Common_Controller {
                 $newArray[$key] = (object) $aa;
             endforeach;
         }else {
+            echo "<br>";
             echo "<p align='center'><b><i>- - - - - The JSON Template Is Not Ready Yet - - - - -</i></b></p>";
+            echo "<p align='center'><b><i>- - - - - - - -Create New Template - - - - - - - - - -</i></b></p>";
         }
         return $this->ObjectSorting($newArray);
     }

@@ -20,6 +20,7 @@ class Forms_Controller extends Common_Controller {
         if (!$ajax):
             $result['header'] = $this->RenderOutput('common/main',$result['link_style']);
             $result['footer'] = $this->RenderOutput('common/footer');
+            $result['config'] = $this->RenderOutput('common/header',$result['link_style']);
             $view = new View_Model('forms/index');
             $view->assign('content', $result);
         endif;

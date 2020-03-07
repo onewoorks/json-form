@@ -22,18 +22,19 @@
         <form id="notesForm">
             <div class="col-md-12">
                 <div id='maintitle' style="padding-left: 15px">
-                    <div class="form-inline">
+                    <div class="form-inline ">
                         <label class='control-label text-uppercase' style='padding: 15px;font-size: 15px'><b><a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $template_id; ?>'><?php echo $document_title; ?></a></b></label>
                         <div class="btn btn-default btn-sm editTitle" style='padding:3px' title="Rename Title"><i class='glyphicon glyphicon-pencil'></i></div>
-                        
-                        <div class="btn btn-default btn-sm updateSection" style="margin-top:0px"></i>Update Section Sorting</div>
-                        <div class="btn btn-default btn-sm updateElement" style="margin-top:0px"></i>Update Element Sorting</div>
+                        <div class="btn btn-default btn-sm addSection " style='padding: 3px' title="Add New Section" ><i class='glyphicon glyphicon-plus' style="position: inherit"></i></div>
+                       
+<!--                        <div class="btn btn-default btn-sm updateSection" style="margin-top:0px"></i>Update Section Sorting</div>
+                        <div class="btn btn-default btn-sm updateElement" style="margin-top:0px"></i>Update Element Sorting</div>-->
                     </div>
                 </div>
                 <div id="panel-group1" class="panel-group col-md-9" role="tablist">
                     <?php foreach ($json_elements as $key => $section): $sectionKod = $section->section_code; ?>
                         <div class="panel panel-default dragble" data-section='<?= $key; ?>' style="cursor:move">
-                            <div class="panel-heading" role="tab" id="collapseListGroupHeading1" style='margin-bottom:-5px'>
+                            <div class="panel-heading" role="tab" id="collapseListGroupHeading1">
                                 <div class="panel-title" style="font-size:12.5px">
                                     <input type='hidden' name="sectionList[]" data-section='<?= $key; ?>' value='<?= $section->section_code; ?>'>
                                     <?php if ($section->section_code != '0'): ?>
@@ -64,7 +65,7 @@
                                                         <label class='control-label col-md-6' style='padding-top:7px;text-align: right;color:#737373' data-elem="<?= $element->element_code; ?>" data-sectioncode='<?= $section->section_code; ?>'><?= $element->element_desc; ?></label>
                                                         <div class='btn btn-link editElement' data-elementid='<?= $element->element_code; ?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
                                                         <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code; ?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
-                                                    </div>
+                                                    </div> 
                                                 <?php endif;
                                             endforeach; ?>
 
@@ -104,28 +105,45 @@
                         </div>
                             <?php endforeach; ?>
                 </div>
+                
             </div>
-
+            
+            <div class='col-md-3' style="position: fixed; z-index: 6; right: 0; margin-left: 10px; margin-top: 50px;">
+                
+                    
+                   
+                        
+                        <div class='text-center'>
+                            <div class='btn-group btn-group-sm'>
+<!--                                <a href='#' class='btn btn-default changelayout'  >Change Layout</a>-->
+                                <input type='hidden' id='documentId' value='<?= $document_id; ?>'/>
+                                <input type='hidden' id='templateId' value='<?= $template_id; ?>'/>
+                                <a href='#' class='btn btn-xs btn-default executeAction' />Update Progress</a> 
+                            </div>
+                            <div class='btn-group btn-group-sm'>
+<!--                                <a href='#' class='btn btn-default changelayout'  >Change Layout</a>-->
+                                <input type='hidden' id='documentId' value='<?= $document_id; ?>'/>
+                                <input type='hidden' id='templateId' value='<?= $template_id; ?>'/>
+                                <a href='#' class='btn btn-xs btn-default executeAction' />Generate JSON</a> 
+                            </div>
+                        </div>
+                    
+                
+            </div>
+            <br><br>
             <div class='col-md-3' style="position: fixed; z-index: 6; right: 0; margin-left: 10px; margin-top: 50px;">
                 <div class='panel panel-default'>
-                    <div class='panel-heading'><b>Notes Component</b></div>
+                    <div class='panel-heading'><b>Navigation</b></div>
                     <div class='panel-body' >
                         <ul class='list-unstyled'  style=" font-size: 12.5px;">
 <?php foreach ($json_elements as $key => $section): ?>
                                 <li><input type='checkbox' class='selectedsection' name="total" id="total" value="<?= $key; ?>" checked /> <?= $section->section_desc; ?></li>
 <?php endforeach; ?>
                         </ul>
-                        <div class='text-right'>
-                            <div class='btn-group btn-group-sm'>
-<!--                                <a href='#' class='btn btn-default changelayout'  >Change Layout</a>-->
-                                <input type='hidden' id='documentId' value='<?= $document_id; ?>'/>
-                                <input type='hidden' id='templateId' value='<?= $template_id; ?>'/>
-                                <a href='#' class='btn btn-xs btn-default executeAction' />Generate JSON</a>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
+            
         </form>
     </div><!-- end div=row -->
 
@@ -319,24 +337,6 @@
                 return false;
             });
 
-            $('.addElement').click(function () {
-                var documentId = '<?= $document_id; ?>';
-                var templateId = '<?= $template_id; ?>';
-                var sectionId = $(this).data('sectioncode');
-                console.log('ADD ELEMENT: DOCID=', documentId, '| TEMPID=', templateId, '| SECID=', sectionId);
-                $.ajax({
-                    url: '<?= SITE_ROOT; ?>/formview/add-element/',
-                    data: {documentId: documentId, templateId: templateId, sectionId: sectionId},
-                    success: function (data) {
-                        var obj = $.parseJSON(data);
-                        $('.modal-dialog').addClass('modal-lg');
-                        $('.modal-title').text(obj.component);
-                        $('.modal-body').html(obj.html);
-                    }
-                });
-                $('#myModal').modal('show');
-                return false;
-            });
             $('.editSection').click(function () {
                 var key = $(this).data('sectioncode');
                 var documentId = '<?= $document_id; ?>';
@@ -370,6 +370,25 @@
                     }
                 });
                 $('#title').modal('show');
+                return false;
+            });
+            
+            $('.addElement').click(function () {
+                var documentId = '<?= $document_id; ?>';
+                var templateId = '<?= $template_id; ?>';
+                var sectionId = $(this).data('sectioncode');
+                console.log('ADD ELEMENT: DOCID=', documentId, '| TEMPID=', templateId, '| SECID=', sectionId);
+                $.ajax({
+                    url: '<?= SITE_ROOT; ?>/formview/add-element/',
+                    data: {documentId: documentId, templateId: templateId, sectionId: sectionId},
+                    success: function (data) {
+                        var obj = $.parseJSON(data);
+                        $('.modal-dialog').addClass('modal-lg');
+                        $('.modal-title').text(obj.component);
+                        $('.modal-body').html(obj.html);
+                    }
+                });
+                $('#myModal').modal('show');
                 return false;
             });
 

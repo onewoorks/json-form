@@ -15,7 +15,7 @@
     </div>
 
     <div class="form-group form-group-sm">
-        <label class="control-label col-sm-2">Input Type</label>
+        <label class="control-label col-sm-2" style="text-align: right" >Input Type</label>
         <div class="col-sm-8">
             <?php
             $input_type = '';
@@ -86,7 +86,7 @@
                         <p class="text-box" value="1">
                         <div class="form-group form-group-sm input-list">
                             <label class="control-label col-sm-2">Predefined Value<span class="box-number">1</span></label>
-                            <div class="col-sm-5 list-padding">
+                            <div class="col-sm-4 list-padding">
                                 <div class="checkbox" style="margin-left:20px">
                                     <input type="hidden" id="show_label" name="show_label1" value="0" style="margin-top:6px"/>
                                     <input type="checkbox" id="show_label" name="show_label1" value="1" style="margin-top:6px"/>
@@ -103,7 +103,7 @@
                                 </select>
                             </div>
                             <div class="col-sm-2 predefinedActionButton" data-action="prelist1">
-                                <div class='btn btn-default btn-sm addPredefined'style="padding:3px"><i class="glyphicon glyphicon-plus"></i> Parent</div>
+                                <div class='btn btn-default btn-sm addPredefined'style="padding:3px"><i class="glyphicon glyphicon-parent"></i> Parent</div>
                                 <div class='btn btn-default btn-sm addLayer' data-layer="prelist1" style="padding:5px"><i class="fas fa-layer-group"></i></div>
                             </div>
                         </div>
@@ -155,7 +155,7 @@
             $html += '<p class="text-box" value="'+ n +'">';
             $html += '<div class="form-group form-group-sm input-list">';
             $html += '<label class="control-label col-sm-2">Predefined Value<span class="box-number">' + n + '</span></label>';
-            $html += '<div class="col-sm-5 list-padding">';
+            $html += '<div class="col-sm-4list-padding">';
             $html += '<div class="checkbox" style="margin-left:20px">';
             $html += '<input type="hidden" id="show_label" name="show_label' + n + '" value="0" style="margin-top:6px"/>';
             $html += '<input type="checkbox" id="show_label" name="show_label' + n + '" value="1" style="margin-top:6px"/>';
@@ -213,16 +213,16 @@
             var replace = div.replace('prelist', '');
             var n = $('.text-box' + replace + '').length + 1;
 
-            var $html = '<div class="text-box' + replace + '">';
+            var $html = '<div class="text-box' + replace + '" style="margin-left: 50px">';
             $html += '<input type="hidden" id="sorting_child' + replace + '" class="sorting_child' + replace + '" name="SortChild' + replace + '" />';
             $html += '<div class="' + div + '-' + n + '">';
-            $html += ' <div class="form-group form-group-sm input-list">';
+            $html += ' <div class="form-group form-group-sm input-list" >';
             $html += '<label class="control-label col-sm-3">Child<span class="box-number' + replace + '">' + n + '</span></label>';
             $html += '<div class="col-sm-4 list-padding">';
             $html += '<div class="checkbox">';
             $html += '<input type="hidden" style="margin-top:6px" name="show_label' + replace + '-' + n + '" id="show_label" value="0"/>';
             $html += '<input type="checkbox" style="margin-top:6px" name="show_label' + replace + '-' + n + '" id="show_label" value="1"/>';
-            $html += '<input class="form-control" type="text" name="multi_child_ans_desc' + replace + '-' + n + '" id="multi_child_ans_desc" list="multiList">';
+            $html += '<input class="form-control" type="text" name="multi_child_ans_desc' + replace + '-' + n + '" id="multi_child_ans_desc" list="multiList" >';
             $html += '<datalist id="multiList">'+list+'</datalist>';
             $html += '</div>';
             $html += '</div>';

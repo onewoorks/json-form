@@ -78,6 +78,7 @@ class Reference_Table_Model  { //dari class sini
         $result = $this->db->fetchOut('array');
         return ($result) ? $result : false;
     }
+    //zarith-8/3 
     public function DocumentGroup() {
         $sql = "SELECT doc_group_code as code, doc_group_desc as label "
                 . " FROM ref_document_group ";
@@ -86,7 +87,7 @@ class Reference_Table_Model  { //dari class sini
         elseif(PROJECT_PATH == 'rispac'):
         $sql .= "WHERE doc_group_code IN ('RR') ";
         else:
-        $sql .= "WHERE doc_group_code IN ('CN','RL','PS') ";
+        $sql .= "WHERE doc_group_code IN ('CN') "; 
         endif;
         $this->db->connect();
         $this->db->prepare($sql);

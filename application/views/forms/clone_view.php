@@ -10,7 +10,7 @@
                     <tr>
                         <td><b>Discipline</b></td>
                         <td>
-                        <select name='discipline' id='discipline' class='form-control col-md-10'>
+                        <select name='discipline' id='discipline' class='form-control col-md-10' style="background-color:#ffff33">
                             <option value='0' selected="selected">Please Select Discipline</option>
                             <?php foreach ($main_discipline as $discipline): ?>
                                 <option value='<?php echo $discipline['code']; ?>'><?php echo $discipline['label']; ?></option>
@@ -18,7 +18,7 @@
                         </select>
                         </td>
                         <td><b>Document Group</b></td>
-                        <td><select name='doc_group' id='doc_group' class='form-control'>
+                        <td><select name='doc_group' id='doc_group' class='form-control' style="background-color:#ffff33">
                             <option value='0' selected="selected">Please Select Document Group</option>
                             <?php foreach ($doc_group as $doc): ?>
                                 <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
@@ -27,7 +27,7 @@
                     </tr>
                     <tr>
                         <td><b>Sub Discipline</b></td>
-                        <td><select name='general_discipline' id='general_discipline' class='form-control'>
+                        <td><select name='general_discipline' id='general_discipline' class='form-control' style="background-color:#ffff33">
                            <?php if (!$preset_select): ?>
                            <option value='0'>Please Select Discipline</option>
                            <?php else: ?>
@@ -38,7 +38,7 @@
                                  <?php endif; ?>
                          </select></td>
                          <td><b>Document Type</b></td>
-                        <td><select name='doc_type' id='doc_type' class='form-control'>
+                        <td><select name='doc_type' id='doc_type' class='form-control' style="background-color:#ffff33">
                             <?php if (!$preset_select): ?>
                                 <option value='0' selected="selected">Please Select Document Group</option>
                             <?php else: ?>
@@ -55,7 +55,7 @@
                     </table>
                     <div class="col-sm-12 form-inline">
                         <label style="margin-left:262px">Document Title</label>
-                        <input style="margin-left:26px;width:48.2%" name="doc_name_desc" id="doc_name_desc" type="text" class="form-control" value=""/>
+                        <input style="margin-left:26px;width:48.2%;background-color:#ffff33" name="doc_name_desc" id="doc_name_desc" type="text" class="form-control" value=""/>
                         <input style="margin-left:26px;width:48.2%" name="doc_name_id" id="doc_name_id" type="hidden" class="form-control" value=""/>
                     </div>
                     <div class="col-sm-2 pull-right">

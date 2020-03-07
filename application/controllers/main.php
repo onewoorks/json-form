@@ -143,7 +143,8 @@ class Main_Controller extends Common_Controller {
                 $view = new View_Model($page);
                 $view->assign('content', $result);
                 break;
-            case 'search-by-filter':
+            //zarith-8/3 
+            case 'create-filter':
                 $ajax = true;
                 $document = new Document_Template_Model();
                 $values = $this->form_array($_REQUEST['documentValues']);
@@ -174,6 +175,8 @@ class Main_Controller extends Common_Controller {
                     'active_group' => $values['doc_group'],
                     'active_type' => $type
                 );
+                $result['list_of_titles'] = $document->GetAllTitle();
+               // $result['available_documents'] = $document->GetDocStatus();
                 $view = new View_Model($page);
                 $view->assign('content', $result);
                 break;
@@ -274,6 +277,7 @@ class Main_Controller extends Common_Controller {
         if (!$ajax):
             $result['header'] = $this->RenderOutput('common/main', isset($result['link_style']) ? $result['link_style'] : false );
             $result['footer'] = $this->RenderOutput('common/footer');
+            $result['config'] = $this->RenderOutput('common/header', isset($result['link_style']) ? $result['link_style'] : false);
             $view = new View_Model($page);
             $view->assign('content', $result);
         endif;

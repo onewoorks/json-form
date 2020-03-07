@@ -1,5 +1,4 @@
 <?php echo $header; ?>
-
 <div id='generateJson'>
     <form id='documentFilter' class='form-horizontal col-md-offset-2 col-md-offset-2'>
 
@@ -280,9 +279,12 @@
                     var item = {
                         doc_name_id: $(value).val()
                     };
+                     console.log("item: ", item);
                     selected.push(item);
                 });
 
+                 console.log("item: ", selected);
+                 console.log("item: ", type);   
                 $(this).text('Executing selected action...');
                 $.ajax({
                     url: '<?php echo SITE_ROOT; ?>/formbuilder/generate-json/',

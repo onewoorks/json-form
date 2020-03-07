@@ -15,7 +15,7 @@
                                     <?php foreach ($main_discipline as $discipline): ?>
                                         <option value='<?php echo $discipline['code']; ?>'><?php echo $discipline['label']; ?></option>
                                     <?php endforeach; ?>
-                                </select>
+                                </select> 
                             </td>
                             <td><b>Document Group</b>&nbsp;<b style='color: red'>*</b></td>
                             <td>

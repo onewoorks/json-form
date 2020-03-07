@@ -82,7 +82,12 @@
                                     <div class="checkbox form-inline grandchild">
                                         <input name="elementName" type="checkbox" style="margin-top:5px" checked="checked">
                                         <p style="display: inline-block;width:150px">elementName</p>
-                                        <input name="elementName" type="text"class="form-control">
+<!--                                        <input name="elementName" type="text"class="form-control">-->
+                                            <select id="section_desc_list" name="section_desc_list" class="form-control hidden">
+                                            <?php foreach ($sections as $section): ?>
+                                                <option value="<?php echo $section['section_desc']; ?>" data-code="<?php echo $section['section_code']; ?>" data-id="<?php echo $section['json_section']; ?>"><?php echo $section['section_desc']; ?></option>
+                                            <?php endforeach; ?>    
+                                        </select>
                                     </div>
                                     <div class="checkbox form-inline grandchild">
                                         <input name="isDuplicate" type="checkbox" style="margin-top:5px" checked="checked">

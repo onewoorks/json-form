@@ -64,6 +64,18 @@ class Formview_Controller extends Common_Controller {
                 $document = new Document_Template_Model();
                 $result['list_of_elements'] = $document->GetAllElementDesc();
                 break;
+            //zarith-8/3   
+            case 'build-form':
+                 $page = 'forms/build_form'; 
+                $documentId = $params[URL_ARRAY + 3];
+                $documentData = new Document_Template_Model();
+                $documentTemplate = $documentData->ReadDocumentTemplate($documentId);
+                $result['document_id'] = $documentTemplate['doc_name_id'];
+                $result['template_id'] = $documentTemplate['template_id'];
+                $result['document_title'] = $documentTemplate['doc_name_desc'];
+                $result['sections'] = $documentData->GetAllSecDesc();
+                $result['elements'] = $documentData->GetAllElementDesc();
+                break;
             //23julai    
             case 'form-builder':
                 $page = 'forms/form_builder';
@@ -101,6 +113,7 @@ class Formview_Controller extends Common_Controller {
                     $documentArray = $this->GetDocumentSections($doc['doc_name_id'], $sections);
                     $this->CreateJSONForm($doc, $documentArray, $actionType);
                 endforeach;
+                break;
             //30julai    
 //            case 'form-element':
 //                $page = 'forms/ajax_element_form_group';
@@ -126,6 +139,25 @@ class Formview_Controller extends Common_Controller {
                 $result['document_id'] = $documentTemplate['doc_name_id'];
                 $result['template_id'] = $documentTemplate['template_id'];
                 $result['list_of_titles'] = $documentData->GetAllTitle();
+                break;
+            //zarith-8/3 
+            case 'edit-form-new':
+                $page = 'forms/edit-form-new';
+                $documentId = $params[URL_ARRAY + 3];
+               // print_r ($documentId);
+                $documentData = new Document_Template_Model();
+                $documentTemplate = $documentData->ReadDocumentTemplate($documentId);
+
+                $sectionSorting = json_decode($documentTemplate['json_template']);
+                $cleanSorting = $this->JsonWithSectionSorting($sectionSorting); //sort kedudukan element
+
+                $result['document_title'] = $documentTemplate['doc_name_desc'];
+                $result['json_elements'] = $cleanSorting;
+                $result['document_id'] = $documentTemplate['doc_name_id'];
+                $result['template_id'] = $documentTemplate['template_id'];
+                $result['list_of_titles'] = $documentData->GetAllTitle();
+                $result['sections'] = $documentData->GetAllSecDesc();
+                $result['elements'] = $documentData->GetAllElementDesc();
                 break;
             case 'sql-raw-data':
                 $page = 'forms/sql_raw_data';
@@ -163,6 +195,54 @@ class Formview_Controller extends Common_Controller {
                 break;
             case 'form-template':
                 $page = 'forms/document_view';
+                $documentId = $params[URL_ARRAY + 3];
+                $documentData = new Document_Template_Model();
+                $documentTemplate = $documentData->ReadDocumentTemplate($documentId);
+                $sectionSorting = json_decode($documentTemplate['json_template']);
+//                echo '<pre>';
+//                print_r($sectionSorting);
+//                echo '</pre>';
+                $cleanSorting = $this->JsonWithSectionSorting($sectionSorting);
+                $result['document_title'] = $documentTemplate['doc_name_desc'];
+                $result['main_discipline'] = $documentTemplate['main_discipline_name'];
+                $result['sub_discipline'] = $documentTemplate['discipline_name'];
+                $result['doc_group'] = $documentTemplate['doc_group_code'];
+                $result['json_elements'] = $cleanSorting;
+//                echo '<pre>';
+//                print_r($result['json_elements']);
+//                echo '</pre>';
+                $result['template_id'] = $documentId;
+                $result['rrr'] = 'pppp';
+                $result['document_id'] = $documentTemplate['doc_name_id'];
+                $result['link_style'] = "<link href='" . SITE_ASSET . "/assets/css/hiskkm.css' rel='stylesheet' />";
+                break;
+            //zarith-8/3 
+            case 'form-template-preview':
+                $page = 'forms/document_preview';
+                $documentId = $params[URL_ARRAY + 3];
+                $documentData = new Document_Template_Model();
+                $documentTemplate = $documentData->ReadDocumentTemplate($documentId);
+                $sectionSorting = json_decode($documentTemplate['json_template']);
+//                echo '<pre>';
+//                print_r($sectionSorting);
+//                echo '</pre>';
+                $cleanSorting = $this->JsonWithSectionSorting($sectionSorting);
+                $result['document_title'] = $documentTemplate['doc_name_desc'];
+                $result['main_discipline'] = $documentTemplate['main_discipline_name'];
+                $result['sub_discipline'] = $documentTemplate['discipline_name'];
+                $result['doc_group'] = $documentTemplate['doc_group_code'];
+                $result['json_elements'] = $cleanSorting;
+//                echo '<pre>';
+//                print_r($result['json_elements']);
+//                echo '</pre>';
+                $result['template_id'] = $documentId;
+                $result['rrr'] = 'pppp';
+                $result['document_id'] = $documentTemplate['doc_name_id'];
+                $result['link_style'] = "<link href='" . SITE_ASSET . "/assets/css/hiskkm.css' rel='stylesheet' />";
+                break;
+            //zarith-8/3 
+             case 'form-template-view':
+                $page = 'forms/document_view_build';
                 $documentId = $params[URL_ARRAY + 3];
                 $documentData = new Document_Template_Model();
                 $documentTemplate = $documentData->ReadDocumentTemplate($documentId);
@@ -240,6 +320,7 @@ class Formview_Controller extends Common_Controller {
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
+            //zarith-8/3 
             case 'add-element':
                 $ajax = true;
                 $page = 'forms/add_element';
@@ -249,6 +330,7 @@ class Formview_Controller extends Common_Controller {
                 $document = new Document_Template_Model();
                 $section_sorting = $document->GetSectionSorting($section_id, $doc_id);
                 $grouping = $document->GetElementGrouping($section_id, $doc_id);
+                $result['elements'] = $document->GetAllElementDesc();
                 $result['section_sorting'] = $section_sorting;
                 $result['grouping'] = $grouping;
                 $result['doc_id'] = $doc_id;
@@ -323,18 +405,32 @@ class Formview_Controller extends Common_Controller {
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
+            //zarith-8/3 
             case 'change-title-new':
                 $ajax = true;
                 $document = new Document_Template_Model();
                 $doc_id = $_REQUEST['documentId'];
                 $val = $document->GetTitleDetail($doc_id);
                 $page = 'forms/change_document_title_new';
+                $result['list_of_titles'] = $document->GetAllTitle();
                 $result['title'] = $val;
                 $result['doc_id'] = $doc_id;
                 $data = array(
                     'component' => 'Document Title',
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
+                break;
+            //zarith-8/3 
+            case 'change-status':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $template_id = $_REQUEST['templateId'];
+                $val = $_REQUEST['value'];
+                $document->UpdateTemplateStatus($template_id, $val);
+//                $data = array(
+//                    'component' => 'Document Title',
+//                    'html' => $this->RenderOutput($page, $result));
+//                echo json_encode($data);
                 break;
             case 'edit-title-new':
                 $ajax = true;
@@ -595,12 +691,12 @@ class Formview_Controller extends Common_Controller {
                 $group = $values['doc_group'];
                 $copyForm = $document->copyBaru($docName, $curName, $subdis, $type, $group);
                 break;
-            //17JULAI
+            //zarith-8/3 
             case 'add-title':
                 $ajax = true;
                 $document = new Document_Template_Model();
                 $values = $this->form_array($_REQUEST['values']);
-                $page = 'forms/new_form';
+                $page = 'forms/list_of_document';
 //                $dis = $values['discipline'];
                 $subDis = $values['general_discipline'];
                 $docType = $values['doc_type'];
@@ -921,7 +1017,7 @@ class Formview_Controller extends Common_Controller {
                 #elementDesc
                 $element = json_decode($new_data['elemDetail'], true); //dri basic->ajax_element_form_group
                 $resultE = $this->mapper($element);
-
+                
                 $x = 1;
                 $y = 1;
                 if ($resultS):
@@ -931,11 +1027,11 @@ class Formview_Controller extends Common_Controller {
                             $firstOccurence = reset($filteredNumbers);
                             if ($firstOccurence == $x):
                                 $outputS = array(
-                                    'section_sorting' => $x,
-                                    'section_code' => $valueS,
-                                    'parent_element_code' => $valueE,
-                                    'sorting' => $y,
-                                    'doc_name_id' => $resultD->doc_name_desc
+                                    'section_sorting' => $x, //1
+                                    'section_code' => $valueS, //additional test
+                                    'parent_element_code' => $valueE, //discharge
+                                    'sorting' => $y, //1
+                                    'doc_name_id' => $resultD->doc_name_desc //diet note 11
                                 );
                                 $y++;
 //                            echo '<pre>';
@@ -950,7 +1046,7 @@ class Formview_Controller extends Common_Controller {
                 endif;
 
                 break;
-
+                
             default:
                 $result['link_style'] = "<link href='localhost/FORMjson/assets/library/summernote/' rel='stylesheet' />";
                 $result['form_element'] = $this->SessionCall('form_element');
@@ -961,6 +1057,7 @@ class Formview_Controller extends Common_Controller {
         if (!$ajax):
             $result['header'] = $this->RenderOutput('common/main', isset($result['link_style']) ? $result['link_style'] : false);
             $result['footer'] = $this->RenderOutput('common/footer');
+            $result['config'] = $this->RenderOutput('common/header', isset($result['link_style']) ? $result['link_style'] : false);
             $view = new View_Model($page);
             $view->assign('content', $result);
         endif;

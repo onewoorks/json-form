@@ -61,8 +61,7 @@ class Formbuilder_Controller extends Common_Controller {
 //                break;
             case 'generate-json':
                 $ajax = true;
-                $documentId = $_REQUEST['documents'];
-//                $templateId = $REQUEST['documents'];
+             //   $documentId = $_REQUEST['documents'];
                 print_r($_REQUEST['documents']);//print array
                 $documentInfo = $_REQUEST['documents'];
                 $actionType = $_REQUEST['type'];
@@ -73,8 +72,7 @@ class Formbuilder_Controller extends Common_Controller {
                         $this->CreateJSONForm($doc, $documentArray,$actionType);
                 endforeach;                
                 break;
-            default:
-                break;
+                
         endswitch;
 
         if (!$ajax):

@@ -21,7 +21,7 @@ class Document_Template_Model {
                 . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
                 . "LEFT JOIN ref_main_disciplines md ON(gd.main_discipline_code=md.main_discipline_code)"
                 . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)"
-                . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)"
+                . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)" 
                 . "GROUP BY de.doc_name_id ORDER BY gd.main_discipline_code,gd.discipline_name ASC";
 
 //          $sql = "SELECT  dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc "
@@ -57,15 +57,15 @@ class Document_Template_Model {
         }
         $sql = "SELECT d.doc_name_id, d.doc_name_desc, gd.discipline_name,rdt.dc_type_desc,md.main_discipline_name, "
                 . "(CASE WHEN ((SELECT DISTINCT doc_name_id FROM document_template WHERE doc_name_id = d.doc_name_id) IS NULL) THEN FALSE ELSE TRUE END) as available "
-                . "FROM document_element de INNER JOIN document d ON(d.doc_name_id=de.doc_name_id) "
-                . "INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code) "
-                . "INNER JOIN ref_document_element rde ON (rde.element_code=de.parent_element_code) "
-                . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
-                . "INNER JOIN ref_document_element rdee ON (rdee.element_code=de.child_element_code) "
-                . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
-                . "LEFT JOIN ref_main_disciplines md ON(gd.main_discipline_code=md.main_discipline_code)"
-                . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)"
-                . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code) ";
+                . "FROM document_element de INNER JOIN document d ON(d.doc_name_id=de.doc_name_id) " //document id
+                . "INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code) "        //document section
+                . "INNER JOIN ref_document_element rde ON (rde.element_code=de.parent_element_code) " //document element
+                . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "                //discipline document
+                . "INNER JOIN ref_document_element rdee ON (rdee.element_code=de.child_element_code) " //child element
+                . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "     //general discipline
+                . "LEFT JOIN ref_main_disciplines md ON(gd.main_discipline_code=md.main_discipline_code)" //main discipline
+                . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)"                    //document type
+                . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code) ";           //document_group
         if (PROJECT_PATH == 'cd'):
             $sql .= "WHERE gd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','PS','RL') ";
         elseif ((PROJECT_PATH == 'rispac')):
@@ -117,7 +117,8 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('object');
         return $result[0];
     }
-
+    
+    //zarith-8/3
     public function ReadDocumentTemplate($templateId) {
         $sql = "SELECT o.doc_name_desc, d.json_template, d.doc_name_id, d.template_id, gd.discipline_name, md.main_discipline_name, rdg.doc_group_code"
                 . " FROM document_template d"
@@ -126,8 +127,8 @@ class Document_Template_Model {
                 . " LEFT JOIN ref_generaldisciplines gd ON gd.discipline_code=dd.discipline_code"
                 . " LEFT JOIN ref_main_disciplines md ON md.main_discipline_code=gd.main_discipline_code"
                 . " INNER JOIN ref_document_group rdg ON rdg.doc_group_code=o.doc_group_code "
-                . " WHERE d.template_id='" . (int) $templateId . "' "
-                . " AND d.active = 1";
+                . " WHERE d.template_id='" . (int) $templateId . "' ";
+//                . " AND d.active = 1";
 //        echo $sql;
         $this->db->connect();
         $this->db->prepare($sql);
@@ -207,9 +208,11 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-
+    
+    //zarith-8/3
     public function GetListAvailableDocument() {
-        $sql = "SELECT dt.template_id, dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc "
+        $sql = "SELECT dt.template_id, dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc,"
+                . "CASE WHEN dt.active='1' THEN true ELSE false END AS available "
                 . "FROM document_template dt "
                 . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
                 . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
@@ -231,6 +234,7 @@ class Document_Template_Model {
         return $result;
     }
 
+    //zarith-8/3
     public function GetFilterListByGroupType($documentArray) {
         $discipline = $documentArray['discipline'];
         if (isset($documentArray['general_discipline'])) {
@@ -244,7 +248,8 @@ class Document_Template_Model {
         } else {
             $docType = 0;
         }
-        $sql = "SELECT dt.template_id,dt.doc_name_id, d.active_status, rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc,rdg.doc_group_code "
+        $sql = "SELECT dt.template_id,dt.doc_name_id,dt.active, d.active_status, rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc,rdg.doc_group_code, "
+                . "CASE WHEN dt.active='1' THEN true ELSE false END AS available "
                 . "FROM document_template dt "
                 . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
                 . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
@@ -486,12 +491,15 @@ class Document_Template_Model {
     }
 
     //18JULAI
+    //zarith-8/3
     public function InsertDocId($subDis, $docGroup, $docType, $titleDesc) {
         if (is_string($subDis)):
             $sql = " INSERT INTO document (doc_group_code, dc_type_code, doc_name_desc, created_by, created_date) "
                     . " VALUES ('" . (string) $docGroup . "', '" . (string) $docType . "', '$titleDesc', 'ADMIN', now()) ;"
                     . " INSERT INTO discipline_document (discipline_code, doc_name_id, favourite, status, created_by, created_date) "
-                    . " VALUES ('" . (string) $subDis . "', (SELECT MAX(doc_name_id) FROM document AS doc_name_id), (NULL), '1', 'ADMIN', now())";
+                    . " VALUES ('" . (string) $subDis . "', (SELECT MAX(doc_name_id) FROM document AS doc_name_id), (NULL), '1', 'ADMIN', now());"
+                    . " INSERT INTO document_template (doc_name_id, active, created_date,  created_by)"
+                    . " VALUES ((SELECT MAX(doc_name_id) FROM document AS doc_name_id), '0' ,now(), 'ADMIN')";
         else:
             $sql = " INSERT INTO document (doc_group_code, dc_type_code, doc_name_desc, created_by, created_date) "
                     . " VALUES ('" . (string) $docGroup . "', '" . (string) $docType . "', '$titleDesc', 'ADMIN', now()) ;"
@@ -672,6 +680,17 @@ class Document_Template_Model {
 
     public function UpdateDocTitle($code, $title) {
         $sql = "UPDATE document SET doc_name_desc='" . $title . "' WHERE doc_name_id='" . (int) $code . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+    //zarith-8/3
+    public function UpdateTemplateStatus($template_id, $val) {
+        $sql = "UPDATE document_template "
+                . "SET active='" . $val . "' "
+                . "WHERE template_id='" .  $template_id . "'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -1021,7 +1040,7 @@ class Document_Template_Model {
 //        $this->db->queryexecute();
 //        return true;
 //    }
-
+    
     public function DeleteElementData($docId, $sectionCode, $elementCode) {
         $sql = "UPDATE document_element "
                 . "SET active = '0' "
@@ -1209,9 +1228,12 @@ class Document_Template_Model {
         return $result;
     }
 
+    //zarith-8/3
     public function InsertNewForm(array $outputS) {
         $sql = "INSERT INTO document_element (doc_name_id, section_sorting, section_code, sorting, parent_element_code, created_by, created_date) "
-                . "VALUES ((SELECT doc_name_id FROM document WHERE doc_name_desc = '" . $outputS['doc_name_id'] . "'), '" . $outputS['section_sorting'] . "', (SELECT section_code FROM ref_document_section WHERE section_desc = '" . $outputS['section_code'] . "' LIMIT 1), '" . $outputS['sorting'] . "', (SELECT DISTINCT element_code FROM ref_document_element WHERE element_desc ='" . $outputS['parent_element_code'] . "' LIMIT 1), 'ADMIN', NOW()) ";
+                . "VALUES ((SELECT doc_name_id FROM document WHERE doc_name_desc = '" . $outputS['doc_name_id'] . "'), '" . $outputS['section_sorting'] . "', "
+                . "(SELECT section_code FROM ref_document_section WHERE section_desc = '" . $outputS['section_code'] . "' LIMIT 1), '" . $outputS['sorting'] . "', "
+                . "(SELECT DISTINCT element_code FROM ref_document_element WHERE element_desc ='" . $outputS['parent_element_code'] . "' LIMIT 1), 'ADMIN', NOW()) ";
         print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);

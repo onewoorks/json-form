@@ -18,7 +18,7 @@
                 success: function (data) {
                     $('#deleteModal').modal('hide');
                     swal({
-                        title: "Section Removed!",
+                        title:"Section Removed!",
                         text: "Data successfully removed from database",
                         type: "success"
                     });
