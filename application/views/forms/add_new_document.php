@@ -52,15 +52,15 @@
             <div class='form-group form-group-sm'>
                 <label class='control-label col-sm-2'>Element Properties</label>
                 <div class='col-sm-8'>
-                    <label class='radio-inline'>
+<!--                    <label class='radio-inline'>
                         <input type='radio' name='element_properties' value='DECORATION_NEW'/> Decoration
-                    </label>
+                    </label>-->
                     <label class='radio-inline'>
                         <input type='radio' name='element_properties' value='BASIC_NEW' checked="checked"/> Basic
                     </label>
-                    <label class='radio-inline'>
+<!--                    <label class='radio-inline'>
                         <input type='radio' name='element_properties' value='SUBSECTION_NEW'/> Subsection
-                    </label>
+                    </label>-->
                 </div>
                 <div id='formelement'></div>
             </div>   
