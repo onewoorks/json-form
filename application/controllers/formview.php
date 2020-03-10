@@ -420,13 +420,13 @@ class Formview_Controller extends Common_Controller {
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
-            //zarith-8/3 
+            //zarith-10/3
             case 'change-status':
                 $ajax = true;
                 $document = new Document_Template_Model();
-                $template_id = $_REQUEST['templateId'];
+                $document_id = $_REQUEST['documentId'];
                 $val = $_REQUEST['value'];
-                $document->UpdateTemplateStatus($template_id, $val);
+                $document->UpdateDocumentStatus($document_id, $val);
 //                $data = array(
 //                    'component' => 'Document Title',
 //                    'html' => $this->RenderOutput($page, $result));
@@ -1357,6 +1357,7 @@ class Formview_Controller extends Common_Controller {
             'method' => '',
             'json' => $additional_attr
         );
+        print_r($val);
         $childId = $document->GetChildDetail($docID, $elementID);
         foreach ($childId as $key) {
             $document->CleanChild($docID, $key['parent_element_code']);

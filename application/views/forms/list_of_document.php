@@ -141,9 +141,9 @@
                                     <td class='text-uppercase'  style=" font-size: smaller;"><a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $document['template_id']; ?>'><?php echo $document['doc_name_desc']; ?></a></td>
                                     <td class='text-uppercase'  style=" font-size: smaller;">
                                         <?php if ($document['available']) : ?>
-                                            <input type="checkbox" data-toggle="toggle"  name="opt1" class="docStatus" id="<?php echo $document['template_id']; ?>"  data-size="mini" data-onstyle="success" data-offstyle="danger" checked="checked">
+                                            <input type="checkbox" data-toggle="toggle"  name="opt1" class="docStatus" id="<?php echo $document['doc_name_id']; ?>"  data-size="mini" data-onstyle="success" data-offstyle="danger" checked="checked">
                                         <?php else : ?>
-                                            <input type="checkbox" data-toggle="toggle"  name="opt2" class="docStatus" id="<?php echo $document['template_id']; ?>"  data-size="mini" data-onstyle="success" data-offstyle="danger" >
+                                            <input type="checkbox" data-toggle="toggle"  name="opt2" class="docStatus" id="<?php echo $document['doc_name_id']; ?>"  data-size="mini" data-onstyle="success" data-offstyle="danger" >
                                         <?php endif; ?>
                                     </td>
                                     <td class='text-uppercase'  style=" font-size: smaller;"><a>settings</a></td>
@@ -477,7 +477,8 @@
 <script>
     $(document).ready(function (e) {
         $('.docStatus').change(function () {
-            var templateId = $(this).attr('id');
+            var documentId = $(this).attr('id');
+            console.log("documentId : ", documentId);
             var val;
             if ($('.docStatus').prop('checked'))
             {
@@ -489,7 +490,7 @@
             $.ajax({
                 type: "POST",
                 url: '<?= SITE_ROOT; ?>/formview/change-status/',
-                data: {templateId: templateId, value: val}
+                data: {documentId: documentId, value: val}
             });
         });//end change
         return false;

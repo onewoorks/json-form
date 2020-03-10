@@ -118,7 +118,7 @@ class Document_Template_Model {
         return $result[0];
     }
     
-    //zarith-8/3
+    //zarith-10/3
     public function ReadDocumentTemplate($templateId) {
         $sql = "SELECT o.doc_name_desc, d.json_template, d.doc_name_id, d.template_id, gd.discipline_name, md.main_discipline_name, rdg.doc_group_code"
                 . " FROM document_template d"
@@ -209,10 +209,10 @@ class Document_Template_Model {
         return true;
     }
     
-    //zarith-8/3
+    //zarith-10/3
     public function GetListAvailableDocument() {
-        $sql = "SELECT dt.template_id, dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc,"
-                . "CASE WHEN dt.active='1' THEN true ELSE false END AS available "
+        $sql = "SELECT dt.template_id,d.active_status, dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc,"
+                . "CASE WHEN d.active_status='1' THEN true ELSE false END AS available "
                 . "FROM document_template dt "
                 . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
                 . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
@@ -234,7 +234,7 @@ class Document_Template_Model {
         return $result;
     }
 
-    //zarith-8/3
+    //zarith-10/3
     public function GetFilterListByGroupType($documentArray) {
         $discipline = $documentArray['discipline'];
         if (isset($documentArray['general_discipline'])) {
@@ -249,7 +249,7 @@ class Document_Template_Model {
             $docType = 0;
         }
         $sql = "SELECT dt.template_id,dt.doc_name_id,dt.active, d.active_status, rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc,rdg.doc_group_code, "
-                . "CASE WHEN dt.active='1' THEN true ELSE false END AS available "
+                . "CASE WHEN d.active_status='1' THEN true ELSE false END AS available "
                 . "FROM document_template dt "
                 . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
                 . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
@@ -277,7 +277,7 @@ class Document_Template_Model {
         if ($docGroup != "0") {
             $sql.="AND d.doc_group_code = '$docGroup'";
         }
-        $sql.="AND d.active_status='1' ORDER BY COALESCE(dt.updated_date,dt.created_date) DESC";
+        $sql.="ORDER BY COALESCE(dt.updated_date,dt.created_date) DESC";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -494,8 +494,8 @@ class Document_Template_Model {
     //zarith-8/3
     public function InsertDocId($subDis, $docGroup, $docType, $titleDesc) {
         if (is_string($subDis)):
-            $sql = " INSERT INTO document (doc_group_code, dc_type_code, doc_name_desc, created_by, created_date) "
-                    . " VALUES ('" . (string) $docGroup . "', '" . (string) $docType . "', '$titleDesc', 'ADMIN', now()) ;"
+            $sql = " INSERT INTO document (doc_group_code, dc_type_code, doc_name_desc,active_status, created_by, created_date) "
+                    . " VALUES ('" . (string) $docGroup . "', '" . (string) $docType . "', '$titleDesc', '0', 'ADMIN', now()) ;"
                     . " INSERT INTO discipline_document (discipline_code, doc_name_id, favourite, status, created_by, created_date) "
                     . " VALUES ('" . (string) $subDis . "', (SELECT MAX(doc_name_id) FROM document AS doc_name_id), (NULL), '1', 'ADMIN', now());"
                     . " INSERT INTO document_template (doc_name_id, active, created_date,  created_by)"
@@ -503,8 +503,8 @@ class Document_Template_Model {
         else:
             $sql = " INSERT INTO document (doc_group_code, dc_type_code, doc_name_desc, created_by, created_date) "
                     . " VALUES ('" . (string) $docGroup . "', '" . (string) $docType . "', '$titleDesc', 'ADMIN', now()) ;"
-                    . " INSERT INTO discipline_document (discipline_code, doc_name_id, favourite, status, created_by, created_date) "
-                    . " VALUES ('" . (int) $subDis . "', (SELECT MAX(doc_name_id) FROM document AS doc_name_id), (NULL), '1', 'ADMIN', now())";
+                    . " INSERT INTO discipline_document (discipline_code, doc_name_id, favourite, created_by, created_date) "
+                    . " VALUES ('" . (int) $subDis . "', (SELECT MAX(doc_name_id) FROM document AS doc_name_id), (NULL),'ADMIN', now())";
         endif;
         print_r($sql);
         $this->db->connect();
@@ -686,11 +686,11 @@ class Document_Template_Model {
         return true;
     }
     
-    //zarith-8/3
-    public function UpdateTemplateStatus($template_id, $val) {
-        $sql = "UPDATE document_template "
-                . "SET active='" . $val . "' "
-                . "WHERE template_id='" .  $template_id . "'";
+    //zarith-10/3
+    public function UpdateDocumentStatus($document_id, $val) {
+        $sql = "UPDATE document "
+                . "SET active_status='" . $val . "' "
+                . "WHERE doc_name_id='" .  $document_id . "'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -722,7 +722,7 @@ class Document_Template_Model {
         return true;
     }
 
-    //9AUG
+    //zarith-10/3
     public function copyBaru($docName, $curName, $subdis, $type, $group) { 
         if (isset($subdis)):
             $subdiscipline = "SELECT '$subdis', (SELECT MAX(doc_name_id) FROM document), favourite, doc_sorting, gender_code, age_from, age_to, NOW(),'ADMIN' ";
@@ -731,9 +731,9 @@ class Document_Template_Model {
         endif;
 
         if (isset($group) && ($type)):
-            $doc_group = "SELECT '$group','$type','$docName', '1', NOW(), 'ADMIN' ";
+            $doc_group = "SELECT '$group','$type','$docName', '0', NOW(), 'ADMIN' ";
         else:
-            $doc_group = "SELECT doc_group_code, dc_type_code, '$docName', '1', NOW(), 'ADMIN' ";
+            $doc_group = "SELECT doc_group_code, dc_type_code, '$docName', '0', NOW(), 'ADMIN' ";
         endif;
         $sql = "INSERT INTO document (doc_group_code, dc_type_code, doc_name_desc, active_status, created_date, created_by) "
                 . $doc_group
