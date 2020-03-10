@@ -59,7 +59,7 @@
 
                 <div class='text-right'>
                     <div class='btn-group btn-group-sm' style="right:10px">
-                        <a href='<?php echo SITE_ROOT; ?>/formview/edit-form/<?= $template_id; ?>' class='btn btn-default'>Edit Form</a>
+                        <a href='<?php echo SITE_ROOT; ?>/formview/edit-form-new/<?= $template_id; ?>' class='btn btn-default'>Edit Form</a>
 <!--                        <a href='<?php echo SITE_ROOT; ?>/formview/json-format/<?= $document_id; ?>' class='btn btn-default'>View JSON</a>-->
                     </div>
                 </div>
