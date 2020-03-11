@@ -29,6 +29,20 @@ class Formview_Controller extends Common_Controller {
                 $result['main_discipline'] = $dt['main_discipline_name'];
                 $result['sub_discipline'] = $dt['discipline_name'];
                 break;
+            case 'new-diagnosis':
+                $page = 'forms/new_diagnosis';
+                //$documentId = $params[URL_ARRAY + 3];
+                $document = new Document_Template_Model();
+                $result['list_of_diagnosis'] = $document->GetAllDiagnosis();
+                //$result['doc_id'] = $documentId;
+                break;
+//            case 'new-procedure':
+//                $page = 'forms/new_procedure';
+//                //$documentId = $params[URL_ARRAY + 3];
+//                $document = new Document_Template_Model();
+//                $result['list_of_procedure'] = $document->GetAllDiagnosis();
+//                //$result['doc_id'] = $documentId;
+//                break;
             //12julai    
             case 'new-form':
                 $page = 'forms/new_form';
@@ -40,11 +54,6 @@ class Formview_Controller extends Common_Controller {
                 $result['preset_select'] = false;
                 $result['list_of_titles'] = $document->GetAllTitle();
                 break;
-//            case 'new-method':
-//                $page = 'forms/new_method';
-//                $document = new Document_Template_Model();
-//                $result['list_of_method'] = $document->GetAllmethodDesc();
-//                break;
             //28feb
             case 'new-method':
                 $page = 'forms/new_method';

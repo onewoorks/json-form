@@ -650,6 +650,27 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return $result;
     }
+    
+    //zarith-11/3
+    public function GetAllDiagnosis() {
+        $sql = " SELECT icd10_id, description FROM icd10 WHERE active_status='1' ";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+//    //zarith-11/3
+//    public function GetAllProcedure() {
+//        $sql = " SELECT icd10_id, description FROM icd10 WHERE active_status='1' ";
+//        $this->db->connect();
+//        $this->db->prepare($sql);
+//        $this->db->queryexecute();
+//        $result = $this->db->fetchOut('array');
+//        return $result;
+//    }
+    
 
     //23JULAI
     public function GetAllElementDesc() {
