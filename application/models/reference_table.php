@@ -87,7 +87,7 @@ class Reference_Table_Model  { //dari class sini
         elseif(PROJECT_PATH == 'rispac'):
         $sql .= "WHERE doc_group_code IN ('RR') ";
         else:
-        $sql .= "WHERE doc_group_code IN ('CN') "; 
+        $sql .= "WHERE doc_group_code IN ('CN','RL')"; 
         endif;
         $this->db->connect();
         $this->db->prepare($sql);
