@@ -360,45 +360,47 @@ class Formview_Controller extends Common_Controller {
             case 'add-new-element':
                 $ajax = true;
                 $document = new Document_Template_Model();
-                $values = $this->form_array($_REQUEST['values']);
-                $section_code = $values['section_code'];
-                $document_id = $values['doc_id'];
-                $element_desc = $values['element_desc'];
-                $element_properties = $values['element_properties'];
-                $new = strtolower($element_desc);
-                $json_element = str_replace(' ', '_', $new);
+                $json = file_get_contents('php://input');
+                $array = explode('&', urldecode($json));
+                $new_data = array();
+                foreach ($array as $a):
+                    $ex = explode('=', $a);
+                    $new_data[$ex[0]] = $ex[1];
+                endforeach;
+
+                $mapper_data = json_decode($new_data['values'], true); //dri basic->ajax_element_form_group
+                $new_mapper = $this->mapper($mapper_data);
+
+                $document_id = $new_mapper['doc_id'];
+                $element_group = $new_mapper['element_group'];
+                $section_code = $new_mapper['section_code'];
+                $sectionSorting = $new_mapper['section_sorting'];
+                $element_code = $new_mapper['element_desc'];
+                $element_properties = str_replace('_NEW', '', $new_mapper['element_properties']);
                 $last_element_sorting = $document->GetElementSorting($section_code, $document_id);
                 $new_element_sorting = $last_element_sorting->newsorting + 1;  //wan is column name
-                $ele = $document->GetMaxElementCode();
-                $element_code = ($ele->maxcode) + 1;
-                if ($values['element_group'] === '-1') {
-                    $level = 1;
-                    $grouping = $element_code;
-                } else {
-                    $level = 2;
-                    $grouping = $values['element_group'];
-                }
-                $data = array('documentId' => $document_id,
-                    'elementCode' => $element_code,
-                    'element_group' => $grouping,
-                    'position' => $values['position'],
-                    'element_properties' => $values['element_properties']);
-                $document->InsertNewRefElement($element_desc, $element_code, $json_element, $grouping, $new_element_sorting, $level, $values);
+                
+                $val = array(
+                    'sectionId' => $section_code,
+                    'section_sorting'=> $sectionSorting,
+                    'parent_element_code' => $element_code,
+                    'sorting' => $new_element_sorting,
+                    'documentId' => $document_id,
+                    'element_group' => $element_group
+                        
+                        );
+                 echo '<pre>';
+                    print_r($val);
+                 echo '</pre>';
+                 $document->InsertNewRefElement($val);
                 if ($element_properties == 'DECORATION') {
-                    $data['setparent'] = $values['setparent'];
-                    $data['deco_style'] = $values['deco_style'];
-                    $data['deco_custom_style'] = $values['deco_custom_style'];
-                    $this->CaseDecoration($data);
+                    $this->CaseDecorationE($new_mapper, $new_data);
                 } elseif ($element_properties == 'BASIC') {
-                    $data['input_type'] = $values['input_type'];
-//                    $data['method_name'] = $values['method_name'];
-//                    $data['method_params'] = $values['method_params'];
-                    $this->CaseBasic($data);
-                } elseif ($element_properties == 'SUBSECTION') {
-//                    $data['method_name'] = $values['method_name'];
-//                    $data['method_params'] = $values['method_params'];
-                    $this->CaseSubsection($data);
+                    $this->CaseBasicE($new_mapper, $new_data);
+                } else {
+                    $this->CaseSubsectionE($new_mapper, $new_data);
                 }
+                $document->UpdateElementName($element_code, $element_code, $document_id);
                 $this->GenerateJSONFormat($document_id, 'update');
                 break;
             case 'change-layout':
@@ -1246,6 +1248,32 @@ class Formview_Controller extends Common_Controller {
         $document->UpdateElementToBasic($val);
         return true;
     }
+    
+    private function CaseSubsection(array $data, $new_data) {
+        $document = new Document_Template_Model();
+        $docID = $data['documentId'];
+        $elementID = $data['elementCode'];
+        $sectionId = $data['section_code'];
+        
+        $document->CleanMultipleAnswer($data);
+        $document->CleanMultipleItem($data);
+        
+        $val = array(
+            'doc_name_id' => $docID,
+            'element_code' => $elementID,
+            'child_element_code' => $data['element_group'],
+            'element_position' => $data['position'],
+            'element_properties' => str_replace('_NEW', '', $data['element_properties']),
+            'input_type' => 'LABEL',
+            'element_level' => $data['element_level'],
+            'section_code' => $sectionId
+        );
+        echo '<pre>';
+        print_r($val);
+        echo '</pre>';
+        $document->UpdateElementToDecoSUb($val);
+        return true;
+    }
 
     private function CaseBasicParent($basic, $docID, $elementID) {
         $document = new Document_Template_Model();
@@ -1339,60 +1367,11 @@ class Formview_Controller extends Common_Controller {
         endforeach;
     }
 
-    private function CaseSubsection(array $data, $new_data) {
-        $document = new Document_Template_Model();
-        $docID = $data['documentId'];
-        $elementID = $data['elementCode'];
-        $sectionId = $data['section_code'];
-        
-        $document->CleanMultipleAnswer($data);
-        $document->CleanMultipleItem($data);
-        
-        $val = array(
-            'doc_name_id' => $docID,
-            'element_code' => $elementID,
-            'child_element_code' => $data['element_group'],
-            'element_position' => $data['position'],
-            'element_properties' => str_replace('_NEW', '', $data['element_properties']),
-            'input_type' => 'LABEL',
-            'element_level' => $data['element_level'],
-            'section_code' => $sectionId
-        );
-        echo '<pre>';
-        print_r($val);
-        echo '</pre>';
-        $document->UpdateElementToDecoSUb($val);
-        return true;
-    }
-    
-    private function CaseSubsectionNew(array $data, $new_data) {
-        $document = new Document_Template_Model();
-        $docID = $data['documentId'];
-        $elementID = $data['elementCode'];
-        $sectionId = $data['section_code'];
-        
-        $val = array(
-            'doc_name_id' => $docID,
-            'element_code' => $elementID,
-            'child_element_code' => $data['element_group'],
-            'element_position' => $data['position'],
-            'element_properties' => str_replace('_NEW', '', $data['element_properties']),
-            'input_type' => 'LABEL',
-            'element_level' => $data['element_level'],
-            'section_code' => $sectionId
-        );
-        echo '<pre>';
-        print_r($val);
-        echo '</pre>';
-        $document->UpdateElementToDecoSUb($val);
-        return true;
-    }
-
     //zarith-12/3
     private function CaseDecorationNew(array $data) {
         $document = new Document_Template_Model();
-        $docID = $data['documentId'];
-        $elementID = $data['elementCode'];
+        $docID = $data['doc_id'];
+        $elementID = $data['element_desc'];
         $sectionId = $data['section_code'];
 
         $val = array(
@@ -1411,7 +1390,7 @@ class Formview_Controller extends Common_Controller {
         $document->UpdateElementToDecoSUb($val);
         return true;
     }
-
+    //zarith-12/3
     private function CaseBasicNew(array $data, $new_data) {
         $document = new Document_Template_Model();
         $docID = $data['documentId'];
@@ -1456,6 +1435,122 @@ class Formview_Controller extends Common_Controller {
         print_r($val);
         echo '</pre>';
         $document->UpdateElementToBasic($val);
+        return true;
+    }
+    //zarith-12/3
+     private function CaseSubsectionNew(array $data, $new_data) {
+        $document = new Document_Template_Model();
+        $docID = $data['documentId'];
+        $elementID = $data['elementCode'];
+        $sectionId = $data['section_code'];
+        
+        $val = array(
+            'doc_name_id' => $docID,
+            'element_code' => $elementID,
+            'child_element_code' => $data['element_group'],
+            'element_position' => $data['position'],
+            'element_properties' => str_replace('_NEW', '', $data['element_properties']),
+            'input_type' => 'LABEL',
+            'element_level' => $data['element_level'],
+            'section_code' => $sectionId
+        );
+        echo '<pre>';
+        print_r($val);
+        echo '</pre>';
+        $document->UpdateElementToDecoSUb($val);
+        return true;
+    }
+    //zarith-12/3
+    private function CaseDecorationE(array $data) {
+        $document = new Document_Template_Model();
+        $docID = $data['doc_id'];
+        $elementID = $data['element_desc'];
+        $sectionId = $data['section_code'];
+
+        $val = array(
+            'doc_name_id' => $docID,
+            'element_code' => $elementID,
+            'child_element_code' => $data['element_group'],
+            'element_position' => $data['position'],
+            'element_properties' => str_replace('_NEW', '', $data['element_properties']),
+            'input_type' => 'LABEL',
+            'element_level' => $data['element_level'],
+            'section_code' => $sectionId
+        );
+        echo '<pre>';
+        print_r($val);
+        echo '</pre>';
+        $document->UpdateElementToDecoSUb($val);
+        return true;
+    }
+    //zarith-12/3
+    private function CaseBasicE(array $data, $new_data) {
+        $document = new Document_Template_Model();
+        $docID = $data['doc_id'];
+        $elementID = $data['element_desc'];
+        $input_type = $data['input_type']; //method
+        $sectionId = $data['section_code'];
+        $dataType = '(NULL)';
+
+        $document->CleanMultipleAnswer($data);
+        $document->CleanMultipleItem($data);
+
+        if ($input_type == 'METHOD') {
+
+            $mapper_data = json_decode($new_data['basicMethod'], true); //dri basic->ajax_element_form_group
+            $method = $this->mapper($mapper_data);
+            $methodCode = $method['methodList'];
+        } else if ($input_type == 'MULTIPLE ANSWER') {
+
+            $methodCode = '(NULL)';
+            $mapper_data = json_decode($new_data['basicMultAns'], true); //dri basic->ajax_element_form_group
+            $basic = (object) $this->mapper($mapper_data);
+
+            $this->CaseBasicParentNew($basic, $docID, $elementID);
+            $this->CaseBasicChildNew($basic, $docID);
+        } else {
+            $methodCode = '(NULL)';
+        }
+
+        $val = array(
+            'doc_name_id' => $docID,
+            'element_code' => $elementID,
+            'child_element_code' => $data['element_group'],
+            'element_position' => $data['position'],
+            'element_properties' => str_replace('_NEW', '', $data['element_properties']),
+            'input_type' => $input_type,
+            'element_level' => $data['element_level'],
+            'data_type' => $dataType,
+            'doc_method_code' => $methodCode,
+            'section_code' => $sectionId
+        );
+        echo '<pre>';
+        print_r($val);
+        echo '</pre>';
+        $document->UpdateElementToBasic($val);
+        return true;
+    }
+    //zarith-12/3
+     private function CaseSubsectionE(array $data, $new_data) {
+        $document = new Document_Template_Model();
+        $docID = $data['doc_id'];
+        $elementID = $data['element_desc'];
+        $sectionId = $data['section_code'];
+        
+        $val = array(
+            'doc_name_id' => $docID,
+            'element_code' => $elementID,
+            'child_element_code' => $data['element_group'],
+            'element_position' => $data['position'],
+            'element_properties' => str_replace('_NEW', '', $data['element_properties']),
+            'input_type' => 'LABEL',
+            'element_level' => $data['element_level'],
+            'section_code' => $sectionId
+        );
+        echo '<pre>';
+        print_r($val);
+        echo '</pre>';
+        $document->UpdateElementToDecoSUb($val);
         return true;
     }
 

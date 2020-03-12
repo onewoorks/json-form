@@ -1051,18 +1051,19 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-
-    public function InsertNewRefElement($element_desc, $element_code, $json_element, $grouping, $element_sorting, $level, array $val) {
-        $sql = "INSERT INTO ref_document_element (element_code,element_desc,json_element)"
-                . "VALUES ('" . $element_code . "', '" . $element_desc . "','" . $json_element . "');"
-                . "INSERT INTO document_element (doc_name_id,section_code,parent_element_code,child_element_code,sorting,section_sorting,element_level,element_position,element_properties)"
-                . "VALUES ('" . (int) $val['doc_id'] . "','" . $val['section_code'] . "','" . $element_code . "','" . $grouping . "','" . $element_sorting . "','" . $val['section_sorting'] . "','" . $level . "','" . $val['position'] . "','" . $val['element_properties'] . "');";
+    
+     public function InsertNewRefElement(array $val) {
+        $sql = "INSERT INTO document_element (doc_name_id, section_sorting, section_code, sorting, parent_element_code, created_by, created_date)"
+                . "VALUES ('" . (int) $val['documentId'] . "','" . (int) $val['section_sorting'] . "','" . (int) $val['sectionId'] . "','" . (int) $val['sorting'] . "',"
+                . " '" . (int) $val['parent_element_code'] . "',  'ADMIN', NOW()) ";
+        print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
         return true;
-    }
-
+    } 
+    
+   
 //    public function DeleteElementData($docId, $sectionCode, $elementCode) {
 //        $sql = "DELETE FROM document_element WHERE doc_name_id='" . (int) $docId . "' AND section_code='" . (int) $sectionCode . "' AND parent_element_code='" . (int) $elementCode . "'";
 //        print_r($sql);
