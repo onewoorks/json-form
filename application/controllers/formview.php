@@ -1177,28 +1177,25 @@ class Formview_Controller extends Common_Controller {
         $document = new Document_Template_Model();
         $docID = $data['documentId'];
         $elementID = $data['elementCode'];
-        $var1 = $data['deco_style'];
-        $var2 = $data['deco_custom_style'];
-        $deco_style = array('deco_style' => $var1, 'deco_custom_style' => $var2);
-        $additional_attr = json_encode($deco_style);
-        $val = array(
-            'doc_id' => $data['documentId'],
-            'element_code' => $data['elementCode'],
-            'element_group' => $data['element_group'],
-            'element_position' => $data['position'],
-            'element_properties' => $data['element_properties'],
-            'input_type' => 'LABEL',
-            'data_type' => $data['setparent'],
-            'method' => '',
-            'json' => $additional_attr
-        );
-        $childId = $document->GetChildDetail($docID, $elementID);
-        foreach ($childId as $key) {
-            $document->CleanChild($docID, $key['parent_element_code']);
-        }
+        $sectionId = $data['section_code'];
+        
         $document->CleanMultipleAnswer($data);
         $document->CleanMultipleItem($data);
-        $document->UpdateElementDetails($val);
+
+        $val = array(
+            'doc_name_id' => $docID,
+            'element_code' => $elementID,
+            'child_element_code' => $data['element_group'],
+            'element_position' => $data['position'],
+            'element_properties' => str_replace('_NEW', '', $data['element_properties']),
+            'input_type' => 'LABEL',
+            'element_level' => $data['element_level'],
+            'section_code' => $sectionId
+        );
+        echo '<pre>';
+        print_r($val);
+        echo '</pre>';
+        $document->UpdateElementToDecoSUb($val);
         return true;
     }
 
@@ -1343,37 +1340,75 @@ class Formview_Controller extends Common_Controller {
     }
 
     private function CaseSubsection(array $data, $new_data) {
-        $mapper_data = json_decode($new_data['basicSubSec'], true); //dri basic->ajax_element_form_group
-        $subSec = $this->mapper($mapper_data);
+        $document = new Document_Template_Model();
+        $docID = $data['documentId'];
+        $elementID = $data['elementCode'];
+        $sectionId = $data['section_code'];
+        
+        $document->CleanMultipleAnswer($data);
+        $document->CleanMultipleItem($data);
+        
+        $val = array(
+            'doc_name_id' => $docID,
+            'element_code' => $elementID,
+            'child_element_code' => $data['element_group'],
+            'element_position' => $data['position'],
+            'element_properties' => str_replace('_NEW', '', $data['element_properties']),
+            'input_type' => 'LABEL',
+            'element_level' => $data['element_level'],
+            'section_code' => $sectionId
+        );
+        echo '<pre>';
+        print_r($val);
+        echo '</pre>';
+        $document->UpdateElementToDecoSUb($val);
+        return true;
+    }
+    
+    private function CaseSubsectionNew(array $data, $new_data) {
+        $document = new Document_Template_Model();
+        $docID = $data['documentId'];
+        $elementID = $data['elementCode'];
+        $sectionId = $data['section_code'];
+        
+        $val = array(
+            'doc_name_id' => $docID,
+            'element_code' => $elementID,
+            'child_element_code' => $data['element_group'],
+            'element_position' => $data['position'],
+            'element_properties' => str_replace('_NEW', '', $data['element_properties']),
+            'input_type' => 'LABEL',
+            'element_level' => $data['element_level'],
+            'section_code' => $sectionId
+        );
+        echo '<pre>';
+        print_r($val);
+        echo '</pre>';
+        $document->UpdateElementToDecoSUb($val);
+        return true;
     }
 
+    //zarith-12/3
     private function CaseDecorationNew(array $data) {
         $document = new Document_Template_Model();
         $docID = $data['documentId'];
         $elementID = $data['elementCode'];
-        $var1 = $data['deco_style'];
-        $var2 = $data['deco_custom_style'];
-        $deco_style = array('deco_style' => $var1, 'deco_custom_style' => $var2);
-        $additional_attr = json_encode($deco_style);
+        $sectionId = $data['section_code'];
+
         $val = array(
-            'doc_id' => $data['documentId'],
-            'element_code' => $data['elementCode'],
-            'element_group' => $data['element_group'],
+            'doc_name_id' => $docID,
+            'element_code' => $elementID,
+            'child_element_code' => $data['element_group'],
             'element_position' => $data['position'],
-            'element_properties' => $data['element_properties'],
+            'element_properties' => str_replace('_NEW', '', $data['element_properties']),
             'input_type' => 'LABEL',
-            'data_type' => $data['setparent'],
-            'method' => '',
-            'json' => $additional_attr
+            'element_level' => $data['element_level'],
+            'section_code' => $sectionId
         );
+        echo '<pre>';
         print_r($val);
-        $childId = $document->GetChildDetail($docID, $elementID);
-        foreach ($childId as $key) {
-            $document->CleanChild($docID, $key['parent_element_code']);
-        }
-        $document->CleanMultipleAnswer($data);
-        $document->CleanMultipleItem($data);
-        $document->UpdateElementDetails($val);
+        echo '</pre>';
+        $document->UpdateElementToDecoSUb($val);
         return true;
     }
 
@@ -1514,15 +1549,6 @@ class Formview_Controller extends Common_Controller {
                 $document->InsertChildMultiAnswer($docID, $child);
             endfor;
         endforeach;
-    }
-
-    private function CaseSubsectionNew(array $data, $new_data) {
-        $document = new Document_Template_Model();
-        $mapper_data = json_decode($new_data['basicSubSec'], true); //dri basic->ajax_element_form_group
-        $subSec = $this->mapper($mapper_data);
-
-        $document->UpdateElementDetails($val);
-        return true;
     }
 
 }

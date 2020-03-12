@@ -19,9 +19,9 @@
             </div>
 
             <div class="form-group form-group-sm">
-                <label class="control-label col-sm-2">Element Group<b style='color: red'>*</b></label>
+                <label class="control-label col-sm-2">Element Group</label>
                 <div class="col-sm-8">
-                    <select name="element_group" class="form-control" required="">
+                    <select name="element_group" class="form-control" >
                         <?php foreach ($elements as $element): ?>
                             <option value='<?php echo $element['element_code']; ?>'><?php echo $element['element_desc']; ?></option>
                         <?php endforeach; ?>
@@ -30,7 +30,7 @@
             </div>
             
             <div class='form-group form-group-sm'>
-                <label class='control-label col-sm-2'>Element Level<b style='color: red'>*</b></label>
+                <label class='control-label col-sm-2'>Element Level</label>
                 <div class='col-sm-8'>
                     <input type='number' name='element_level' class='form-control' style="width:8%" autocomplete="off" required/>
                 </div>
@@ -52,15 +52,15 @@
             <div class='form-group form-group-sm'>
                 <label class='control-label col-sm-2'>Element Properties</label>
                 <div class='col-sm-8'>
-<!--                    <label class='radio-inline'>
+                    <label class='radio-inline'>
                         <input type='radio' name='element_properties' value='DECORATION_NEW'/> Decoration
-                    </label>-->
+                    </label>
                     <label class='radio-inline'>
                         <input type='radio' name='element_properties' value='BASIC_NEW' checked="checked"/> Basic
                     </label>
-<!--                    <label class='radio-inline'>
+                    <label class='radio-inline'>
                         <input type='radio' name='element_properties' value='SUBSECTION_NEW'/> Subsection
-                    </label>-->
+                    </label>
                 </div>
                 <div id='formelement'></div>
             </div>   
