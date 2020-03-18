@@ -21,15 +21,10 @@
         <link href="//use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"  rel="stylesheet">
         <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
         <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>    
- <?php echo $vars; ?>
+        <?php echo $vars; ?>
         <style>
             #json_view { white-space: pre; font-family: monospace; }
-            
         </style>
-<!--        <style>
-            .required:after { content:"&nbsp; *";color: red; }
-        </style>-->
-        
     </head>
 
     <?php if (PROJECT_PATH === 'cd' || PROJECT_PATH === 'rispac'): ?>
@@ -52,7 +47,7 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" href="<?php echo SITE_ROOT; ?>/formview/new-form">Create New Form
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="<?php echo SITE_ROOT; ?>/formview/new-method">Add New Method</a></li>
+                                <li class="hidden"><a href="<?php echo SITE_ROOT; ?>/formview/new-method">Add New Method</a></li>
                                 <li><a href="<?php echo SITE_ROOT; ?>/formview/new-section">Add New Section</a></li>
                                 <li><a href="<?php echo SITE_ROOT; ?>/formview/new-element">Add New Element</a></li>
                             </ul>

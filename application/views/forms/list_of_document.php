@@ -146,8 +146,11 @@
                                             <input type="checkbox" data-toggle="toggle"  name="opt2" class="docStatus" id="<?php echo $document['doc_name_id']; ?>"  data-size="mini" data-onstyle="success" data-offstyle="danger" >
                                         <?php endif; ?>
                                     </td>
-                                    <td class='text-uppercase'  style=" font-size: smaller;"><a>settings</a></td>
-                                    <td class='text-uppercase'  style=" font-size: smaller;"><a>settings</a></td>
+                                    <td class='text-uppercase'  style=" font-size: smaller;">
+                                        <a href='<?php echo SITE_ROOT; ?>/formview/new-diagnosis/<?php echo $document['doc_name_id']; ?>' >settings</a>
+                                    </td>
+                                    <td class='text-uppercase'  style=" font-size: smaller;">
+                                        <a href='<?php echo SITE_ROOT; ?>/formview/new-procedure/<?php echo $document['doc_name_id']; ?>' >settings</a>
                                     <td class='text-center'>
                                         <div class='btn-group btn-group-xs'>    
                                             <a href='<?php echo SITE_ROOT; ?>/formview/edit-form-new/<?php echo $document['template_id']; ?>' class='btn btn-default' >EDIT</a>

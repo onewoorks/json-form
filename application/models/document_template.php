@@ -4,6 +4,7 @@ class Document_Template_Model {
 
     public $jsonForm;
     public $documentId;
+    public $icd10_id;
 
     public function __construct() {
         $this->db = new Mysql_Driver();
@@ -203,6 +204,20 @@ class Document_Template_Model {
                 . "json_template = '$jsonDoc', "
                 . "created_date = now(), "
                 . "created_by = 'ADMIN' ";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+     public function CreateDocumentDiagnosis($doc) {
+      
+        $sql = "INSERT INTO document_diagnosis SET "
+                . "diagnosis_code = '" .  $doc['icd10_id'] . "',"
+                . "doc_name_id = '" .  $doc['doc_name_id'] . "', "
+                . "created_date = now(), "
+                . "created_by = 'ADMIN' ";
+        print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -652,8 +667,18 @@ class Document_Template_Model {
     }
     
     //zarith-11/3
+    public function GetDocumentDesc($documentId) {
+        $sql = " SELECT doc_name_id, doc_name_desc FROM document WHERE doc_name_id='" . (int) $documentId . "'  ";
+       $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return ($result) ? $result[0] : false;
+    }
+    
+    //zarith-11/3
     public function GetAllDiagnosis() {
-        $sql = " SELECT icd10_id, description FROM icd10 WHERE active_status='1' ";
+        $sql = " SELECT icd10_id, description, active_status FROM icd10 WHERE active_status='1' LIMIT 10 ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -661,16 +686,35 @@ class Document_Template_Model {
         return $result;
     }
     
-//    //zarith-11/3
-//    public function GetAllProcedure() {
-//        $sql = " SELECT icd10_id, description FROM icd10 WHERE active_status='1' ";
-//        $this->db->connect();
-//        $this->db->prepare($sql);
-//        $this->db->queryexecute();
-//        $result = $this->db->fetchOut('array');
-//        return $result;
-//    }
+    //zarith-11/3
+    public function GetAllProcedure() {
+        $sql = " SELECT category_code, category_name, active_status FROM product_categories WHERE active_status='1' ";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
     
+    //zarith-11/3
+    public function GetProductCategory() {
+        $sql = " SELECT category_code, category_name, active_status FROM product_categories WHERE active_status='1' ";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+    //zarith-11/3
+    public function GetProductGroup() {
+        $sql = " SELECT category_code, category_name, active_status FROM product_categories WHERE active_status='1' ";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
 
     //23JULAI
     public function GetAllElementDesc() {
@@ -1198,6 +1242,7 @@ class Document_Template_Model {
                 . "updated_date = now(), "
                 . "updated_by = 'ADMIN' "
                 . "WHERE doc_name_id='" . (int) $docNameId . "' ";
+        print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -1266,6 +1311,19 @@ class Document_Template_Model {
                 . "VALUES ((SELECT doc_name_id FROM document WHERE doc_name_desc = '" . $outputS['doc_name_id'] . "'), '" . $outputS['section_sorting'] . "', "
                 . "(SELECT section_code FROM ref_document_section WHERE section_desc = '" . $outputS['section_code'] . "' LIMIT 1), '" . $outputS['sorting'] . "', "
                 . "(SELECT DISTINCT element_code FROM ref_document_element WHERE element_desc ='" . $outputS['parent_element_code'] . "' LIMIT 1), 'ADMIN', NOW()) ";
+        print_r($sql);
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+    //zarith-18/3
+    public function InsertNewSection(array $outputS) {
+        $sql = "INSERT INTO document_element (doc_name_id, section_sorting, section_code, created_by, created_date) "
+                . "VALUES ((SELECT doc_name_id FROM document WHERE doc_name_desc = '" . $outputS['doc_name_id'] . "'), '" . $outputS['section_sorting'] . "', "
+                . "(SELECT section_code FROM ref_document_section WHERE section_desc = '" . $outputS['section_code'] . "' LIMIT 1), '" . $outputS['sorting'] . "', "
+                . "'ADMIN', NOW()) ";
         print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);

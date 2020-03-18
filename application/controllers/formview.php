@@ -31,18 +31,26 @@ class Formview_Controller extends Common_Controller {
                 break;
             case 'new-diagnosis':
                 $page = 'forms/new_diagnosis';
-                //$documentId = $params[URL_ARRAY + 3];
+                $documentId = $params[URL_ARRAY + 3];
                 $document = new Document_Template_Model();
+                $documentTemplate = $document->GetDocumentDesc($documentId);
+                $result['document_title'] = $documentTemplate['doc_name_desc'];
+                $result['document_id'] = $documentTemplate['doc_name_id'];
                 $result['list_of_diagnosis'] = $document->GetAllDiagnosis();
-                //$result['doc_id'] = $documentId;
                 break;
-//            case 'new-procedure':
-//                $page = 'forms/new_procedure';
-//                //$documentId = $params[URL_ARRAY + 3];
-//                $document = new Document_Template_Model();
-//                $result['list_of_procedure'] = $document->GetAllDiagnosis();
-//                //$result['doc_id'] = $documentId;
-//                break;
+            case 'new-procedure':
+                $page = 'forms/new_procedure';
+                $documentId = $params[URL_ARRAY + 3];
+                $document = new Document_Template_Model();
+                $documentTemplate = $document->GetDocumentDesc($documentId);
+                $result['document_title'] = $documentTemplate['doc_name_desc'];
+                $result['document_id'] = $documentTemplate['doc_name_id'];
+                $result['list_of_procedure'] = $document->GetAllProcedure();
+                //$result['doc_id'] = $documentId;
+//                $result['product_group'] = $this->RefMainDisciplineGroup();
+//                $result['product_category'] = $this->GetProductCategory();
+                $result['preset_select'] = false;
+                break;
             //12julai    
             case 'new-form':
                 $page = 'forms/new_form';
@@ -75,7 +83,7 @@ class Formview_Controller extends Common_Controller {
                 break;
             //zarith-8/3   
             case 'build-form':
-                 $page = 'forms/build_form'; 
+                $page = 'forms/build_form';
                 $documentId = $params[URL_ARRAY + 3];
                 $documentData = new Document_Template_Model();
                 $documentTemplate = $documentData->ReadDocumentTemplate($documentId);
@@ -153,7 +161,6 @@ class Formview_Controller extends Common_Controller {
             case 'edit-form-new':
                 $page = 'forms/edit-form-new';
                 $documentId = $params[URL_ARRAY + 3];
-               // print_r ($documentId);
                 $documentData = new Document_Template_Model();
                 $documentTemplate = $documentData->ReadDocumentTemplate($documentId);
 
@@ -250,7 +257,7 @@ class Formview_Controller extends Common_Controller {
                 $result['link_style'] = "<link href='" . SITE_ASSET . "/assets/css/hiskkm.css' rel='stylesheet' />";
                 break;
             //zarith-8/3 
-             case 'form-template-view':
+            case 'form-template-view':
                 $page = 'forms/document_view_build';
                 $documentId = $params[URL_ARRAY + 3];
                 $documentData = new Document_Template_Model();
@@ -379,20 +386,19 @@ class Formview_Controller extends Common_Controller {
                 $element_properties = str_replace('_NEW', '', $new_mapper['element_properties']);
                 $last_element_sorting = $document->GetElementSorting($section_code, $document_id);
                 $new_element_sorting = $last_element_sorting->newsorting + 1;  //wan is column name
-                
+
                 $val = array(
                     'sectionId' => $section_code,
-                    'section_sorting'=> $sectionSorting,
+                    'section_sorting' => $sectionSorting,
                     'parent_element_code' => $element_code,
                     'sorting' => $new_element_sorting,
                     'documentId' => $document_id,
                     'element_group' => $element_group
-                        
-                        );
-                 echo '<pre>';
-                    print_r($val);
-                 echo '</pre>';
-                 $document->InsertNewRefElement($val);
+                );
+                echo '<pre>';
+                print_r($val);
+                echo '</pre>';
+                $document->InsertNewRefElement($val);
                 if ($element_properties == 'DECORATION') {
                     $this->CaseDecorationE($new_mapper, $new_data);
                 } elseif ($element_properties == 'BASIC') {
@@ -492,7 +498,7 @@ class Formview_Controller extends Common_Controller {
                 $val = $document->GetSectionsDetail($doc_id);
                 $page = 'forms/change_section_detail';
                 $result['section'] = $val;
-                $result['doc_id']=$doc_id;
+                $result['doc_id'] = $doc_id;
                 $result['list_of_sections'] = $document->GetAllSecDesc();
                 $data = array(
                     'component' => 'Section Title',
@@ -658,7 +664,7 @@ class Formview_Controller extends Common_Controller {
                 $info = $values['json_method'];
                 $method_id = $document->GetMethodId($docId);
                 foreach ($method_id as $key):
-                    $document->UpdateMethodInfo($key['doc_method_code'], ucwords($title) , $info);
+                    $document->UpdateMethodInfo($key['doc_method_code'], ucwords($title), $info);
                     echo $key['doc_method_code'] . "<br>";
                 endforeach;
                 $this->GenerateJSONFormat($docId, 'update');
@@ -672,7 +678,7 @@ class Formview_Controller extends Common_Controller {
                 $info = $values['json_section'];
                 $section_id = $document->GetSectionsId($docId);
                 foreach ($section_id as $key):
-                    $document->UpdateSectionInfo($key['section_code'], $title , $info);
+                    $document->UpdateSectionInfo($key['section_code'], $title, $info);
                     echo $key['section_code'] . "<br>";
                 endforeach;
                 $this->GenerateJSONFormat($docId, 'update');
@@ -716,17 +722,17 @@ class Formview_Controller extends Common_Controller {
                 $docForm = $document->InsertDocId($subDis, $docGroup, $docType, strtoupper($titleDesc));
 //                print_r($docForm);
                 break;
-            //19JULAI
-//            case 'create-section':
-//                $ajax = true;
-//                $document = new Document_Template_Model();
-//                $values = $this->form_array($_REQUEST['values']);
-//                $page = 'forms/new_section';
-//                $layout = $values['layout'];
-//                $secDesc = $values['section_desc'];
-//                $secForm = $document->InsertSecId($layout, $secDesc);
-//                print_r($secForm);
-//                break;
+           // zarith-16/3
+            case 'create-diagnosis':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $docId = $_REQUEST['documentId'];
+                $docInfo = $_REQUEST['diagnosis'];
+                $data = json_decode($docInfo);
+                echo '<pre>';
+                print_r($data);
+                echo '</pre>';     
+                break;
             case 'create-method':
                 $ajax = true;
                 $document = new Document_Template_Model();
@@ -740,8 +746,6 @@ class Formview_Controller extends Common_Controller {
                     $new_data[$datas['name']] = $datas['value'];
                 endforeach;
 
-
-
                 foreach ($new_data as $key => $value):
                     $new_key = preg_replace("/[0-9]+/", "", $key);
                     if ($new_key == 'method_desc'):
@@ -749,19 +753,15 @@ class Formview_Controller extends Common_Controller {
                     elseif ($new_key == 'method_info'):
                         $method_info = $value;
 
-////                    
                         $output = array(
                             'method_desc' => $method_desc,
                             'method_info' => $method_info,
                         );
                         $document->InsertMethodId($output);
 
-
                     endif;
                 endforeach;
                 break;
-
-
             case 'create-section':
                 $ajax = true;
                 $document = new Document_Template_Model();
@@ -775,8 +775,6 @@ class Formview_Controller extends Common_Controller {
                     $new_data[$datas['name']] = $datas['value'];
                 endforeach;
 
-
-
                 foreach ($new_data as $key => $value):
                     $new_key = preg_replace("/[0-9]+/", "", $key);
                     if ($new_key == 'section_desc'):
@@ -784,9 +782,7 @@ class Formview_Controller extends Common_Controller {
                     elseif ($new_key == 'json_desc'):
                         $json_desc = $value;
                     elseif ($new_key == 'layout'):
-                        $layout = $value;
 
-////                    
                         $output = array(
                             'section_desc' => $section_desc,
                             'json_section' => $json_desc,
@@ -794,20 +790,9 @@ class Formview_Controller extends Common_Controller {
                         );
                         $document->InsertSecId($output);
 
-
                     endif;
                 endforeach;
                 break;
-            //23JULAI
-//            case 'create-element':
-//                $ajax = true;
-//                $document = new Document_Template_Model();
-//                $values = $this->form_array($_REQUEST['values']);
-//                $page = 'forms/new_element';
-//                $elementDesc = $values['element_desc'];
-//                $elementForm = $document->InsertElementId($elementDesc);
-////                print_r($elementForm);
-//                break;
             case 'create-element':
                 $ajax = true;
                 $document = new Document_Template_Model();
@@ -1028,7 +1013,7 @@ class Formview_Controller extends Common_Controller {
                 #elementDesc
                 $element = json_decode($new_data['elemDetail'], true); //dri basic->ajax_element_form_group
                 $resultE = $this->mapper($element);
-                
+
                 $x = 1;
                 $y = 1;
                 if ($resultS):
@@ -1057,7 +1042,44 @@ class Formview_Controller extends Common_Controller {
                 endif;
 
                 break;
-                
+                //zarith-18/3
+                case 'update-new-section':
+                $document = new Document_Template_Model();
+                $ajax = true;
+                $json = file_get_contents('php://input');
+                $array = explode('&', urldecode($json));
+                $new_data = array();
+                foreach ($array as $a):
+                    $ex = explode('=', $a);
+                    $new_data[$ex[0]] = $ex[1];
+                endforeach;
+
+                #documentDesc
+                $documentD = json_decode($new_data['docDetail'], true); //dri basic->ajax_element_form_group
+                $resultD = (object) $this->mapper($documentD);
+                print_r($resultD);
+
+                #sectionDesc
+                $section = json_decode($new_data['secDetail'], true); //dri basic->ajax_element_form_group
+                $resultS = $this->mapper($section);
+                $x = 1;
+            
+                if ($resultS):
+                    foreach ($resultS as $keyS => $valueS):
+                    
+                                $outputS = array(
+                                    'section_sorting' => $x, //1
+                                    'section_code' => $valueS, //additional test
+                                    'doc_name_id' => $resultD->doc_name_desc //diet note 11
+                                );
+                            echo '<pre>';
+                            print_r($outputS);
+                            echo '</pre>';
+                                $document->InsertNewSection($outputS);
+                        $x++;
+                    endforeach;
+                endif;
+
             default:
                 $result['link_style'] = "<link href='localhost/FORMjson/assets/library/summernote/' rel='stylesheet' />";
                 $result['form_element'] = $this->SessionCall('form_element');
@@ -1180,7 +1202,7 @@ class Formview_Controller extends Common_Controller {
         $docID = $data['documentId'];
         $elementID = $data['elementCode'];
         $sectionId = $data['section_code'];
-        
+
         $document->CleanMultipleAnswer($data);
         $document->CleanMultipleItem($data);
 
@@ -1248,16 +1270,16 @@ class Formview_Controller extends Common_Controller {
         $document->UpdateElementToBasic($val);
         return true;
     }
-    
+
     private function CaseSubsection(array $data, $new_data) {
         $document = new Document_Template_Model();
         $docID = $data['documentId'];
         $elementID = $data['elementCode'];
         $sectionId = $data['section_code'];
-        
+
         $document->CleanMultipleAnswer($data);
         $document->CleanMultipleItem($data);
-        
+
         $val = array(
             'doc_name_id' => $docID,
             'element_code' => $elementID,
@@ -1390,6 +1412,7 @@ class Formview_Controller extends Common_Controller {
         $document->UpdateElementToDecoSUb($val);
         return true;
     }
+
     //zarith-12/3
     private function CaseBasicNew(array $data, $new_data) {
         $document = new Document_Template_Model();
@@ -1437,13 +1460,14 @@ class Formview_Controller extends Common_Controller {
         $document->UpdateElementToBasic($val);
         return true;
     }
+
     //zarith-12/3
-     private function CaseSubsectionNew(array $data, $new_data) {
+    private function CaseSubsectionNew(array $data, $new_data) {
         $document = new Document_Template_Model();
         $docID = $data['documentId'];
         $elementID = $data['elementCode'];
         $sectionId = $data['section_code'];
-        
+
         $val = array(
             'doc_name_id' => $docID,
             'element_code' => $elementID,
@@ -1460,6 +1484,7 @@ class Formview_Controller extends Common_Controller {
         $document->UpdateElementToDecoSUb($val);
         return true;
     }
+
     //zarith-12/3
     private function CaseDecorationE(array $data) {
         $document = new Document_Template_Model();
@@ -1483,6 +1508,7 @@ class Formview_Controller extends Common_Controller {
         $document->UpdateElementToDecoSUb($val);
         return true;
     }
+
     //zarith-12/3
     private function CaseBasicE(array $data, $new_data) {
         $document = new Document_Template_Model();
@@ -1530,13 +1556,14 @@ class Formview_Controller extends Common_Controller {
         $document->UpdateElementToBasic($val);
         return true;
     }
+
     //zarith-12/3
-     private function CaseSubsectionE(array $data, $new_data) {
+    private function CaseSubsectionE(array $data, $new_data) {
         $document = new Document_Template_Model();
         $docID = $data['doc_id'];
         $elementID = $data['element_desc'];
         $sectionId = $data['section_code'];
-        
+
         $val = array(
             'doc_name_id' => $docID,
             'element_code' => $elementID,
