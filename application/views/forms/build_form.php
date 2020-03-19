@@ -10,7 +10,7 @@
                         <div class='col-sm-4'>
                             <input name="doc_template" id="doc_template"  value="<?= $template_id; ?>" type="hidden"  class="form-control docList text-uppercase" />
                             <input name="doc_name_id" id="doc_name_id"  value="<?= $document_id; ?>" type="hidden"  class="form-control docList text-uppercase" />
-                            <input name="doc_name_desc" id="doc_name_desc"  value="<?= $document_title; ?>" type="text"  class="form-control docList text-uppercase"/>
+                            <input name="doc_name_desc" id="doc_name_desc"  value="<?= $document_title; ?>" type="text"  class="form-control docList text-uppercase" readonly/>
                         </div>
                     </div>
                 </form>    
