@@ -338,6 +338,7 @@
 
         //ADDFORMBUTTON
         $('.addForm').click(function () {
+              
             var values = $('#documentFilter').serializeArray();
             var dis = $("#discipline").val();
             var subDis = $("#general_discipline").val();
@@ -345,21 +346,25 @@
             var docType = $("#doc_type").val();
             var docName = $("#doc_name_desc").val();
             console.log(values);
+            $(this).text('Creating new title...');
+            $('.addForm').attr('disabled','disabled');
+
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/add-title/',
                 data: {values: values, dis: dis, subDis: subDis, docGroup: docGroup, docType: docType, docName: docName},
-//                success: function (data) {
-//                    swal({
-//                        title: "Title Created!",
-//                        text: "Data successfully inserted into database",
-//                        type: "success"
-//                    });
-//                }
+                success: function (data) {
+                    swal({
+                        title: "Title Created!",
+                        text: "Data successfully inserted into database",
+                        type: "success"
+                    });
+                }
             });
             setTimeout(
                     function () {
                         window.location.reload(true);
                     }, 1000);
+                   
         });
 
     });
