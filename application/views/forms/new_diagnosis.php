@@ -11,7 +11,7 @@
                 <div class="col-sm-6" style='width:48.10%'>
                     <input name="doc_template" id="doc_template"  value="" type="hidden"  class="form-control docList text-uppercase" />
                             <input name="doc_name_id" id="doc_name_id"  value="<?= $document_id; ?>" type="hidden"  class="form-control docList text-uppercase"  />
-                            <input name="doc_name_desc" id="doc_name_desc"  value="<?= $document_title; ?>" type="text"  class="form-control docList text-uppercase" autocomplete="autocomplete"/>   
+                            <input name="doc_name_desc" id="doc_name_desc"  value="<?= $document_title; ?>" type="text"  class="form-control docList text-uppercase" autocomplete="autocomplete" disabled="disabled"/>   
                 </div>  
             </div>
 
