@@ -27,6 +27,7 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
+                &nbsp;<span style='color: red'>*</span>
             </div>
             
             <div class='form-group form-group-sm'>
@@ -34,6 +35,7 @@
                 <div class='col-sm-8'>
                     <input type='number' name='element_level' class='form-control' style="width:8%" autocomplete="off" required/>
                 </div>
+                &nbsp;<span style='color: red'>*</span>
             </div>
 
 

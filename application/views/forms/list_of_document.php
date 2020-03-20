@@ -6,23 +6,28 @@
     <form id='documentFilter' class='form-horizontal col-md-offset-2 col-md-offset-2'>
         <div class='form-group form-group-sm'>
             <div class="col-md-12">
-                <div class='row'>
+                <div class='form-row'>
                     <div class='form form-inline'>
-                        <label class="control-label col-md-2">Discipline</label>
-                        <select name='discipline' id='discipline'  class='form-control col-md-8 required' style="width:20%; background-color:#ffff33"> 
-                            <option value='0' selected="selected" >Please Select Discipline</option>
+                       <div class="form-group col-md-4 text-right" >    
+                        <label class="control-label ">Discipline</label>
+                        <select name='discipline' id='discipline' class='form-control' style="width:55%; background-color:#FFFF99"> 
+                            <option value='0' selected="selected">Please Select Discipline</option>
                             <?php foreach ($main_discipline as $discipline): ?>
                                 <option value='<?php echo $discipline['code']; ?>'><?php echo $discipline['label']; ?></option>
                             <?php endforeach; ?>
-                        </select>
-<!--                        &nbsp;<span style='color: red'>*</span>-->
-                        <label class="control-label col-sm-2" >Document Group</label>
-                        <select name='doc_group' class='form-control col-md-8' style="width:20% ; background-color:#ffff33">
+                        </select>&nbsp;<b style='color: red'>*</b>
+                        </div> 
+                        
+                        <div class="form-group col-md-4 text-right">    
+                        <label class="control-label" >Document Group</label>
+                        <select name='doc_group' class='form-control' style="width:55%; background-color:#FFFF99">
                             <option value='0' selected="selected">Please Select Document Group</option>
                             <?php foreach ($doc_group as $doc): ?>
                                 <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
                             <?php endforeach; ?>
                         </select>
+                        &nbsp;<span style='color: red'>*</span>
+                        </div>
 
                     </div>
                 </div>
@@ -31,10 +36,11 @@
             <br><br>
 
             <div class="col-md-12">
-                <div class='row'>
-                    <div class='form form-inline'  >
-                        <label class="control-label col-md-2">Sub Discipline</label>
-                        <select name='general_discipline' class='form-control col-md-8' style="width:20%; background-color:#ffff33">
+                <div class='form-row'>
+                    <div class='form form-inline' >
+                          <div class="form-group col-md-4 text-right">
+                        <label class="control-label">Sub Discipline</label>
+                        <select name='general_discipline' class='form-control' style="width:55%; background-color:#FFFF99">
                             <?php if (!$preset_select): ?>
                                 <option value='0'>Please Select Discipline</option>
                             <?php else: ?>
@@ -43,10 +49,12 @@
                                     <option value='<?php echo $general['code']; ?>'><?php echo $general['label']; ?></option>
                                 <?php endforeach; ?>
                             <?php endif; ?>
-                        </select>
-
-                        <label class="control-label col-sm-2" >Document Type</label>
-                        <select name='doc_type' class='form-control col-md-8' style="width:20%; background-color:#ffff33">
+                        </select>&nbsp;<b style='color: red'>*</b>
+                        </div> 
+                        
+                        <div class="form-group col-md-4 text-right">    
+                        <label class="control-label" >Document Type</label>
+                        <select name='doc_type' class='form-control' style="width:55%; background-color:#FFFF99">
                             <?php if (!$preset_select): ?>
                                 <option value='0' selected="selected">Please Select Document Group</option>
                             <?php else: ?>
@@ -58,7 +66,8 @@
                                 <?php endif; ?>
                             <?php endif; ?>
                         </select>
-<!--                        &nbsp;<span style='color: red'>*</span>-->
+                        &nbsp;<span style='color: red'>*</span>
+                        </div>
                     </div>    
                 </div>
             </div>
@@ -67,8 +76,8 @@
                 <div class='row'>
                     <div class='form-inline'>
                         <label class="control-label col-md-2">Document Title</label>
-                        <input type="text" name="doc_name_desc" id='doc_name_desc1'  data-no ='1' class="form-control text-uppercase" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" style="width:56.58%; background-color:#ffff33"/>
-<!--                        &nbsp;<b style='color: red'>*</b>-->
+                        <input type="text" name="doc_name_desc" id='doc_name_desc1'  data-no ='1' class="form-control text-uppercase" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" style="width:56.2%; background-color:#FFFF99; margin-left: 5px"/>
+                        &nbsp;<b style='color: red'>*</b>
                         <br>
                         <span id='validateF1' style="margin-left:177px;font-size:10px;color:red;text-align:left" hidden>Record Found</span>
                         <span id='validateT1'  style="margin-left:177px;font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
@@ -183,7 +192,7 @@
                     <div class="modal-body">
                         <div style="padding-bottom:5px" class="form-inline">
                             <label style="padding-left:29px;padding-right:27px" class="control-label">Change Title</label>
-                            <input id="doc_name1" name="doc_name" data-no="1" class="form-control text-uppercase" onkeyup="this.value = this.value.toUpperCase();" style="height:25px;width:600px;background-color:#ffff33" type="text"  autocomplete="off"/>
+                            <input id="doc_name1" name="doc_name" data-no="1" class="form-control text-uppercase" onkeyup="this.value = this.value.toUpperCase();" style="height:25px;width:600px;background-color:#FFFF99" type="text"  autocomplete="off"/>
                             &nbsp;<b style='color: red'>*</b>
                             <br>
                             <span id='validateFF1' style="margin-left:132px;font-size:10px;color:red;text-align:left" hidden>Record Found</span>

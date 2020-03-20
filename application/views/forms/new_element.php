@@ -9,7 +9,7 @@
                 <div id='elementGrouping'>   
                     <div class="elementNew1">
                         <div class='form-group form-group-sm'>
-                            <label class='control-label col-sm-1'>Name&nbsp;<b style='color: red'>*</b></label>
+                            <label class='control-label col-sm-1'>Name</label>
                             <div class='col-sm-4'>
                                 <input type='text' data-no = '1' name='element_desc1' id='element_desc1' class='form-control' autocomplete="off" required/>
                                 <span id='validateF1' name='validateF1' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
@@ -20,7 +20,7 @@
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            <label class='control-label col-sm-1 hidden'>Json&nbsp;<b style='color: red'>*</b></label>
+                              <label class="control-label col-sm-1" style="width:1%;padding-left:2px;text-align: left"><b style="color: red">*</b></label>
                             <div class='col-sm-4 hidden'>
                                 <input type='text' name='json_desc1' data-no = '1' id='json_desc1' class='form-control' autocomplete="off" required disabled/>
                                 <span id='validateFF1' name='validateFF1' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
@@ -138,10 +138,10 @@
                     });
                 }
             });
-            setTimeout(
-                    function () {
-                        window.location.reload(true);
-                    }, 1200);
+//            setTimeout(
+//                    function () {
+//                        window.location.reload(true);
+//                    }, 1200);
         });
     });
 </script>
@@ -196,14 +196,14 @@
             $('.addElement').attr('disabled', false);
             var $element = '<div class="elementNew' + no + '">';
             $element += '<div class="form-group form-group-sm">';
-            $element += '<label class="control-label col-sm-1">Name&nbsp;<b style="color: red">*</b></label>';
+            $element += '<label class="control-label col-sm-1">Name</label>';
             $element += '<div class="col-sm-4">';
             $element += '<input type="text" data-no = "' + no + '" name="element_desc' + no + '" id="element_desc' + no + '" class="form-control" autocomplete="off" required/>';
             $element += '<span id="validateF' + no + '" name="validateF' + no + '" style="font-size:10px;color:red;text-align:left" hidden></span>';
             $element += '<span id="validateT' + no + '" name="validateT' + no + '" style="font-size:10px;color:green;text-align:left" hidden></span>';
             $element += '<select id="list_element_desc" class="form-control hidden">' + optionE + '</select>';
             $element += '</div>';
-            $element += '<label class="control-label col-sm-1 hidden">Json&nbsp;<b style="color: red">*</b></label>';
+            $element += '  <label class="control-label col-sm-1" style="width:1%;padding-left:2px;text-align: left"><b style="color: red">*</b></label>';
             $element += '<div class="col-sm-4 hidden">';
             $element += '<input type="text" data-no = "' + no + '" name="json_desc' + no + '" id="json_desc' + no + '" class="form-control" autocomplete="off" required disabled>';
             $element += '<span id="validateFF' + no + '" name="validateFF' + no + '" style="font-size:10px;color:red;text-align:left" hidden></span>';

@@ -48,12 +48,14 @@
         <?php } endforeach; ?> 
                     </select>
                 </div>
+                 &nbsp;<span style='color: red'>*</span>
             </div>
  <div class='form-group form-group-sm'>
                 <label class='control-label col-sm-2'>Element Level</label>
                 <div class='col-sm-8'>
                     <input type='number' name='element_level' id='element_level' class='form-control' style="width:8%" value="<?= $values->element_level; ?>" autocomplete="off"/>
                 </div>
+                 &nbsp;<span style='color: red'>*</span>
             </div>
             <div class="form-group form-group-sm">
                 <label class="control-label col-sm-2">Position</label>

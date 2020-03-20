@@ -9,7 +9,7 @@
                 <div id='sectionGrouping'>   
                     <div class="sectionNew1">
                         <div class='form-group form-group-sm'>
-                            <label class='control-label col-sm-1'>Name&nbsp;<b style='color: red'>*</b></label>
+                            <label class='control-label col-sm-1'>Name</label>
                             <div class='col-sm-3'>
                                 <input type='text' data-no = '1' name='section_desc1' id='section_desc1' class='form-control text-uppercase' onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" required/>
                                 <span id='validateF1' name='validateF1' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
@@ -22,7 +22,7 @@
 
                             </div>
 
-                            <label class='control-label col-sm-1 hidden'>Json&nbsp;<b style='color: red'>*</b></label>
+                            <label class="control-label col-sm-1" style="width:1%;padding-left:2px;text-align: left"><b style="color: red">*</b></label>
                             <div class='col-sm-3 hidden'>
                                 <input type='text' name='json_desc1' data-no = '1' id='json_desc1' class='form-control' autocomplete="off" required disabled/>
                                 <span id='validateFF1' name='validateFF1' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
@@ -214,14 +214,14 @@
             $('.addSection').attr('disabled', false);
             var $sections = '<div class="sectionNew' + no + '">';
             $sections += '<div class="form-group form-group-sm">';
-            $sections += '<label class="control-label col-sm-1">Name&nbsp;<b style="color: red">*</b></label>';
+            $sections += '<label class="control-label col-sm-1">Name</label>';
             $sections += '<div class="col-sm-3">';
             $sections += '<input type="text" data-no = "' + no + '" name="section_desc' + no + '" id="section_desc' + no + '" class="form-control text-uppercase" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" required/>';
             $sections += '<span id="validateF' + no + '" name="validateF' + no + '" style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>';
             $sections += '<span id="validateT' + no + '" name="validateT' + no + '" style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>';
             $sections += '<select id="list_section_desc" class="form-control hidden">' + optionS + '</select>';
             $sections += '</div>';
-            $sections += '<label class="control-label col-sm-1 hidden">Json&nbsp;<b style="color: red">*</b></label>';
+            $sections += '<label class="control-label col-sm-1" style="width:1%;padding-left:2px;text-align: left"><b style="color: red">*</b></label>';
             $sections += '<div class="col-sm-3 hidden">';
             $sections += '<input type="text" data-no = "' + no + '" name="json_desc' + no + '" id="json_desc' + no + '" class="form-control" autocomplete="off" required disabled>';
             $sections += '<span id="validateFF' + no + '" name="validateFF' + no + '" style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>';

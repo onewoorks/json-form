@@ -775,6 +775,8 @@ class Formview_Controller extends Common_Controller {
                     $new_data[$datas['name']] = $datas['value'];
                 endforeach;
 
+
+
                 foreach ($new_data as $key => $value):
                     $new_key = preg_replace("/[0-9]+/", "", $key);
                     if ($new_key == 'section_desc'):
@@ -782,13 +784,16 @@ class Formview_Controller extends Common_Controller {
                     elseif ($new_key == 'json_desc'):
                         $json_desc = $value;
                     elseif ($new_key == 'layout'):
+                        $layout = $value;
 
+////                    
                         $output = array(
                             'section_desc' => $section_desc,
                             'json_section' => $json_desc,
                             'layout' => $layout
                         );
                         $document->InsertSecId($output);
+
 
                     endif;
                 endforeach;
