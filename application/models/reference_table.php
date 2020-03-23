@@ -96,10 +96,25 @@ class Reference_Table_Model  { //dari class sini
         return ($result) ? $result : false;
     }
     
+//    public function DocumentType($groupCode = null) {
+//        $sql = "SELECT dc_type_code as code, dc_type_desc as label"
+//                . " FROM ref_document_type "
+//                . " WHERE doc_group_code ='$groupCode'";
+//        $this->db->connect();
+//        $this->db->prepare($sql);
+//        $this->db->queryexecute();
+//        $result = $this->db->fetchOut('array');
+//        return ($result) ? $result : false;
+//    }
+    //zarith-23/3 
     public function DocumentType($groupCode = null) {
         $sql = "SELECT dc_type_code as code, dc_type_desc as label"
-                . " FROM ref_document_type "
-                . " WHERE doc_group_code ='$groupCode'";
+                . " FROM ref_document_type ";
+		if($groupCode == 'CN'):
+		$sql .= "WHERE doc_group_code ='CN'";
+		else:
+		$sql .= "WHERE doc_group_code ='RL' AND dc_type_code IN('RFL','RPL') ";
+                endif;
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
