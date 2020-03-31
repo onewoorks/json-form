@@ -206,7 +206,7 @@ class Common_Controller {
         endswitch;
         return true;
     }
-
+    
     private function ObjectSorting($arr) {
         $data = (array) $arr;
         usort($data, function($a, $b) {
@@ -264,6 +264,12 @@ class Common_Controller {
 
     protected function JsonWithSectionSorting($data) {
         return $this->SectionSorting($data);
+    }
+    
+     public function RefProductCategory() {
+        $reference = new Reference_Table_Model();
+        $mainProduct = $reference->MainProductCategory();
+        return $mainProduct;
     }
 
 }

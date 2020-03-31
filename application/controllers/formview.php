@@ -46,9 +46,7 @@ class Formview_Controller extends Common_Controller {
                 $result['document_title'] = $documentTemplate['doc_name_desc'];
                 $result['document_id'] = $documentTemplate['doc_name_id'];
                 $result['list_of_procedure'] = $document->GetAllProcedure();
-                //$result['doc_id'] = $documentId;
-//                $result['product_group'] = $this->RefMainDisciplineGroup();
-//                $result['product_category'] = $this->GetProductCategory();
+                $result['doc_group'] = $this->RefProductCategory();
                 $result['preset_select'] = false;
                 break;
             //12julai    
@@ -722,7 +720,7 @@ class Formview_Controller extends Common_Controller {
                 $docForm = $document->InsertDocId($subDis, $docGroup, $docType, strtoupper($titleDesc));
 //                print_r($docForm);
                 break;
-           // zarith-16/3
+            // zarith-16/3
             case 'create-diagnosis':
                 $ajax = true;
                 $document = new Document_Template_Model();
@@ -731,7 +729,40 @@ class Formview_Controller extends Common_Controller {
                 $data = json_decode($docInfo);
                 echo '<pre>';
                 print_r($data);
-                echo '</pre>';     
+                echo '</pre>';
+                break;
+            case 'create-procedure':
+                 $document = new Document_Template_Model();
+                $ajax = true;
+                $json = file_get_contents('php://input');
+                $array = explode('&', urldecode($json));
+                $new_data = array();
+                foreach ($array as $a):
+                    $ex = explode('=', $a);
+                    $new_data[$ex[0]] = $ex[1];
+                endforeach;
+
+                #documentId
+                $docId = $_REQUEST['documentId'];
+                
+                #productDesc
+                $product = json_decode($new_data['proDetails'], true);
+                $resultP = $this->mapper($product);
+               // $print_r($resultP);
+                if ($resultP):
+                    foreach ($resultP as $keyP => $valueP):
+                    
+                            $outputP = array(
+                                'product_code' => $valueP,
+                                'doc_name_id' => $docId
+                            );
+                            echo '<pre>';
+                            print_r($outputP);
+                            echo '</pre>';
+                            $document->InsertDocumentProduct($outputP);
+                       
+                    endforeach;
+                endif;
                 break;
             case 'create-method':
                 $ajax = true;
@@ -1018,7 +1049,7 @@ class Formview_Controller extends Common_Controller {
                 #elementDesc
                 $element = json_decode($new_data['elemDetail'], true); //dri basic->ajax_element_form_group
                 $resultE = $this->mapper($element);
-
+                
                 $x = 1;
                 $y = 1;
                 if ($resultS):
@@ -1047,8 +1078,8 @@ class Formview_Controller extends Common_Controller {
                 endif;
 
                 break;
-                //zarith-18/3
-                case 'update-new-section':
+            //zarith-18/3
+            case 'update-new-section':
                 $document = new Document_Template_Model();
                 $ajax = true;
                 $json = file_get_contents('php://input');
@@ -1068,22 +1099,22 @@ class Formview_Controller extends Common_Controller {
                 $section = json_decode($new_data['secDetail'], true); //dri basic->ajax_element_form_group
                 $resultS = $this->mapper($section);
                 $x = 1;
-            
+
                 if ($resultS):
                     foreach ($resultS as $keyS => $valueS):
-                    
-                                $outputS = array(
-                                    'section_sorting' => $x, //1
-                                    'section_code' => $valueS, //additional test
-                                    'doc_name_id' => $resultD->doc_name_desc //diet note 11
-                                );
-                            echo '<pre>';
-                            print_r($outputS);
-                            echo '</pre>';
-                                $document->InsertNewSection($outputS);
+
+                        $outputS = array(
+                            'section_sorting' => $x, //1
+                            'section_code' => $valueS, //additional test
+                            'doc_name_id' => $resultD->doc_name_desc //diet note 11
+                        );
+                        echo '<pre>';
+                        print_r($outputS);
+                        echo '</pre>';
+                        $document->InsertNewSection($outputS);
                         $x++;
                     endforeach;
-                endif;
+            endif;
 
             default:
                 $result['link_style'] = "<link href='localhost/FORMjson/assets/library/summernote/' rel='stylesheet' />";

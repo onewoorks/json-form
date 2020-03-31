@@ -686,9 +686,13 @@ class Document_Template_Model {
         return $result;
     }
     
-    //zarith-11/3
+    //zarith-31/3
     public function GetAllProcedure() {
-        $sql = " SELECT category_code, category_name, active_status FROM product_categories WHERE active_status='1' ";
+       $sql = "SELECT p.product_code, p.product_name, p.category_code, pf.form_name "
+               . "FROM products p "
+               . "INNER JOIN product_forms pf "
+               . "ON (p.form_code = pf.form_code) "
+               . "WHERE p.form_code IN ('11','2','3','7','8','9') LIMIT 10";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -1352,7 +1356,33 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return $result;
     }
-
+    
+    //zarith-10/3
+    public function GetFilterListByProductGroup($documentArray) {
+        $docGroup = $documentArray['doc_group'];
+        $sql = "SELECT p.product_code, p.product_name, p.category_code, pf.form_name "
+                . "FROM products p "
+                . "INNER JOIN product_forms pf ON(p.form_code = pf.form_code) ";
+        if ($docGroup != "0") {
+            $sql.="WHERE p.form_code = '$docGroup'";
+        }
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+    public function InsertDocumentProduct($outputP){
+       
+         $sql = "INSERT INTO document_product (doc_name_id, product_code, created_by, created_date) "
+                 . "VALUES ('" . $outputP['doc_name_id'] . "', '" . $outputP['product_code'] . "', 'ADMIN', now()) ";
+        print_r($sql);
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
 //    public function getDocDesc($templateId){
 //        $sql = "SELECT dt.doc_name_id, d.doc_name_desc "
 //                ."FROM document_template dt "
