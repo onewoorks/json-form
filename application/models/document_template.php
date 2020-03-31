@@ -921,11 +921,15 @@ class Document_Template_Model {
         print_r($sql);
         return true;
     }
-
-    public function UpdateSectionDetail($section, $section_code, $docId) {
-        $sql = "UPDATE document_element SET "
-                . "section_code='" . (int) $section_code . "' "
-                . "WHERE section_code='" . (int) $section . "' AND doc_name_id='" . (int) $docId . "' ";
+    
+    //zarith-31/3
+    public function UpdateSectionDetail($documentArray) {
+        $docId = $documentArray['document_id'];
+        $section = $documentArray['section_code'];
+        $section_desc = $documentArray['section_desc'];
+        $sql = "UPDATE document_element "
+                . "SET section_code=(SELECT section_code FROM ref_document_section WHERE section_desc='" . $section_desc . "' LIMIT 1) "
+                . "WHERE section_code='" . (int) $section . "' AND doc_name_id='" . (int) $docId . "'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
