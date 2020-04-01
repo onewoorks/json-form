@@ -7,7 +7,7 @@
 
             <div class="form-group form-group-sm" style='margin-left:-40px;margin-top: -5px'>
                 <label class="control-label col-sm-4">Document Title</label>
-                <div class="col-sm-6" style='width:48.10%'>
+                <div class="col-sm-6" style='width:48.35%'>
                     <input name="doc_name_id" id="doc_name_id"  value="<?= $document_id; ?>" type="hidden"  class="form-control docList text-uppercase"  />
                     <input name="doc_name_desc" id="doc_name_desc"  value="<?= $document_title; ?>" type="text"  class="form-control docList text-uppercase" autocomplete="autocomplete" readonly/>   
                 </div>  
@@ -15,13 +15,13 @@
 
             <div class="form-group form-group-sm" style='margin-left:-40px;margin-top: 5px'>
                 <label class="control-label col-sm-4">Product Category</label>
-                <div class="col-sm-6" style='width:48.10%'>
+                <div class="col-sm-6" style='width:48.35%'>
                     <select name='doc_group' class='form-control' >
-                        <option value='0' selected="selected">Please Select Product Category</option>
+                        <option value='11' selected="selected">Please Select Product Category</option>
                         <?php foreach ($doc_group as $doc): ?>
                             <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
                         <?php endforeach; ?>
-                    </select>
+                    </select>   
                 </div>  
             </div>
 
@@ -40,11 +40,6 @@
             <div class='panel panel-primary'>
                 <div class='panel-heading'>Result of Existing Product</div>
                 <div class='panel-body'>
-                    <div class="form-inline">
-                        <div class ='pull-left' style=" font-size: smaller; padding-bottom: 3px;"><b>Total Document = <?= count($list_of_procedure); ?></b></div>
-                        <input type="text" class="pull-right col-sm-2 text-uppercase" style="font-size:12px;padding:5px 10px;height:25px;line-height: 1.5;border:1px solid #cccccc;border-radius:4px" id="search" placeholder="Search" />
-                    </div>
-                    <br><br>  
                     <div class='clearfix'></div>
 
                     <table id="listDoc" class='table table-bordered table-condensed'>
@@ -113,9 +108,9 @@
 </div>
 
 <script>
-//    $(document).ready(function () {
-//        $('#tableForm').DataTable();
-//    });
+    $(document).ready(function () {
+        $('#listDoc').DataTable();
+    });
 </script>   
 <script>
 
@@ -143,27 +138,6 @@
             });
         });
     });
-</script>
-<script>
-    $(document).ready(function () {
-
-        $("#search").keyup(function () {
-            var value = this.value.toLowerCase().trim();
-
-            $("table tr").each(function (index) {
-                if (!index)
-                    return;
-                $(this).find("td").each(function () {
-                    var id = $(this).text().toLowerCase().trim();
-                    var not_found = (id.indexOf(value) === -1);
-                    $(this).closest('tr').toggle(!not_found);
-                    return not_found;
-                });
-            });
-        });
-
-    });
-
 </script>
 <script>
     $(function () {
