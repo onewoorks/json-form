@@ -690,22 +690,13 @@ class Input_Type_Controller extends Common_Controller {
         return $html;
     }
 
-    //zarith-31/3
     public function ListMultipleAnswerInput() {
         $document = new Document_Template_Model();
         $result = $document->ListMultAns();
         $html = '';
 
         foreach ($result as $multi):
-            if ($multi['input_type']==='CALENDER'):
-            $html .= '<option value="' . $multi['input_type'] . '">CALENDAR</option>';
-            elseif ($multi['input_type']==='FUTURE CALENDER'):
-            $html .= '<option value="' . $multi['input_type'] . '">FUTURE CALENDAR</option>';
-            elseif ($multi['input_type']==='FUTURE CALENDER ONLY'):
-            $html .= '<option value="' . $multi['input_type'] . '">FUTURE CALENDAR ONLY</option>';
-            else:
             $html .= '<option value="' . $multi['input_type'] . '">' . $multi['input_type'] . '</option>';
-            endif;
         endforeach;
 
         return $html;

@@ -956,12 +956,14 @@ class Formview_Controller extends Common_Controller {
                 endforeach;
 
                 break;
-             //EDIT SECTION NAME || zarith-31/3
+            //EDIT SECTION NAME
             case 'edit-attributes':
-               $ajax = true;
+                $ajax = true;
                 $document = new Document_Template_Model();
-                $values = $this->form_array($_REQUEST['documentValues']);
-                $document->UpdateSectionDetail($values);
+                $section = $_REQUEST['section'];
+                $section_code = $_REQUEST['section_code'];
+                $docId = $_REQUEST['doc_name_id'];
+                $document->UpdateSectionDetail($section, $section_code, $docId);
                 break;
             //EDIT ELEMENT NAME
             case 'update-section-element':
