@@ -45,7 +45,7 @@ class Formview_Controller extends Common_Controller {
                 $documentTemplate = $document->GetDocumentDesc($documentId);
                 $result['document_title'] = $documentTemplate['doc_name_desc'];
                 $result['document_id'] = $documentTemplate['doc_name_id'];
-                $result['list_of_procedure'] = $document->GetAllProcedure();
+                $result['list_of_procedure'] = $document->GetAllProcedure($documentId);
                 $result['doc_group'] = $this->RefProductCategory();
                 $result['preset_select'] = false;
                 break;

@@ -687,12 +687,13 @@ class Document_Template_Model {
     }
     
     //zarith-31/3
-    public function GetAllProcedure() {
-       $sql = "SELECT p.product_code, p.product_name, p.category_code, pf.form_name "
+    public function GetAllProcedure($documentId) {
+       $sql = "SELECT p.product_code, p.product_name, p.category_code, pf.form_name,"
+               . "CASE WHEN dp.product_code IS NULL THEN 0 ELSE 1 END AS available "
                . "FROM products p "
-               . "INNER JOIN product_forms pf "
-               . "ON (p.form_code = pf.form_code) "
-               . "WHERE p.form_code IN ('11','2','3','7','8','9') LIMIT 10";
+               . "INNER JOIN product_forms pf ON (p.form_code = pf.form_code) "
+               . "LEFT JOIN (SELECT product_code FROM document_product WHERE doc_name_id='" . (int) $documentId . "') dp "
+               . "ON (p.product_code = dp.product_code) WHERE p.form_code IN ('11','2','3','7','8','9') LIMIT 10";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -1362,13 +1363,16 @@ class Document_Template_Model {
     }
     
     //zarith-10/3
-    public function GetFilterListByProductGroup($documentArray) {
+    public function GetFilterListByProductGroup($documentArray, $documentId) {
         $docGroup = $documentArray['doc_group'];
-        $sql = "SELECT p.product_code, p.product_name, p.category_code, pf.form_name "
-                . "FROM products p "
-                . "INNER JOIN product_forms pf ON(p.form_code = pf.form_code) ";
+        $sql = "SELECT p.product_code, p.product_name, p.category_code, pf.form_name,"
+               . "CASE WHEN dp.product_code IS NULL THEN 0 ELSE 1 END AS available "
+               . "FROM products p "
+               . "INNER JOIN product_forms pf ON (p.form_code = pf.form_code) "
+               . "LEFT JOIN (SELECT product_code FROM document_product WHERE doc_name_id='" . (int) $documentId . "') dp "
+               . "ON (p.product_code = dp.product_code)";
         if ($docGroup != "0") {
-            $sql.="WHERE p.form_code = '$docGroup'";
+            $sql.=" WHERE p.form_code = '$docGroup' ";
         }
         $this->db->connect();
         $this->db->prepare($sql);

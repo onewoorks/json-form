@@ -190,7 +190,7 @@ class Main_Controller extends Common_Controller {
                 $values = $this->form_array($_REQUEST['documentValues']);
                 $page = 'forms/new_procedure';
                 $reference = new Reference_Table_Model();
-                $result['list_of_procedure'] = $document->GetFilterListByProductGroup($values);
+                $result['list_of_procedure'] = $document->GetFilterListByProductGroup($values,$documentId);
                 $result['doc_group'] = $this->RefProductCategory();
                 
                 $result['preset_select'] = array(

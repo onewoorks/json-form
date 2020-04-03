@@ -67,7 +67,12 @@
                                     <td  class="text-uppercase" style=" font-size: smaller; text-align: center"><?php echo $procedure['form_name']; ?></td>
                                     <td  style=" font-size: smaller; text-align: center">
                                         <div>
-                                            <input type="checkbox" name="product_id" value="<?php echo $procedure['product_code']; ?>">
+                                            <?php if ($procedure['available']) : ?>
+                                            <input type="checkbox" name="product_id" value="<?php echo $procedure['product_code']; ?>" checked="checked">
+                                        <?php else : ?>
+                                             <input type="checkbox" name="product_id" value="<?php echo $procedure['product_code']; ?>">
+                                        <?php endif; ?>
+                                           
                                         </div>
                                     </td>
                                 </tr>
