@@ -1426,8 +1426,8 @@ class Formview_Controller extends Common_Controller {
     //zarith-12/3
     private function CaseDecorationNew(array $data) {
         $document = new Document_Template_Model();
-        $docID = $data['doc_id'];
-        $elementID = $data['element_desc'];
+        $docID = $data['documentId'];
+        $elementID = $data['elementCode'];
         $sectionId = $data['section_code'];
 
         $val = array(

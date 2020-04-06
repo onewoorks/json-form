@@ -408,6 +408,34 @@
     });
 </script>
 <script>
+    $(document).ready(function () {
+
+        $('#documentFilter input').keyup(function () {
+            var dis = $('[name=discipline]').val();
+            var subDis =  $('[name=general_discipline]').val();
+            var docGroup = $('[name=doc_group]').val();
+            var docType = $('[name=doc_type]').val();
+            var empty = false;
+           
+            $('#documentFilter input').each(function () {
+                if ($(this).val().length === 0) {
+                    empty = true;
+                }
+            });
+            
+            if (empty) {
+                if ((dis, subDis , docGroup, docType) === '0') {
+                    $('.addForm').attr('disabled', true);
+                }
+            } else {
+                if ((dis, subDis , docGroup, docType) !== '0') {
+                    $('.addForm').attr('disabled', false);
+                }
+            }
+        });
+    });
+</script>
+<script>
     //add new form
     $(document).ready(function () {
 
@@ -429,7 +457,7 @@
                 var str = $(this).val();
                 console.log("string", str);
 
-                if (str !== "") {
+               if (str !== "") {
                     if (array.indexOf(str) > -1) {
                         $('#validateT' + thisValue).attr('hidden', 'hidden');
                         $('#validateF' + thisValue).attr('hidden', false);
@@ -437,15 +465,14 @@
                     } else {
                         $('#validateT' + thisValue).attr('hidden', false);
                         $('#validateF' + thisValue).attr('hidden', 'hidden');
-                        $('.addForm').attr('disabled', false);
+                        
                     }
-                    $('.addForm').attr('disabled', false);
+                  //  $('.addForm').attr('disabled', false);
                 } else {
                     $('#validateT' + thisValue).attr('hidden', 'hidden');
                     $('#validateF' + thisValue).attr('hidden', 'hidden');
                     $('.addForm').attr('disabled', 'disabled');
                 }
-
             });
         });//endOfFocus
     });//endOfDocument

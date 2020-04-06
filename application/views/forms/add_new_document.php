@@ -22,6 +22,7 @@
                 <label class="control-label col-sm-2">Element Group</label>
                 <div class="col-sm-8">
                     <select name="element_group" class="form-control" >
+                            <option value='<?= $elemCode; ?>'>Please select Element Group</option>
                         <?php foreach ($elements as $element): ?>
                             <option value='<?php echo $element['element_code']; ?>'><?php echo $element['element_desc']; ?></option>
                         <?php endforeach; ?>
