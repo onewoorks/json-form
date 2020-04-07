@@ -28,17 +28,17 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
-                &nbsp;<span style='color: red'>*</span>
             </div>
             
-            <div class='form-group form-group-sm'>
+           
+            <div class='form-group form-group-sm '>
                 <label class='control-label col-sm-2'>Element Level</label>
-                <div class='col-sm-8'>
-                    <input type='number' name='element_level' class='form-control' style="width:8%" autocomplete="off" required/>
-                </div>
-                &nbsp;<span style='color: red'>*</span>
+                <div class='col-sm-2' style="width: 50px">
+                    <input type='number' name='element_level' style="width: 50px" class='form-control' autocomplete="off" required/>
+                 </div>
+                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: red; position: inherit'>*</span>
             </div>
-
+           
 
             <div class="form-group form-group-sm">
                 <label class="control-label col-sm-2">Position</label>
