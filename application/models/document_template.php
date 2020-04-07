@@ -658,7 +658,7 @@ class Document_Template_Model {
     }
 
     public function GetAllTitle() {
-        $sql = " SELECT doc_name_id, doc_name_desc, active_status FROM document WHERE active_status='1' ";
+        $sql = " SELECT doc_name_id, doc_name_desc, active_status FROM document";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();

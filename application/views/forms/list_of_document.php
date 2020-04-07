@@ -8,25 +8,25 @@
             <div class="col-md-12">
                 <div class='form-row'>
                     <div class='form form-inline'>
-                       <div class="form-group col-md-4 text-right" >    
-                        <label class="control-label ">Discipline</label>
-                        <select name='discipline' id='discipline' class='form-control' style="width:55%; background-color:#FFFF99"> 
-                            <option value='0' selected="selected">Please Select Discipline</option>
-                            <?php foreach ($main_discipline as $discipline): ?>
-                                <option value='<?php echo $discipline['code']; ?>'><?php echo $discipline['label']; ?></option>
-                            <?php endforeach; ?>
-                        </select>&nbsp;<b style='color: red'>*</b>
+                        <div class="form-group col-md-4 text-right" >    
+                            <label class="control-label ">Discipline</label>
+                            <select name='discipline' id='discipline' class='form-control' style="width:55%; background-color:#FFFF99"> 
+                                <option value='0' selected="selected">Please Select Discipline</option>
+                                <?php foreach ($main_discipline as $discipline): ?>
+                                    <option value='<?php echo $discipline['code']; ?>'><?php echo $discipline['label']; ?></option>
+                                <?php endforeach; ?>
+                            </select>&nbsp;<b style='color: red'>*</b>
                         </div> 
-                        
+
                         <div class="form-group col-md-4 text-right">    
-                        <label class="control-label" >Document Group</label>
-                        <select name='doc_group' class='form-control' style="width:55%; background-color:#FFFF99">
-                            <option value='0' selected="selected">Please Select Document Group</option>
-                            <?php foreach ($doc_group as $doc): ?>
-                                <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        &nbsp;<span style='color: red'>*</span>
+                            <label class="control-label" >Document Group</label>
+                            <select name='doc_group' class='form-control' style="width:55%; background-color:#FFFF99">
+                                <option value='0' selected="selected">Please Select Document Group</option>
+                                <?php foreach ($doc_group as $doc): ?>
+                                    <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            &nbsp;<span style='color: red'>*</span>
                         </div>
 
                     </div>
@@ -38,35 +38,35 @@
             <div class="col-md-12">
                 <div class='form-row'>
                     <div class='form form-inline' >
-                          <div class="form-group col-md-4 text-right">
-                        <label class="control-label">Sub Discipline</label>
-                        <select name='general_discipline' class='form-control' style="width:55%; background-color:#FFFF99">
-                            <?php if (!$preset_select): ?>
-                                <option value='0'>Please Select Discipline</option>
-                            <?php else: ?>
-                                <option value='0' selected="selected" >Please Select Sub Discipline</option>
-                                <?php foreach ($general_discipline as $general): ?>
-                                    <option value='<?php echo $general['code']; ?>'><?php echo $general['label']; ?></option>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </select>&nbsp;<b style='color: red'>*</b>
-                        </div> 
-                        
-                        <div class="form-group col-md-4 text-right">    
-                        <label class="control-label" >Document Type</label>
-                        <select name='doc_type' class='form-control' style="width:55%; background-color:#FFFF99">
-                            <?php if (!$preset_select): ?>
-                                <option value='0' selected="selected">Please Select Document Group</option>
-                            <?php else: ?>
-                                <option value='0' >Please Select Document Type</option>
-                                <?php if (isset($doc_types)): ?>
-                                    <?php foreach ($doc_types as $doc): ?>
-                                        <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
+                        <div class="form-group col-md-4 text-right">
+                            <label class="control-label">Sub Discipline</label>
+                            <select name='general_discipline' class='form-control' style="width:55%; background-color:#FFFF99">
+                                <?php if (!$preset_select): ?>
+                                    <option value='0'>Please Select Discipline</option>
+                                <?php else: ?>
+                                    <option value='0' selected="selected" >Please Select Sub Discipline</option>
+                                    <?php foreach ($general_discipline as $general): ?>
+                                        <option value='<?php echo $general['code']; ?>'><?php echo $general['label']; ?></option>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
-                            <?php endif; ?>
-                        </select>
-                        &nbsp;<span style='color: red'>*</span>
+                            </select>&nbsp;<b style='color: red'>*</b>
+                        </div> 
+
+                        <div class="form-group col-md-4 text-right">    
+                            <label class="control-label" >Document Type</label>
+                            <select name='doc_type' class='form-control' style="width:55%; background-color:#FFFF99">
+                                <?php if (!$preset_select): ?>
+                                    <option value='0' selected="selected">Please Select Document Group</option>
+                                <?php else: ?>
+                                    <option value='0' >Please Select Document Type</option>
+                                    <?php if (isset($doc_types)): ?>
+                                        <?php foreach ($doc_types as $doc): ?>
+                                            <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                <?php endif; ?>
+                            </select>
+                            &nbsp;<span style='color: red'>*</span>
                         </div>
                     </div>    
                 </div>
@@ -79,8 +79,9 @@
                         <input type="text" name="doc_name_desc" id='doc_name_desc1'  data-no ='1' class="form-control text-uppercase" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" style="width:56.2%; background-color:#FFFF99; margin-left: 5px"/>
                         &nbsp;<b style='color: red'>*</b>
                         <br>
-                        <span id='validateF1' style="margin-left:177px;font-size:10px;color:red;text-align:left" hidden>Record Found</span>
-                        <span id='validateT1'  style="margin-left:177px;font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
+                        <span id='validateF1' style="margin-left:181px;font-size:10px;color:red;text-align:left" hidden>Record Found</span>
+                        <span id='validateT1'  style="margin-left:181px;font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
+                        <span id='validateFY1' style="margin-left:181px;font-size:10px;color:red;text-align:left" >Please select all Mandatory Field above</span>
                         <select id='list_doc_desc' class='form-control hidden'>
                             <?php foreach ($list_of_titles as $titles): ?>
                                 <option value='<?php echo $titles['doc_name_desc']; ?>'><?php echo $titles['doc_name_desc']; ?></option>
@@ -347,7 +348,7 @@
 
         //ADDFORMBUTTON
         $('.addForm').click(function () {
-              
+
             var values = $('#documentFilter').serializeArray();
             var dis = $("#discipline").val();
             var subDis = $("#general_discipline").val();
@@ -356,7 +357,7 @@
             var docName = $("#doc_name_desc").val();
             console.log(values);
             $(this).text('Creating new title...');
-            $('.addForm').attr('disabled','disabled');
+            $('.addForm').attr('disabled', 'disabled');
 
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/add-title/',
@@ -373,7 +374,7 @@
                     function () {
                         window.location.reload(true);
                     }, 1000);
-                   
+
         });
 
     });
@@ -412,23 +413,23 @@
 
         $('#documentFilter input').keyup(function () {
             var dis = $('[name=discipline]').val();
-            var subDis =  $('[name=general_discipline]').val();
+            var subDis = $('[name=general_discipline]').val();
             var docGroup = $('[name=doc_group]').val();
             var docType = $('[name=doc_type]').val();
             var empty = false;
-           
+
             $('#documentFilter input').each(function () {
                 if ($(this).val().length === 0) {
                     empty = true;
                 }
             });
-            
+
             if (empty) {
-                if ((dis, subDis , docGroup, docType) === '0') {
+                if ((dis, subDis, docGroup, docType) === '0') {
                     $('.addForm').attr('disabled', true);
                 }
             } else {
-                if ((dis, subDis , docGroup, docType) !== '0') {
+                if ((dis, subDis, docGroup, docType) !== '0') {
                     $('.addForm').attr('disabled', false);
                 }
             }
@@ -457,17 +458,17 @@
                 var str = $(this).val();
                 console.log("string", str);
 
-               if (str !== "") {
+                if (str !== "") {
                     if (array.indexOf(str) > -1) {
                         $('#validateT' + thisValue).attr('hidden', 'hidden');
-                        $('#validateF' + thisValue).attr('hidden', false);
+                        $('#validateF' + thisValue).attr('hidden', false); //record found
+                        $('#validateFY' + thisValue).attr('hidden', true);
                         $('.addForm').attr('disabled', true);
                     } else {
-                        $('#validateT' + thisValue).attr('hidden', false);
+                        $('#validateT' + thisValue).attr('hidden', false); //no record found
                         $('#validateF' + thisValue).attr('hidden', 'hidden');
-                        
+                        $('#validateFY' + thisValue).attr('hidden', true);
                     }
-                  //  $('.addForm').attr('disabled', false);
                 } else {
                     $('#validateT' + thisValue).attr('hidden', 'hidden');
                     $('#validateF' + thisValue).attr('hidden', 'hidden');
