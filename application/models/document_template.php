@@ -693,7 +693,7 @@ class Document_Template_Model {
                . "FROM products p "
                . "INNER JOIN product_forms pf ON (p.form_code = pf.form_code) "
                . "LEFT JOIN (SELECT product_code FROM document_product WHERE doc_name_id='" . (int) $documentId . "') dp "
-               . "ON (p.product_code = dp.product_code) WHERE p.form_code IN ('11','2','3','7','8','9') LIMIT 10";
+               . "ON (p.product_code = dp.product_code) WHERE p.form_code IN  ('0') LIMIT 10"; //('0',11','2','3','7','8','9')  
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -1362,7 +1362,7 @@ class Document_Template_Model {
         return $result;
     }
     
-    //zarith-10/3
+     //zarith-10/3
     public function GetFilterListByProductGroup($documentArray, $documentId) {
         $docGroup = $documentArray['doc_group'];
         $sql = "SELECT p.product_code, p.product_name, p.category_code, pf.form_name,"
@@ -1370,16 +1370,14 @@ class Document_Template_Model {
                . "FROM products p "
                . "INNER JOIN product_forms pf ON (p.form_code = pf.form_code) "
                . "LEFT JOIN (SELECT product_code FROM document_product WHERE doc_name_id='" . (int) $documentId . "') dp "
-               . "ON (p.product_code = dp.product_code)";
-        if ($docGroup != "0") {
-            $sql.=" WHERE p.form_code = '$docGroup' ";
-        }
+               . "ON (p.product_code = dp.product_code) WHERE p.form_code = '$docGroup'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
         $result = $this->db->fetchOut('array');
         return $result;
     }
+
     
     public function InsertDocumentProduct($outputP){
        

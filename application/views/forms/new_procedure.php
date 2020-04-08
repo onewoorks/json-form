@@ -17,7 +17,7 @@
                 <label class="control-label col-sm-4">Product Category</label>
                 <div class="col-sm-6" style='width:48.35%'>
                     <select name='doc_group' class='form-control' >
-                        <option value='11' selected="selected">Please Select Product Category</option>
+                        <option value='0' selected="selected">Please Select Product Category</option>
                         <?php foreach ($doc_group as $doc): ?>
                             <option value='<?php echo $doc['code']; ?>'><?php echo $doc['label']; ?></option>
                         <?php endforeach; ?>
@@ -40,6 +40,10 @@
             <div class='panel panel-primary'>
                 <div class='panel-heading'>Result of Existing Product</div>
                 <div class='panel-body'>
+                     <div class="form-inline">
+                        <div class ='pull-left' style=" font-size: smaller; padding-bottom: 3px;"><b>Total Document = <?= count($list_of_procedure); ?></b></div>
+                        <input type="text" class="pull-right col-sm-2 text-uppercase" style="margin-bottom: 5px; font-size:12px;padding:3px 10px;height:25px;line-height: 1.5;border:1px solid #cccccc;border-radius:4px" id="search" placeholder="Search" hidden/>
+                    </div>
                     <div class='clearfix'></div>
 
                     <table id="listDoc" class='table table-bordered table-condensed'>
@@ -112,11 +116,7 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function () {
-        $('#listDoc').DataTable();
-    });
-</script>   
+ 
 <script>
 
     $(function () {
@@ -188,6 +188,16 @@
         return false;
     });
 </script>
+<script>
+    $(document).ready(function () {
+        var selected = $('#doc_group').val();
+        if (selected !== '0') {
+            $('#search').removeAttr('hidden');
+        } else {
+            $('#search').addClass('hidden');
+        }
+    });
+    </script>
 
 
 <?php
