@@ -155,7 +155,7 @@
             $html += '<p class="text-box" value="'+ n +'">';
             $html += '<div class="form-group form-group-sm input-list">';
             $html += '<label class="control-label col-sm-2">Predefined Value<span class="box-number">' + n + '</span></label>';
-            $html += '<div class="col-sm-4list-padding">';
+            $html += '<div class="col-sm-4 list-padding">';
             $html += '<div class="checkbox" style="margin-left:20px">';
             $html += '<input type="hidden" id="show_label" name="show_label' + n + '" value="0" style="margin-top:6px"/>';
             $html += '<input type="checkbox" id="show_label" name="show_label' + n + '" value="1" style="margin-top:6px"/>';

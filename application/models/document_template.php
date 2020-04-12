@@ -227,6 +227,7 @@ class Document_Template_Model {
     //zarith-10/3
     public function GetListAvailableDocument() {
         $sql = "SELECT dt.template_id,d.active_status, dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc,"
+                . "CASE WHEN (SELECT doc_name_id FROM ref_outrch_document WHERE doc_name_id = dt.doc_name_id) THEN TRUE ELSE FALSE END AS checked,"
                 . "CASE WHEN d.active_status='1' THEN true ELSE false END AS available "
                 . "FROM document_template dt "
                 . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
@@ -264,6 +265,7 @@ class Document_Template_Model {
             $docType = 0;
         }
         $sql = "SELECT dt.template_id,dt.doc_name_id,dt.active, d.active_status, rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc,rdg.doc_group_code, "
+                . "CASE WHEN (SELECT doc_name_id FROM ref_outrch_document WHERE doc_name_id = dt.doc_name_id) THEN TRUE ELSE FALSE END AS checked,"
                 . "CASE WHEN d.active_status='1' THEN true ELSE false END AS available "
                 . "FROM document_template dt "
                 . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
@@ -1389,6 +1391,27 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
+    
+    public function GetAllOutreach() {
+        $sql = "SELECT outrch_type_code, outrch_type_name FROM ref_outrch_type WHERE active_code='1'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+    public function UpdateDocumentOutreach($docId, $outreach_type) {
+        $sql = "INSERT INTO ref_outrch_document (doc_name_id, outrch_type_code, created_by, created_date) "
+                . "VALUES((SELECT doc_name_id FROM document WHERE doc_name_id='" . (int) $docId . "'),'" . (int) $outreach_type . "','ADMIN',NOW())";
+        print_r($sql);
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        print_r($sql);
+        return true;
+    }
+
 //    public function getDocDesc($templateId){
 //        $sql = "SELECT dt.doc_name_id, d.doc_name_desc "
 //                ."FROM document_template dt "

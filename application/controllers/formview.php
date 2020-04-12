@@ -29,6 +29,20 @@ class Formview_Controller extends Common_Controller {
                 $result['main_discipline'] = $dt['main_discipline_name'];
                 $result['sub_discipline'] = $dt['discipline_name'];
                 break;
+            case 'new-outreach':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $doc_id = $_REQUEST['documentId'];
+                $val = $document->GetTitleDetail($doc_id);
+                $page = 'forms/new_outreach';
+                $result['list_of_outreach'] = $document->GetAllOutreach();
+                $result['title'] = $val;
+                $result['doc_id'] = $doc_id;
+                 $data = array(
+                    'component' => 'Outreach Document', //bawa section_desc @ element_desc
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
             case 'new-diagnosis':
                 $page = 'forms/new_diagnosis';
                 $documentId = $params[URL_ARRAY + 3];
@@ -721,6 +735,28 @@ class Formview_Controller extends Common_Controller {
 //                print_r($docForm);
                 break;
             // zarith-16/3
+            case 'create-outreach':
+                $document = new Document_Template_Model();
+                $ajax = true;
+                $json = file_get_contents('php://input');
+                $array = explode('&', urldecode($json));
+                $new_data = array();
+                foreach ($array as $a):
+                    $ex = explode('=', $a);
+                    $new_data[$ex[0]] = $ex[1];
+                endforeach;
+
+
+                $mapper_data = json_decode($new_data['data'], true); 
+                $new_mapper = $this->mapper($mapper_data);
+
+                $docId = $new_mapper['document_id'];
+                print_r($docId);
+                $outreach_type = $new_mapper['out_type'];
+                print_r($outreach_type);
+                
+                $document->UpdateDocumentOutreach($docId, $outreach_type);
+                break;
             case 'create-diagnosis':
                 $ajax = true;
                 $document = new Document_Template_Model();

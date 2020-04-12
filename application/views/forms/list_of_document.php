@@ -123,6 +123,7 @@
                                 <th style=" font-size: smaller;">Document Group</th>
                                 <th style=" font-size: smaller;">Document Type</th>
                                 <th style=" font-size: smaller;">Document Title</th>
+                                <th style=" font-size: smaller;" id="docOut" hidden>Outreach</th>
                                 <th style=" font-size: smaller;">Status</th>
                                 <th style=" font-size: smaller;">Trigger by Diagnosis</th>
                                 <th style=" font-size: smaller;">Trigger by Procedure</th>
@@ -149,6 +150,13 @@
                                     <td  style=" font-size: smaller;"><?php echo $document['doc_group_desc']; ?></td>
                                     <td  style=" font-size: smaller;"><?php echo $document['dc_type_desc']; ?></td>
                                     <td class='text-uppercase'  style=" font-size: smaller;"><a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $document['template_id']; ?>'><?php echo $document['doc_name_desc']; ?></a></td>
+                                    <td class='text-uppercase'  style=" font-size: smaller;" id="docOutreach" hidden>
+                                        <?php if ($document['checked']) : ?>
+                                            <input type="checkbox"  name="out1" class="outStatus" id="<?php echo $document['doc_name_id']; ?>"   checked="checked">
+                                        <?php else : ?>
+                                            <input type="checkbox"  name="out2" class="outStatus" id="<?php echo $document['doc_name_id']; ?>" >
+                                        <?php endif; ?>
+                                    </td>
                                     <td class='text-uppercase'  style=" font-size: smaller;">
                                         <?php if ($document['available']) : ?>
                                             <input type="checkbox" data-toggle="toggle"  name="opt1" class="docStatus" id="<?php echo $document['doc_name_id']; ?>"  data-size="mini" data-onstyle="success" data-offstyle="danger" checked="checked">
@@ -216,7 +224,20 @@
         </div>
     </div>
 </div>
-
+<div id="myModalNew" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <a href="edit-form.php"></a>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add New Element </h4>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $(document).ready(function () {
         var tempid;
@@ -541,5 +562,40 @@
         return false;
     });//end ready
 </script>
+<script>
+    $(document).ready(function () {
+        var selected = $('[name=doc_group]').val();
+
+        if (selected === 'CN') {
+            $("#docOut,#docOutreach").removeAttr('hidden');
+
+        } else {
+            $("#docOut,#docOutreach").addClass('hidden');
+
+        }
+    });
+</script>
+<script>
+    $(function () {
+
+        $('.outStatus').click(function () {
+
+            var documentId = $(this).attr('id');
+            $.ajax({
+                url: '<?= SITE_ROOT; ?>/formview/new-outreach/',
+                data: {documentId: documentId},
+                success: function (data) {
+                    var obj = $.parseJSON(data);
+                    $('.modal-dialog').removeClass('modal-lg');
+                    $('.modal-title').text(obj.component);
+                    $('.modal-body').html(obj.html);
+                }
+            });
+            $('#myModalNew').modal('show');
+            return false;
+        });
+    });
+</script>
+
 
 <?php echo $footer; ?>
