@@ -153,7 +153,7 @@ class Reference_Table_Model  { //dari class sini
      public function MainProductCategory(){
         $sql = "SELECT form_code as code, form_name as label "
                 . "FROM product_forms "
-                . "WHERE form_code IN ('0','11','2','3','7','8','9')";
+                . "WHERE form_code IN ('0','11','3','7','8','9')";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
