@@ -1393,7 +1393,7 @@ class Document_Template_Model {
     }
     
     public function GetAllOutreach() {
-        $sql = "SELECT outrch_type_code, outrch_type_name FROM ref_outrch_type WHERE active_code='1'";
+        $sql = "SELECT outrch_type_code as code, outrch_type_name as name FROM ref_outrch_type WHERE active_code='1'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -1401,7 +1401,9 @@ class Document_Template_Model {
         return $result;
     }
     
-    public function UpdateDocumentOutreach($docId, $outreach_type) {
+    public function UpdateDocumentOutreach($documentArray) {
+        $docId = $documentArray['doc_id'];
+        $outreach_type = $documentArray['outreach_types'];
         $sql = "INSERT INTO ref_outrch_document (doc_name_id, outrch_type_code, created_by, created_date) "
                 . "VALUES((SELECT doc_name_id FROM document WHERE doc_name_id='" . (int) $docId . "'),'" . (int) $outreach_type . "','ADMIN',NOW())";
         print_r($sql);

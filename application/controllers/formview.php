@@ -30,7 +30,7 @@ class Formview_Controller extends Common_Controller {
                 $result['sub_discipline'] = $dt['discipline_name'];
                 break;
             case 'new-outreach':
-                $ajax = true;
+                 $ajax = true;
                 $document = new Document_Template_Model();
                 $doc_id = $_REQUEST['documentId'];
                 $val = $document->GetTitleDetail($doc_id);
@@ -736,26 +736,10 @@ class Formview_Controller extends Common_Controller {
                 break;
             // zarith-16/3
             case 'create-outreach':
+               $ajax = true;
                 $document = new Document_Template_Model();
-                $ajax = true;
-                $json = file_get_contents('php://input');
-                $array = explode('&', urldecode($json));
-                $new_data = array();
-                foreach ($array as $a):
-                    $ex = explode('=', $a);
-                    $new_data[$ex[0]] = $ex[1];
-                endforeach;
-
-
-                $mapper_data = json_decode($new_data['data'], true); 
-                $new_mapper = $this->mapper($mapper_data);
-
-                $docId = $new_mapper['document_id'];
-                print_r($docId);
-                $outreach_type = $new_mapper['out_type'];
-                print_r($outreach_type);
-                
-                $document->UpdateDocumentOutreach($docId, $outreach_type);
+                $values = $this->form_array($_REQUEST['documentValues']);
+                $document->UpdateDocumentOutreach($values);
                 break;
             case 'create-diagnosis':
                 $ajax = true;

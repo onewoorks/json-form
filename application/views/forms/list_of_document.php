@@ -224,20 +224,24 @@
         </div>
     </div>
 </div>
-<div id="myModalNew" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <a href="edit-form.php"></a>
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Add New Element </h4>
-            </div>
-            <div class="modal-body">
+
+<!--ELEMENT POP UP-->
+    <div id="myModalNew" class="modal fade" role="dialog">
+        <div class='col-md-12'>
+            <div class="modal-dialog modal-lg">
+                <!--MODAL CONTENT-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
 <script>
     $(document).ready(function () {
         var tempid;
@@ -578,7 +582,8 @@
 <script>
     $(function () {
 
-        $('.outStatus').click(function () {
+        $('.outStatus').click(function (e) {
+            e.preventDefault();
 
             var documentId = $(this).attr('id');
             $.ajax({
@@ -592,7 +597,7 @@
                 }
             });
             $('#myModalNew').modal('show');
-            return false;
+           
         });
     });
 </script>
