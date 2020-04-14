@@ -250,18 +250,18 @@
 
         $('.edit').click(function () {
             var docDesc = $('#doc_name_desc').val();
-            console.log(docDesc);
+//            console.log(docDesc);
             window.location.href = '<?= SITE_ROOT; ?>/main/clone_view/' + docid + '/' + docDesc + '';
             return false;
         });
 
         $('.cloneForm').click(function () {
             tempid = $(this).data('tempid');
-            console.log('tempid', tempid);
+//            console.log('tempid', tempid);
             docid = $(this).data('docid');
-            console.log('docid', docid);
+//            console.log('docid', docid);
             desc = $(this).data('tempdesc');
-            console.log('desc', desc);
+//            console.log('desc', desc);
             $("#inputId").html('Duplicate ' + desc + ' ?');
             $('#myModal').modal('show');
             return false;
@@ -269,7 +269,7 @@
 
         $('.save').click(function () {
             var docDesc = $('#doc_name1').val();
-            console.log(docDesc);
+//            console.log(docDesc);
 
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/duplicate-form/',
@@ -380,7 +380,7 @@
             var docGroup = $("#doc_group").val();
             var docType = $("#doc_type").val();
             var docName = $("#doc_name_desc").val();
-            console.log(values);
+//            console.log(values);
             $(this).text('Creating new title...');
             $('.addForm').attr('disabled', 'disabled');
 
@@ -481,7 +481,7 @@
 
             $('#doc_name_desc' + thisValue).keyup(function () {
                 var str = $(this).val();
-                console.log("string", str);
+//                console.log("string", str);
 
                 if (str !== "") {
                     if (array.indexOf(str) > -1) {
@@ -546,9 +546,10 @@
 </script>   
 <script>
     $(document).ready(function () {
+        
         $('.docStatus').change(function () {
             var documentId = $(this).attr('id');
-            console.log("documentId : ", documentId);
+//            console.log("documentId : ", documentId);
             var val;
             if ($('.docStatus').prop('checked'))
             {
@@ -562,8 +563,8 @@
                 url: '<?= SITE_ROOT; ?>/formview/change-status/',
                 data: {documentId: documentId, value: val}
             });
+             return false;
         });//end change
-        return false;
     });//end ready
 </script>
 <script>
@@ -583,7 +584,7 @@
     $(document).ready(function () {
         $('.outStatus').change(function () {
             var documentId = $(this).attr('id');
-            console.log("documentId : ", documentId);
+//            console.log("documentId : ", documentId);
             var val;
             if ($('.outStatus').prop('checked'))
             {
@@ -604,8 +605,9 @@
                 }
             });
             $('#myModalNew').modal('show');
+            
+            return false;
         });//end change
-        return false;
     });//end ready
 </script>
 
