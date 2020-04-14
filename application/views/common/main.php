@@ -44,7 +44,7 @@
                     <ul class="nav navbar-nav">
                         <li><a href="<?php echo SITE_ROOT; ?>">List Of Documents</a></li>
                         <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="<?php echo SITE_ROOT; ?>/formview/new-form">Create New Form
+                            <a class="dropdown-toggle" data-toggle="dropdown" >Create New Form
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="<?php echo SITE_ROOT; ?>/formview/new-section">Add New Section</a></li>
