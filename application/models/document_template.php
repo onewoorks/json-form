@@ -1150,6 +1150,15 @@ class Document_Template_Model {
         return true;
     }
     
+     public function DeleteOutreachData($docId) {
+        $sql = "DELETE FROM ref_outrch_document WHERE doc_name_id='" . (int) $docId . "'";
+        print_r($sql);
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
     public function DeleteMethodData($docId) {
         $sql = "UPDATE ref_document_method "
                 . "SET active_status = '0' "

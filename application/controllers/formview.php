@@ -29,20 +29,6 @@ class Formview_Controller extends Common_Controller {
                 $result['main_discipline'] = $dt['main_discipline_name'];
                 $result['sub_discipline'] = $dt['discipline_name'];
                 break;
-            case 'new-outreach':
-                 $ajax = true;
-                $document = new Document_Template_Model();
-                $doc_id = $_REQUEST['documentId'];
-                $val = $document->GetTitleDetail($doc_id);
-                $page = 'forms/new_outreach';
-                $result['list_of_outreach'] = $document->GetAllOutreach();
-                $result['title'] = $val;
-                $result['doc_id'] = $doc_id;
-                 $data = array(
-                    'component' => 'Outreach Document', //bawa section_desc @ element_desc
-                    'html' => $this->RenderOutput($page, $result));
-                echo json_encode($data);
-                break;
             case 'new-diagnosis':
                 $page = 'forms/new_diagnosis';
                 $documentId = $params[URL_ARRAY + 3];
@@ -327,6 +313,31 @@ class Formview_Controller extends Common_Controller {
                 $result['json_format'] = json_encode($found);
                 $result['document_id'] = $_REQUEST['documentId']; //1
                 $result['template_id'] = $_REQUEST['templateId'];
+                $data = array(
+                    'component' => $title, //bawa section_desc @ element_desc
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
+            case 'load-selected-outreach':
+                $ajax = true;
+                $doc_id = $_REQUEST['documentId'];
+                $component = $_REQUEST['value'];
+                $document = new Document_Template_Model();
+                if ($component == '1'):
+                    $val = $document->GetTitleDetail($doc_id);
+                    $page = 'forms/new_outreach';
+                    $result['list_of_outreach'] = $document->GetAllOutreach();
+                    $result['title'] = $val;
+                    $result['doc_id'] = $doc_id;
+                    $title = 'Outreach Document';
+                endif;
+                if ($component == '0'):
+                    $val = $document->GetTitleDetail($doc_id);
+                    $page = 'forms/delete_outreach';
+                    $result['doc_id'] = $doc_id;
+                    $result['title'] = $val;
+                    $title = 'Delete Outreach Document';
+                endif;
                 $data = array(
                     'component' => $title, //bawa section_desc @ element_desc
                     'html' => $this->RenderOutput($page, $result));
@@ -736,7 +747,7 @@ class Formview_Controller extends Common_Controller {
                 break;
             // zarith-16/3
             case 'create-outreach':
-               $ajax = true;
+                $ajax = true;
                 $document = new Document_Template_Model();
                 $values = $this->form_array($_REQUEST['documentValues']);
                 $document->UpdateDocumentOutreach($values);
@@ -752,7 +763,7 @@ class Formview_Controller extends Common_Controller {
                 echo '</pre>';
                 break;
             case 'create-procedure':
-                 $document = new Document_Template_Model();
+                $document = new Document_Template_Model();
                 $ajax = true;
                 $json = file_get_contents('php://input');
                 $array = explode('&', urldecode($json));
@@ -764,23 +775,23 @@ class Formview_Controller extends Common_Controller {
 
                 #documentId
                 $docId = $_REQUEST['documentId'];
-                
+
                 #productDesc
                 $product = json_decode($new_data['proDetails'], true);
                 $resultP = $this->mapper($product);
-               // $print_r($resultP);
+                // $print_r($resultP);
                 if ($resultP):
                     foreach ($resultP as $keyP => $valueP):
-                    
-                            $outputP = array(
-                                'product_code' => $valueP,
-                                'doc_name_id' => $docId
-                            );
-                            echo '<pre>';
-                            print_r($outputP);
-                            echo '</pre>';
-                            $document->InsertDocumentProduct($outputP);
-                       
+
+                        $outputP = array(
+                            'product_code' => $valueP,
+                            'doc_name_id' => $docId
+                        );
+                        echo '<pre>';
+                        print_r($outputP);
+                        echo '</pre>';
+                        $document->InsertDocumentProduct($outputP);
+
                     endforeach;
                 endif;
                 break;
@@ -895,6 +906,13 @@ class Formview_Controller extends Common_Controller {
                 $document->DeleteDocumentData($docId);
                 $this->GenerateJSONFormat($docId, 'update');
                 break;
+            case 'delete-current-outreach':
+                $ajax = true;
+                $values = $this->form_array($_REQUEST['values']);
+                $document = new Document_Template_Model();
+                $docId = $values['doc_id'];
+                $document->DeleteOutreachData($docId);
+                break;
             case 'delete-current-method':
                 $ajax = true;
                 $values = $this->form_array($_REQUEST['values']);
@@ -976,7 +994,7 @@ class Formview_Controller extends Common_Controller {
                 endforeach;
 
                 break;
-             //EDIT SECTION NAME || zarith-31/3
+            //EDIT SECTION NAME || zarith-31/3
             case 'edit-attributes':
                 $ajax = true;
                 $document = new Document_Template_Model();
@@ -1067,7 +1085,7 @@ class Formview_Controller extends Common_Controller {
                 #elementDesc
                 $element = json_decode($new_data['elemDetail'], true); //dri basic->ajax_element_form_group
                 $resultE = $this->mapper($element);
-                
+
                 $x = 1;
                 $y = 1;
                 if ($resultS):
