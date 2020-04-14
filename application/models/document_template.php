@@ -214,7 +214,7 @@ class Document_Template_Model {
     //zarith-10/3
     public function GetListAvailableDocument() {
         $sql = "SELECT dt.template_id,d.active_status, dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc,"
-                . "CASE WHEN (SELECT doc_name_id FROM ref_outrch_document WHERE doc_name_id = dt.doc_name_id) THEN TRUE ELSE FALSE END AS checked,"
+//                . "CASE WHEN (SELECT doc_name_id FROM ref_outrch_document WHERE doc_name_id = dt.doc_name_id) THEN TRUE ELSE FALSE END AS checked,"
                 . "CASE WHEN d.active_status='1' THEN true ELSE false END AS available "
                 . "FROM document_template dt "
                 . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
@@ -236,7 +236,6 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return $result;
     }
-
     //zarith-10/3
     public function GetFilterListByGroupType($documentArray) {
         $discipline = $documentArray['discipline'];
@@ -252,7 +251,7 @@ class Document_Template_Model {
             $docType = 0;
         }
         $sql = "SELECT dt.template_id,dt.doc_name_id,dt.active, d.active_status, rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc,rdg.doc_group_code, "
-                . "CASE WHEN (SELECT doc_name_id FROM ref_outrch_document WHERE doc_name_id = dt.doc_name_id) THEN TRUE ELSE FALSE END AS checked,"
+//                . "CASE WHEN (SELECT doc_name_id FROM ref_outrch_document WHERE doc_name_id = dt.doc_name_id) THEN TRUE ELSE FALSE END AS checked,"
                 . "CASE WHEN d.active_status='1' THEN true ELSE false END AS available "
                 . "FROM document_template dt "
                 . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
