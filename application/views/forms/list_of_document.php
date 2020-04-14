@@ -226,21 +226,21 @@
 </div>
 
 <!--ELEMENT POP UP-->
-<div id="myModalNew" class="modal fade" role="dialog">
-    <div class='col-md-12'>
-        <div class="modal-dialog modal-lg">
-            <!--MODAL CONTENT-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"></h4>
-                </div>
-                <div class="modal-body">
+    <div id="myModalNew" class="modal fade" role="dialog">
+        <div class='col-md-12'>
+            <div class="modal-dialog modal-lg">
+                <!--MODAL CONTENT-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"></h4>
+                    </div>
+                    <div class="modal-body">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 <script>
     $(document).ready(function () {
@@ -545,7 +545,7 @@
     });//endOfDocument
 </script>   
 <script>
-    $(document).ready(function () {
+    $(document).ready(function (e) {
         $('.docStatus').change(function () {
             var documentId = $(this).attr('id');
             console.log("documentId : ", documentId);
@@ -580,22 +580,15 @@
     });
 </script>
 <script>
-    $(document).ready(function () {
-        $('.outStatus').change(function () {
+    $(function () {
+
+        $('.outStatus').click(function (e) {
+            e.preventDefault();
+
             var documentId = $(this).attr('id');
-            console.log("documentId : ", documentId);
-            var val;
-            if ($('.outStatus').prop('checked'))
-            {
-                val = '1';
-            } else
-            {
-                val = '0';
-            }
             $.ajax({
-                type: "POST",
-                url: '<?= SITE_ROOT; ?>/formview/load-selected-outreach/',
-                data: {documentId: documentId, value: val},
+                url: '<?= SITE_ROOT; ?>/formview/new-outreach/',
+                data: {documentId: documentId},
                 success: function (data) {
                     var obj = $.parseJSON(data);
                     $('.modal-dialog').removeClass('modal-lg');
@@ -604,9 +597,9 @@
                 }
             });
             $('#myModalNew').modal('show');
-        });//end change
-        return false;
-    });//end ready
+           
+        });
+    });
 </script>
 
 
