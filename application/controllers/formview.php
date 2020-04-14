@@ -725,7 +725,7 @@ class Formview_Controller extends Common_Controller {
                 $ajax = true;
                 $document = new Document_Template_Model();
                 $values = $this->form_array($_REQUEST['values']);
-                $page = 'forms/list_of_document';
+                $page = 'forms/document_list';
 //                $dis = $values['discipline'];
                 $subDis = $values['general_discipline'];
                 $docType = $values['doc_type'];

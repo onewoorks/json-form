@@ -4,7 +4,6 @@ class Document_Template_Model {
 
     public $jsonForm;
     public $documentId;
-    public $icd10_id;
 
     public function __construct() {
         $this->db = new Mysql_Driver();
@@ -13,7 +12,6 @@ class Document_Template_Model {
     public function ReadDocumentElementExisted() {
         $sql = "SELECT d.doc_name_id, d.doc_name_desc, gd.discipline_name,rdt.dc_type_desc,md.main_discipline_name, "
                 . "(case when (SELECT doc_name_id FROM document_template WHERE doc_name_id = d.doc_name_id IS NULL) then false else true end) as available "
-                // . "(case when ((SELECT doc_name_id FROM document_template WHERE doc_name_id = d.doc_name_id) IS NULL) then false else true end) as available "
                 . "FROM document_element de INNER JOIN document d ON(d.doc_name_id=de.doc_name_id) "
                 . "INNER JOIN ref_document_section rds ON(rds.section_code=de.section_code) "
                 . "INNER JOIN ref_document_element rde ON (rde.element_code=de.parent_element_code) "
@@ -25,17 +23,6 @@ class Document_Template_Model {
                 . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)" 
                 . "GROUP BY de.doc_name_id ORDER BY gd.main_discipline_code,gd.discipline_name ASC";
 
-//          $sql = "SELECT  dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc "
-//             . " (case when ((SELECT doc_name_id FROM document_template WHERE doc_name_id = dt.doc_name_id) IS NULL) then false else true end) as available "
-//             . " FROM document_element dt"
-//             . " LEFT JOIN document d ON(dt.doc_name_id=d.doc_name_id)"
-//             . " LEFT JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id)"
-//             . " LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code)"
-//             . " LEFT JOIN ref_main_disciplines rmd ON(rmd.main_discipline_code=gd.main_discipline_code)"
-//             . " LEFT JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)"
-//             . " LEFT JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)"
-//             . " WHERE rmd.main_discipline_code = '50'"
-//             . " GROUP BY 1";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -601,16 +588,6 @@ class Document_Template_Model {
     }
 
     //26JULAI
-//    public function ListSecDesc(){
-//        $sql = " SELECT section_code, section_desc FROM ref_document_section ";
-//        $this->db->connect();
-//        $this->db->prepare($sql);
-//        $this->db->queryexecute();
-//        $result = $this->db->fetchOut('array');
-//        return $result;
-//    }
-//    
-    //26JULAI
     public function ListElementDesc() {
         $sql = " SELECT element_code, element_desc, json_element FROM ref_document_element ";
         $this->db->connect();
@@ -883,14 +860,6 @@ class Document_Template_Model {
 //        return $result; 
     }
 
-//    public function InsertDocTitle($docGroup,$docType,$docDesc,$status){
-//        $sql = "INSERT INTO document (doc_group_code, dc_type_code, doc_name_desc, active_status, created_by, created_date) "
-//                . "VALUES ('.$docGroup.','.$docType.','.$docDesc.','.$status.','ADMIN','now()');";
-//        $this->db->connect();
-//        $this->db->prepare($sql);
-//        $this->db->queryexecute();
-//        return true;
-//    }
 
     public function GetChildDetail($doc, $element) {
         $sql = "SELECT parent_element_code FROM ref_multiple_answer "
@@ -940,14 +909,6 @@ class Document_Template_Model {
         return true;
     }
 
-    //update element name
-//    public function UpdateElementName($code, $name) {
-//        $sql = "UPDATE ref_document_element SET element_desc='" . $name . "' WHERE element_code='" . (int) $code . "'";
-//        $this->db->connect();
-//        $this->db->prepare($sql);
-//        $this->db->queryexecute();
-//        return true;
-//    }
 
     public function UpdateElementName($code, $name, $document_id) {
         $sql = " UPDATE document_element "
@@ -1118,16 +1079,6 @@ class Document_Template_Model {
         return true;
     } 
     
-   
-//    public function DeleteElementData($docId, $sectionCode, $elementCode) {
-//        $sql = "DELETE FROM document_element WHERE doc_name_id='" . (int) $docId . "' AND section_code='" . (int) $sectionCode . "' AND parent_element_code='" . (int) $elementCode . "'";
-//        print_r($sql);
-//        $this->db->connect();
-//        $this->db->prepare($sql);
-//        $this->db->queryexecute();
-//        return true;
-//    }
-    
     public function DeleteElementData($docId, $sectionCode, $elementCode) {
         $sql = "UPDATE document_element "
                 . "SET active = '0' "
@@ -1191,15 +1142,6 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-
-//    public function UpdateElementToMethod(array $val) {
-//        $sql = "UPDATE document_element SET element_properties='" . $val['element_properties'] . "',input_type='METHOD',data_type=NULL,method='".$val['method_name']."',additional_attribute='".$val['method_json']."' "
-//                . "WHERE doc_name_id='".(int) $val['doc_id']."' AND parent_element_code='" . (int) $val['element_code'] . "'";
-//        $this->db->connect();
-//        $this->db->prepare($sql);
-//        $this->db->queryexecute();
-//        return true;
-//    }
 
     public function CreateNewInsertElement($insertSql) {
         $sql = $insertSql;
@@ -1391,7 +1333,6 @@ class Document_Template_Model {
 
     
     public function InsertDocumentProduct($outputP){
-       
          $sql = "INSERT INTO document_product (doc_name_id, product_code, created_by, created_date) "
                  . "VALUES ('" . $outputP['doc_name_id'] . "', '" . $outputP['product_code'] . "', 'ADMIN', now()) ";
         print_r($sql);
@@ -1423,29 +1364,4 @@ class Document_Template_Model {
         return true;
     }
 
-//    public function getDocDesc($templateId){
-//        $sql = "SELECT dt.doc_name_id, d.doc_name_desc "
-//                ."FROM document_template dt "
-//                ."LEFT JOIN document d ON(d.doc_name_id = dt.doc_name_id) "
-//                ."WHERE dt.template_id='".$templateId."' ";
-//        $this->db->connect();
-//        $this->db->prepare($sql);
-//        $this->db->queryexecute();
-//        $result = $this->db->fetchOut('object');
-//        return $result[0]; 
-//    }
-//    public function CheckTemplate() {
-//        $sql = "SELECT d.doc_name_id, d.doc_name_desc, gd.discipline_name, rdt.dc_type_desc,md.main_discipline_name"
-//                . "(CASE WHEN (SELECT doc_name_id FROM document_template WHERE doc_name_id IS NULL) THEN FALSE ELSE TRUE END) as available"
-//                . "FROM document_element de INNER JOIN document d ON (d.doc_name_id=de.doc_name_id)"
-//                . "INNER JOIN ref_document_section rds ON (rds.section_code=de.section_code)"
-//                . "INNER JOIN ref_document_element rde ON (rde.element_code=de.parent_element_code)"
-//                . "INNER JOIN discipine_document dd ON (d.doc_name_id=dd.doc_name_id)"
-//                . "INNER JOIN ref_document_element rdee ON (rdee.element_code=de.child_element_code)"
-//                . "INNER JOIN ref_generaldisciplines gd ON (dd.discipline_code=gd.discipline_code)"
-//                . "INNER JOIN ref_maindisciplines md ON (gd.main_discipline_code=d.dc_type_code)"
-//                . "INNER JOIN ref_document_type rdt ON (rdt.dc_type_code=d.dc_type_code)"
-//                . "INNER JOIN ref_document_group rdg ON (rdg.doc_group_code=rdt.doc_group_code)"
-//                . "WHERE gd.main_discipline_code ='$discipline'";
-//    }
 }

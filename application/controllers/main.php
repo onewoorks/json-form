@@ -112,7 +112,7 @@ class Main_Controller extends Common_Controller {
                 $ajax = true;
                 $document = new Document_Template_Model();
                 $values = $this->form_array($_REQUEST['documentValues']);
-                $page = 'forms/list_of_document';
+                $page = 'forms/document_list';
                 $reference = new Reference_Table_Model();
                 $result['list_of_documents'] = $document->GetFilterListByGroupType($values);
                 $result['main_discipline'] = $this->RefMainDisciplineGroup();
@@ -245,7 +245,7 @@ class Main_Controller extends Common_Controller {
                     $result['doc_group'] = $this->RefDocumentGroup();
                     $result['preset_select'] = false;
                 else:
-                    $page = 'forms/list_of_document';
+                    $page = 'forms/document_list';
                     $document = new Document_Template_Model();
                     $result['list_of_documents'] = $document->GetListAvailableDocument();
                     $result['main_discipline'] = $this->RefMainDisciplineGroup();
