@@ -152,9 +152,9 @@
                                     <td class='text-uppercase'  style=" font-size: smaller;"><a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $document['template_id']; ?>'><?php echo $document['doc_name_desc']; ?></a></td>
                                     <td class='text-uppercase'  style=" font-size: smaller;" id="docOutreach" hidden>
                                         <?php if ($document['checked']) : ?>
-                                            <input type="checkbox"  name="out1" class="outStatus" id="<?php echo $document['doc_name_id']; ?>"   checked="checked">
+                                            <input type="checkbox"  name="out1" class="outreachStatus" id="<?php echo $document['doc_name_id']; ?>"   checked="checked">
                                         <?php else : ?>
-                                            <input type="checkbox"  name="out2" class="outStatus" id="<?php echo $document['doc_name_id']; ?>" >
+                                            <input type="checkbox"  name="out2" class="outreachStatus" id="<?php echo $document['doc_name_id']; ?>" >
                                         <?php endif; ?>
                                     </td>
                                     <td class='text-uppercase'  style=" font-size: smaller;">
@@ -215,7 +215,6 @@
 
                     </div>
                     <div class="modal-footer">
-                        <!--                        <div class='btn btn-primary btn-md edit' onclick="$('.save').submit();">Edit</div>-->
                         <div class='btn btn-success btn-md save' disabled="disabled" >Save</div>
                         <div class='btn btn-danger btn-md' data-dismiss="modal">Cancel</div>
                     </div>
@@ -546,6 +545,19 @@
 </script>   
 <script>
     $(document).ready(function () {
+        var selected = $('[name=doc_group]').val();
+
+        if (selected === 'CN') {
+            $("#docOut,#docOutreach").removeAttr('hidden');
+
+        } else {
+            $("#docOut,#docOutreach").addClass('hidden');
+
+        }
+    });
+</script>
+<script>
+    $(document).ready(function () {
         
         $('.docStatus').change(function () {
             var documentId = $(this).attr('id');
@@ -565,28 +577,12 @@
             });
              return false;
         });//end change
-    });//end ready
-</script>
-<script>
-    $(document).ready(function () {
-        var selected = $('[name=doc_group]').val();
-
-        if (selected === 'CN') {
-            $("#docOut,#docOutreach").removeAttr('hidden');
-
-        } else {
-            $("#docOut,#docOutreach").addClass('hidden');
-
-        }
-    });
-</script>
-<script>
-    $(document).ready(function () {
-        $('.outStatus').change(function () {
+        
+         $('.outreachStatus').change(function () {
             var documentId = $(this).attr('id');
 //            console.log("documentId : ", documentId);
             var val;
-            if ($('.outStatus').prop('checked'))
+            if ($('.outreachStatus').prop('checked'))
             {
                 val = '1';
             } else
@@ -610,5 +606,4 @@
         });//end change
     });//end ready
 </script>
-
 <?php echo $footer; ?>

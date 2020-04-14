@@ -38,42 +38,6 @@ class Main_Controller extends Common_Controller {
                 }
                 break;
             //30OKT
-            case 'filter-form-builder':
-                $ajax = true;
-                $document = new Document_Template_Model();
-                $values = $this->form_array($_REQUEST['documentValues']);
-                $page = 'forms/form_builder';
-                $reference = new Reference_Table_Model();
-                $result['sections'] = $document->GetAllSecDesc();
-                $result['elements'] = $document->GetAllElementDesc();
-                $result['list_of_documents'] = $document->GetFilterListByGroupType2($values);
-                $result['main_discipline'] = $this->RefMainDisciplineGroup();
-                if ($values['discipline'] != '0'):
-                    $result['general_discipline'] = $reference->DocumentDisFiltering($values['discipline']);
-                endif;
-                $types = '0';
-                if ($values['discipline'] != '0'):
-                    $types = $values['general_discipline'];
-                endif;
-
-                $result['doc_group'] = $this->RefDocumentSelectedGroup();
-                if ($values['doc_group'] != '0') {
-                    $result['doc_types'] = $this->RefDocumentType($values['doc_group']);
-                }
-                $type = '0';
-                if ($values['doc_group'] != '0') {
-                    $type = $values['doc_type'];
-                }
-
-                $result['preset_select'] = array(
-                    'active_discipline' => $values['discipline'],
-                    'active_general' => $types,
-                    'active_group' => $values['doc_group'],
-                    'active_type' => $type
-                );
-                $view = new View_Model($page);
-                $view->assign('content', $result);
-                break;
             case 'filter-form-clone':
                 $ajax = true;
                 $document = new Document_Template_Model();

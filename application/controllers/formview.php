@@ -91,17 +91,6 @@ class Formview_Controller extends Common_Controller {
                 $result['sections'] = $documentData->GetAllSecDesc();
                 $result['elements'] = $documentData->GetAllElementDesc();
                 break;
-            //23julai    
-            case 'form-builder':
-                $page = 'forms/form_builder';
-                $document = new Document_Template_Model();
-                $result['list_of_documents'] = $document->GetListAvailableDocument();
-                $result['main_discipline'] = $this->RefMainDisciplineGroup();
-                $result['general_discipline'] = $this->RefGeneralDiscipline();
-                $result['doc_types'] = $this->RefDocumentType();
-                $result['doc_group'] = $this->RefDocumentGroup();
-                $result['preset_select'] = false;
-                break;
             //6MAC
             case 'json-method':
                 $page = 'forms/json_method';
