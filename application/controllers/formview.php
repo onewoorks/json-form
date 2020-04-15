@@ -37,6 +37,8 @@ class Formview_Controller extends Common_Controller {
                 $result['document_title'] = $documentTemplate['doc_name_desc'];
                 $result['document_id'] = $documentTemplate['doc_name_id'];
                 $result['list_of_diagnosis'] = $document->GetAllDiagnosis();
+                $result['doc_group'] = $this->RefProductDiagnosis();
+                $result['preset_select'] = false;
                 break;
             case 'new-procedure':
                 $page = 'forms/new_procedure';
@@ -742,14 +744,38 @@ class Formview_Controller extends Common_Controller {
                 $document->UpdateDocumentOutreach($values);
                 break;
             case 'create-diagnosis':
+               $document = new Document_Template_Model();
                 $ajax = true;
-                $document = new Document_Template_Model();
+                $json = file_get_contents('php://input');
+                $array = explode('&', urldecode($json));
+                $new_data = array();
+                foreach ($array as $a):
+                    $ex = explode('=', $a);
+                    $new_data[$ex[0]] = $ex[1];
+                endforeach;
+
+                #documentId
                 $docId = $_REQUEST['documentId'];
-                $docInfo = $_REQUEST['diagnosis'];
-                $data = json_decode($docInfo);
-                echo '<pre>';
-                print_r($data);
-                echo '</pre>';
+
+                #productDesc
+                $product = json_decode($new_data['DiagnosisDetails'], true);
+                $resultD = $this->mapper($product);
+                // $print_r($resultP);
+                if ($resultD):
+                    foreach ($resultD as $keyD => $valueD):
+
+                        $outputD = array(
+                            'diagnosis_code' => $valueD,
+                            'doc_name_id' => $docId
+                        );
+                        echo '<pre>';
+                        print_r($outputD);
+                        echo '</pre>';
+                        $document->InsertDocumentDiagnosis($outputD);
+
+                    endforeach;
+                endif;
+                break;
                 break;
             case 'create-procedure':
                 $document = new Document_Template_Model();

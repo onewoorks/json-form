@@ -144,6 +144,25 @@ class Main_Controller extends Common_Controller {
                 $view = new View_Model($page);
                 $view->assign('content', $result);
                 break;
+                case 'filter-diagnosis':
+                $ajax = true;
+                $documentId = $_REQUEST['documentId'];
+                $document = new Document_Template_Model();
+                $documentTemplate = $document->GetDocumentDesc($documentId);
+                $result['document_title'] = $documentTemplate['doc_name_desc'];
+                $result['document_id'] = $documentTemplate['doc_name_id'];
+                $values = $this->form_array($_REQUEST['documentValues']);
+                $page = 'forms/new_diagnosis';
+                $reference = new Reference_Table_Model();
+                $result['list_of_diagnosis'] = $document->GetFilterListByDiagnosisGroup($values,$documentId);
+                $result['doc_group'] = $this->RefProductDiagnosis();
+                
+                $result['preset_select'] = array(
+                    'active_group' => $values['doc_group']
+                );
+                $view = new View_Model($page);
+                $view->assign('content', $result);
+                break;
                 case 'filter-procedure':
                 $ajax = true;
                 $documentId = $_REQUEST['documentId'];

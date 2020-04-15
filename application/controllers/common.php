@@ -271,5 +271,11 @@ class Common_Controller {
         $mainProduct = $reference->MainProductCategory();
         return $mainProduct;
     }
+    
+    public function RefProductDiagnosis() {
+        $reference = new Reference_Table_Model();
+        $mainProduct = $reference->MainDocumentDiagnosis();
+        return $mainProduct;
+    }
 
 }
