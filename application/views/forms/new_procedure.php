@@ -40,10 +40,6 @@
             <div class='panel panel-primary'>
                 <div class='panel-heading'>Result of Existing Product</div>
                 <div class='panel-body'>
-                     <div class="form-inline">
-                        <div class ='pull-left' style=" font-size: smaller; padding-bottom: 3px;"><b>Total Document = <?= count($list_of_procedure); ?></b></div>
-                        <input type="text" class="pull-right col-sm-2 text-uppercase" style="margin-bottom: 5px; font-size:12px;padding:3px 10px;height:25px;line-height: 1.5;border:1px solid #cccccc;border-radius:4px" id="search" placeholder="Search" hidden/>
-                    </div>
                     <div class='clearfix'></div>
 
                     <table id="listDoc" class='table table-bordered table-condensed'>
@@ -139,6 +135,7 @@
                 data: {documentValues: values, documentId: documentId},
                 success: function (data) {
                     $('#listOfDocument').html(data);
+                     $('#listDoc').DataTable(data);
                 }
             });
         });
@@ -188,36 +185,6 @@
         return false;
     });
 </script>
-<script>
-    $(document).ready(function () {
-
-        $("#search").keyup(function () {
-            var value = this.value.toLowerCase().trim();
-
-            $("table tr").each(function (index) {
-                if (!index)
-                    return;
-                $(this).find("td").each(function () {
-                    var id = $(this).text().toLowerCase().trim();
-                    var not_found = (id.indexOf(value) === -1);
-                    $(this).closest('tr').toggle(!not_found);
-                    return not_found;
-                });
-            });
-        });
-
-    });
-    
-    $(document).ready(function () {
-        var selected = $('[name=doc_group]').val();
-        if (selected !== '0') {
-            $('#search').removeAttr('hidden');
-        } else {
-            $('#search').addClass('hidden');
-        }
-    });
-    </script>
-
 
 <?php
 echo $footer;
