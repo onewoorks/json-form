@@ -548,7 +548,7 @@ class Formview_Controller extends Common_Controller {
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
-             case 'delete-section-edit':
+            case 'delete-section-edit':
                 $ajax = true;
                 $document = new Document_Template_Model();
                 $doc_id = $_REQUEST['documentId'];
@@ -757,7 +757,7 @@ class Formview_Controller extends Common_Controller {
                 $document->UpdateDocumentOutreach($values);
                 break;
             case 'create-diagnosis':
-               $document = new Document_Template_Model();
+                $document = new Document_Template_Model();
                 $ajax = true;
                 $json = file_get_contents('php://input');
                 $array = explode('&', urldecode($json));
@@ -933,7 +933,7 @@ class Formview_Controller extends Common_Controller {
                 $docId = $values['doc_id'];
                 $sectionCode = $values['section_id'];
                 $document->DeleteEditSectionData($docId, $sectionCode);
-                $this->GenerateJSONFormat($docId, 'update');
+                $this->UpdateJSONFormat($docId, 'regenerate');
                 break;
             case 'delete-current-document':
                 $ajax = true;
@@ -982,6 +982,7 @@ class Formview_Controller extends Common_Controller {
                 $ajax = true;
                 $document = new Document_Template_Model();
                 $docId = $_REQUEST['docId'];
+                print_r($docId);
                 $x = 1;
                 foreach ($_REQUEST['section'] AS $key => $item):
                     $sorting = $x;
@@ -992,11 +993,13 @@ class Formview_Controller extends Common_Controller {
                     $x++;
                     $document->UpdateSectionSorting($data);
                 endforeach;
+                 $this->UpdateJSONFormat($docId, 'regenerate');
                 break;
             case 'update-attributes2':
                 $ajax = true;
                 $document = new Document_Template_Model();
-
+                $docId = $_REQUEST['docId'];
+                
                 $json = file_get_contents('php://input');
                 $json_a = explode('data_array=', urldecode($json));
                 $data = json_decode($json_a[1], true);
@@ -1029,7 +1032,7 @@ class Formview_Controller extends Common_Controller {
                         endforeach;
                     endforeach;
                 endforeach;
-
+                $this->UpdateJSONFormat($docId, 'regenerate');
                 break;
             //EDIT SECTION NAME || zarith-31/3
             case 'edit-attributes':

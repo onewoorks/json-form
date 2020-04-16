@@ -144,6 +144,15 @@ class Common_Controller {
         $this->CreateJSONForm($documentId, $documentArray, $action);
         return true;
     }
+    
+    public function UpdateJSONFormat($documentId, $action ) {
+        $documentTemplate = new Document_Template_Model();
+        $documentData = $documentTemplate->ReadDocumentSetup($documentId);
+        $sections = $documentTemplate->ReadDocumentSectionGroup($documentId);
+        $documentArray = $this->GetDocumentSections($documentId, $sections);
+        $this->UpdateNewJSONForm($documentId, $documentArray, $action);
+        return true;
+    }
 
     public function GetDocumentSections($documentId, $sections) {
         $documentSections = array();
@@ -202,6 +211,19 @@ class Common_Controller {
                 break;
             case 'regenerate':
                 $document->UpdateJSONDocument($documentId);
+                break;
+        endswitch;
+        return true;
+    }
+
+    public function UpdateNewJSONForm($documentId, array $documentData, $action = 'add') {
+        $document = new Document_Template_Model();
+        $document->documentId = $documentId;
+        $document->jsonForm = json_encode($documentData, true); 
+        
+        switch ($action):
+            case 'regenerate':
+                $document->UpdateNewJSONDocument($documentId);
                 break;
         endswitch;
         return true;

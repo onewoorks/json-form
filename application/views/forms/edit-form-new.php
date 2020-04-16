@@ -281,7 +281,7 @@
             $('input[name="sectionList[]"]').each(function () {
                 section.push(this.value);
             });
-            console.log(section);
+//            console.log(section);
             var total = $('#notesForm').serializeArray();
 
             $.ajax({
@@ -296,6 +296,10 @@
                     });
                 }
             });
+             setTimeout(
+                    function () {
+                        window.location.reload(true);
+                    }, 1200);
         });
 
         $('.updateElement').click(function () {
@@ -315,12 +319,12 @@
             });
 
             var curr_data = JSON.stringify(data_array);
-            console.log('curr_data', curr_data);
+//            console.log('curr_data', curr_data);
 
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/update-attributes2/',
                 type: 'POST',
-                data: {data_array: curr_data},
+                data: {docId: docId, data_array: curr_data},
                 success: function () {
                     $('#myModal').modal('hide');
                     swal({
@@ -330,6 +334,10 @@
                     });
                 }
             });
+             setTimeout(
+                    function () {
+                        window.location.reload(true);
+                    }, 1200);
         });
 
         $('.expandButton').click(function () {
@@ -354,7 +362,7 @@
             var documentId = '<?= $document_id; ?>';
             var templateId = '<?= $template_id; ?>';
             var sectionId = $(this).data('sectioncode');
-            console.log('edit-form: ELEMID=', key, '| DOCID=', documentId, '| TEMPID=', templateId, '| SECID=', sectionId);
+//            console.log('edit-form: ELEMID=', key, '| DOCID=', documentId, '| TEMPID=', templateId, '| SECID=', sectionId);
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/load-selected-json/',
                 data: {key: key, component: 'element', documentId: documentId, templateId: templateId, sectionId: sectionId},
@@ -373,9 +381,9 @@
             var documentId = '<?= $document_id; ?>';
             var templateId = '<?= $template_id; ?>';
             var sectionId = $(this).data('sectioncode');
-           console.log('sectionId -',sectionId)
+//           console.log('sectionId -',sectionId)
              
-            console.log('ADD ELEMENT: DOCID=', documentId, '| TEMPID=', templateId, '| SECID=', sectionId );
+//            console.log('ADD ELEMENT: DOCID=', documentId, '| TEMPID=', templateId, '| SECID=', sectionId );
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/add-element/',
                 data: {documentId: documentId, templateId: templateId, sectionId: sectionId},
@@ -393,7 +401,7 @@
             var key = $(this).data('sectioncode');
             var documentId = '<?= $document_id; ?>';
             var templateId = '<?= $template_id; ?>';
-            console.log(key);
+//            console.log(key);
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/load-selected-json/',
                 data: {key: key, component: 'section', documentId: documentId, templateId: templateId},
@@ -410,7 +418,7 @@
 
         $('.editTitle').click(function () {
             var documentId = '<?= $document_id; ?>';
-            console.log(documentId);
+//            console.log(documentId);
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/change-title-new/',
                 data: {documentId: documentId},
@@ -433,7 +441,7 @@
                     type = 'regenerate';
                     var item = {doc_name_id: $(documentId).val(), template_id: $(templateId).val()};
                     selected.push(item);
-                    console.log(item);
+//                    console.log(item);
                 });
             });
             $.ajax({
@@ -565,7 +573,7 @@
     $('.viewForm').click(function () {
         
             var templateId = $(this).attr('value');
-                console.log(templateId);
+//                console.log(templateId);
                 $.ajax({
                     method: 'GET',
                     url: '<?= SITE_ROOT; ?>/formview/form-template-preview/'+templateId,
@@ -580,7 +588,7 @@
         
         $(".buildForm").click(function () {
                 var documentId = $(this).attr('id');
-                console.log(documentId);
+//                console.log(documentId);
                 $.ajax({
                     url: '<?= SITE_ROOT; ?>/formview/form-builder',
                     data: {documentId: documentId}

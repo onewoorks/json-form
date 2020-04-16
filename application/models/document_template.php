@@ -152,6 +152,7 @@ class Document_Template_Model {
                 . " WHERE de.doc_name_id='" . (int) $documentId . "'"
                 . " GROUP BY de.section_code"
                 . " ORDER BY de.section_sorting";
+        print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -1172,6 +1173,26 @@ class Document_Template_Model {
                 . "updated_by = 'ADMIN' "
                 . "WHERE doc_name_id='" . (int) $docNameId . "' ";
         print_r($sql);
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+    public function UpdateNewJSONDocument($documents) {
+        $jsonForm = $this->jsonForm;
+        $docNameId = $this->documentId;
+        $newLine = array('\r\n', '\n', '\r');
+        $replace = '<br />';
+        $json = str_replace($newLine, $replace, $jsonForm);
+        $jsonDoc = addslashes($json);
+          
+        $sql = "UPDATE document_template SET "
+                . "json_template = '$jsonDoc', "
+                . "updated_date = now(), "
+                . "updated_by = 'ADMIN' "
+                . "WHERE doc_name_id='" . (int) $docNameId . "' ";
+       
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();

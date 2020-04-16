@@ -17,7 +17,7 @@
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/delete-edit-section/',
                 data: {values:values},
-                success: function (data) {
+                success: function () {
                     $('#deleteModal').modal('hide');
                     swal({
                         title:"Section Removed!",
@@ -26,6 +26,10 @@
                     });
                 }
             });
+            setTimeout(
+                    function () {
+                        window.location.reload(true);
+                    }, 1200);
         });  
         
 </script>
