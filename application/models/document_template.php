@@ -1047,6 +1047,16 @@ class Document_Template_Model {
         return true;
     }
     
+     public function DeleteEditSectionData($docId, $sectionCode) {
+        $sql = "DELETE FROM document_element "
+                . "WHERE doc_name_id='" . (int) $docId . "' AND section_code='" . (int) $sectionCode . "'";
+        print_r($sql);
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
      public function DeleteDocumentData($docId) {
         $sql = "UPDATE document "
                 . "SET active_status = '0' "

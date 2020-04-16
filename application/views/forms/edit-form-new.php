@@ -180,7 +180,7 @@
                 <div class='panel-body' >
                     <ul class='list-unstyled'  style=" font-size: 12.5px;">
                         <?php foreach ($json_elements as $key => $section): ?>
-                            <li><input type='checkbox' class='selectedsection' name="total" id="total" value="<?= $key; ?>" checked /> <?= $section->section_desc; ?></li>
+                            <li><input type='checkbox' class='selectedsection' name="total" id="total" data-sectioncode="<?= $section->section_code ?>" value="<?= $key; ?>" checked /><?= $section->section_desc; ?></li>
                         <?php endforeach; ?>
                     </ul>
                 </div>
@@ -193,7 +193,6 @@
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
-        <a href="edit-form.php"></a>
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -350,11 +349,6 @@
             height: 100
         });
 
-        $('.selectedsection').change(function () {
-            var section = $(this).val();
-            var a = $('#panel-group1').find(".panel-default[data-section='" + section + "']").fadeToggle("fast", "linear");
-        });
-
         $('.editElement').click(function () {
             var key = $(this).data('elementid');
             var documentId = '<?= $document_id; ?>';
@@ -460,7 +454,8 @@
             });
         });
 
-        $('.deleteElement').click(function () {
+        $('.deleteElement').click(function (e) {
+            e.preventDefault();
             var documentId = '<?= $document_id; ?>';
             var id = $(this).data('elementid');
             var sectionCode = $(this).data('sectioncode');
@@ -475,7 +470,7 @@
                 }
             });
             $('#deleteModal').modal('show');
-            return false;
+            
         });
 </script>
 
@@ -592,6 +587,29 @@
                 });
                  
                 return false;
+        });
+        
+//         $('.selectedsection').change(function () {
+//            var section = $(this).val();
+//            var a = $('#panel-group1').find(".panel-default[data-section='" + section + "']").fadeToggle("fast", "linear");
+//            
+//        });
+
+        $('.selectedsection').click(function (e) {
+        e.preventDefault();
+            var documentId = '<?= $document_id; ?>';
+            var sectionCode = $(this).data('sectioncode');
+            $.ajax({
+                url: '<?= SITE_ROOT; ?>/formview/delete-section-edit/',
+                data: {documentId: documentId, sectionCode: sectionCode},
+                success: function (data) {
+                    var obj = $.parseJSON(data);
+                    $('.modal-dialog').removeClass('modal-sm');
+                    $('.modal-title').text(obj.component);
+                    $('.modal-body').html(obj.html);
+                }
+            });
+            $('#deleteModal').modal('show');
         });
  });
 

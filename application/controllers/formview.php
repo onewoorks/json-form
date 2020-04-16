@@ -548,6 +548,19 @@ class Formview_Controller extends Common_Controller {
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
+             case 'delete-section-edit':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $doc_id = $_REQUEST['documentId'];
+                $section_id = $_REQUEST['sectionCode'];
+                $page = 'forms/delete_esection';
+                $result['doc_id'] = $doc_id;
+                $result['section_id'] = $section_id;
+                $data = array(
+                    'component' => 'Delete Section',
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
             case 'delete-document':
                 $ajax = true;
                 $document = new Document_Template_Model();
@@ -911,6 +924,15 @@ class Formview_Controller extends Common_Controller {
                 $elementCode = $values['element_id'];
                 $sectionCode = $values['section_id'];
                 $document->DeleteElementData($docId, $sectionCode, $elementCode);
+                $this->GenerateJSONFormat($docId, 'update');
+                break;
+            case 'delete-edit-section':
+                $ajax = true;
+                $values = $this->form_array($_REQUEST['values']);
+                $document = new Document_Template_Model();
+                $docId = $values['doc_id'];
+                $sectionCode = $values['section_id'];
+                $document->DeleteEditSectionData($docId, $sectionCode);
                 $this->GenerateJSONFormat($docId, 'update');
                 break;
             case 'delete-current-document':
