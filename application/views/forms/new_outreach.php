@@ -25,6 +25,7 @@
         <label class='control-label col-sm-3'></label>
         <div class='col-sm-8 text-right'>
             <div class='btn btn-sm btn-primary updateDoc'>Update</div>
+            <button type='button' class='btn btn-sm btn-success cancel' data-dismiss="modal">Cancel</button>
         </div>
     </div>  
 </form>
@@ -59,7 +60,14 @@
                     function () {
                         window.location.reload(true);
                     }, 1200);
+            return false;
         });
     }
+    
+    $('.cancel').click(function(e) {
+             e.preventDefault();
+             $(".outreachStatus[id='" + <?= $doc_id;?> + "']").prop("checked",false);
+             window.close();
+          });
     
 </script>

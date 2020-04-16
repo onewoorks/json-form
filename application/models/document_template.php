@@ -1296,7 +1296,7 @@ class Document_Template_Model {
                     . "ON (dd.diagnosis_code = d.dsm5_id)";
          }
         elseif ($docGroup == 'I'){
-            $sql = "SELECT i.icd_id AS codes, i.description AS descs "
+            $sql = "SELECT i.icd_id AS codes, i.description AS descs, "
                     . "CASE WHEN dd.diagnosis_code = i.icd_id THEN TRUE ELSE FALSE END AS available  "
                     . "FROM icd10_kkm i "
                     . "LEFT JOIN( SELECT diagnosis_code FROM document_diagnosis WHERE doc_name_id='" . (int) $documentId . "') dd "
@@ -1313,7 +1313,7 @@ class Document_Template_Model {
              $sql = "SELECT p.pre_diagnosis_code AS codes, p.pre_diagnosis_desc AS descs, "
                     . "CASE WHEN dd.diagnosis_code = p.pre_diagnosis_code THEN TRUE ELSE FALSE END AS available  "
                     . "FROM ref_predefined_diagnosis p "
-                    . "LEFT JOIN( SELECT diagnosis_code FROM document_diagnosis WHERE doc_name_id='2644') dd "
+                    . "LEFT JOIN( SELECT diagnosis_code FROM document_diagnosis WHERE doc_name_id='" . (int) $documentId . "') dd "
                     . "ON (dd.diagnosis_code = p.pre_diagnosis_code) limit 0";
         }
         $this->db->connect();
@@ -1329,7 +1329,7 @@ class Document_Template_Model {
                . "FROM products p "
                . "INNER JOIN product_forms pf ON (p.form_code = pf.form_code) "
                . "LEFT JOIN (SELECT product_code FROM document_product WHERE doc_name_id='" . (int) $documentId . "') dp "
-               . "ON (p.product_code = dp.product_code) WHERE p.form_code IN  ('0') LIMIT 10"; //('0',11','2','3','7','8','9')  
+               . "ON (p.product_code = dp.product_code) WHERE p.form_code IN  ('0')"; //('0',11','2','3','7','8','9')  
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();

@@ -52,11 +52,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (!$list_of_procedure): ?>
-                                <tr>
-                                    <td colspan="4"><i>No Record Found</i></td>
-                                </tr>
-                            <?php endif; ?>
                             <?php
                             $no = 1;
                             foreach ($list_of_procedure as $procedure):
@@ -112,9 +107,11 @@
     </div>
 </div>
 
- 
 <script>
-
+      $(document).ready(function () {
+        $('#listDoc').DataTable();
+    });
+    
     $(function () {
         $('[name=doc_group]').change(function () {
             $('#documentFilter').submit();
@@ -135,7 +132,6 @@
                 data: {documentValues: values, documentId: documentId},
                 success: function (data) {
                     $('#listOfDocument').html(data);
-                     $('#listDoc').DataTable(data);
                 }
             });
         });

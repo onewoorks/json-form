@@ -49,11 +49,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php if (!$list_of_diagnosis): ?>
-                                    <tr>
-                                        <td colspan="4"><i>No Record Found</i></td>
-                                    </tr>
-                                <?php endif; ?>
                                 <?php
                                 $no = 1;
                                 foreach ($list_of_diagnosis as $diagnosis):
@@ -79,6 +74,10 @@
     </div>
 </div>
 <script>
+      $(document).ready(function () {
+        $('#listDoc').DataTable();
+    });
+    
     $(function () {
         $('[name=doc_group]').change(function () {
             $('#documentFilter').submit();
@@ -99,7 +98,6 @@
                 data: {documentValues: values, documentId: documentId},
                 success: function (data) {
                     $('#listOfDocument').html(data);
-                     $('#listDoc').DataTable(data);
                 }
             });
         });

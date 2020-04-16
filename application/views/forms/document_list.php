@@ -126,11 +126,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (!$list_of_documents): ?>
-                                <tr>
-                                    <td colspan="12"><i style="font-size: 11px;">No Record Found</i></td>
-                                </tr>
-                            <?php endif; ?>
+                           
                             <?php
                             $no = 1;
                             foreach ($list_of_documents as $document):
@@ -147,9 +143,9 @@
                                     <td class='text-uppercase'  style=" font-size: smaller;"><a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $document['template_id']; ?>'><?php echo $document['doc_name_desc']; ?></a></td>
                                     <td class='text-uppercase'  style=" font-size: smaller;" id="docOutreach" hidden>
                                         <?php if ($document['checked']) : ?>
-                                            <input type="checkbox"  name="out1" class="outreachStatus" id="<?php echo $document['doc_name_id']; ?>"   checked="checked">
+                                        <input type="checkbox"  name="out1" class="outreachStatus" id="<?php echo $document['doc_name_id']; ?>"   checked="checked" >
                                         <?php else : ?>
-                                            <input type="checkbox"  name="out2" class="outreachStatus" id="<?php echo $document['doc_name_id']; ?>" >
+                                            <input type="checkbox"  name="out2" class="outreachStatus" id="<?php echo $document['doc_name_id']; ?>" autocomplete="off" />
                                         <?php endif; ?>
                                     </td>
                                     <td class='text-uppercase'  style=" font-size: smaller;">
@@ -235,7 +231,6 @@
             </div>
         </div>
     </div>
-
 <script>
     $(document).ready(function () {
         var tempid;
@@ -545,7 +540,8 @@
              return false;
         });//end change
         
-         $('.outreachStatus').change(function () {
+         $('.outreachStatus').change(function (e) {
+           e.preventDefault();
             var documentId = $(this).attr('id');
 //            console.log("documentId : ", documentId);
             var val;
@@ -568,8 +564,7 @@
                 }
             });
             $('#myModalNew').modal('show');
-            
-            return false;
+          
         });//end change
     });//end ready
 </script>

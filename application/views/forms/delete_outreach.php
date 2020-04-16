@@ -1,15 +1,17 @@
 <form id='deleteDocument' class='form-horizontal'>
 <div class='form-group form-group-sm'>
-    <p style='padding-left:15px'><b>Are you sure want to delete <strong class="text-uppercase"><?= $title->doc_name_desc;?></strong> ?</b></p>
+    <p style='padding-left:15px'><b>Are you sure to delete Outreach Document?</b></p>
         <input type='hidden' name='doc_id' id='doc_id'  value='<?= $doc_id;?>'/>
     <div class='col-sm-12 text-right'>
         <button type='button' class='btn btn-sm btn-danger yesDelete'>Yes</button>
-        <button type='button' class='btn btn-sm btn-success' data-dismiss="modal">Cancel</button>
+        <button type='button' class='btn btn-sm btn-success cancel' data-dismiss="modal">Cancel</button>
     </div>    
 </div>
   
 </form>
 <script>
+    $(document).ready(function(){
+        
     $('.yesDelete').click(function () {
         var values = $('#deleteDocument').serializeArray();
             $.ajax({
@@ -19,7 +21,7 @@
                     console.log(data);
                     $('#deleteModal').modal('hide');
                     swal({
-                        title:"Document Removed!",
+                        title:"Outreach Document Deleted",
                         text: "Data successfully removed from database",
                         type: "success"
                     });
@@ -30,4 +32,13 @@
                         window.location.reload(true);
                     }, 1200);
         });   
+        
+        $('.cancel').click(function(e) {
+             e.preventDefault();
+             $(".outreachStatus[id='" + <?= $doc_id;?> + "']").prop("checked",true);
+             window.close();
+//               alert("Was preventDefault() called: " + e.isDefaultPrevented());
+          });
+        
+    });
 </script>
