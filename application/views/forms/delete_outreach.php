@@ -4,7 +4,7 @@
         <input type='hidden' name='doc_id' id='doc_id'  value='<?= $doc_id;?>'/>
     <div class='col-sm-12 text-right'>
         <button type='button' class='btn btn-sm btn-danger yesDelete'>Yes</button>
-        <button type='button' class='btn btn-sm btn-success cancel' data-dismiss="modal">Cancel</button>
+        <button type='button' class='btn btn-sm btn-success ' data-dismiss="modal">Cancel</button>
     </div>    
 </div>
   
@@ -32,13 +32,6 @@
                         window.location.reload(true);
                     }, 1200);
         });   
-        
-        $('.cancel').click(function(e) {
-             e.preventDefault();
-             $(".outreachStatus[id='" + <?= $doc_id;?> + "']").prop("checked",true);
-             window.close();
-//               alert("Was preventDefault() called: " + e.isDefaultPrevented());
-          });
-        
+      
     });
 </script>

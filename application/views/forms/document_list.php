@@ -145,7 +145,7 @@
                                         <?php if ($document['checked']) : ?>
                                         <input type="checkbox"  name="out1" class="outreachStatus" id="<?php echo $document['doc_name_id']; ?>"   checked="checked" >
                                         <?php else : ?>
-                                            <input type="checkbox"  name="out2" class="outreachStatus" id="<?php echo $document['doc_name_id']; ?>" autocomplete="off" />
+                                            <input type="checkbox"  name="out2" class="outreachStatus2" id="<?php echo $document['doc_name_id']; ?>" autocomplete="off" />
                                         <?php endif; ?>
                                     </td>
                                     <td class='text-uppercase'  style=" font-size: smaller;">
@@ -540,18 +540,32 @@
              return false;
         });//end change
         
-         $('.outreachStatus').change(function (e) {
+         $('.outreachStatus').click(function (e) {
            e.preventDefault();
             var documentId = $(this).attr('id');
 //            console.log("documentId : ", documentId);
-            var val;
-            if ($('.outreachStatus').prop('checked'))
-            {
-                val = '1';
-            } else
-            {
-                val = '0';
-            }
+            var val = '0';
+            
+                $.ajax({
+                type: "POST",
+                url: '<?= SITE_ROOT; ?>/formview/load-selected-outreach/',
+                data: {documentId: documentId, value: val},
+                success: function (data) {
+                    var obj = $.parseJSON(data);
+                    $('.modal-dialog').removeClass('modal-lg');
+                    $('.modal-title').text(obj.component);
+                    $('.modal-body').html(obj.html);
+                }
+            });
+            $('#myModalNew').modal('show');
+          
+        });//end change
+        
+        $('.outreachStatus2').click(function (e) {
+           e.preventDefault();
+            var documentId = $(this).attr('id');
+//            console.log("documentId : ", documentId);
+            var val = '1';
             $.ajax({
                 type: "POST",
                 url: '<?= SITE_ROOT; ?>/formview/load-selected-outreach/',
