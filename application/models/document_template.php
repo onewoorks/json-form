@@ -414,10 +414,23 @@ class Document_Template_Model {
         return $result[0];
     }
 
-    public function GetTitleDetail($docId) {
+    public function GetOutreachDetail($docId) {
         $sql = "SELECT doc_name_id, doc_name_desc"
                 . " FROM document"
                 . " WHERE doc_name_id='" . (int) $docId . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('object');
+        return $result[0];
+    }
+    
+    public function GetTitleDetail($docId) {
+        $sql = "SELECT o.doc_name_id , d.doc_name_desc, t.outrch_type_code, t.outrch_type_name "
+                . "FROM ref_outrch_document o "
+                . "INNER JOIN document d ON (d.doc_name_id = o.doc_name_id) "
+                . "INNER JOIN ref_outrch_type t ON (o.outrch_type_code = t.outrch_type_code) "
+                . "WHERE o.doc_name_id='" . (int) $docId . "'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();

@@ -544,12 +544,11 @@
            e.preventDefault();
             var documentId = $(this).attr('id');
 //            console.log("documentId : ", documentId);
-            var val = '0';
             
                 $.ajax({
                 type: "POST",
-                url: '<?= SITE_ROOT; ?>/formview/load-selected-outreach/',
-                data: {documentId: documentId, value: val},
+                url: '<?= SITE_ROOT; ?>/formview/delete-selected-outreach/',
+                data: {documentId: documentId},
                 success: function (data) {
                     var obj = $.parseJSON(data);
                     $('.modal-dialog').removeClass('modal-lg');
@@ -565,11 +564,10 @@
            e.preventDefault();
             var documentId = $(this).attr('id');
 //            console.log("documentId : ", documentId);
-            var val = '1';
             $.ajax({
                 type: "POST",
-                url: '<?= SITE_ROOT; ?>/formview/load-selected-outreach/',
-                data: {documentId: documentId, value: val},
+                url: '<?= SITE_ROOT; ?>/formview/new-outreach/',
+                data: {documentId: documentId},
                 success: function (data) {
                     var obj = $.parseJSON(data);
                     $('.modal-dialog').removeClass('modal-lg');

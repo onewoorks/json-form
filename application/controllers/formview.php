@@ -309,28 +309,30 @@ class Formview_Controller extends Common_Controller {
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
-            case 'load-selected-outreach':
+            case 'new-outreach':
                 $ajax = true;
                 $doc_id = $_REQUEST['documentId'];
-                $component = $_REQUEST['value'];
                 $document = new Document_Template_Model();
-                if ($component == '1'):
-                    $val = $document->GetTitleDetail($doc_id);
-                    $page = 'forms/new_outreach';
-                    $result['list_of_outreach'] = $document->GetAllOutreach();
-                    $result['title'] = $val;
-                    $result['doc_id'] = $doc_id;
-                    $title = 'Outreach Document';
-                endif;
-                if ($component == '0'):
-                    $val = $document->GetTitleDetail($doc_id);
-                    $page = 'forms/delete_outreach';
-                    $result['doc_id'] = $doc_id;
-                    $result['title'] = $val;
-                    $title = 'Delete Outreach Document';
-                endif;
+                $val = $document->GetOutreachDetail($doc_id);
+                $page = 'forms/new_outreach';
+                $result['list_of_outreach'] = $document->GetAllOutreach();
+                $result['title'] = $val;
+                $result['doc_id'] = $doc_id;
                 $data = array(
-                    'component' => $title, //bawa section_desc @ element_desc
+                    'component' => 'Outreach Document', //bawa section_desc @ element_desc
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
+            case 'delete-selected-outreach':
+                $ajax = true;
+                $doc_id = $_REQUEST['documentId'];
+                $document = new Document_Template_Model();
+                $val = $document->GetTitleDetail($doc_id);
+                $page = 'forms/delete_outreach';
+                $result['doc_id'] = $doc_id;
+                $result['title'] = $val;
+                $data = array(
+                    'component' => 'Delete Outreach Document', //bawa section_desc @ element_desc
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
@@ -993,13 +995,13 @@ class Formview_Controller extends Common_Controller {
                     $x++;
                     $document->UpdateSectionSorting($data);
                 endforeach;
-                 $this->UpdateJSONFormat($docId, 'regenerate');
+                $this->UpdateJSONFormat($docId, 'regenerate');
                 break;
             case 'update-attributes2':
                 $ajax = true;
                 $document = new Document_Template_Model();
                 $docId = $_REQUEST['docId'];
-                
+
                 $json = file_get_contents('php://input');
                 $json_a = explode('data_array=', urldecode($json));
                 $data = json_decode($json_a[1], true);
