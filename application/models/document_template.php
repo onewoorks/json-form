@@ -1333,25 +1333,28 @@ class Document_Template_Model {
     public function GetFilterListByDiagnosisGroup($documentArray, $documentId) {
          $docGroup = $documentArray['doc_group'];
          if ($docGroup == 'D'){
-            $sql = "SELECT d.dsm5_id AS codes, d.dsm5_desc AS descs, "
-                    . "CASE WHEN dd.diagnosis_code = d.dsm5_id THEN TRUE ELSE FALSE END AS available  "
+            $sql = "SELECT d.dsm5_id AS codes, d.dsm5_desc AS descs,rdc.diagnosis_source_code AS diagno,  "
+                    . "CASE WHEN dd.diagnosis_code = d.dsm5_id AND dd.diagnosis_source_code = '" . $docGroup . "' THEN TRUE ELSE FALSE END AS available  "
                     . "FROM ref_dsm5 d "
-                    . "LEFT JOIN( SELECT diagnosis_code FROM document_diagnosis WHERE doc_name_id='" . (int) $documentId . "') dd "
-                    . "ON (dd.diagnosis_code = d.dsm5_id)";
+                    . "LEFT JOIN( SELECT diagnosis_code,diagnosis_source_code FROM document_diagnosis WHERE doc_name_id='" . (int) $documentId . "') dd "
+                    . "ON (dd.diagnosis_code = d.dsm5_id) "
+                     . "LEFT JOIN ref_diagnosis_source rdc ON (rdc.diagnosis_source_code = '" . $docGroup . "')";
          }
         elseif ($docGroup == 'I'){
-            $sql = "SELECT i.icd_id AS codes, i.description AS descs, "
-                    . "CASE WHEN dd.diagnosis_code = i.icd_id THEN TRUE ELSE FALSE END AS available  "
+            $sql = "SELECT i.icd_id AS codes, i.description AS descs,rdc.diagnosis_source_code AS diagno,  "
+                    . "CASE WHEN dd.diagnosis_code = i.icd_id AND dd.diagnosis_source_code = '" . $docGroup . "' THEN TRUE ELSE FALSE END AS available  "
                     . "FROM icd10_kkm i "
-                    . "LEFT JOIN( SELECT diagnosis_code FROM document_diagnosis WHERE doc_name_id='" . (int) $documentId . "') dd "
-                    . "ON (dd.diagnosis_code = i.icd_id) ";
+                    . "LEFT JOIN( SELECT diagnosis_code,diagnosis_source_code FROM document_diagnosis WHERE doc_name_id='" . (int) $documentId . "') dd "
+                    . "ON (dd.diagnosis_code = i.icd_id) "
+                    . "LEFT JOIN ref_diagnosis_source rdc ON (rdc.diagnosis_source_code = '" . $docGroup . "')";
         }
         elseif ($docGroup == 'P'){
-            $sql = "SELECT p.pre_diagnosis_code AS codes, p.pre_diagnosis_desc AS descs, "
-                    . "CASE WHEN dd.diagnosis_code = p.pre_diagnosis_code THEN TRUE ELSE FALSE END AS available  "
+            $sql = "SELECT p.pre_diagnosis_code AS codes, p.pre_diagnosis_desc AS descs,rdc.diagnosis_source_code AS diagno, "
+                    . "CASE WHEN dd.diagnosis_code = p.pre_diagnosis_code AND dd.diagnosis_source_code = '" . $docGroup . "' THEN TRUE ELSE FALSE END AS available  "
                     . "FROM ref_predefined_diagnosis p "
-                    . "LEFT JOIN( SELECT diagnosis_code FROM document_diagnosis WHERE doc_name_id='" . (int) $documentId . "') dd "
-                    . "ON (dd.diagnosis_code = p.pre_diagnosis_code)";
+                    . "LEFT JOIN( SELECT diagnosis_code,diagnosis_source_code FROM document_diagnosis WHERE doc_name_id='" . (int) $documentId . "') dd "
+                    . "ON (dd.diagnosis_code = p.pre_diagnosis_code) "
+                    . "LEFT JOIN ref_diagnosis_source rdc ON (rdc.diagnosis_source_code = '" . $docGroup . "')";
         }
         else{
              $sql = "SELECT p.pre_diagnosis_code AS codes, p.pre_diagnosis_desc AS descs, "
@@ -1398,8 +1401,8 @@ class Document_Template_Model {
     }
 
      public function InsertDocumentDiagnosis($outputD){
-         $sql = "INSERT INTO document_diagnosis (doc_name_id, diagnosis_code, created_by, created_date) "
-                 . "VALUES ('" . $outputD['doc_name_id'] . "', '" . $outputD['diagnosis_code'] . "', 'ADMIN', now()) ";
+         $sql = "INSERT INTO document_diagnosis (doc_name_id, diagnosis_code, diagnosis_source_code, created_by, created_date) "
+                 . "VALUES ('" . $outputD['doc_name_id'] . "', '" . $outputD['diagnosis_code'] . "', '" . $outputD['type'] . "','ADMIN', now()) ";
         print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);

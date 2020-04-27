@@ -45,6 +45,7 @@
                                 <tr>
                                     <th style=" font-size: smaller;">Diagnosis Code</th>
                                     <th style=" font-size: smaller;">Diagnosis Description</th>
+                                    <th style=" font-size: smaller;" hidden>Diagnosis Source</th>
                                     <th style=" font-size: smaller;">Action</th>
                                 </tr>
                             </thead>
@@ -56,6 +57,10 @@
                                     <tr>
                                         <td  style=" font-size: smaller; text-align: center"><?php echo $diagnosis['codes']; ?></td>
                                         <td class="text-uppercase" style=" font-size: smaller;"><?php echo $diagnosis['descs']; ?></td>
+                                        <td class="text-uppercase" style=" font-size: smaller;" hidden>
+                                             <input type="text" name="type" value="<?php echo $diagnosis['diagno']; ?>">
+                                            
+                                        </td>
                                         <td  style=" font-size: smaller; text-align: center">
                                          <div>
                                             <?php if ($diagnosis['available']) : ?>
@@ -92,6 +97,7 @@
         $('#documentFilter').submit(function (e) {
             e.preventDefault();
             var values = $(this).serializeArray();
+            console.log(values);
             var documentId = '<?= $document_id; ?>';
             $.ajax({
                 url: '<?php echo SITE_ROOT; ?>/main/filter-diagnosis/',
@@ -104,8 +110,7 @@
     });
 </script>
 <script>
-    $(function () {
-
+    
         $('.addDiagnosis').click( function () {
           
             var input = $("input:checkbox:checked");
@@ -120,15 +125,17 @@
                 });
             
             var documentId = '<?= $document_id; ?>';
+            var source = $('[name=type]').val();
             var datas = JSON.stringify(selected);
             console.log("selected item: ", datas);
             console.log("documentId: ", documentId);
+            console.log("source: ", source);
           
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/create-diagnosis/',
                 type: 'POST',
                 data: {
-                    dummy: null, documentId: documentId, DiagnosisDetails: JSON.stringify(selected)
+                    dummy: null, documentId: documentId, DiagnosisDetails: JSON.stringify(selected),source: source,
                 },
                 success: function (data) {
                     console.log(data);
@@ -139,14 +146,16 @@
                     });
                 }
             });
-                setTimeout(
-                    function() {
-                        window.location.reload(true);
-                    }, 1200);
+//                setTimeout(
+//                    function() {
+//                        window.location.reload(true);
+//                    }, 1200);
+        
         });
-        return false;
-    });
+    
 </script>
+
+    
 
 <?php
 echo $footer;

@@ -771,6 +771,7 @@ class Formview_Controller extends Common_Controller {
 
                 #documentId
                 $docId = $_REQUEST['documentId'];
+                $type = $_REQUEST['source'];
 
                 #productDesc
                 $product = json_decode($new_data['DiagnosisDetails'], true);
@@ -781,7 +782,8 @@ class Formview_Controller extends Common_Controller {
 
                         $outputD = array(
                             'diagnosis_code' => $valueD,
-                            'doc_name_id' => $docId
+                            'doc_name_id' => $docId,
+                            'type' => $type
                         );
                         echo '<pre>';
                         print_r($outputD);
