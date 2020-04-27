@@ -97,7 +97,7 @@
         $('#documentFilter').submit(function (e) {
             e.preventDefault();
             var values = $(this).serializeArray();
-            console.log(values);
+        //    console.log(values);
             var documentId = '<?= $document_id; ?>';
             $.ajax({
                 url: '<?php echo SITE_ROOT; ?>/main/filter-diagnosis/',
@@ -127,9 +127,9 @@
             var documentId = '<?= $document_id; ?>';
             var source = $('[name=type]').val();
             var datas = JSON.stringify(selected);
-            console.log("selected item: ", datas);
-            console.log("documentId: ", documentId);
-            console.log("source: ", source);
+         //   console.log("selected item: ", datas);
+         //   console.log("documentId: ", documentId);
+        //    console.log("source: ", source);
           
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/create-diagnosis/',
@@ -138,7 +138,7 @@
                     dummy: null, documentId: documentId, DiagnosisDetails: JSON.stringify(selected),source: source,
                 },
                 success: function (data) {
-                    console.log(data);
+             //       console.log(data);
                     swal({
                         title: "Inserted!",
                         text: "Procedure Successfully Updated",
@@ -146,10 +146,10 @@
                     });
                 }
             });
-//                setTimeout(
-//                    function() {
-//                        window.location.reload(true);
-//                    }, 1200);
+                setTimeout(
+                    function() {
+                        window.location.reload(true);
+                    }, 1200);
         
         });
     
