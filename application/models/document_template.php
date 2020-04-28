@@ -106,6 +106,15 @@ class Document_Template_Model {
         return $result[0];
     }
     
+    public function GetMaxSectionSorting($documentId) {
+            $sql = "SELECT MAX(section_sorting) AS newsorting FROM document_element WHERE doc_name_id=" . (int) $documentId . " ";
+            $this->db->connect();
+            $this->db->prepare($sql);
+            $this->db->queryexecute();
+            $result = $this->db->fetchOut('object');
+            return $result[0];
+        }
+
     //zarith-10/3
     public function ReadDocumentTemplate($templateId) {
         $sql = "SELECT o.doc_name_desc, d.json_template, d.doc_name_id, d.template_id, gd.discipline_name, md.main_discipline_name, rdg.doc_group_code"
@@ -554,6 +563,7 @@ class Document_Template_Model {
 //        $sql = " SELECT COUNT(section_desc) FROM ref_document_section WHERE section_desc LIKE '%$sectionDesc%' ";
         $sql = " INSERT INTO ref_document_section (section_code, section_desc, json_section, layout, active_status, created_by, created_date) "
                 . " VALUES ((SELECT MAX(section_code)+1 FROM ref_document_section AS section_code), '$section_desc', '$json_section', '$layout', '1', 'ADMIN', NOW()) ";
+                
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -1283,10 +1293,12 @@ class Document_Template_Model {
     
     //zarith-18/3
     public function InsertNewSection(array $outputS) {
-        $sql = "INSERT INTO document_element (doc_name_id, section_sorting, section_code, created_by, created_date) "
-                . "VALUES ((SELECT doc_name_id FROM document WHERE doc_name_desc = '" . $outputS['doc_name_id'] . "'), '" . $outputS['section_sorting'] . "', "
+        $sql =  "INSERT INTO document_element (doc_name_id, section_sorting, section_code, sorting, parent_element_code, child_element_code, element_properties, input_type,active,  created_by, created_date) "
+                . "VALUES ((SELECT doc_name_id FROM document WHERE doc_name_id = '" . $outputS['doc_name_id'] . "'), '" . $outputS['section_sorting'] . "', "
                 . "(SELECT section_code FROM ref_document_section WHERE section_desc = '" . $outputS['section_code'] . "' LIMIT 1), '" . $outputS['sorting'] . "', "
-                . "'ADMIN', NOW()) ";
+                . "(SELECT DISTINCT element_code FROM ref_document_element WHERE element_code ='" . $outputS['parent_element_code'] . "' LIMIT 1), "
+                . "(SELECT DISTINCT element_code FROM ref_document_element WHERE element_code ='" . $outputS['child_element_code'] . "' LIMIT 1), "
+                . "'" . $outputS['element_properties'] . "','" . $outputS['input_type'] . "','0','ADMIN', NOW()) ";
         print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);

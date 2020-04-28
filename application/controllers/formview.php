@@ -372,6 +372,19 @@ class Formview_Controller extends Common_Controller {
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
+            case 'add-section':
+                $ajax = true;
+                $page = 'forms/add_section';
+                $doc_id = $_REQUEST['documentId'];
+                $template_id = $_REQUEST['templateId'];
+                $document = new Document_Template_Model();
+                $result['sections'] = $document->GetAllSecDesc();
+                $result['doc_id'] = $doc_id;
+                $data = array(
+                    'component' => 'Add Section',
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
             case 'pass-element':
                 $page = 'forms/new_form';
                 $value = $_REQUEST['values'];
@@ -1162,39 +1175,31 @@ class Formview_Controller extends Common_Controller {
             case 'update-new-section':
                 $document = new Document_Template_Model();
                 $ajax = true;
-                $json = file_get_contents('php://input');
-                $array = explode('&', urldecode($json));
-                $new_data = array();
-                foreach ($array as $a):
-                    $ex = explode('=', $a);
-                    $new_data[$ex[0]] = $ex[1];
-                endforeach;
-
-                #documentDesc
-                $documentD = json_decode($new_data['docDetail'], true); //dri basic->ajax_element_form_group
-                $resultD = (object) $this->mapper($documentD);
-                print_r($resultD);
+                
+                $documentId = $_REQUEST['documentId'];
+                $last_section_sorting = $document->GetMaxSectionSorting($documentId);
+                $section_sorting = $last_section_sorting->newsorting + 1;
 
                 #sectionDesc
-                $section = json_decode($new_data['secDetail'], true); //dri basic->ajax_element_form_group
-                $resultS = $this->mapper($section);
-                $x = 1;
-
-                if ($resultS):
-                    foreach ($resultS as $keyS => $valueS):
-
-                        $outputS = array(
-                            'section_sorting' => $x, //1
-                            'section_code' => $valueS, //additional test
-                            'doc_name_id' => $resultD->doc_name_desc //diet note 11
-                        );
-                        echo '<pre>';
-                        print_r($outputS);
-                        echo '</pre>';
-                        $document->InsertNewSection($outputS);
-                        $x++;
-                    endforeach;
-            endif;
+                $resultS = $_REQUEST['secDetail'];
+                $valueE = '1';
+                $y = '0';
+                        
+                $outputS = array(
+                    'section_sorting' => $section_sorting, //1
+                    'section_code' => $resultS, //additional test
+                    'parent_element_code' => $valueE, //discharge
+                    'sorting' => $y, //1
+                    'doc_name_id' => $documentId, //diet note 1
+                    'child_element_code' => $valueE,
+                    'element_properties' => 'DECORATION',
+                    'input_type' =>'LABEL'
+                );
+                echo '<pre>';
+                print_r($outputS);
+                echo '</pre>';
+                $document->InsertNewSection($outputS);
+            break;
 
             default:
                 $result['link_style'] = "<link href='localhost/FORMjson/assets/library/summernote/' rel='stylesheet' />";

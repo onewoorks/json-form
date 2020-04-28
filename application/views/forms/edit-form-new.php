@@ -9,7 +9,7 @@
                     <input type='hidden' name='template_id' value='<?= $template_id;?>' />
                     <label class='control-label text-uppercase' style='padding: 15px;font-size: 15px'><b><?php echo $document_title; ?></b></label>
                     <div class="btn btn-default btn-sm editTitle" style='padding:3px' title="Rename Title"><i class='glyphicon glyphicon-pencil'></i></div>
-<!--                <div class="btn btn-default btn-sm newSection" style='padding: 3px' title="Add New Section" ><i class='glyphicon glyphicon-plus-sign' style="position: inherit"></i></div>-->
+                    <div class="btn btn-default btn-sm newSection" style='padding: 3px' title="Add New Section" ><i class='glyphicon glyphicon-plus-sign' style="position: inherit"></i></div>
                     <div class="btn btn-default btn-sm updateSection" style="margin-top:0px">Update Section Sorting</div>
                     <div class="btn btn-default btn-sm updateElement" style="margin-top:0px">Update Element Sorting</div>
                 </div>
@@ -188,6 +188,21 @@
         </div>
 
     </form>
+</div>
+
+<div id="mySection" class="modal fade" role="dialog">
+    <div class="modal-dialog ">
+        <!-- Modal content-->
+        
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add New Section </h4>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="myModal" class="modal fade" role="dialog">
@@ -381,9 +396,9 @@
             var documentId = '<?= $document_id; ?>';
             var templateId = '<?= $template_id; ?>';
             var sectionId = $(this).data('sectioncode');
-//           console.log('sectionId -',sectionId)
+           console.log('sectionId -',sectionId)
              
-//            console.log('ADD ELEMENT: DOCID=', documentId, '| TEMPID=', templateId, '| SECID=', sectionId );
+            console.log('ADD ELEMENT: DOCID=', documentId, '| TEMPID=', templateId, '| SECID=', sectionId );
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/add-element/',
                 data: {documentId: documentId, templateId: templateId, sectionId: sectionId},
@@ -395,6 +410,25 @@
                 }
             });
             $('#myModal').modal('show');
+            return false;
+        });
+        
+        $('.newSection').click(function () {
+            var documentId = '<?= $document_id; ?>';
+            var templateId = '<?= $template_id; ?>';
+           
+            console.log('ADD ELEMENT: DOCID=', documentId, '| TEMPID=', templateId );
+            $.ajax({
+                url: '<?= SITE_ROOT; ?>/formview/add-section/',
+                data: {documentId: documentId, templateId: templateId},
+                success: function (data) {
+                    var obj = $.parseJSON(data);
+                    $('.modal-dialog').removeClass('modal-sm');
+                    $('.modal-title').text(obj.component);
+                    $('.modal-body').html(obj.html);
+                }
+            });
+            $('#mySection').modal('show');
             return false;
         });
         $('.editSection').click(function () {
