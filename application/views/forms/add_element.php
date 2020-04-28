@@ -1,8 +1,7 @@
 <form id='addNewElement' class='form-horizontal'>
 
     <div class='panel panel-default'>
-        <div class='panel-heading'>Properties</div>
-        <div class='panel-body'>
+        <br>    
              <input type='hidden' name="doc_id" value="<?= $doc_id; ?>" />
             <input type='hidden' name="section_code" value='<?= $section_id; ?>' />
             <input type="hidden" name="section_sorting" value="<?= $section_sorting->section_sorting; ?>" />           
@@ -56,23 +55,23 @@
                         <input type='radio' name='element_properties' value='DECORATION_NEW'/> Decoration
                     </label>
                     <label class='radio-inline'>
-                        <input type='radio' name='element_properties' value='BASIC_NEW' checked="checked"/> Basic
+                        <input type='radio' name='element_properties' value='BASIC' checked="checked"/> Basic
                     </label>
                     <label class='radio-inline'>
                         <input type='radio' name='element_properties' value='SUBSECTION_NEW'/> Subsection
                     </label>
                 </div>
                 <div id='formelement'></div>
-            </div>   
-        </div>
-    </div>
-
-    <div class='form-group form-group-sm'>
+            </div>    
+            
+            <div class='form-group form-group-sm'>
         <label class='control-label col-sm-3'></label>
-        <div class='col-sm-12 text-right'>
+        <div class='col-sm-12 text-right' style="margin-left: -80px">
             <button type='submit' class='btn btn-sm btn-primary'>Update</button>
         </div>
-    </div>       
+    </div>      
+       
+    </div>
 </form>
 
 <script>
@@ -116,6 +115,7 @@
             var method = JSON.stringify($('#basicMethod').serializeArray());
             var multAns = JSON.stringify($('#basicMultAns').serializeArray());
             var subSec = JSON.stringify($('#basicSubSec').serializeArray());
+            console.log("datas", datas);
 
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/add-new-element/',

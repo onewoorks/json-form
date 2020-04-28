@@ -5,8 +5,8 @@
         <div class="col-md-12">
             <div id='maintitle' style="padding-left: 15px">
                 <div class="form-inline ">
-                    <input type='hidden' name='doc_name_id' value='<?= $document_id;?>' />
-                    <input type='hidden' name='template_id' value='<?= $template_id;?>' />
+                    <input type='hidden' name='doc_name_id' value='<?= $document_id; ?>' />
+                    <input type='hidden' name='template_id' value='<?= $template_id; ?>' />
                     <label class='control-label text-uppercase' style='padding: 15px;font-size: 15px'><b><?php echo $document_title; ?></b></label>
                     <div class="btn btn-default btn-sm editTitle" style='padding:3px' title="Rename Title"><i class='glyphicon glyphicon-pencil'></i></div>
                     <div class="btn btn-default btn-sm newSection" style='padding: 3px' title="Add New Section" ><i class='glyphicon glyphicon-plus-sign' style="position: inherit"></i></div>
@@ -15,33 +15,6 @@
                 </div>
             </div>
             <br><br>
-            <!--Add New Section Panel-->
-            <div id='newSection' class="panel-group col-md-9" style="display:none" role="tablist" >
-                <div class="panel panel-default dragble" data-section='1' style='margin-bottom:-5px;cursor:move'>
-                    <div class="panel-heading" role="tab" id="collapseListGroupHeading1"  style='margin-bottom:20px'>
-                        <div id='sectionGroup'>
-                            <div class="sectionMain1" style="margin-bottom: 10px">
-                                <div class='form-group form-group-sm' style="background-color: #f5f5f5">
-                                    <label class='control-label col-md-2' style='padding-top:7px;text-align: left'  data-sectioncode=''>Section Name</label>                                        
-                                    <input  type='text' name='section_desc1' id="section_desc" style="margin-top:3px; height:23px ; width: 250px" class='form-control col-md-4 secList' list="secList" />
-                                    <datalist id="secList">
-                                        <?php foreach ($sections as $section): ?>
-                                            <option value="<?php echo $section['section_desc']; ?>" data-code="<?php echo $section['section_code']; ?>" data-id="<?php echo $section['json_section']; ?>"><?php echo $section['section_desc']; ?></option>
-                                        <?php endforeach; ?>
-                                    </datalist>
-                                    &nbsp;
-                                    <div class="btn btn-default btn-sm plusSection" data-sectionno='1' style='padding: 4px ; margin-top: 2.5px ; margin-left: -3px' title="Add New Section" ><i class='glyphicon glyphicon-plus' style="position: inherit"></i></div> 
-                                    <div class="btn btn-primary btn-sm addSection disabled" style="margin-top:3px" >Add Section</div>
-                                    <div class="btn-group pull-right" style="margin-top: -3px;margin-right:-10px">    
-                                        <button type="button" class="close closeNewSection" >&times;</button>
-                                    </div>
-                                </div>
-                               </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <!--<SECTION & ELEMENT LIST>-->
             <select id="section_desc_list" name="section_desc_list" class="form-control hidden">
@@ -58,22 +31,23 @@
 
             <!--Display Section & Element Sorting-->
             <div id="panel-group1" class="panel-group col-md-9" role="tablist">
-                <?php foreach ($json_elements as $key => $section): 
-                    $sectionKod = $section->section_code;?>
+                <?php foreach ($json_elements as $key => $section):
+                    $sectionKod = $section->section_code;
+                    ?>
                     <div class="panel panel-default dragble" data-section='<?= $key; ?>' style="cursor:move">
                         <div class="panel-heading" role="tab" id="collapseListGroupHeading1" style='margin-bottom:-5px'>
                             <div class="panel-title" style="font-size:12.5px">
                                 <input type='hidden' name="sectionList[]" data-section='<?= $key; ?>' value='<?= $section->section_code; ?>'>
-                                <?php if ($section->section_code != '0'):?>
+                                <?php if ($section->section_code != '0'): ?>
                                     <a href="#collapseListGroup1" role="button" data-toggle="collapse"  aria-expanded="true"  data-section='<?= $key; ?>'><?= $section->section_desc; ?>&nbsp;<i class="glyphicon glyphicon-move" style="font-size:11px;"></i></a>
                                 <?php else: ?>
                                     <a href="#collapseListGroup1" role="button" data-toggle="collapse"  aria-expanded="true"  data-section='<?= $key; ?>'>&nbsp;<i class="glyphicon glyphicon-move" style="font-size:11px;"></i></a>
-                                <?php endif; ?>
+    <?php endif; ?>
                                 <div class="btn-group pull-right" style="margin-top: -3px;margin-right:-10px">        
                                     <a class="btn btn-default btn-sm editSection" style='padding:3px' data-section='<?= $key; ?>' data-sectioncode='<?= $section->section_code; ?>' title="Rename Section"><i class='glyphicon glyphicon-pencil'></i></a>
                                     <a class="btn btn-default btn-xs addElement" style='padding:2px' data-sectioncode='<?php echo $sectionKod; ?>'  ><i class='glyphicon glyphicon-plus-sign'></i> Add Element</a>
                                     <a class="btn btn-default btn-xs expandButton" style='padding:2px' data-section='<?= $key; ?>' data-current='expand'><i class='glyphicon glyphicon-resize-full'></i> Expand</a>
-                              </div>
+                                </div>
                             </div>
                         </div>
 
@@ -94,10 +68,10 @@
                                                     <div class='btn btn-link editElement' data-elementid='<?= $element->element_code; ?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
                                                     <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code; ?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
                                                 </div>
-                                            <?php else: ?>
+                <?php else: ?>
 
                                                 <div class='form-group form-group-sm' data-elemsort='<?= $elem; ?>'style='border:1px solid #ccc; margin:4px;cursor:move;display: inline-block;width:99%'>
-                                                   <ul style="margin:3px; margin-right: -20px">
+                                                    <ul style="margin:3px; margin-right: -20px">
                                                         <label class='control-label col-md-6' style='padding-top:7px;text-align: right;color:#737373' data-elem="<?= $element->element_code; ?>" data-sectioncode='<?= $section->section_code; ?>'><?= $element->element_desc; ?></label>
                                                         <div class='btn btn-link editElement' data-elementid='<?= $element->element_code; ?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
                                                         <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code; ?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
@@ -124,16 +98,17 @@
                                             }
                                             ?>
                                             <?php foreach ($section->elements as $elem => $element): if ($element->element_position === $position):$thecode = $element->element_code;
-                                                    if ($element->element_code === $element->child_element_code):?> 
+                                                    if ($element->element_code === $element->child_element_code):
+                                                        ?> 
                                                         <div class='form-group form-group-sm'  data-elemsort='<?= $elem; ?>' style='border:1px solid #ccc;margin:4px;padding-top:5px;cursor:move;display: inline-block;width:99%'>
                                                             <label class='control-label col-md-6' style='margin:6px;text-align: right' data-elem="<?= $element->element_code; ?>" data-sectioncode='<?= $section->section_code; ?>'><?= $element->element_desc; ?></label>
                                                             <div class='btn btn-link editElement' data-elementid='<?= $element->element_code; ?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
                                                             <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code; ?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
                                                         </div>    
-                                                    <?php else: ?>
+                        <?php else: ?>
 
                                                         <div class='form-group form-group-sm' data-elemsort='<?= $elem; ?>'style='border:1px solid #ccc; margin:4px;cursor:move;display: inline-block;width:99%'>
-                                                           <ul style="margin:3px; margin-right: -20px">
+                                                            <ul style="margin:3px; margin-right: -20px">
                                                                 <label class='control-label col-md-6' style='padding-top:7px;text-align: right;color:#737373' data-elem="<?= $element->element_code; ?>" data-sectioncode='<?= $section->section_code; ?>'><?= $element->element_desc; ?></label>
                                                                 <div class='btn btn-link editElement' data-elementid='<?= $element->element_code; ?>' data-sectioncode='<?php echo $sectionKod; ?>'>Edit</div>
                                                                 <div class='btn btn-link deleteElement' data-elementid='<?= $element->element_code; ?>' data-sectioncode='<?php echo $sectionKod; ?>' data-docid='<?= $document_id; ?>' ><i class='glyphicon glyphicon-remove'></i></div>
@@ -152,12 +127,12 @@
                             </div>
                         </div>
                     </div>
-                <?php endforeach; ?>
+<?php endforeach; ?>
             </div>
         </div>
         <div class='col-md-3' style="position: fixed; z-index: 6; right: 0; margin-left: 10px; margin-top: 50px;">
             <div class='text-center'>
-                 <div class='btn-group btn-group-sm'>
+                <div class='btn-group btn-group-sm'>
                     <a class="btn btn-primary btn-sm backForm" href="<?php echo SITE_ROOT; ?>" ><i class='glyphicon glyphicon-arrow-left'></i> Back</a>
                 </div>
                 <div class='btn-group btn-group-sm'>
@@ -181,7 +156,7 @@
                     <ul class='list-unstyled'  style=" font-size: 12.5px;">
                         <?php foreach ($json_elements as $key => $section): ?>
                             <li><input type='checkbox' class='selectedsection' name="total" id="total" data-sectioncode="<?= $section->section_code ?>" value="<?= $key; ?>" checked /><?= $section->section_desc; ?></li>
-                        <?php endforeach; ?>
+<?php endforeach; ?>
                     </ul>
                 </div>
             </div>
@@ -190,10 +165,25 @@
     </form>
 </div>
 
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <a href="edit-form.php"></a>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add New Element </h4>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="mySection" class="modal fade" role="dialog">
     <div class="modal-dialog ">
         <!-- Modal content-->
-        
+
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -205,19 +195,6 @@
     </div>
 </div>
 
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Modal </h4>
-            </div>
-            <div class="modal-body">
-            </div>
-        </div>
-    </div>
-</div>
 
 <div id="layout" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -260,15 +237,16 @@
 </div>
 
 <div id="viewForm" data-toggle="modal"class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-        <div class="modal-header" >	
-	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	</div>
-        <div class="modal-body"></div>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" >	
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body"></div>
+        </div>
     </div>
-  </div>
 </div>
+
 <script>
     function byId(id) {
         return document.getElementById(id);
@@ -305,16 +283,17 @@
                 success: function () {
                     $('#myModal').modal('hide');
                     swal({
-                        title:"Section Sorting Updated!",
+                        title: "Section Sorting Updated!",
                         text: "Data successfully updated into database",
                         type: "success"
                     });
                 }
             });
-             setTimeout(
+            setTimeout(
                     function () {
                         window.location.reload(true);
                     }, 1200);
+            return false;
         });
 
         $('.updateElement').click(function () {
@@ -349,7 +328,7 @@
                     });
                 }
             });
-             setTimeout(
+            setTimeout(
                     function () {
                         window.location.reload(true);
                     }, 1200);
@@ -372,12 +351,17 @@
             height: 100
         });
 
+//        $('.selectedsection').change(function () {
+//            var section = $(this).val();
+//            var a = $('#panel-group1').find(".panel-default[data-section='" + section + "']").fadeToggle("fast", "linear");
+//        });
+
         $('.editElement').click(function () {
             var key = $(this).data('elementid');
             var documentId = '<?= $document_id; ?>';
             var templateId = '<?= $template_id; ?>';
             var sectionId = $(this).data('sectioncode');
-//            console.log('edit-form: ELEMID=', key, '| DOCID=', documentId, '| TEMPID=', templateId, '| SECID=', sectionId);
+            console.log('edit-form: ELEMID=', key, '| DOCID=', documentId, '| TEMPID=', templateId, '| SECID=', sectionId);
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/load-selected-json/',
                 data: {key: key, component: 'element', documentId: documentId, templateId: templateId, sectionId: sectionId},
@@ -396,9 +380,9 @@
             var documentId = '<?= $document_id; ?>';
             var templateId = '<?= $template_id; ?>';
             var sectionId = $(this).data('sectioncode');
-           console.log('sectionId -',sectionId)
-             
-            console.log('ADD ELEMENT: DOCID=', documentId, '| TEMPID=', templateId, '| SECID=', sectionId );
+            console.log('sectionId -', sectionId)
+
+            console.log('ADD ELEMENT: DOCID=', documentId, '| TEMPID=', templateId, '| SECID=', sectionId);
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/add-element/',
                 data: {documentId: documentId, templateId: templateId, sectionId: sectionId},
@@ -412,12 +396,12 @@
             $('#myModal').modal('show');
             return false;
         });
-        
+
         $('.newSection').click(function () {
             var documentId = '<?= $document_id; ?>';
             var templateId = '<?= $template_id; ?>';
-           
-            console.log('ADD ELEMENT: DOCID=', documentId, '| TEMPID=', templateId );
+
+            console.log('ADD ELEMENT: DOCID=', documentId, '| TEMPID=', templateId);
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/add-section/',
                 data: {documentId: documentId, templateId: templateId},
@@ -431,11 +415,12 @@
             $('#mySection').modal('show');
             return false;
         });
+
         $('.editSection').click(function () {
             var key = $(this).data('sectioncode');
             var documentId = '<?= $document_id; ?>';
             var templateId = '<?= $template_id; ?>';
-//            console.log(key);
+            console.log(key);
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/load-selected-json/',
                 data: {key: key, component: 'section', documentId: documentId, templateId: templateId},
@@ -452,7 +437,7 @@
 
         $('.editTitle').click(function () {
             var documentId = '<?= $document_id; ?>';
-//            console.log(documentId);
+            console.log(documentId);
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/change-title-new/',
                 data: {documentId: documentId},
@@ -475,7 +460,7 @@
                     type = 'regenerate';
                     var item = {doc_name_id: $(documentId).val(), template_id: $(templateId).val()};
                     selected.push(item);
-//                    console.log(item);
+                    console.log(item);
                 });
             });
             $.ajax({
@@ -493,11 +478,9 @@
                     function () {
                         window.location.reload(true);
                     }, 1200);
-            });
         });
 
-        $('.deleteElement').click(function (e) {
-            e.preventDefault();
+        $('.deleteElement').click(function () {
             var documentId = '<?= $document_id; ?>';
             var id = $(this).data('elementid');
             var sectionCode = $(this).data('sectioncode');
@@ -512,77 +495,10 @@
                 }
             });
             $('#deleteModal').modal('show');
-            
-        });
-</script>
-
-<script>
-    $(document).ready(function () {
-        var countt = 2;
-        var count = 2;
-
-        var sect = $('#section_desc_list').html();
-        var elem = $('#element_desc_list').html();
-
-        $('#sectionGroup').on('click', '.plusSection', function () {
-            var $section = '<div class="sectionMain' + countt + '">';
-            $section += '<div class="form-group form-group-sm" >';
-            $section += '<label class="control-label col-md-2" style="padding-top:7px;text-align: left" >Section Name</label>';
-            $section += '<input  type="text" name="section_desc' + countt + '" id="section_desc" style="margin-top:3px; height:23px ; width: 250px" class="form-control col-md-4 secList" list="secList" />';
-            $section += '<datalist name="secList" id="secList">' + sect + '</datalist>';
-            $section += '&nbsp;';
-            $section += '<div class="btn btn-default btn-sm minusSection"  data-sectionno="' + countt + '" style="padding: 4px ; margin-top: 3px"  title="MinusSection" ><i class="glyphicon glyphicon-minus" style="position: inherit"></i></div> ';
-            $section += '</div>';
-            $section += '</div>';
-            $($section).appendTo('#sectionGroup');
-            countt++;
-            
             return false;
         });
 
-        //MINUS SECTION
-        $('#sectionGroup').on('click', '.minusSection', function () {
-            var dropid = $(this).data('sectionno');
-            $('.sectionMain' + dropid).remove();
-            
-            return false;
-        });
-
-        //Add New Section
-        $('#notesForm').on('click', '.newSection', function () {
-            $('#newSection').show();
-            return false;
-        });
-
-        //Closed Section
-        $('#notesForm').on('click', '.closeNewSection', function () {
-            $('#newSection').hide();
-            return false;
-        });
-
-        $('#elementGroup').on('click', '.plusElement', function () {
-            var $element = '<div class="elementMain' + count + '">';
-            $element += ' <div class="form-group form-group-sm" data-elemsort=" " style="border:1px solid #ccc; margin:4px;cursor:move;display: inline-block;width:99%">';
-            $element += '<label class="control-label col-md-6" style="padding-top:7px;text-align: right" data-elem=" " data-sectioncode="">Element Name</label>';
-            $element += '<input  type="text" name="element_desc' + count + '" id="element_desc" style="margin-top:3px; height:23px ; width: 250px" class="form-control col-md-4 eleList" list="eleList" />';
-            $element += '<datalist name="eleList" id="eleList">' + elem + '</datalist>';
-            $element += '&nbsp;';
-            $element += '<div class="btn btn-default btn-sm minusElement"  data-elementno="' + count + '" style="padding: 4px ; margin-top: 3px"    title="Add New Element" ><i class="glyphicon glyphicon-minus" style="position: inherit"></i></div> ';
-            $element += '</div>';
-            $element += '</div>';
-            $($element).appendTo('#elementGroup');
-            count++;
-
-            return false;
-        });
-
-        //MINUS SECTION
-        $('#elementGroup').on('click', '.minusElement', function () {
-            var dropid = $(this).data('elementno');
-            $('.elementMain' + dropid).remove();
-        });
-
-    }); //End of document ready
+    });
 </script>
 <script>
     $(document).ready(function () {
@@ -603,42 +519,39 @@
             }
             return false;
         });
-   
-    $('.viewForm').click(function () {
-        
+ });
+ 
+ $(function (){
+     
+     $('.viewForm').click(function () {
+
             var templateId = $(this).attr('value');
-//                console.log(templateId);
-                $.ajax({
-                    method: 'GET',
-                    url: '<?= SITE_ROOT; ?>/formview/form-template-preview/'+templateId,
-                    success: function (event) {
-                        $('.modal-body').html(event);
-                    }
-                });
-               
-                $('#viewForm').modal('show');
-                return false;
+            console.log(templateId);
+            $.ajax({
+                method: 'GET',
+                url: '<?= SITE_ROOT; ?>/formview/form-template-preview/' + templateId,
+                success: function (event) {
+                    $('.modal-body').html(event);
+                }
+            });
+
+            $('#viewForm').modal('show');
+            return false;
         });
-        
+
         $(".buildForm").click(function () {
-                var documentId = $(this).attr('id');
-//                console.log(documentId);
-                $.ajax({
-                    url: '<?= SITE_ROOT; ?>/formview/form-builder',
-                    data: {documentId: documentId}
-                });
-                 
-                return false;
+            var documentId = $(this).attr('id');
+            console.log(documentId);
+            $.ajax({
+                url: '<?= SITE_ROOT; ?>/formview/form-builder',
+                data: {documentId: documentId}
+            });
+
+            return false;
         });
-        
-//         $('.selectedsection').change(function () {
-//            var section = $(this).val();
-//            var a = $('#panel-group1').find(".panel-default[data-section='" + section + "']").fadeToggle("fast", "linear");
-//            
-//        });
 
         $('.selectedsection').click(function (e) {
-        e.preventDefault();
+            e.preventDefault();
             var documentId = '<?= $document_id; ?>';
             var sectionCode = $(this).data('sectioncode');
             $.ajax({
@@ -654,6 +567,5 @@
             $('#deleteModal').modal('show');
         });
  });
-
 </script>
 <?= $footer; ?>
