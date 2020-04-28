@@ -274,13 +274,16 @@
             $('input[name="sectionList[]"]').each(function () {
                 section.push(this.value);
             });
-//            console.log(section);
+            console.log(section);
             var total = $('#notesForm').serializeArray();
-
+            
+            console.log(total); 
+            
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/update-attributes/',
                 data: {docId: docId, section: section, total: total},
-                success: function () {
+                success: function (data) {
+                    console.log(data);
                     $('#myModal').modal('hide');
                     swal({
                         title: "Section Sorting Updated!",
@@ -413,7 +416,6 @@
                 }
             });
             $('#mySection').modal('show');
-            return false;
         });
 
         $('.editSection').click(function () {

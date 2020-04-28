@@ -999,9 +999,10 @@ class Formview_Controller extends Common_Controller {
                 $ajax = true;
                 $document = new Document_Template_Model();
                 $docId = $_REQUEST['docId'];
+                $sections =  $_REQUEST['section'];
                 print_r($docId);
                 $x = 1;
-                foreach ($_REQUEST['section'] AS $key => $item):
+                foreach ($sections AS $key => $item):
                     $sorting = $x;
                     $data = array(
                         'section_code' => $item,

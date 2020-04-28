@@ -46,11 +46,11 @@
                        type: "success"
                    });                }
            });
-//             setTimeout(
-//                    function () {
-//                        window.location.reload(true);
-//                    }, 1200);
-//            return false;
+             setTimeout(
+                    function () {
+                        window.location.reload(true);
+                    }, 1200);
+            return false;
         });
    }    
     
