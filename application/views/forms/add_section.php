@@ -25,23 +25,24 @@
 <script>
     function getComboA(datalistObject) {
         var vals = datalistObject.value;
-        console.log(vals);
+       // console.log(vals);
        
         $('.updateDoc').click(function () {
             
             var doc_Id = '<?= $doc_id; ?>';
             var section_desc = vals;
             
-            console.log(section_desc);
+         //   console.log(section_desc);
             
              $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/update-new-section/',
                type: 'POST',
                data: {documentId: doc_Id, secDetail: section_desc },
-               success: function (data) {
-                   console.log(data);
+               success: function () {
+         //          console.log(data);
                    $('#myModal').modal('hide');
-                   swal({                       title: "Section Inserted !",
+                   swal({  
+                       title: "Section Inserted !",
                        text: "Data successfully inserted into database",
                        type: "success"
                    });                }
