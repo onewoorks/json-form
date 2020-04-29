@@ -1113,8 +1113,7 @@ class Document_Template_Model {
     }
     
      public function DeleteSectionData($docId) {
-        $sql = "UPDATE ref_document_section "
-                . "SET active_status = '0' "
+        $sql = "DELETE FROM ref_document_section "
                 . "WHERE section_code='" . (int) $docId . "'";
         print_r($sql);
         $this->db->connect();
@@ -1124,8 +1123,7 @@ class Document_Template_Model {
     }
     
      public function DeleteElementsData($docId) {
-        $sql = "UPDATE ref_document_element "
-                . "SET active_status = '0' "
+        $sql = "DELETE FROM ref_document_element "
                 . "WHERE element_code='" . (int) $docId . "'";
         print_r($sql);
         $this->db->connect();
