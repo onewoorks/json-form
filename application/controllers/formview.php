@@ -1200,6 +1200,7 @@ class Formview_Controller extends Common_Controller {
                 print_r($outputS);
                 echo '</pre>';
                 $document->InsertNewSection($outputS);
+                $this->UpdateJSONFormat($documentId, 'regenerate');
             break;
 
             default:

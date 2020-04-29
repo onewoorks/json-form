@@ -82,7 +82,7 @@
         $('[name=form_element').val(formType);
         $('[name=element_properties]').on('change', function () {
             var selector = $(this).val();
-            console.log("selector",selector);
+          //  console.log("selector",selector);
             $('#' + selector).show();
             $('[name=form_element').val(selector);
             ElementBuilder(selector);
@@ -115,14 +115,14 @@
             var method = JSON.stringify($('#basicMethod').serializeArray());
             var multAns = JSON.stringify($('#basicMultAns').serializeArray());
             var subSec = JSON.stringify($('#basicSubSec').serializeArray());
-            console.log("datas", datas);
+           // console.log("datas", datas);
 
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/add-new-element/',
                 type: 'POST',
                 data: {dummy: null, values: datas, basicMethod: method, basicMultAns: multAns, basicSubSec: subSec},
                 success: function (data) {
-                    console.log(data);
+              //      console.log(data);
                     $('#myModal').modal('hide');
                     swal({
                         title: "New Element Updated!",
