@@ -8,10 +8,10 @@
                     <input type='hidden' name='doc_name_id' value='<?= $document_id; ?>' />
                     <input type='hidden' name='template_id' value='<?= $template_id; ?>' />
                     <label class='control-label text-uppercase' style='padding: 15px;font-size: 15px'><b><?php echo $document_title; ?></b></label>
-                    <div class="btn btn-default btn-sm editTitle" style='padding:3px' title="Rename Title"><i class='glyphicon glyphicon-pencil'></i></div>
-                    <div class="btn btn-default btn-sm newSection" style='padding: 3px' title="Add New Section" ><i class='glyphicon glyphicon-plus-sign' style="position: inherit"></i></div>
-                    <div class="btn btn-default btn-sm updateSection" style="margin-top:0px">Update Section Sorting</div>
-                    <div class="btn btn-default btn-sm updateElement" style="margin-top:0px">Update Element Sorting</div>
+                    <div class="btn btn-default btn-sm editTitle" style='padding:4.5px' title="Rename Title"><i class='glyphicon glyphicon-pencil'></i></div>
+                    <div class="btn btn-default btn-sm newSection" style="padding:2.5px" title="Add New Section" ><i class='glyphicon glyphicon-plus-sign'></i> Add Section</div>
+                    <div class="btn btn-default btn-sm updateSection" style="padding:3px">Update Section Sorting</div>
+                    <div class="btn btn-default btn-sm updateElement" style="padding:3px">Update Element Sorting</div>
                 </div>
             </div>
             <br><br>
