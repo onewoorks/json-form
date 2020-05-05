@@ -11,9 +11,10 @@
                         <div class='form-group form-group-sm'>
                             <label class='control-label col-sm-1'>Name</label>
                             <div class='col-sm-3'>
-                                <input type='text' data-no = '1' name='section_desc1' id='section_desc1' class='form-control text-uppercase' onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" required/>
+                                <input type='text' data-no = '1' name='section_desc1' id='section_desc1' class='form-control text-uppercase desc' onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" required/>
                                 <span id='validateF1' name='validateF1' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
                                 <span id='validateT1' name='validateT1' style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
+                                <span id='validateTF1' name='validateTF' style="font-size:10px;color:red;text-align:left" hidden>Duplicate Record Found</span>
                                 <select id='list_section_desc' class='form-control hidden'>
                                     <?php foreach ($list_of_sections as $sections): ?>
                                         <option value='<?php echo $sections['section_code']; ?>'><?php echo $sections['section_desc']; ?></option>
@@ -88,8 +89,8 @@
                                         <td class="text-uppercase" style=" font-size: smaller;"><?php echo $sections['section_desc']; ?></td>
                                         <td  style=" font-size: smaller; text-align: center">
                                             <div>
-                                                <a class='btn btn-default btn-sm editSection' id='<?php  echo $sections['section_code'];  ?>' style='padding:2px' title="Rename Section"><i class='glyphicon glyphicon-pencil'></i></a>
-                                                <a class='btn btn-default btn-sm deleteSection' id='<?php  echo $sections['section_code'];  ?>'  style='padding:2px' title="Delete Section"><i class='glyphicon glyphicon-trash'></i></a>
+                                                <a class='btn btn-default btn-sm editSection' id='<?php echo $sections['section_code']; ?>' style='padding:2px' title="Rename Section"><i class='glyphicon glyphicon-pencil'></i></a>
+                                                <a class='btn btn-default btn-sm deleteSection' id='<?php echo $sections['section_code']; ?>'  style='padding:2px' title="Delete Section"><i class='glyphicon glyphicon-trash'></i></a>
                                             </div>
                                         </td>
                                     </tr>
@@ -104,30 +105,30 @@
 </div>
 
 <div id="title" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!--Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Change Section</h4>
-                </div>
-                <div class="modal-body"></div>
+    <div class="modal-dialog">
+        <!--Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Change Section</h4>
             </div>
+            <div class="modal-body"></div>
         </div>
     </div>
+</div>
 
-    <div id="deleteModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!--Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Delete Section</h4>
-                </div>
-                <div class="modal-body"></div>
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!--Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Section</h4>
             </div>
+            <div class="modal-body"></div>
         </div>
     </div>
+</div>
 
 <script>
     $(document).ready(function () {
@@ -140,12 +141,13 @@
         //ADDSECTION
         $('.addSection').click(function () {
             $("input[id^='json_desc']").removeAttr('disabled');
+
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/create-section/',
                 type: 'POST',
                 data: {values: JSON.stringify($('#sectionBuilder').serializeArray())},
                 success: function (data) {
-                    console.log(data);
+                  //  console.log(data);
                     swal({
                         title: "Section Created!",
                         text: "Data successfully inserted into database",
@@ -157,6 +159,7 @@
                     function () {
                         window.location.reload(true);
                     }, 1200);
+            return false;
         });
     });
 </script>
@@ -216,9 +219,10 @@
             $sections += '<div class="form-group form-group-sm">';
             $sections += '<label class="control-label col-sm-1">Name</label>';
             $sections += '<div class="col-sm-3">';
-            $sections += '<input type="text" data-no = "' + no + '" name="section_desc' + no + '" id="section_desc' + no + '" class="form-control text-uppercase" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" required/>';
+            $sections += '<input type="text" data-no = "' + no + '" name="section_desc' + no + '" id="section_desc' + no + '" class="form-control text-uppercase desc" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" required/>';
             $sections += '<span id="validateF' + no + '" name="validateF' + no + '" style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>';
             $sections += '<span id="validateT' + no + '" name="validateT' + no + '" style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>';
+            $sections += '<span id="validateTF' + no + '" name="validateTF' + no + '" style="font-size:10px;color:red;text-align:left" hidden>Duplicate Record Found</span>';
             $sections += '<select id="list_section_desc" class="form-control hidden">' + optionS + '</select>';
             $sections += '</div>';
             $sections += '<label class="control-label col-sm-1" style="width:1%;padding-left:2px;text-align: left"><b style="color: red">*</b></label>';
@@ -245,40 +249,40 @@
             $($sections).appendTo('#sectionGrouping');
             no++;
         });
-        
-         $('#tableForm').on('click', '.editSection', function(){
-                var documentId = $(this).attr('id');
-                console.log(documentId);
-                $.ajax({
-                    url: '<?= SITE_ROOT; ?>/formview/change-section/',
-                    data: {documentId: documentId},
-                    success: function (data) {
-                        var obj = $.parseJSON(data);
-                        $('.modal-dialog').removeClass('modal-lg');
-                        $('.modal-title').text(obj.component);
-                        $('.modal-body').html(obj.html);
-                    }
-                });
-                $('#title').modal('show');
-                return false;
+
+        $('#tableForm').on('click', '.editSection', function () {
+            var documentId = $(this).attr('id');
+           // console.log(documentId);
+            $.ajax({
+                url: '<?= SITE_ROOT; ?>/formview/change-section/',
+                data: {documentId: documentId},
+                success: function (data) {
+                    var obj = $.parseJSON(data);
+                    $('.modal-dialog').removeClass('modal-lg');
+                    $('.modal-title').text(obj.component);
+                    $('.modal-body').html(obj.html);
+                }
+            });
+            $('#title').modal('show');
+            return false;
         });
-            
-        $('#tableForm').on('click', '.deleteSection', function(){
-              var documentId = $(this).attr('id');
-              console.log(documentId);
-              $.ajax({
-                  url: '<?= SITE_ROOT; ?>/formview/delete-section/',
-                  data: {documentId: documentId},
-                  success: function (data) {
-                      var obj = $.parseJSON(data);
-                      $('.modal-dialog').removeClass('modal-sm');
-                      $('.modal-title').text(obj.component);
-                      $('.modal-body').html(obj.html);
-                  }
-              });
-              $('#deleteModal').modal('show');
-              return false;
-      });
+
+        $('#tableForm').on('click', '.deleteSection', function () {
+            var documentId = $(this).attr('id');
+           // console.log(documentId);
+            $.ajax({
+                url: '<?= SITE_ROOT; ?>/formview/delete-section/',
+                data: {documentId: documentId},
+                success: function (data) {
+                    var obj = $.parseJSON(data);
+                    $('.modal-dialog').removeClass('modal-sm');
+                    $('.modal-title').text(obj.component);
+                    $('.modal-body').html(obj.html);
+                }
+            });
+            $('#deleteModal').modal('show');
+            return false;
+        });
 
     });
 </script>
@@ -291,7 +295,7 @@
         var array = [];
         var selText2;
         var array2 = [];
-
+        
         var thisValue;
 
         $("#list_section_desc option").each(function () {
@@ -305,27 +309,43 @@
             selText2 = $this.text();
             array2.push(selText2);
         });
-
+        
         $(document).on('focus', 'input', function () {
             thisValue = $(this).attr('data-no');
 
+            var arr3 = [];
+            $(".desc").each(function(){
+                var value = $(this).val();
+//                console.log('val',value);
+                    arr3.push(value);
+            });
+//             console.log(arr3);
+             
             $('#section_desc' + thisValue).keyup(function () {
                 var str = $(this).val();
 
                 if (str !== "") {
                     if (array.indexOf(str) > -1) {
                         $('#validateT' + thisValue).attr('hidden', 'hidden');
+                        $('#validateTF' + thisValue).attr('hidden', 'hidden');
                         $('#validateF' + thisValue).attr('hidden', false);
                         $('.addSection').attr('disabled', true);
-                    } else {
+                    } else if (arr3.indexOf(str) > -1) {
+                       $('#validateTF' + thisValue).attr('hidden', false);
+                        $('#validateT' + thisValue).attr('hidden', 'hidden');
+                        $('#validateF' + thisValue).attr('hidden', 'hidden');
+                        $('.addSection').attr('disabled', true);
+                    } else  {
                         $('#validateT' + thisValue).attr('hidden', false);
                         $('#validateF' + thisValue).attr('hidden', 'hidden');
+                        $('#validateTF' + thisValue).attr('hidden', 'hidden');
                         $('.addSection').attr('disabled', false);
-                    }
-                   
+                    } 
+
                 } else {
                     $('#validateT' + thisValue).attr('hidden', 'hidden');
                     $('#validateF' + thisValue).attr('hidden', 'hidden');
+                    $('#validateTF' + thisValue).attr('hidden', 'hidden');
                     $('.addSection').attr('disabled', 'disabled');
                 }
 
@@ -350,7 +370,7 @@
 
             $(".renameSection" + thisValue).click(function () {
                 var renameid = $(this).data('sectionno');
-                console.log('renameid', renameid);
+              //  console.log('renameid', renameid);
                 $('#json_desc' + renameid).removeAttr('disabled');
                 $('#json_desc' + renameid).keyup(function () {
                     var str = $(this).val();
@@ -375,7 +395,7 @@
 
         $('#sectionGrouping').on('click', '.minusSection', function () {
             var dropid = $(this).data('sectionno');
-            console.log('dropid', dropid);
+            //console.log('dropid', dropid);
             $('.sectionNew' + dropid).remove();
         });
 

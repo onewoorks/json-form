@@ -11,9 +11,10 @@
                         <div class='form-group form-group-sm'>
                             <label class='control-label col-sm-1'>Name</label>
                             <div class='col-sm-4'>
-                                <input type='text' data-no = '1' name='element_desc1' id='element_desc1' class='form-control' autocomplete="off" required/>
+                                <input type='text' data-no = '1' name='element_desc1' id='element_desc1' class='form-control elem' autocomplete="off" required/>
                                 <span id='validateF1' name='validateF1' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
                                 <span id='validateT1' name='validateT1' style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
+                                <span id='validateTF1' name='validateTF' style="font-size:10px;color:red;text-align:left" hidden>Duplicate Record Found</span>
                                 <select id='list_element_desc' class='form-control hidden'>
                                     <?php foreach ($list_of_elements as $elements): ?>
                                         <option value='<?php echo $elements['element_code']; ?>'><?php echo $elements['element_desc']; ?></option>
@@ -130,7 +131,7 @@
                 type: 'POST',
                 data: {values: JSON.stringify($('#elementBuilder').serializeArray())},
                 success: function (data) {
-                    console.log(data);
+                    //console.log(data);
                     swal({
                         title: "Element Created!",
                         text: "Data successfully inserted into database",
@@ -198,9 +199,10 @@
             $element += '<div class="form-group form-group-sm">';
             $element += '<label class="control-label col-sm-1">Name</label>';
             $element += '<div class="col-sm-4">';
-            $element += '<input type="text" data-no = "' + no + '" name="element_desc' + no + '" id="element_desc' + no + '" class="form-control" autocomplete="off" required/>';
+            $element += '<input type="text" data-no = "' + no + '" name="element_desc' + no + '" id="element_desc' + no + '" class="form-control elem" autocomplete="off" required/>';
             $element += '<span id="validateF' + no + '" name="validateF' + no + '" style="font-size:10px;color:red;text-align:left" hidden></span>';
             $element += '<span id="validateT' + no + '" name="validateT' + no + '" style="font-size:10px;color:green;text-align:left" hidden></span>';
+            $element += '<span id="validateTF' + no + '" name="validateTF' + no + '" style="font-size:10px;color:red;text-align:left" hidden>Duplicate Record Found</span>';
             $element += '<select id="list_element_desc" class="form-control hidden">' + optionE + '</select>';
             $element += '</div>';
             $element += '  <label class="control-label col-sm-1" style="width:1%;padding-left:2px;text-align: left"><b style="color: red">*</b></label>';
@@ -221,7 +223,7 @@
         
         $('#tableForm').on('click', '.editElement', function(){
                 var documentId = $(this).attr('id');
-                console.log(documentId);
+                //console.log(documentId);
                 $.ajax({
                     url: '<?= SITE_ROOT; ?>/formview/change-element/',
                     data: {documentId: documentId},
@@ -238,7 +240,7 @@
             
         $('#tableForm').on('click', '.deleteElement', function(){
               var documentId = $(this).attr('id');
-              console.log(documentId);
+              //console.log(documentId);
               $.ajax({
                   url: '<?= SITE_ROOT; ?>/formview/delete-elements/',
                   data: {documentId: documentId},
@@ -280,27 +282,43 @@
 
         $(document).on('focus', 'input', function () {
             thisValue = $(this).attr('data-no');
+            
+            var arr3 = [];
+            $(".elem").each(function(){
+                var value = $(this).val();
+//                console.log('val',value);
+                    arr3.push(value);
+            });
+//             console.log(arr3);
 
             $('#element_desc' + thisValue).keyup(function () {
                 var str = $(this).val();
 
-                if (str !== "") {
+                    if (str !== "") {
                     if (array.indexOf(str) > -1) {
                         $('#validateT' + thisValue).attr('hidden', 'hidden');
+                        $('#validateTF' + thisValue).attr('hidden', 'hidden');
                         $('#validateF' + thisValue).attr('hidden', false);
                         $('.addElement').attr('disabled', true);
-                    } else {
+                    } else if (arr3.indexOf(str) > -1) {
+                       $('#validateTF' + thisValue).attr('hidden', false);
+                        $('#validateT' + thisValue).attr('hidden', 'hidden');
+                        $('#validateF' + thisValue).attr('hidden', 'hidden');
+                        $('.addElement').attr('disabled', true);
+                    } else  {
                         $('#validateT' + thisValue).attr('hidden', false);
                         $('#validateF' + thisValue).attr('hidden', 'hidden');
+                        $('#validateTF' + thisValue).attr('hidden', 'hidden');
                         $('.addElement').attr('disabled', false);
-                    }
-                    
-                } else {
-                    $('#validateT' + thisValue).attr('hidden', 'hidden');
-                    $('#validateF' + thisValue).attr('hidden', 'hidden');
-                    $('.addElement').attr('disabled', 'disabled');
-                }
+                    } 
 
+                    } else {
+                        $('#validateT' + thisValue).attr('hidden', 'hidden');
+                        $('#validateF' + thisValue).attr('hidden', 'hidden');
+                        $('#validateTF' + thisValue).attr('hidden', 'hidden');
+                        $('.addElement').attr('disabled', 'disabled');
+                    }
+                
                 var element = $(this).val().toLowerCase().replace(/ /g, '_');
                 var json = element.replace(/[^A-Z0-9]+/ig, '_');
                 $('#json_desc' + thisValue).val(json);
@@ -322,7 +340,7 @@
 
             $(".renameSection" + thisValue).click(function () {
                 var renameid = $(this).data('sectionno');
-                console.log('renameid', renameid);
+                //console.log('renameid', renameid);
                 $('#json_desc' + renameid).removeAttr('disabled');
                 $('#json_desc' + renameid).keyup(function () {
                     var str = $(this).val();
@@ -347,7 +365,7 @@
 
         $('#elementGrouping').on('click', '.minusSection', function () {
             var dropid = $(this).data('sectionno');
-            console.log('dropid', dropid);
+            //console.log('dropid', dropid);
             $('.elementNew' + dropid).remove();
         });
 
