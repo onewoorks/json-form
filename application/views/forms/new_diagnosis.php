@@ -141,7 +141,7 @@
              //       console.log(data);
                     swal({
                         title: "Inserted!",
-                        text: "Diagnois Successfully Updated",
+                        text: "Diagnosis Successfully Updated",
                         type: "success"
                     });
                 }
