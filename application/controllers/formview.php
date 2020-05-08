@@ -571,6 +571,8 @@ class Formview_Controller extends Common_Controller {
                 $page = 'forms/delete_esection';
                 $result['doc_id'] = $doc_id;
                 $result['section_id'] = $section_id;
+                $val = $document->GetSectionsDetail($section_id );
+                $result['section'] = $val;
                 $data = array(
                     'component' => 'Delete Section',
                     'html' => $this->RenderOutput($page, $result));

@@ -1,6 +1,6 @@
 <form id='deleteSection' class='form-horizontal'>
 <div class='form-group form-group-sm'>
-    <p style='padding-left:15px'><b>Are you sure?</b></p>
+   <p style='padding-left:15px'><b>Are you sure want to delete <strong class="text-uppercase"><?= $section->section_desc;?></strong> ?</b></p>
         <input type='hidden' name='doc_id' id='doc_id'  value='<?= $doc_id;?>'/>
         <input type='hidden' name='section_id' id='section_id'  value='<?= $section_id;?>'/>
     <div class='col-sm-12 text-right'>
