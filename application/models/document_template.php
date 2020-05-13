@@ -1431,7 +1431,7 @@ class Document_Template_Model {
     }
     
     public function GetAllOutreach() {
-        $sql = "SELECT outrch_type_code as code, outrch_type_name as name FROM ref_outrch_type WHERE active_code='1'";
+        $sql = "SELECT outrch_type_code as code, outrch_type_name as name FROM ref_outrch_type WHERE outrch_type_code IN('1','2')";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
