@@ -138,7 +138,7 @@
                                     <td  style=" font-size: smaller;"><?php echo $document['doc_group_desc']; ?></td>
                                     <td  style=" font-size: smaller;"><?php echo $document['dc_type_desc']; ?></td>
                                     <td class='text-uppercase'  style=" font-size: smaller;"><a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $document['template_id']; ?>'><?php echo $document['doc_name_desc']; ?></a></td>
-                                     <td class='text-uppercase'  style=" font-size: smaller;">
+                                     <td class='text-center'>
                                         <?php if ($document['available']) : ?>
                                             <input type="checkbox" data-toggle="toggle"  name="opt1" class="docStatus" id="<?php echo $document['doc_name_id']; ?>"  data-size="mini" data-onstyle="success" data-offstyle="danger" checked="checked">
                                         <?php else : ?>
