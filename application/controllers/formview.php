@@ -29,28 +29,6 @@ class Formview_Controller extends Common_Controller {
                 $result['main_discipline'] = $dt['main_discipline_name'];
                 $result['sub_discipline'] = $dt['discipline_name'];
                 break;
-            case 'new-diagnosis':
-                $page = 'forms/new_diagnosis';
-                $documentId = $params[URL_ARRAY + 3];
-                $document = new Document_Template_Model();
-                $documentTemplate = $document->GetDocumentDesc($documentId);
-                $result['document_title'] = $documentTemplate['doc_name_desc'];
-                $result['document_id'] = $documentTemplate['doc_name_id'];
-                $result['list_of_diagnosis'] = $document->GetAllDiagnosis();
-                $result['doc_group'] = $this->RefProductDiagnosis();
-                $result['preset_select'] = false;
-                break;
-            case 'new-procedure':
-                $page = 'forms/new_procedure';
-                $documentId = $params[URL_ARRAY + 3];
-                $document = new Document_Template_Model();
-                $documentTemplate = $document->GetDocumentDesc($documentId);
-                $result['document_title'] = $documentTemplate['doc_name_desc'];
-                $result['document_id'] = $documentTemplate['doc_name_id'];
-                $result['list_of_procedure'] = $document->GetAllProcedure($documentId);
-                $result['doc_group'] = $this->RefProductCategory();
-                $result['preset_select'] = false;
-                break;
             //12julai    
             case 'new-form':
                 $page = 'forms/new_form';
@@ -306,33 +284,6 @@ class Formview_Controller extends Common_Controller {
                 $result['template_id'] = $_REQUEST['templateId'];
                 $data = array(
                     'component' => $title, //bawa section_desc @ element_desc
-                    'html' => $this->RenderOutput($page, $result));
-                echo json_encode($data);
-                break;
-            case 'new-outreach':
-                $ajax = true;
-                $doc_id = $_REQUEST['documentId'];
-                $document = new Document_Template_Model();
-                $val = $document->GetOutreachDetail($doc_id);
-                $page = 'forms/new_outreach';
-                $result['list_of_outreach'] = $document->GetAllOutreach();
-                $result['title'] = $val;
-                $result['doc_id'] = $doc_id;
-                $data = array(
-                    'component' => 'Outreach Document', //bawa section_desc @ element_desc
-                    'html' => $this->RenderOutput($page, $result));
-                echo json_encode($data);
-                break;
-            case 'delete-selected-outreach':
-                $ajax = true;
-                $doc_id = $_REQUEST['documentId'];
-                $document = new Document_Template_Model();
-                $val = $document->GetTitleDetail($doc_id);
-                $page = 'forms/delete_outreach';
-                $result['doc_id'] = $doc_id;
-                $result['title'] = $val;
-                $data = array(
-                    'component' => 'Delete Outreach Document', //bawa section_desc @ element_desc
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
@@ -766,82 +717,6 @@ class Formview_Controller extends Common_Controller {
                 $docForm = $document->InsertDocId($subDis, $docGroup, $docType, strtoupper($titleDesc));
 //                print_r($docForm);
                 break;
-            // zarith-16/3
-            case 'create-outreach':
-                $ajax = true;
-                $document = new Document_Template_Model();
-                $values = $this->form_array($_REQUEST['documentValues']);
-                $document->UpdateDocumentOutreach($values);
-                break;
-            case 'create-diagnosis':
-                $document = new Document_Template_Model();
-                $ajax = true;
-                $json = file_get_contents('php://input');
-                $array = explode('&', urldecode($json));
-                $new_data = array();
-                foreach ($array as $a):
-                    $ex = explode('=', $a);
-                    $new_data[$ex[0]] = $ex[1];
-                endforeach;
-
-                #documentId
-                $docId = $_REQUEST['documentId'];
-                $type = $_REQUEST['source'];
-
-                #productDesc
-                $product = json_decode($new_data['DiagnosisDetails'], true);
-                $resultD = $this->mapper($product);
-                // $print_r($resultP);
-                if ($resultD):
-                    foreach ($resultD as $keyD => $valueD):
-
-                        $outputD = array(
-                            'diagnosis_code' => $valueD,
-                            'doc_name_id' => $docId,
-                            'type' => $type
-                        );
-                        echo '<pre>';
-                        print_r($outputD);
-                        echo '</pre>';
-                        $document->InsertDocumentDiagnosis($outputD);
-
-                    endforeach;
-                endif;
-                break;
-                break;
-            case 'create-procedure':
-                $document = new Document_Template_Model();
-                $ajax = true;
-                $json = file_get_contents('php://input');
-                $array = explode('&', urldecode($json));
-                $new_data = array();
-                foreach ($array as $a):
-                    $ex = explode('=', $a);
-                    $new_data[$ex[0]] = $ex[1];
-                endforeach;
-
-                #documentId
-                $docId = $_REQUEST['documentId'];
-
-                #productDesc
-                $product = json_decode($new_data['proDetails'], true);
-                $resultP = $this->mapper($product);
-                // $print_r($resultP);
-                if ($resultP):
-                    foreach ($resultP as $keyP => $valueP):
-
-                        $outputP = array(
-                            'product_code' => $valueP,
-                            'doc_name_id' => $docId
-                        );
-                        echo '<pre>';
-                        print_r($outputP);
-                        echo '</pre>';
-                        $document->InsertDocumentProduct($outputP);
-
-                    endforeach;
-                endif;
-                break;
             case 'create-method':
                 $ajax = true;
                 $document = new Document_Template_Model();
@@ -962,13 +837,7 @@ class Formview_Controller extends Common_Controller {
                 $document->DeleteDocumentData($docId);
                 $this->GenerateJSONFormat($docId, 'update');
                 break;
-            case 'delete-current-outreach':
-                $ajax = true;
-                $values = $this->form_array($_REQUEST['values']);
-                $document = new Document_Template_Model();
-                $docId = $values['doc_id'];
-                $document->DeleteOutreachData($docId);
-                break;
+           
             case 'delete-current-method':
                 $ajax = true;
                 $values = $this->form_array($_REQUEST['values']);

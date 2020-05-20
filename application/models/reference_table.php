@@ -149,38 +149,4 @@ class Reference_Table_Model  { //dari class sini
         $result = $this->db->fetchOut('array');
         return ($result) ? $result : false;
     }
-    
-     public function MainProductCategory(){
-        $sql = "SELECT form_code as code, form_name as label "
-                . "FROM product_forms "
-                . "WHERE form_code IN ('0','11','3','7','8','9')";
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-        $result = $this->db->fetchOut('array');
-        return ($result) ? $result : false;
-    }
-    
-    public function ProductTypeFiltering($groupCode = null  ) {
-        $sql = "SELECT form_code as code, form_name as label"
-                . " FROM product_forms "
-                . " WHERE form_code = '$groupCode'";
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-        $result = $this->db->fetchOut('array');
-        return ($result) ? $result : false;
-    }
-    
-    public function MainDocumentDiagnosis(){
-        $sql = "SELECT diagnosis_source_code as code, diagnosis_source_desc as label "
-                . "FROM ref_diagnosis_source "
-                . "WHERE diagnosis_source_code IN ('D','I','P')";
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-        $result = $this->db->fetchOut('array');
-        return ($result) ? $result : false;
-    }
- 
 }

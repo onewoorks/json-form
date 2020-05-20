@@ -224,12 +224,10 @@ class Document_Template_Model {
     //zarith-10/3
     public function GetListAvailableDocument() {
         $sql = "SELECT dt.template_id,d.active_status, dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc, "
-                . "(CASE WHEN (rod.doc_name_id = dt.doc_name_id) THEN TRUE ELSE FALSE END) AS checked,"
                 . "(CASE WHEN d.active_status='1' THEN true ELSE false END) AS available "
                 . "FROM document_template dt "
                 . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
                 . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
-                . "LEFT JOIN ref_outrch_document rod on(dt.doc_name_id=rod.doc_name_id) "
                 . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
                 . "LEFT JOIN ref_main_disciplines rmd ON(rmd.main_discipline_code=gd.main_discipline_code) "
                 . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)"
@@ -262,12 +260,10 @@ class Document_Template_Model {
             $docType = 0;
         }
         $sql = "SELECT dt.template_id,dt.doc_name_id,dt.active, d.active_status, rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc,rdg.doc_group_code, "
-                . "(CASE WHEN (rod.doc_name_id = dt.doc_name_id) THEN TRUE ELSE FALSE END) AS checked,"
                 . "(CASE WHEN d.active_status='1' THEN true ELSE false END) AS available "
                 . "FROM document_template dt "
                 . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
                 . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
-                . "LEFT JOIN ref_outrch_document rod on(dt.doc_name_id=rod.doc_name_id) "
                 . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
                 . "LEFT JOIN ref_main_disciplines rmd ON(rmd.main_discipline_code=gd.main_discipline_code) "
                 . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code) "
@@ -1325,131 +1321,4 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return $result;
     }
-    
-    
-    public function GetAllDiagnosis() {
-        $sql = "SELECT p.pre_diagnosis_code AS codes, p.pre_diagnosis_desc AS descs, "
-                    . "CASE WHEN dd.diagnosis_code = p.pre_diagnosis_code THEN TRUE ELSE FALSE END AS available  "
-                    . "FROM ref_predefined_diagnosis p "
-                    . "LEFT JOIN( SELECT diagnosis_code FROM document_diagnosis WHERE doc_name_id='2644') dd "
-                    . "ON (dd.diagnosis_code = p.pre_diagnosis_code) limit 0";
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-        $result = $this->db->fetchOut('array');
-        return $result;
-    }
-    
-    public function GetFilterListByDiagnosisGroup($documentArray, $documentId) {
-         $docGroup = $documentArray['doc_group'];
-         if ($docGroup == 'D'){
-            $sql = "SELECT d.dsm5_id AS codes, d.dsm5_desc AS descs,rdc.diagnosis_source_code AS diagno,  "
-                    . "CASE WHEN dd.diagnosis_code = d.dsm5_id AND dd.diagnosis_source_code = '" . $docGroup . "' THEN TRUE ELSE FALSE END AS available  "
-                    . "FROM ref_dsm5 d "
-                    . "LEFT JOIN( SELECT diagnosis_code,diagnosis_source_code FROM document_diagnosis WHERE doc_name_id='" . (int) $documentId . "') dd "
-                    . "ON (dd.diagnosis_code = d.dsm5_id) "
-                     . "LEFT JOIN ref_diagnosis_source rdc ON (rdc.diagnosis_source_code = '" . $docGroup . "')";
-         }
-        elseif ($docGroup == 'I'){
-            $sql = "SELECT i.icd_id AS codes, i.description AS descs,rdc.diagnosis_source_code AS diagno,  "
-                    . "CASE WHEN dd.diagnosis_code = i.icd_id AND dd.diagnosis_source_code = '" . $docGroup . "' THEN TRUE ELSE FALSE END AS available  "
-                    . "FROM icd10_kkm i "
-                    . "LEFT JOIN( SELECT diagnosis_code,diagnosis_source_code FROM document_diagnosis WHERE doc_name_id='" . (int) $documentId . "') dd "
-                    . "ON (dd.diagnosis_code = i.icd_id) "
-                    . "LEFT JOIN ref_diagnosis_source rdc ON (rdc.diagnosis_source_code = '" . $docGroup . "')";
-        }
-        elseif ($docGroup == 'P'){
-            $sql = "SELECT p.pre_diagnosis_code AS codes, p.pre_diagnosis_desc AS descs,rdc.diagnosis_source_code AS diagno, "
-                    . "CASE WHEN dd.diagnosis_code = p.pre_diagnosis_code AND dd.diagnosis_source_code = '" . $docGroup . "' THEN TRUE ELSE FALSE END AS available  "
-                    . "FROM ref_predefined_diagnosis p "
-                    . "LEFT JOIN( SELECT diagnosis_code,diagnosis_source_code FROM document_diagnosis WHERE doc_name_id='" . (int) $documentId . "') dd "
-                    . "ON (dd.diagnosis_code = p.pre_diagnosis_code) "
-                    . "LEFT JOIN ref_diagnosis_source rdc ON (rdc.diagnosis_source_code = '" . $docGroup . "')";
-        }
-        else{
-             $sql = "SELECT p.pre_diagnosis_code AS codes, p.pre_diagnosis_desc AS descs, "
-                    . "CASE WHEN dd.diagnosis_code = p.pre_diagnosis_code THEN TRUE ELSE FALSE END AS available  "
-                    . "FROM ref_predefined_diagnosis p "
-                    . "LEFT JOIN( SELECT diagnosis_code FROM document_diagnosis WHERE doc_name_id='" . (int) $documentId . "') dd "
-                    . "ON (dd.diagnosis_code = p.pre_diagnosis_code) limit 0";
-        }
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-        $result = $this->db->fetchOut('array');
-        return $result;
-    }
-    
-    public function GetAllProcedure($documentId) {
-       $sql = "SELECT p.product_code, p.product_name, p.category_code, pf.form_name,"
-               . "CASE WHEN dp.product_code IS NULL THEN 0 ELSE 1 END AS available "
-               . "FROM products p "
-               . "INNER JOIN product_forms pf ON (p.form_code = pf.form_code) "
-               . "LEFT JOIN (SELECT product_code FROM document_product WHERE doc_name_id='" . (int) $documentId . "') dp "
-               . "ON (p.product_code = dp.product_code) WHERE p.form_code IN  ('0')"; //('0',11','2','3','7','8','9')  
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-        $result = $this->db->fetchOut('array');
-        return $result;
-    }
-    
-     //zarith-10/3
-    public function GetFilterListByProductGroup($documentArray, $documentId) {
-        $docGroup = $documentArray['doc_group'];
-        $sql = "SELECT p.product_code, p.product_name, p.category_code, pf.form_name,"
-               . "CASE WHEN dp.product_code IS NULL THEN 0 ELSE 1 END AS available "
-               . "FROM products p "
-               . "INNER JOIN product_forms pf ON (p.form_code = pf.form_code) "
-               . "LEFT JOIN (SELECT product_code FROM document_product WHERE doc_name_id='" . (int) $documentId . "') dp "
-               . "ON (p.product_code = dp.product_code) WHERE p.form_code = '$docGroup'";
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-        $result = $this->db->fetchOut('array');
-        return $result;
-    }
-
-     public function InsertDocumentDiagnosis($outputD){
-         $sql = "INSERT INTO document_diagnosis (doc_name_id, diagnosis_code, diagnosis_source_code, created_by, created_date) "
-                 . "VALUES ('" . $outputD['doc_name_id'] . "', '" . $outputD['diagnosis_code'] . "', '" . $outputD['type'] . "','ADMIN', now()) ";
-        print_r($sql);
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-        return true;
-    }
-    
-    public function InsertDocumentProduct($outputP){
-         $sql = "INSERT INTO document_product (doc_name_id, product_code, created_by, created_date) "
-                 . "VALUES ('" . $outputP['doc_name_id'] . "', '" . $outputP['product_code'] . "', 'ADMIN', now()) ";
-        print_r($sql);
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-        return true;
-    }
-    
-    public function GetAllOutreach() {
-        $sql = "SELECT outrch_type_code as code, outrch_type_name as name FROM ref_outrch_type WHERE outrch_type_code IN('1','2')";
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-        $result = $this->db->fetchOut('array');
-        return $result;
-    }
-    
-    public function UpdateDocumentOutreach($documentArray) {
-        $docId = $documentArray['doc_id'];
-        $outreach_type = $documentArray['outreach_types'];
-        $sql = "INSERT INTO ref_outrch_document (doc_name_id, outrch_type_code, created_by, created_date) "
-                . "VALUES((SELECT doc_name_id FROM document WHERE doc_name_id='" . (int) $docId . "'),'" . (int) $outreach_type . "','ADMIN',NOW())";
-        print_r($sql);
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-        print_r($sql);
-        return true;
-    }
-
 }
