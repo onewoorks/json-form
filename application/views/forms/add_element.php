@@ -33,7 +33,7 @@
             <div class='form-group form-group-sm'>
                 <label class='control-label col-sm-2'>Element Level</label>
                 <div class='col-sm-8 form-inline'>
-                    <input type='number' name='element_level' class='form-control' style="width:5%" autocomplete="off" required/>
+                    <input type='number' name='element_level' class='form-control' style="width:8%" autocomplete="off" required/>
                 <span style='color: red; position: inherit'>*</span>
                 </div>
             </div>
