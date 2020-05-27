@@ -25,10 +25,11 @@
     $(function(){
         $('.updateSection').click(function (){
             var values = $('#editSection').serializeArray();
+            var documentId = '<?= $document_id;?>';
             console.log('values : ', values);
             $.ajax({
                 url : '<?= SITE_ROOT;?>/formview/edit-attributes/',
-                data : {documentValues:values},
+                data : {documentValues:values, documentId:documentId},
                 success : function(){
                     $('#myModal').modal('hide');
                     swal({
@@ -38,7 +39,10 @@
                     });
                 }
             });
-            
-        })
-    })
+             setTimeout(
+                    function () {
+                        window.location.reload(true);
+                    }, 1000);
+        });
+    });
 </script>

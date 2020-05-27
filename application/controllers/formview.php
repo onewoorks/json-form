@@ -387,7 +387,7 @@ class Formview_Controller extends Common_Controller {
                     $this->CaseSubsectionE($new_mapper, $new_data);
                 }
                 $document->UpdateElementName($element_code, $element_code, $document_id);
-                $this->GenerateJSONFormat($document_id, 'update');
+                $this->UpdateJSONFormat($document_id, 'regenerate');
                 break;
             case 'change-layout':
                 $ajax = true;
@@ -408,7 +408,7 @@ class Formview_Controller extends Common_Controller {
                 $document = new Document_Template_Model();
                 $doc_id = $_REQUEST['documentId'];
                 $val = $document->GetTitleDetail($doc_id);
-                $page = 'forms/change_document_title_new';
+                $page = 'forms/change_document_title';
                 $result['list_of_titles'] = $document->GetAllTitle();
                 $result['title'] = $val;
                 $result['doc_id'] = $doc_id;
@@ -416,6 +416,7 @@ class Formview_Controller extends Common_Controller {
                     'component' => 'Document Title',
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
+                
                 break;
             //zarith-10/3
             case 'change-status':
@@ -428,19 +429,6 @@ class Formview_Controller extends Common_Controller {
 //                    'component' => 'Document Title',
 //                    'html' => $this->RenderOutput($page, $result));
 //                echo json_encode($data);
-                break;
-            case 'edit-title-new':
-                $ajax = true;
-                $values = $this->form_array($_REQUEST['values']);
-                $document = new Document_Template_Model();
-                $docId = $values['doc_id'];
-                $title = $values['selected_title'];
-                $title_id = $document->GetTitleId($docId);
-                foreach ($title_id as $key):
-                    $document->UpdateDocTitle($key['doc_name_id'], $title);
-                    echo $key['doc_name_id'] . "<br>";
-                endforeach;
-                $this->GenerateJSONFormat($docId, 'update');
                 break;
             case 'change-title':
                 $ajax = true;
@@ -455,6 +443,7 @@ class Formview_Controller extends Common_Controller {
                     'component' => 'Document Title',
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
+                $this->UpdateJSONFormat($document_id, 'regenerate');
                 break;
             //22OCT19
             case 'change-method':
@@ -509,6 +498,8 @@ class Formview_Controller extends Common_Controller {
                 $result['doc_id'] = $doc_id;
                 $result['element_id'] = $element_id;
                 $result['section_id'] = $section_id;
+                $val = $document->GetElementsDetail($element_id);
+                $result['element'] = $val;
                 $data = array(
                     'component' => 'Delete Element',
                     'html' => $this->RenderOutput($page, $result));
@@ -818,7 +809,7 @@ class Formview_Controller extends Common_Controller {
                 $elementCode = $values['element_id'];
                 $sectionCode = $values['section_id'];
                 $document->DeleteElementData($docId, $sectionCode, $elementCode);
-                $this->GenerateJSONFormat($docId, 'update');
+                $this->UpdateJSONFormat($docId, 'regenerate');
                 break;
             case 'delete-edit-section':
                 $ajax = true;
@@ -835,7 +826,7 @@ class Formview_Controller extends Common_Controller {
                 $document = new Document_Template_Model();
                 $docId = $values['doc_id'];
                 $document->DeleteDocumentData($docId);
-                $this->GenerateJSONFormat($docId, 'update');
+                $this->UpdateJSONFormat($docId, 'regenerate');
                 break;
            
             case 'delete-current-method':
@@ -927,8 +918,10 @@ class Formview_Controller extends Common_Controller {
             case 'edit-attributes':
                 $ajax = true;
                 $document = new Document_Template_Model();
+                $docId = $_REQUEST['documentId'];
                 $values = $this->form_array($_REQUEST['documentValues']);
                 $document->UpdateSectionDetail($values);
+                $this->UpdateJSONFormat($docId, 'regenerate');
                 break;
             //EDIT ELEMENT NAME
             case 'update-section-element':
@@ -960,7 +953,7 @@ class Formview_Controller extends Common_Controller {
                 //update element_desc
                 $document = new Document_Template_Model();
                 $document->UpdateElementName($element_code, $element_name, $document_id);
-                $this->GenerateJSONFormat($document_id, 'update');
+                $this->UpdateJSONFormat($document_id, 'regenerate');
                 break;
             case 'update-section-element-new':
                 $ajax = true;
@@ -989,7 +982,7 @@ class Formview_Controller extends Common_Controller {
                 }
                 $document = new Document_Template_Model();
                 $document->UpdateElementName($element_code, $element_name, $document_id);
-                $this->GenerateJSONFormat($document_id, 'update');
+                $this->UpdateJSONFormat($docId, 'regenerate');
                 break;
             case 'update-new-form':
                 $document = new Document_Template_Model();

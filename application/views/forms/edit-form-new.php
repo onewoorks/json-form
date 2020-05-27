@@ -136,15 +136,7 @@
                     <a class="btn btn-primary btn-sm backForm" href="<?php echo SITE_ROOT; ?>" ><i class='glyphicon glyphicon-arrow-left'></i> Back</a>
                 </div>
                 <div class='btn-group btn-group-sm'>
-                    <input type='hidden' id='documentId' value='<?= $document_id; ?>'/>
-                    <input type='hidden' id='templateId' value='<?= $template_id; ?>'/>
-                    <a href='#' class="btn btn-primary btn-sm executeAction" /><i class='glyphicon glyphicon-floppy-disk'></i> Save</a> 
-                </div>
-                <div class='btn-group btn-group-sm'>
                     <a class="btn btn-primary btn-sm " href='<?php echo SITE_ROOT; ?>/formview/form-template-preview/<?php echo $template_id; ?>'><i class='glyphicon glyphicon-send'></i> Preview</a>
-                </div>
-                <div class='btn-group btn-group-sm'>
-                    <a class="btn btn-primary btn-sm" href='<?php echo SITE_ROOT; ?>/formview/build-form/<?php echo $template_id; ?>'><i class='glyphicon glyphicon-send'></i> Build Form</a>
                 </div>
             </div>
         </div>
@@ -165,6 +157,8 @@
     </form>
 </div>
 
+<div></div>
+
 <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!-- Modal content-->
@@ -179,6 +173,8 @@
         </div>
     </div>
 </div>
+
+<div></div>
 
 <div id="mySection" class="modal fade" role="dialog">
     <div class="modal-dialog ">
@@ -195,6 +191,7 @@
     </div>
 </div>
 
+<div></div>
 
 <div id="layout" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -210,6 +207,8 @@
     </div>
 </div>
 
+<div></div>
+
 <div id="title" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
         <!--Modal content-->
@@ -223,6 +222,8 @@
     </div>
 </div>
 
+<div></div>
+
 <div id="deleteModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
         <!--Modal content-->
@@ -235,6 +236,8 @@
         </div>
     </div>
 </div>
+
+<div></div>
 
 <div id="viewForm" data-toggle="modal"class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -439,11 +442,12 @@
 
         $('.editTitle').click(function () {
             var documentId = '<?= $document_id; ?>';
-          //  console.log(documentId);
+            //console.log(documentId);
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/change-title-new/',
                 data: {documentId: documentId},
                 success: function (data) {
+                   // console.log(data);
                     var obj = $.parseJSON(data);
                     $('.modal-dialog').removeClass('modal-lg');
                     $('.modal-title').text(obj.component);
@@ -454,33 +458,6 @@
             return false;
         });
 
-        $('.executeAction').click(function () {
-            var selected = [];
-            var type = '';
-            $('#documentId').each(function (key, documentId) {
-                $('#templateId').each(function (key, templateId) {
-                    type = 'regenerate';
-                    var item = {doc_name_id: $(documentId).val(), template_id: $(templateId).val()};
-                    selected.push(item);
-                  //  console.log(item);
-                });
-            });
-            $.ajax({
-                url: '<?= SITE_ROOT; ?>/formbuilder/generate-json/',
-                data: {type: type, documents: selected},
-                success: function (data) {
-                    swal({
-                        title: "Generated!",
-                        text: "System successfully created form template for selected data,",
-                        type: "success"
-                    });
-                }
-            });
-            setTimeout(
-                    function () {
-                        window.location.reload(true);
-                    }, 1200);
-        });
 
         $('.deleteElement').click(function () {
             var documentId = '<?= $document_id; ?>';
@@ -540,18 +517,7 @@
             $('#viewForm').modal('show');
             return false;
         });
-
-        $(".buildForm").click(function () {
-            var documentId = $(this).attr('id');
-          //  console.log(documentId);
-            $.ajax({
-                url: '<?= SITE_ROOT; ?>/formview/form-builder',
-                data: {documentId: documentId}
-            });
-
-            return false;
-        });
-
+       
         $('.selectedsection').click(function (e) {
             e.preventDefault();
             var documentId = '<?= $document_id; ?>';

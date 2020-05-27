@@ -1,6 +1,6 @@
-<form id='editTitle' class='form-horizontal'>
+<form id='editTitleNew' class='form-horizontal'>
      <div class="form-group form-group-sm" style='margin-left:-55px;margin-top: -5px'>
-                <label class="control-label col-sm-4">Document Title&nbsp;<b style='color: red'>*</b></label>
+                <label class="control-label col-sm-4">Document Title</label>
                 <input type='hidden' name='doc_id' value='<?= $doc_id;?>' autocomplete="off"/>
                 <div class="col-sm-6" style='width:48.55%'>
                     <input name="doc_name" data-no = '1' id="doc_name1" type="text" value='<?= $title->doc_name_desc;?>' class="form-control text-uppercase" onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" required/>
@@ -11,22 +11,23 @@
                             <option value='<?php echo $titles['doc_name_desc']; ?>'><?php echo $titles['doc_name_desc']; ?></option>
                         <?php endforeach; ?>
                     </select>  
-                </div>  
+                </div>
+                &nbsp;<span style='color: red'>*</span>
                 <input type='hidden' name='selected_title' value='<?= $title->doc_name_desc;?>' />
             </div>
-
-<div class='form-group form-group-sm'>
-    <label class='control-label col-sm-3'></label>
-    <div class='col-sm-8 text-right'>
-        <button type='button' class='btn btn-sm btn-primary editDoc' onclick='javascript:checkNew()' disabled>Update</button>
-         <!--<button type='submit' class='btn btn-sm btn-primary'>Update</button>-->
-    </div>
+    <br>
+            <div class='form-group form-group-sm'>
+            <label class='control-label col-sm-3'></label>
+            <div class='col-sm-8 text-right'>
+                <button type='button' class='btn btn-sm btn-primary editDoc' onclick='javascript:checkNew()' >Update</button>
+                 <!--<button type='submit' class='btn btn-sm btn-primary'>Update</button>-->
+            </div>
 </div>    
 </form>
 <script>
     function checkNew(){
-            var values = $('#editTitle').serializeArray();
-             console.log(values);
+            var values = $('#editTitleNew').serializeArray();
+            console.log(values);
              $.ajax({
                 url : '<?= SITE_ROOT;?>/formview/edit-title/',
                 data : { values: values },
@@ -47,7 +48,7 @@
     
     $(function(){
         $('input[name=doc_name').change(function(){
-            console.log($(this).val());
+            //console.log($(this).val());
             $('[name=selected_title]').val($(this).val());
         }); 
     });
@@ -55,7 +56,7 @@
 
 <script>
     $(document).ready(function () {
-        console.log(document);
+        //console.log(document);
         var selText;
         var array = [];
 
@@ -68,7 +69,7 @@
         });
 
         $(document).on('focus', 'input', function () {
-            console.log(document);
+            //console.log(document);
             thisValue = $(this).attr('data-no');
 
             $('#doc_name' + thisValue).keyup(function () {

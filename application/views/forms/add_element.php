@@ -15,6 +15,7 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
+                <span style='color: red; position: inherit'>*</span>
             </div>
 
             <div class="form-group form-group-sm">
@@ -26,12 +27,14 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
+                <span style='color: red; position: inherit'>*</span>
             </div>
             
             <div class='form-group form-group-sm'>
                 <label class='control-label col-sm-2'>Element Level</label>
-                <div class='col-sm-8'>
-                    <input type='number' name='element_level' class='form-control' style="width:8%" autocomplete="off" required/>
+                <div class='col-sm-8 form-inline'>
+                    <input type='number' name='element_level' class='form-control' style="width:5%" autocomplete="off" required/>
+                <span style='color: red; position: inherit'>*</span>
                 </div>
             </div>
 
@@ -131,6 +134,11 @@
                     });
                 }
             });
+              setTimeout(
+                    function () {
+                        window.location.reload(true);
+                    }, 1200);
+            return false;
         });
      //    $('.genForm').attr('disabled', false);
     });

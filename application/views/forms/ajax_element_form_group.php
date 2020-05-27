@@ -49,13 +49,14 @@
                     </select>
                 </div>
             </div>
- <div class='form-group form-group-sm'>
+            <div class='form-group form-group-sm'>
                 <label class='control-label col-sm-2'>Element Level</label>
                 <div class='col-sm-2' style="width: 50px">
                     <input type='number' name='element_level' id='element_level' class='form-control' style="width: 50px" value="<?= $values->element_level; ?>" autocomplete="off"/>
                 </div>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: red; position: inherit'>*</span>
+<!--                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style='color: red; position: inherit'>*</span>-->
             </div>
+
             <div class="form-group form-group-sm">
                 <label class="control-label col-sm-2">Position</label>
                 <div class="col-sm-8">
@@ -149,6 +150,10 @@
                     });
                 }
             });
+            setTimeout(
+                    function () {
+                        window.location.reload(true);
+                    }, 1000);
         });
     });
 

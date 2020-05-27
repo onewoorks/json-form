@@ -1,6 +1,6 @@
 <form id='deleteElement' class='form-horizontal'>
 <div class='form-group form-group-sm'>
-    <p style='padding-left:15px'><b>Are you sure?</b></p>
+    <p style='padding-left:15px'><b>Are you sure want to delete <strong class="text-uppercase"><?= $element->element_desc;?></strong> ?</b></p>
         <input type='hidden' name='doc_id' id='doc_id'  value='<?= $doc_id;?>'/>
         <input type='hidden' name='element_id' id='element_id'  value='<?= $element_id;?>'/>
         <input type='hidden' name='section_id' id='section_id'  value='<?= $section_id;?>'/>
@@ -27,5 +27,9 @@
                     });
                 }
             });
+             setTimeout(
+                    function () {
+                        window.location.reload(true);
+                    }, 1000);
         });   
 </script>
