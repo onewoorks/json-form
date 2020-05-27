@@ -21,13 +21,13 @@
             <div class="form-group form-group-sm">
                 <label class="control-label col-sm-2">Element Group</label>
                 <div class="col-sm-8">
-                    <select name="element_group" class="form-control" >
+                    <select name="element_group" class="form-control" autocomplete="on">
                         <?php foreach ($elements as $element): ?>
                             <option value='<?php echo $element['element_code']; ?>'><?php echo $element['element_desc']; ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <span style='color: red; position: inherit'>*</span>
+                
             </div>
             
             <div class='form-group form-group-sm'>
