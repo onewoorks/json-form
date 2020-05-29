@@ -489,5 +489,28 @@
             });
         });//endOfFocus
     });//endOfDocument
-</script>   
+</script>
+<script>
+    $(document).ready(function () {
+        
+        $('.docStatus').change(function () {
+            var documentId = $(this).attr('id');
+//            console.log("documentId : ", documentId);
+            var val;
+            if ($('.docStatus').prop('checked'))
+            {
+                val = '1';
+            } else
+            {
+                val = '0';
+            }
+            $.ajax({
+                type: "POST",
+                url: '<?= SITE_ROOT; ?>/formview/change-status/',
+                data: {documentId: documentId, value: val}
+            });
+             return false;
+        });//end change
+});
+</script>
 <?php echo $footer; ?>
