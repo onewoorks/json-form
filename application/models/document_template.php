@@ -1230,7 +1230,7 @@ class Document_Template_Model {
 
     public function ListMultAns() {
         $sql = "SELECT DISTINCT input_type "
-                . "FROM ref_multiple_answer "
+                . "FROM ref_multiple_answer WHERE input_type IS NOT NULL "
                 . "ORDER BY input_type ASC ";
         $this->db->connect();
         $this->db->prepare($sql);
