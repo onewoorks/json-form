@@ -774,7 +774,16 @@ class Input_Type_Controller extends Common_Controller {
                     . "<select id='multi_input_type' name='multi_input_type$noP' class='form-control'>"
                     . "<option value='" . $refP['input_type'] . "'>" . $refP['input_type'] . "</option>";
             foreach ($result as $multi):
-                $html .= "<option value='" . $multi["input_type"] . "'>" . $multi["input_type"] . "</option>";
+               // $html .= "<option value='" . $multi["input_type"] . "'>" . $multi["input_type"] . "</option>";
+                 if ($multi['input_type']==='CALENDER'):
+                $html .= '<option value="' . $multi['input_type'] . '">CALENDAR</option>';
+                elseif ($multi['input_type']==='FUTURE CALENDER'):
+                $html .= '<option value="' . $multi['input_type'] . '">FUTURE CALENDAR</option>';
+                elseif ($multi['input_type']==='FUTURE CALENDER ONLY'):
+                $html .= '<option value="' . $multi['input_type'] . '">FUTURE CALENDAR ONLY</option>';
+                else:
+                $html .= '<option value="' . $multi['input_type'] . '">' . $multi['input_type'] . '</option>';
+                endif;
             endforeach;
             $html .= "</select>"
                     . "</div>";
@@ -895,7 +904,16 @@ class Input_Type_Controller extends Common_Controller {
                         . "<select id='multi_child_input_type' name='multi_child_input_type$noP$mixC' class='form-control'>"
                         . "<option value='" . $refC['input_type'] . "'>" . $refC['input_type'] . "</option>";
                 foreach ($result as $multi):
-                    $html .= "<option value='" . $multi["input_type"] . "'>" . $multi["input_type"] . "</option>";
+                    //$html .= "<option value='" . $multi["input_type"] . "'>" . $multi["input_type"] . "</option>";
+                     if ($multi['input_type']==='CALENDER'):
+                    $html .= '<option value="' . $multi['input_type'] . '">CALENDAR</option>';
+                    elseif ($multi['input_type']==='FUTURE CALENDER'):
+                    $html .= '<option value="' . $multi['input_type'] . '">FUTURE CALENDAR</option>';
+                    elseif ($multi['input_type']==='FUTURE CALENDER ONLY'):
+                    $html .= '<option value="' . $multi['input_type'] . '">FUTURE CALENDAR ONLY</option>';
+                    else:
+                    $html .= '<option value="' . $multi['input_type'] . '">' . $multi['input_type'] . '</option>';
+                    endif;
                 endforeach;
                 $html .= "</select>"
                         . "</div>"
