@@ -152,7 +152,7 @@
                 <div class='panel-body' >
                     <ul class='list-unstyled'  style=" font-size: 12.5px;">
                         <?php foreach ($json_elements as $key => $section): ?>
-                            <li><input type='checkbox' class='selectedsection' name="total" id="total" data-sectioncode="<?= $section->section_code ?>" value="<?= $key; ?>" checked /><?= $section->section_desc; ?></li>
+                        <li><input type='checkbox' class='selectedsection' name="total" id="total" data-sectioncode="<?= $section->section_code ?>" value="<?= $key; ?>" checked />&nbsp; <?= $section->section_desc; ?></li>
 <?php endforeach; ?>
                     </ul>
                 </div>
