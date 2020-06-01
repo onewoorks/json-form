@@ -1057,8 +1057,8 @@ class Formview_Controller extends Common_Controller {
                     'sorting' => $y, //1
                     'doc_name_id' => $documentId, //diet note 1
                     'child_element_code' => $valueE,
-                    'element_properties' => 'DECORATION',
-                    'input_type' =>'LABEL'
+                    'element_properties' => 'BASIC',
+                    'input_type' =>'TEXTBOX'
                 );
                 echo '<pre>';
                 print_r($outputS);
