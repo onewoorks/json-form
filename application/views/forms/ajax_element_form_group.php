@@ -11,9 +11,8 @@
     <input type='hidden' name='method_code' value='<?= $values->doc_method_code; ?>' />
     <input type='hidden' name='section_code' value='<?= $values->section_code; ?>' />
 
-<!--    <div class='panel panel-default' style="margin-right: 13px">
-        <div class='panel-heading'>Properties</div>
-        <div class='panel-body'>-->
+    <div class='panel panel-default' style="margin-right: 13px">
+        <br>
             <div class='form-group form-group-sm'>
                 <label class='control-label col-sm-2'>Element Description</label>
                 <div class='col-sm-8'>
@@ -82,16 +81,14 @@
                         </label>
                 </div>
                 <div id='formelement'></div>
-<!--            </div>   
-        </div>
-    </div>-->
-
-    <div class='form-group form-group-sm'  style="margin-right: 0px">
-        <label class='control-label col-sm-3'></label>
-        <div class='col-sm-12 text-right'>
-            <button type='submit' class='btn btn-sm btn-primary'>Update</button>
-        </div>
-    </div>       
+</div>
+     <div class='form-group form-group-sm'>
+            <label class='control-label col-sm-3'></label>
+            <div class='col-sm-12 text-right' style="margin-left: -80px">
+                <button type='submit' class='btn btn-sm btn-primary'>Update</button>
+            </div>
+        </div>   
+</div>  
 </form>
 
 <script>
