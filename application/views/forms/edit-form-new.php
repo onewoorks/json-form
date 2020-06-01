@@ -136,6 +136,11 @@
                     <a class="btn btn-primary btn-sm backForm" href="<?php echo SITE_ROOT; ?>" ><i class='glyphicon glyphicon-arrow-left'></i> Back</a>
                 </div>
                 <div class='btn-group btn-group-sm'>
+                    <input type='hidden' id='documentId' value='<?= $document_id; ?>'/>
+                    <input type='hidden' id='templateId' value='<?= $template_id; ?>'/>
+                    <a href='#' class="btn btn-primary btn-sm executeAction" /><i class='glyphicon glyphicon-floppy-disk'></i> Regenerate</a> 
+                </div>
+                <div class='btn-group btn-group-sm'>
                     <a class="btn btn-primary btn-sm " href='<?php echo SITE_ROOT; ?>/formview/form-template-preview/<?php echo $template_id; ?>'><i class='glyphicon glyphicon-send'></i> Preview</a>
                 </div>
             </div>
@@ -457,7 +462,34 @@
             $('#title').modal('show');
             return false;
         });
-
+        
+         $('.executeAction').click(function () {
+            var selected = [];
+            var type = '';
+            $('#documentId').each(function (key, documentId) {
+                $('#templateId').each(function (key, templateId) {
+                    type = 'regenerate';
+                    var item = {doc_name_id: $(documentId).val(), template_id: $(templateId).val()};
+                    selected.push(item);
+                  //  console.log(item);
+                });
+            });
+            $.ajax({
+                url: '<?= SITE_ROOT; ?>/formbuilder/generate-json/',
+                data: {type: type, documents: selected},
+                success: function (data) {
+                    swal({
+                        title: "Generated!",
+                        text: "System successfully created form template for selected data,",
+                        type: "success"
+                    });
+                }
+            });
+            setTimeout(
+                    function () {
+                        window.location.reload(true);
+                    }, 1200);
+        });
 
         $('.deleteElement').click(function () {
             var documentId = '<?= $document_id; ?>';
