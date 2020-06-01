@@ -1047,7 +1047,7 @@ class Formview_Controller extends Common_Controller {
 
                 #sectionDesc
                 $resultS = $_REQUEST['secDetail'];
-                $valueE = '1';
+                $valueE = '2';
                 $y = '0';
                         
                 $outputS = array(
