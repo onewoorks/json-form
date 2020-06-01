@@ -1270,7 +1270,7 @@ class Document_Template_Model {
                 . "(SELECT section_code FROM ref_document_section WHERE section_desc = '" . $outputS['section_code'] . "' LIMIT 1), '" . $outputS['sorting'] . "', "
                 . "(SELECT DISTINCT element_code FROM ref_document_element WHERE element_code ='" . $outputS['parent_element_code'] . "' LIMIT 1), "
                 . "(SELECT DISTINCT element_code FROM ref_document_element WHERE element_code ='" . $outputS['child_element_code'] . "' LIMIT 1), "
-                . "'5','" . $outputS['element_properties'] . "','" . $outputS['input_type'] . "','0','ADMIN', NOW()) ";
+                . "'1','" . $outputS['element_properties'] . "','" . $outputS['input_type'] . "','0','ADMIN', NOW()) ";
         print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
