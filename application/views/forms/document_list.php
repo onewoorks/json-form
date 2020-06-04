@@ -493,7 +493,8 @@
 <script>
     $(document).ready(function () {
         
-        $('.docStatus').change(function () {
+        $('.docStatus').change(function (e) {
+            e.preventDefault();
             var documentId = $(this).attr('id');
 //            console.log("documentId : ", documentId);
             var val;
