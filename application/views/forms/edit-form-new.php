@@ -2,7 +2,7 @@
 
 <div class="row">
     <form id="notesForm">
-        <div class="col-md-12">
+        <div class="col-md-11">
             <div id='maintitle' style="padding-left: 15px">
                 <div class="form-inline ">
                     <input type='hidden' name='doc_name_id' value='<?= $document_id; ?>' />
