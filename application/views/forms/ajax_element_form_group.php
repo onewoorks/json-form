@@ -46,7 +46,7 @@
                                 <option value='<?php echo $group['element_code']; ?>'><?php echo $group['element_desc']; ?></option>
         <?php } endforeach; ?> 
                     </select>
-                </div>
+                </div>&nbsp;<span style='color: red; position: inherit'>*</span>
             </div>
             <div class='form-group form-group-sm'>
                 <label class='control-label col-sm-2'>Element Level</label>
