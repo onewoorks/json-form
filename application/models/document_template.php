@@ -20,7 +20,7 @@ class Document_Template_Model {
                 . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
                 . "LEFT JOIN ref_main_disciplines md ON(gd.main_discipline_code=md.main_discipline_code)"
                 . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)"
-                . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)" 
+                . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)"
                 . "GROUP BY de.doc_name_id ORDER BY gd.main_discipline_code,gd.discipline_name ASC";
 
         $this->db->connect();
@@ -62,18 +62,18 @@ class Document_Template_Model {
             $sql .= "WHERE gd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','PS','RL') ";
         endif;
         if ($discipline != "0") {
-            $sql.="AND gd.main_discipline_code = '$discipline' ";
+            $sql .= "AND gd.main_discipline_code = '$discipline' ";
         }
         if ($subDiscipline != "0") {
-            $sql.="AND gd.discipline_code = '$subDiscipline'";
+            $sql .= "AND gd.discipline_code = '$subDiscipline'";
         }
         if ($docType != "0") {
-            $sql.="AND d.dc_type_code = '$docType' ";
+            $sql .= "AND d.dc_type_code = '$docType' ";
         }
         if ($docGroup != "0") {
-            $sql.="AND rdt.doc_group_code = '$docGroup' ";
+            $sql .= "AND rdt.doc_group_code = '$docGroup' ";
         }
-        $sql.="GROUP BY de.doc_name_id ORDER BY gd.main_discipline_code,gd.discipline_name ASC";
+        $sql .= "GROUP BY de.doc_name_id ORDER BY gd.main_discipline_code,gd.discipline_name ASC";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -105,15 +105,15 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('object');
         return $result[0];
     }
-    
+
     public function GetMaxSectionSorting($documentId) {
-            $sql = "SELECT MAX(section_sorting) AS newsorting FROM document_element WHERE doc_name_id=" . (int) $documentId . " ";
-            $this->db->connect();
-            $this->db->prepare($sql);
-            $this->db->queryexecute();
-            $result = $this->db->fetchOut('object');
-            return $result[0];
-        }
+        $sql = "SELECT MAX(section_sorting) AS newsorting FROM document_element WHERE doc_name_id=" . (int) $documentId . " ";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('object');
+        return $result[0];
+    }
 
     //zarith-10/3
     public function ReadDocumentTemplate($templateId) {
@@ -206,12 +206,12 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-    
-     public function CreateDocumentDiagnosis($doc) {
-      
+
+    public function CreateDocumentDiagnosis($doc) {
+
         $sql = "INSERT INTO document_diagnosis SET "
-                . "diagnosis_code = '" .  $doc['icd10_id'] . "',"
-                . "doc_name_id = '" .  $doc['doc_name_id'] . "', "
+                . "diagnosis_code = '" . $doc['icd10_id'] . "',"
+                . "doc_name_id = '" . $doc['doc_name_id'] . "', "
                 . "created_date = now(), "
                 . "created_by = 'ADMIN' ";
         print_r($sql);
@@ -220,7 +220,7 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-    
+
     //zarith-10/3
     public function GetListAvailableDocument() {
         $sql = "SELECT dt.template_id,d.active_status, dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc, "
@@ -245,6 +245,7 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return $result;
     }
+
     //zarith-10/3
     public function GetFilterListByGroupType($documentArray) {
         $discipline = $documentArray['discipline'];
@@ -277,18 +278,18 @@ class Document_Template_Model {
             $sql .= "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','RL','PS') ";
         endif;
         if ($discipline != "0") {
-            $sql.="AND gd.main_discipline_code = '$discipline' ";
+            $sql .= "AND gd.main_discipline_code = '$discipline' ";
         }
         if ($subDiscipline != "0") {
-            $sql.="AND gd.discipline_code = '$subDiscipline' ";
+            $sql .= "AND gd.discipline_code = '$subDiscipline' ";
         }
         if ($docType != "0") {
-            $sql.="AND d.dc_type_code = '$docType' ";
+            $sql .= "AND d.dc_type_code = '$docType' ";
         }
         if ($docGroup != "0") {
-            $sql.="AND d.doc_group_code = '$docGroup'";
+            $sql .= "AND d.doc_group_code = '$docGroup'";
         }
-        $sql.="ORDER BY COALESCE(dt.updated_date,dt.created_date) DESC";
+        $sql .= "ORDER BY COALESCE(dt.updated_date,dt.created_date) DESC";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -324,18 +325,18 @@ class Document_Template_Model {
             $sql .= "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','RL','PS') ";
         endif;
         if ($discipline != "0") {
-            $sql.="AND gd.main_discipline_code = '$discipline' ";
+            $sql .= "AND gd.main_discipline_code = '$discipline' ";
         }
         if ($subDiscipline != "0") {
-            $sql.="AND gd.discipline_code = '$subDiscipline' ";
+            $sql .= "AND gd.discipline_code = '$subDiscipline' ";
         }
         if ($docType != "0") {
-            $sql.="AND d.dc_type_code = '$docType' ";
+            $sql .= "AND d.dc_type_code = '$docType' ";
         }
         if ($docGroup != "0") {
-            $sql.="AND d.doc_group_code = '$docGroup'";
+            $sql .= "AND d.doc_group_code = '$docGroup'";
         }
-        $sql.="AND d.active_status='1' ";
+        $sql .= "AND d.active_status='1' ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -418,7 +419,7 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('object');
         return $result[0];
     }
-    
+
     public function GetTitleDetail($docId) {
         $sql = "SELECT doc_name_id, doc_name_desc"
                 . " FROM document"
@@ -429,7 +430,7 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('object');
         return $result[0];
     }
-    
+
     //22OCT
     public function GetMethodDetail($docId) {
         $sql = "SELECT doc_method_code, doc_method_desc, method_info"
@@ -441,7 +442,7 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('object');
         return $result[0];
     }
-    
+
     public function GetSectionsDetail($docId) {
         $sql = "SELECT section_code, section_desc, json_section"
                 . " FROM ref_document_section"
@@ -452,7 +453,7 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('object');
         return $result[0];
     }
-    
+
     public function GetElementsDetail($docId) {
         $sql = "SELECT element_code, element_desc, json_element"
                 . " FROM ref_document_element"
@@ -472,7 +473,7 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return $result;
     }
-    
+
     //22OCT
     public function GetMethodId($docId) {
         $sql = "SELECT DISTINCT doc_method_code, doc_method_desc FROM ref_document_method WHERE doc_method_code='" . (int) $docId . "'";
@@ -482,7 +483,7 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return $result;
     }
-    
+
     public function GetSectionsId($docId) {
         $sql = "SELECT DISTINCT section_code, section_desc FROM ref_document_section WHERE section_code='" . (int) $docId . "'";
         $this->db->connect();
@@ -491,7 +492,7 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return $result;
     }
-    
+
     public function GetElementId($docId) {
         $sql = "SELECT DISTINCT element_code, element_desc FROM ref_document_element WHERE element_code='" . (int) $docId . "'";
         $this->db->connect();
@@ -525,7 +526,7 @@ class Document_Template_Model {
     }
 
     //19JULAI
-   //28Feb19
+    //28Feb19
     public function InsertMethodId($result) {
         $method_desc = ucwords($result['method_desc']);
         $method_info = $result['method_info'];
@@ -538,7 +539,7 @@ class Document_Template_Model {
         return true;
     }
 
-   //27Feb19
+    //27Feb19
     public function InsertSecId($result) {
         $section_desc = $result['section_desc'];
         $json_section = $result['json_section'];
@@ -546,7 +547,7 @@ class Document_Template_Model {
 //        $sql = " SELECT COUNT(section_desc) FROM ref_document_section WHERE section_desc LIKE '%$sectionDesc%' ";
         $sql = " INSERT INTO ref_document_section (section_code, section_desc, json_section, layout, active_status, created_by, created_date) "
                 . " VALUES ((SELECT MAX(section_code)+1 FROM ref_document_section AS section_code), '$section_desc', '$json_section', '$layout', '1', 'ADMIN', NOW()) ";
-                
+
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -604,7 +605,7 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return $result;
     }
-    
+
     //zarith: 8/7
 //    public function ListElementDescNew() {
 //        $sql = " SELECT element_code, element_desc, json_element FROM ref_document_element "
@@ -614,7 +615,6 @@ class Document_Template_Model {
 //        $this->db->queryexecute();
 //        $result = $this->db->fetchOut('array');
 //    }
-
     //23JULAI
     public function searchElement($search) {
         $sql = " SELECT element_code, element_desc, json_element, active_status FROM ref_document_element WHERE element_desc LIKE '%$search%' ";
@@ -624,8 +624,8 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return $result;
     }
-    
-     public function GetAllmethodDesc() {
+
+    public function GetAllmethodDesc() {
         $sql = " SELECT doc_method_code, doc_method_desc, section_code, json_method, method_info, image_path, active_status FROM ref_document_method WHERE active_status='1'";
         $this->db->connect();
         $this->db->prepare($sql);
@@ -652,18 +652,17 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return $result;
     }
-    
+
     //zarith-11/3
     public function GetDocumentDesc($documentId) {
         $sql = " SELECT doc_name_id, doc_name_desc FROM document WHERE doc_name_id='" . (int) $documentId . "'  ";
-       $this->db->connect();
+        $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
         $result = $this->db->fetchOut('array');
         return ($result) ? $result[0] : false;
     }
-    
-    
+
     //23JULAI
     public function GetAllElementDesc() {
         $sql = " SELECT element_code, element_desc, json_element, active_status FROM ref_document_element WHERE active_status='1'";
@@ -698,27 +697,27 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-    
+
     //zarith-10/3
     public function UpdateDocumentStatus($document_id, $val) {
         $sql = "UPDATE document "
                 . "SET active_status='" . $val . "' "
-                . "WHERE doc_name_id='" .  $document_id . "'";
+                . "WHERE doc_name_id='" . $document_id . "'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
         return true;
     }
-    
+
     //22OCT
-    public function UpdateMethodInfo($code, $title , $info) {
+    public function UpdateMethodInfo($code, $title, $info) {
         $sql = "UPDATE ref_document_method SET doc_method_desc='" . $title . "', method_info='" . $info . "' WHERE doc_method_code='" . (int) $code . "'";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
         return true;
     }
-    
+
     public function UpdateSectionInfo($code, $title, $info) {
         $sql = "UPDATE ref_document_section SET section_desc='" . $title . "', json_section='" . $info . "' WHERE section_code='" . (int) $code . "'";
         $this->db->connect();
@@ -726,7 +725,7 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-    
+
     public function UpdateElementInfo($code, $title, $info) {
         $sql = "UPDATE ref_document_element SET element_desc='" . $title . "', json_element='" . $info . "' WHERE element_code='" . (int) $code . "'";
         $this->db->connect();
@@ -736,7 +735,7 @@ class Document_Template_Model {
     }
 
     //zarith-10/3
-    public function copyBaru($docName, $curName, $subdis, $type, $group) { 
+    public function copyBaru($docName, $curName, $subdis, $type, $group) {
         if (isset($subdis)):
             $subdiscipline = "SELECT '$subdis', (SELECT MAX(doc_name_id) FROM document), favourite, doc_sorting, gender_code, age_from, age_to, NOW(),'ADMIN' ";
         else:
@@ -824,7 +823,6 @@ class Document_Template_Model {
 //        return $result; 
     }
 
-
     public function GetChildDetail($doc, $element) {
         $sql = "SELECT parent_element_code FROM ref_multiple_answer "
                 . " WHERE doc_name_id='" . (int) $doc . "' and element_code='" . (int) $element . "'";
@@ -873,7 +871,6 @@ class Document_Template_Model {
         return true;
     }
 
-
     public function UpdateElementName($code, $name, $document_id) {
         $sql = " UPDATE document_element "
                 . " SET parent_element_code = '" . (int) $name . "' "
@@ -903,7 +900,7 @@ class Document_Template_Model {
         return true;
     }
 
-     public function UpdateElementToDecoSUb(array $val) {
+    public function UpdateElementToDecoSUb(array $val) {
         $sql = "UPDATE document_element SET child_element_code='" . (int) $val['child_element_code'] . "', element_level='" . $val['element_level'] . "', element_position='" . $val['element_position'] . "', element_properties='" . $val['element_properties'] . "', input_type='" . $val['input_type'] . "',updated_by='ADMIN', updated_date = now() "
                 . "WHERE doc_name_id='" . (int) $val['doc_name_id'] . "' AND parent_element_code='" . (int) $val['element_code'] . "' AND section_code ='" . (int) $val['section_code'] . "' ";
         print_r($sql);
@@ -946,7 +943,7 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-    
+
     public function CleanChild($docID, $elementID) {
         $sql = "DELETE FROM ref_multiple_answer WHERE doc_name_id='" . (int) $docID . "' AND element_code='" . (int) $elementID . "'";
         print_r($sql);
@@ -984,7 +981,9 @@ class Document_Template_Model {
     public function InsertChildMultiAnswer($docID, $child) {
 
         $sql = "INSERT INTO ref_multiple_answer (doc_name_id, element_code, multiple_desc_code, sorting, input_type, method, parent_element_code, child_element_code, show_label, active, updated_by, updated_date, multi_answer_desc) "
-                . "VALUES ('" . (int) $docID . "', (SELECT element_code FROM ref_document_element WHERE element_desc = '" . $child['element_code'] . "' LIMIT 1), (SELECT multiple_desc_code FROM ref_multiple_desc WHERE multiple_desc = '" . $child['multi_ans_code'] . "' LIMIT 1), '" . $child['sorting'] . "', '" . $child['multi_input_type'] . "', (NULL), (NULL), (NULL), '" . $child['show_label'] . "', '1', 'ADMIN', now(),'" . $child['multi_ans_code'] . "'); ";
+                . "VALUES ('" . (int) $docID . "', (SELECT element_code FROM ref_document_element WHERE element_desc = '" . $child['element_code'] . "' LIMIT 1), "
+                . "(SELECT multiple_desc_code FROM ref_multiple_desc WHERE multiple_desc = '" . $child['multi_ans_code'] . "' LIMIT 1), "
+                . "'" . $child['sorting'] . "', '" . $child['multi_input_type'] . "', (NULL), (NULL), (NULL), '" . $child['show_label'] . "', '1', 'ADMIN', now(),'" . $child['multi_ans_code'] . "'); ";
         echo '<pre>';
         print_r($sql);
         echo '</pre>';
@@ -994,7 +993,10 @@ class Document_Template_Model {
 
         if ($child['ref_element_code'] !== '(NULL)' && $child['show_label_child'] !== '(NULL)'):
             $sql = "INSERT INTO ref_multiple_item (doc_name_id, element_code, multiple_desc_code, ref_element_code, show_label, created_by, created_date, multi_answer_desc) "
-                    . " VALUES ('" . (int) $docID . "', '" . $child['element_code'] . "',(SELECT multiple_desc_code FROM ref_multiple_desc WHERE multiple_desc = '" . $child['multi_ans_code'] . "' LIMIT 1), '" . $child['ref_element_code'] . "', '" . $child['show_label_child'] . "', 'ADMIN', now(), (SELECT multiple_desc from ref_multiple_desc where multiple_desc_code = '" . $child['multi_ans_code'] . "')); ";
+                    . " VALUES ('" . (int) $docID . "', (SELECT element_code FROM ref_document_element WHERE element_desc = '" . $child['element_code'] . "' LIMIT 1),"
+                    . "(SELECT multiple_desc_code FROM ref_multiple_desc WHERE multiple_desc = '" . $child['multi_ans_code'] . "' LIMIT 1), "
+                    . "(SELECT element_code FROM ref_document_element WHERE element_desc = '" . $child['ref_element_code'] . "' LIMIT 1), '" . $child['show_label_child'] . "', 'ADMIN', now(), "
+                    . "'" . $child['multi_ans_code'] . "'); ";
             echo '<pre>';
             print_r($sql);
             echo '</pre>';
@@ -1031,8 +1033,8 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-    
-     public function InsertNewRefElement(array $val) {
+
+    public function InsertNewRefElement(array $val) {
         $sql = "INSERT INTO document_element (doc_name_id, section_sorting, section_code, sorting, parent_element_code, created_by, created_date)"
                 . "VALUES ('" . (int) $val['documentId'] . "','" . (int) $val['section_sorting'] . "','" . (int) $val['sectionId'] . "','" . (int) $val['sorting'] . "',"
                 . " '" . (int) $val['parent_element_code'] . "',  'ADMIN', NOW()) ";
@@ -1041,8 +1043,8 @@ class Document_Template_Model {
         $this->db->prepare($sql);
         $this->db->queryexecute();
         return true;
-    } 
-    
+    }
+
     public function DeleteElementData($docId, $sectionCode, $elementCode) {
         $sql = "UPDATE document_element "
                 . "SET active = '0' "
@@ -1053,8 +1055,8 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-    
-     public function DeleteEditSectionData($docId, $sectionCode) {
+
+    public function DeleteEditSectionData($docId, $sectionCode) {
         $sql = "DELETE FROM document_element "
                 . "WHERE doc_name_id='" . (int) $docId . "' AND section_code='" . (int) $sectionCode . "'";
         print_r($sql);
@@ -1063,8 +1065,8 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-    
-     public function DeleteDocumentData($docId) {
+
+    public function DeleteDocumentData($docId) {
         $sql = "UPDATE document "
                 . "SET active_status = '0' "
                 . "WHERE doc_name_id='" . (int) $docId . "'";
@@ -1074,7 +1076,7 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-    
+
     public function DeleteMethodData($docId) {
         $sql = "UPDATE ref_document_method "
                 . "SET active_status = '0' "
@@ -1085,8 +1087,8 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-    
-     public function DeleteSectionData($docId) {
+
+    public function DeleteSectionData($docId) {
         $sql = "DELETE FROM ref_document_section "
                 . "WHERE section_code='" . (int) $docId . "'";
         print_r($sql);
@@ -1095,8 +1097,8 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-    
-     public function DeleteElementsData($docId) {
+
+    public function DeleteElementsData($docId) {
         $sql = "DELETE FROM ref_document_element "
                 . "WHERE element_code='" . (int) $docId . "'";
         print_r($sql);
@@ -1173,7 +1175,7 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-    
+
     public function UpdateNewJSONDocument($documents) {
         $jsonForm = $this->jsonForm;
         $docNameId = $this->documentId;
@@ -1181,13 +1183,13 @@ class Document_Template_Model {
         $replace = '<br />';
         $json = str_replace($newLine, $replace, $jsonForm);
         $jsonDoc = addslashes($json);
-          
+
         $sql = "UPDATE document_template SET "
                 . "json_template = '$jsonDoc', "
                 . "updated_date = now(), "
                 . "updated_by = 'ADMIN' "
                 . "WHERE doc_name_id='" . (int) $docNameId . "' ";
-       
+
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -1262,10 +1264,10 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
-    
+
     //zarith-18/3
     public function InsertNewSection(array $outputS) {
-        $sql =  "INSERT INTO document_element (doc_name_id, section_sorting, section_code, sorting, parent_element_code, child_element_code,element_level, element_properties, input_type,active,  created_by, created_date) "
+        $sql = "INSERT INTO document_element (doc_name_id, section_sorting, section_code, sorting, parent_element_code, child_element_code,element_level, element_properties, input_type,active,  created_by, created_date) "
                 . "VALUES ((SELECT doc_name_id FROM document WHERE doc_name_id = '" . $outputS['doc_name_id'] . "'), '" . $outputS['section_sorting'] . "', "
                 . "(SELECT section_code FROM ref_document_section WHERE section_desc = '" . $outputS['section_code'] . "' LIMIT 1), '" . $outputS['sorting'] . "', "
                 . "(SELECT DISTINCT element_code FROM ref_document_element WHERE element_code ='" . $outputS['parent_element_code'] . "' LIMIT 1), "
@@ -1299,4 +1301,5 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return $result;
     }
+
 }
