@@ -110,8 +110,8 @@
     //BAWA KE PAGE->BASIC
     function ElementBuilder(formType) {
         var formValue = $('#editElement').serializeArray();
-        console.log('FORMTYPE:', formType);
-        console.log('ajax_element_form_group: FORMVALUE=', formValue);
+       // console.log('FORMTYPE:', formType);
+       // console.log('ajax_element_form_group: FORMVALUE=', formValue);
         $.ajax({
              url: '<?PHP echo SITE_ROOT; ?>/formbuilder/formelement/',
             data: {value: formType, params: formValue}, //bawa value satu form page ni
@@ -139,7 +139,7 @@
                 type: 'POST',
                 data: {dummy: null, values: datas, basicMethod: method, basicMultAns: multAns, basicSubSec: subSec},
                 success: function (data) {
-                    console.log("Update Section Element",data);
+                    //console.log("Update Section Element",data);
                     $('#myModal').modal('hide');
                     swal({
                         title: "Element Updated!",
