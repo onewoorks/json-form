@@ -837,9 +837,9 @@ class Input_Type_Controller extends Common_Controller {
                         $html .= "<input type='checkbox' id='show_label_child' name='show_label_child$noP' value='1' style='margin-top:6px' checked/>";
                     else:
                         $html .= "<input type='hidden' id='show_label_child' name='show_label_child$noP' value='0' style='margin-top:6px' />";
-                        $html .= "<input type='checkbox' id='show_label_child' name='show_label_child$noP' value='1' style='margin-top:6px' checked/>";
+                        $html .= "<input type='checkbox' id='show_label_child' name='show_label_child$noP' value='1' style='margin-top:6px'/>";
                     endif;
-                    $html .= "<input name='ref_desc$noP' id='ref_desc' class='form-control' value='" . $refL['element_desc'] . "' list='refList' />"
+                    $html .= "<input name='ref_desc$noP' id='ref_desc' class='form-control' value='" . $refL['element_desc'] . "' list='refList'/>"
                             . "<datalist id='refList'>";
                     foreach ($resultC as $multiC):
                         $html .= "<option value='" . $multiC["element_desc"] . "'>" . $multiC["element_code"] . "</option>";
