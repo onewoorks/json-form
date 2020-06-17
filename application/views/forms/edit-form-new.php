@@ -135,11 +135,7 @@
                 <div class='btn-group btn-group-sm'>
                     <a class="btn btn-primary btn-sm backForm" href="<?php echo SITE_ROOT; ?>" ><i class='glyphicon glyphicon-arrow-left'></i> Back</a>
                 </div>
-                <div class='btn-group btn-group-sm'>
-                    <input type='hidden' id='documentId' value='<?= $document_id; ?>'/>
-                    <input type='hidden' id='templateId' value='<?= $template_id; ?>'/>
-                    <a href='#' class="btn btn-primary btn-sm executeAction" /><i class='glyphicon glyphicon-refresh'></i> Refresh</a> 
-                </div>
+               
                 <div class='btn-group btn-group-sm'>
                     <a class="btn btn-primary btn-sm " href='<?php echo SITE_ROOT; ?>/formview/form-template-preview/<?php echo $template_id; ?>'><i class='glyphicon glyphicon-send'></i> Preview</a>
                 </div>
