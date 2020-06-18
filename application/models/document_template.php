@@ -772,7 +772,7 @@ class Document_Template_Model {
         $this->db->prepare($sql);
         $this->db->queryexecute();
         $sql = "INSERT INTO document_element (doc_name_id, section_code, parent_element_code, child_element_code, sorting, section_sorting, section_tooltips, sec_file_type_code, element_level, element_position, element_layout, element_properties, input_type, data_type, element_type_code, doc_method_code, method, additional_attribute, element_tooltips, element_hint, file_type_code, show_label, image_name_id, image_path, component_flag, mandatory_flag, active, created_date, created_by) "
-                . "SELECT (SELECT MAX(doc_name_id) FROM document), section_code, parent_element_code, child_element_code, sorting, section_sorting, section_tooltips, sec_file_type_code, element_level, element_position, element_layout, element_properties, input_type, data_type, element_type_code, doc_method_code, method, additional_attribute, element_tooltips, element_hint, file_type_code, show_label, image_name_id, image_path, component_flag, mandatory_flag, '1', NOW(),'ADMIN' "
+                . "SELECT (SELECT MAX(doc_name_id) FROM document), section_code, parent_element_code, child_element_code, sorting, section_sorting, section_tooltips, sec_file_type_code, element_level, element_position, element_layout, element_properties, input_type, data_type, element_type_code, doc_method_code, method, additional_attribute, element_tooltips, element_hint, file_type_code, show_label, image_name_id, image_path, component_flag, mandatory_flag, active, NOW(),'ADMIN' "
                 . "FROM document_element "
                 . "WHERE doc_name_id = '" . (int) $curName . "' ";
         print_r($sql);
