@@ -1046,8 +1046,8 @@ class Document_Template_Model {
     }
 
     public function DeleteElementData($docId, $sectionCode, $elementCode) {
-        $sql = "UPDATE document_element "
-                . "SET active = '0' "
+        $sql = "DELETE FROM document_element "
+//                . "SET active = '0' "
                 . "WHERE doc_name_id='" . (int) $docId . "' AND section_code='" . (int) $sectionCode . "' AND parent_element_code='" . (int) $elementCode . "'";
         print_r($sql);
         $this->db->connect();
