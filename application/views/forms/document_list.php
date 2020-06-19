@@ -501,7 +501,7 @@
             if ($('.docStatus').prop('checked'))
             {
                 val = '1';
-            } else
+            } else 
             {
                 val = '0';
             }
@@ -510,6 +510,8 @@
                 url: '<?= SITE_ROOT; ?>/formview/change-status/',
                 data: {documentId: documentId, value: val}
             });
+            
+            return false;
              
         });//end change
 });
