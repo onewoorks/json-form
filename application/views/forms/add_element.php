@@ -22,7 +22,7 @@
                 </select>
                 <span id='validateF' style="font-size:10px;color:red;text-align:left" hidden>Element already exist in this section</span>
             </div>
-            <span style='color: red; position: inherit'>*</span>
+<!--            <span style='color: red; position: inherit'>*</span>-->
         </div>
 
         <div class="form-group form-group-sm">

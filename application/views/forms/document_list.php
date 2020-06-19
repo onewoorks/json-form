@@ -498,10 +498,10 @@
             var documentId = $(this).attr('id');
 //            console.log("documentId : ", documentId);
             var val;
-            if ($('.docStatus').prop('checked'))
+            if ($(this).prop('checked'))
             {
                 val = '1';
-            } else 
+            } else
             {
                 val = '0';
             }
@@ -510,8 +510,6 @@
                 url: '<?= SITE_ROOT; ?>/formview/change-status/',
                 data: {documentId: documentId, value: val}
             });
-            
-            return false;
              
         });//end change
 });
