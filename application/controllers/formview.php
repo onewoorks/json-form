@@ -313,6 +313,7 @@ class Formview_Controller extends Common_Controller {
                 $document = new Document_Template_Model();
                 $section_sorting = $document->GetSectionSorting($section_id, $doc_id);
                 $grouping = $document->GetElementGrouping($section_id, $doc_id);
+		$result['list_of_elements'] = $document->GetUsedElement($doc_id, $section_id);
                 $result['elements'] = $document->GetAllElementDesc();
                 $result['section_sorting'] = $section_sorting;
                 $result['grouping'] = $grouping;

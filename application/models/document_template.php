@@ -1301,5 +1301,15 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return $result;
     }
-
+    
+     public function GetUsedElement($doc_Id, $section_Id) {
+        $sql = "SELECT de.parent_element_code, rde.element_desc FROM document_element de "
+                . "LEFT JOIN ref_document_element rde ON (rde.element_code = de.parent_element_code) "
+                . "WHERE doc_name_id='$doc_Id' AND section_code='$section_Id' ";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
 }

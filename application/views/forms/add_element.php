@@ -4,7 +4,13 @@
         <br>    
         <input type='hidden' name="doc_id" value="<?= $doc_id; ?>" />
         <input type='hidden' name="section_code" value='<?= $section_id; ?>' />
-        <input type="hidden" name="section_sorting" value="<?= $section_sorting->section_sorting; ?>" />           
+        <input type="hidden" name="section_sorting" value="<?= $section_sorting->section_sorting; ?>" />    
+        
+        <select id='list_section_desc' class='form-control hidden'>
+            <?php foreach ($list_of_elements as $element): ?>
+               <option value='<?php echo $element['parent_element_code']; ?>'><?php echo $element['element_desc']; ?></option>
+            <?php endforeach; ?>
+        </select>
 
         <div class="form-group form-group-sm">
             <label class='control-label col-sm-2'>Element Description</label>
@@ -14,6 +20,8 @@
                         <option value='<?php echo $element['element_code']; ?>'><?php echo $element['element_desc']; ?></option>
                     <?php endforeach; ?>
                 </select>
+                <span id='validateF' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
+                <span id='validateT' style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
             </div>
             <span style='color: red; position: inherit'>*</span>
         </div>
@@ -136,7 +144,7 @@
                 type: 'POST',
                 data: {dummy: null, values: datas, basicMethod: method, basicMultAns: multAns, basicSubSec: subSec},
                 success: function (data) {
-                    //      console.log(data);
+                         //console.log(data);
                     $('#myModal').modal('hide');
                     swal({
                         title: "New Element Updated!",
@@ -145,13 +153,42 @@
                     });
                 }
             });
-            setTimeout(
-                    function () {
-                        window.location.reload(true);
-                    }, 1200);
-            return false;
+    //          
         });
         //    $('.genForm').attr('disabled', false);
     });
 
 </script>
+<script>
+    //add new form
+    $(document).ready(function () {
+
+        var selText;
+        var array = [];
+
+        var thisValue;
+        
+        //console.log(array);
+
+        $("#list_section_desc option").each(function () {
+            var $this = $(this);
+            selText = $this.val();
+            array.push(selText);
+        });
+        
+        $('#element_desc').on('change', function () {
+                    var str = $(this).val();
+                    //console.log("string", str);
+                    
+                    if (str !== "") {
+                    if (array.indexOf(str) > -1) {
+                        $('#validateT').attr('hidden', 'hidden');
+                        $('#validateF').attr('hidden', false); //record found
+                    } else {
+                        $('#validateT').attr('hidden', false); //no record found
+                        $('#validateF').attr('hidden', 'hidden');
+                    }
+                }
+                });
+    });//endOfDocument
+</script> 
