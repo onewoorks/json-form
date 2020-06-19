@@ -126,6 +126,7 @@
         //ADDELEMENT
         $('.addElement').click(function () {
             $("input[id^='json_desc']").removeAttr('disabled');
+            $(this).text('Executing selected action...');
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/create-element/',
                 type: 'POST',
@@ -139,10 +140,10 @@
                     });
                 }
             });
-//            setTimeout(
-//                    function () {
-//                        window.location.reload(true);
-//                    }, 1200);
+            setTimeout(
+                    function () {
+                        window.location.reload(true);
+                    }, 1000);
         });
     });
 </script>
