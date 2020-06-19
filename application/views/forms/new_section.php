@@ -141,7 +141,7 @@
         //ADDSECTION
         $('.addSection').click(function () {
             $("input[id^='json_desc']").removeAttr('disabled');
-
+            $(this).text('Executing selected action...');
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/create-section/',
                 type: 'POST',
