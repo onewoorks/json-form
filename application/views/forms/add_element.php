@@ -20,8 +20,7 @@
                         <option value='<?php echo $element['element_code']; ?>'><?php echo $element['element_desc']; ?></option>
                     <?php endforeach; ?>
                 </select>
-                <span id='validateF' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
-                <span id='validateT' style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
+                <span id='validateF' style="font-size:10px;color:red;text-align:left" hidden>Element already exist in this section</span>
             </div>
             <span style='color: red; position: inherit'>*</span>
         </div>
@@ -78,7 +77,7 @@
         <div class='form-group form-group-sm'>
             <label class='control-label col-sm-3'></label>
             <div class='col-sm-12 text-right' style="margin-left: -80px">
-                <button type='submit' class='btn btn-sm btn-primary'>Update</button>
+                <button type='submit' class='btn btn-sm btn-primary update'>Update</button>
             </div>
         </div>      
 
@@ -153,6 +152,10 @@
                     });
                 }
             });
+               setTimeout(
+                    function () {
+                        window.location.reload(true);
+                    }, 1200);
     //          
         });
         //    $('.genForm').attr('disabled', false);
@@ -184,9 +187,11 @@
                     if (array.indexOf(str) > -1) {
                         $('#validateT').attr('hidden', 'hidden');
                         $('#validateF').attr('hidden', false); //record found
+                        $('.update').attr('disabled', 'disabled');
                     } else {
                         $('#validateT').attr('hidden', false); //no record found
                         $('#validateF').attr('hidden', 'hidden');
+                        $('.update').attr('disabled', false);
                     }
                 }
                 });
