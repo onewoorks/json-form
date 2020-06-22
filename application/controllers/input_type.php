@@ -26,7 +26,7 @@ class Input_Type_Controller extends Common_Controller {
 
         if ($element->element_properties === 'SUBSECTION'):
             $html .= "<div class='col-sm-12' style='margin-left:-32px'>";
-            $html .= "<div class='panel-heading text-uppercase col-md-6' style='border: 1px solid #778899;outline-width: thin;background-color: #D3D3D3; color: black;margin-bottom:10px;'><b style='font-size:11.5px'><b>" . $element->label . $element->element_level . "</b></div>";
+            $html .= "<div class='panel-heading text-uppercase col-md-6' style='border: 1px solid #778899;outline-width: thin;background-color: #D3D3D3; color: black;margin-bottom:10px;'><b style='font-size:11.5px'><b>" . $element->label . "</b></div>";
             $html .= "</div>";
         else:
             $html .= "<div class='col-sm-12' style='margin-left:3px'>";
@@ -99,7 +99,7 @@ class Input_Type_Controller extends Common_Controller {
         if ($element->element_level == '1'):
             $html .= "<label class='control-label col-md-3 text-uppercase'>" . $element->label . "</label>";
         else:
-            $html .= "<label class='control-label col-md-3 text-uppercase' style='font-weight:normal'>" . $element->label . $element->element_level . "</label>";
+            $html .= "<label class='control-label col-md-3 text-uppercase' style='font-weight:normal'>" . $element->label . "</label>";
         endif;
         $html .= "<div class='col-md-8' style='margin-left:7px'>"
                 . "<input type ='text' class='form-control' style='width:450px'>"
