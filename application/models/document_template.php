@@ -636,7 +636,7 @@ class Document_Template_Model {
 
     //19JULAI
     public function GetAllSecDesc() {
-        $sql = " SELECT section_code, section_desc, json_section, layout, active_status FROM ref_document_section WHERE active_status='1'";
+        $sql = "SELECT section_code, section_desc, json_section, layout, active_status FROM ref_document_section WHERE active_status='1' ORDER BY section_desc ASC";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
