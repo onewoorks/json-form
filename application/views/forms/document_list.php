@@ -81,7 +81,9 @@
                         <br>
                         <span id='validateF1' style="margin-left:181px;font-size:10px;color:red;text-align:left" hidden>Record Found</span>
                         <span id='validateT1'  style="margin-left:181px;font-size:10px;color:green;text-align:left" hidden>No Record Found</span>
-                        <span id='validateFY1' style="margin-left:181px;font-size:10px;color:red;text-align:left" >Please select all Mandatory Field above</span>
+                        <b><span id='validateFY1' style="margin-left:181px;font-size:10px;color:red;text-align:left" >To Add Form: Please fill in all Mandatory Field above.</span>
+                        <br><span id='validateFY2' style="margin-left:181px;font-size:10px;color:red;text-align:left" >To Update Status: Please filter by Discipline only OR filter all search criteria Discipline,Sub Discipline, Document Group and</span>
+                        <br><span id='validateF32' style="margin-left:181px;font-size:10px;color:red;text-align:left" >Document Type</span></b>
                         <select id='list_doc_desc' class='form-control hidden'>
                             <?php foreach ($list_of_titles as $titles): ?>
                                 <option value='<?php echo $titles['doc_name_desc']; ?>'><?php echo $titles['doc_name_desc']; ?></option>
@@ -498,7 +500,7 @@
             var documentId = $(this).attr('id');
 //            console.log("documentId : ", documentId);
             var val;
-            if ($(this).prop('checked'))
+            if ($('.docStatus').prop('checked'))
             {
                 val = '1';
             } else
