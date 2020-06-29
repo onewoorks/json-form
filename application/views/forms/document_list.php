@@ -495,8 +495,8 @@
 <script>
     $(document).ready(function () {
         
-        $('.docStatus').change(function () {
-           
+        $('.docStatus').change(function (e) {
+            e.preventDefault();
             var documentId = $(this).attr('id');
 //            console.log("documentId : ", documentId);
             var val;
@@ -512,6 +512,7 @@
                 url: '<?= SITE_ROOT; ?>/formview/change-status/',
                 data: {documentId: documentId, value: val}
             });
+             
              
         });//end change
 });
