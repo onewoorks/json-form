@@ -495,21 +495,21 @@
 <script>
     $(document).ready(function () {
         
-        $('.docStatus').change(function () {
+        $(".docStatus").change(function () {
            
-            var documentId = $(this).attr('id');
+            var documentId = $(this).attr("id");
 //            console.log("documentId : ", documentId);
             var val;
-            if ($('.docStatus').prop('checked'))
+            if ($(this).prop("checked"))
             {
-                val = '1';
+                val = "1";
             } else
             {
-                val = '0';
+                val = "0";
             }
             $.ajax({
                 type: "POST",
-                url: '<?= SITE_ROOT; ?>/formview/change-status/',
+                url: "<?= SITE_ROOT; ?>/formview/change-status/",
                 data: {documentId: documentId, value: val}
             });
              
