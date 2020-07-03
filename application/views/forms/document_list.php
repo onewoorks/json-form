@@ -1,8 +1,8 @@
 <?php echo $header; ?>
 <!--<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>    -->
-<link href="<?php echo SITE_ASSET; ?>/assets/library/bootstrap/css/bootstrap-toggle.min.css" rel="stylesheet">
-<script src="<?php echo SITE_ASSET; ?>/assets/library/bootstrap/js/bootstrap-toggle.min.js"></script>
+<link href="<?php echo SITE_ASSET; ?>/assets/library/bootstrap/css/bootstrap-toggle.css" rel="stylesheet">
+<script src="<?php echo SITE_ASSET; ?>/assets/library/bootstrap/js/bootstrap-toggle.js"></script>
 
 <div id='listOfDocument' >
     <form id='documentFilter' class='form-horizontal col-md-offset-2 col-md-offset-2'>
