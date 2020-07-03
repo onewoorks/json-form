@@ -1,6 +1,8 @@
 <?php echo $header; ?>
-<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>        
+<!--<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>    -->
+<link href="<?php echo SITE_ASSET; ?>/assets/library/bootstrap/css/bootstrap-toggle.min.css" rel="stylesheet">
+<script src="<?php echo SITE_ASSET; ?>/assets/library/bootstrap/js/bootstrap-toggle.min.js"></script>
 
 <div id='listOfDocument' >
     <form id='documentFilter' class='form-horizontal col-md-offset-2 col-md-offset-2'>
@@ -142,9 +144,9 @@
                                     <td class='text-uppercase'  style=" font-size: smaller;"><a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $document['template_id']; ?>'><?php echo $document['doc_name_desc']; ?></a></td>
                                      <td class='text-center'>
                                         <?php if ($document['available']) : ?>
-                                            <input type="checkbox" data-toggle="toggle"  name="opt1" class="docStatus" id="<?php echo $document['doc_name_id']; ?>"  data-size="mini" data-onstyle="success" data-offstyle="danger" checked="checked">
+                                            <input type="checkbox" data-toggle="toggle" class="docStatus" id="<?php echo $document['doc_name_id']; ?>"  data-size="mini" data-onstyle="success" data-offstyle="danger" checked>
                                         <?php else : ?>
-                                            <input type="checkbox" data-toggle="toggle"  name="opt2" class="docStatus" id="<?php echo $document['doc_name_id']; ?>"  data-size="mini" data-onstyle="success" data-offstyle="danger" >
+                                            <input type="checkbox" data-toggle="toggle" class="docStatus" id="<?php echo $document['doc_name_id']; ?>"  data-size="mini" data-onstyle="success" data-offstyle="danger" >
                                         <?php endif; ?>
                                     </td>
                                     <td class='text-center'>
@@ -493,26 +495,25 @@
     });//endOfDocument
 </script>
 <script>
-    $(document).ready(function () {
+      $(document).ready(function(){
         
-        $(".docStatus").change(function () {
-           
-            var documentId = $(this).attr("id");
+        $('.docStatus').change(function () {
+            
+            var documentId = $(this).attr('id');
 //            console.log("documentId : ", documentId);
             var val;
-            if ($(this).prop("checked"))
+            if ($(this).prop('checked'))
             {
-                val = "1";
+                val = '1';
             } else
             {
-                val = "0";
+                val = '0';
             }
             $.ajax({
                 type: "POST",
                 url: "<?= SITE_ROOT; ?>/formview/change-status/",
                 data: {documentId: documentId, value: val}
             });
-             
              
         });//end change
 });
