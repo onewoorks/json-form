@@ -1,6 +1,4 @@
 <?php echo $header; ?>
-<link href="<?php echo SITE_ASSET; ?>/assets/library/bootstrap/css/bootstrap-toggle.min.css" rel="stylesheet">
-<script src="<?php echo SITE_ASSET; ?>/assets/library/bootstrap/js/bootstrap-toggle.min.js"></script>
 
 <div id='listOfDocument' >
     <form id='documentFilter' class='form-horizontal col-md-offset-2 col-md-offset-2'>
@@ -141,11 +139,17 @@
                                     <td  style=" font-size: smaller;"><?php echo $document['dc_type_desc']; ?></td>
                                     <td class='text-uppercase'  style=" font-size: smaller;"><a href='<?php echo SITE_ROOT; ?>/formview/form-template/<?php echo $document['template_id']; ?>'><?php echo $document['doc_name_desc']; ?></a></td>
                                      <td class='text-center'>
-                                        <?php if ($document['available']) : ?>
-                                            <input type="checkbox" data-toggle="toggle" class="docStatus" id="<?php echo $document['doc_name_id']; ?>"  data-size="mini" data-onstyle="success" data-offstyle="danger" checked>
-                                        <?php else : ?>
-                                            <input type="checkbox" data-toggle="toggle" class="docStatus" id="<?php echo $document['doc_name_id']; ?>"  data-size="mini" data-onstyle="success" data-offstyle="danger" >
-                                        <?php endif; ?>
+                                         <?php if ($document['available']) : ?>
+                                         <label class="switch">
+                                             <input type="checkbox" id="<?php echo $document['doc_name_id']; ?>" class="docStatus" checked>
+                                        <span class="slider round"></span>
+                                      </label>
+                                         <?php else : ?>
+                                      <label class="switch">
+                                        <input type="checkbox" id="<?php echo $document['doc_name_id']; ?>" class="docStatus">
+                                        <span class="slider round"></span>
+                                      </label>   
+                                          <?php endif; ?>
                                     </td>
                                     <td class='text-center'>
                                         <div class='btn-group btn-group-xs'>    
