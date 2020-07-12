@@ -35,7 +35,7 @@
                 </div>
             </nav>
         </body>
-    <?php elseif (PROJECT_PATH === 'uat'): ?>
+    <?php elseif ((PROJECT_PATH == 'prod' || PROJECT_PATH == 'uat' || PROJECT_PATH == 'stg')): ?>
         <body>
             <nav class="navbar navbar-default navbar-fixed-top">
                 <div class="container-fluid">

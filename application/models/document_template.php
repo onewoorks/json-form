@@ -58,7 +58,7 @@ class Document_Template_Model {
             $sql .= "WHERE gd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','PS','RL') ";
         elseif ((PROJECT_PATH == 'rispac')):
             $sql .= "WHERE gd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('RR') ";
-        else:
+        elseif ((PROJECT_PATH == 'prod' || PROJECT_PATH == 'uat' || PROJECT_PATH == 'stg')):
             $sql .= "WHERE gd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','PS','RL') ";
         endif;
         if ($discipline != "0") {
@@ -236,7 +236,7 @@ class Document_Template_Model {
             $sql .= "WHERE rmd.module='cd' AND rdg.doc_group_code IN ('CN','RL','PS') ";
         elseif (PROJECT_PATH == 'rispac'):
             $sql .= "WHERE rmd.main_discipline_code = '08' AND rdg.doc_group_code IN ('RR') ";
-        else:
+        elseif ((PROJECT_PATH == 'prod' || PROJECT_PATH == 'uat' || PROJECT_PATH == 'stg')):
             $sql .= "WHERE rmd.module='cd' AND rdg.doc_group_code IN ('CN','RL','PS') ";
         endif;
         $this->db->connect();
@@ -274,7 +274,7 @@ class Document_Template_Model {
         elseif (PROJECT_PATH == 'rispac'):
             //        $discipline = '08';    
             $sql .= "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('RR') ";
-        else:
+        elseif ((PROJECT_PATH == 'prod' || PROJECT_PATH == 'uat' || PROJECT_PATH == 'stg')):
             $sql .= "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','RL','PS') ";
         endif;
         if ($discipline != "0") {
@@ -321,7 +321,7 @@ class Document_Template_Model {
             $sql .= "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','RL','PS') ";
         elseif (PROJECT_PATH == 'rispac'):
             $sql .= "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('RR') ";
-        else:
+        elseif ((PROJECT_PATH == 'prod' || PROJECT_PATH == 'uat' || PROJECT_PATH == 'stg')):
             $sql .= "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','RL','PS') ";
         endif;
         if ($discipline != "0") {
