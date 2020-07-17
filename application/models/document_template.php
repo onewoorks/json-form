@@ -665,7 +665,15 @@ class Document_Template_Model {
 
     //23JULAI
     public function GetAllElementDesc() {
-//        $sql = "SELECT element_code, element_desc, json_element, active_status FROM ref_document_element WHERE active_status='1' ORDER BY element_desc ASC limit 1000";
+        $sql = "SELECT element_code, element_desc, json_element, active_status FROM ref_document_element WHERE active_status='1' ORDER BY element_desc ASC limit 1000";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+    public function GetAllElement() {
         $sql = "SELECT element_code, element_desc, json_element, active_status FROM ref_document_element WHERE active_status='1' ORDER BY created_date DESC limit 1000";
         $this->db->connect();
         $this->db->prepare($sql);

@@ -57,7 +57,7 @@ class Formview_Controller extends Common_Controller {
             case 'new-element':
                 $page = 'forms/new_element';
                 $document = new Document_Template_Model();
-                $result['list_of_elements'] = $document->GetAllElementDesc();
+                $result['list_of_elements'] = $document->GetAllElement();
                 break;
             //zarith-8/3   
             case 'build-form':
