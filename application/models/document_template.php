@@ -708,29 +708,29 @@ class Document_Template_Model {
     }
 
     //zarith-10/3
-    public function UpdateDocumentStatus($document_id, $val) {
-        $sql = "UPDATE document "
-                . "SET active_status='" . $val . "' "
-                . "WHERE doc_name_id='" . $document_id . "'";
-        $this->db->connect();
-        $this->db->prepare($sql);
-        $this->db->queryexecute();
-        return true;
-    }
-    
-//    public function UpdateDocumentStatus($document_id, $val){
-//        $sql = "UPDATE document SET active_status ='" . $val . "' "
-//                . "WHERE doc_name_id = (SELECT CASE WHEN SUM(IF(a.compare = 1, 1, 0)) = 0 THEN a.doc_name_id ELSE NULL END "
-//                . "FROM (SELECT doc_name_id,IF((SUM(IF(active = 0, 1, 0))) = (SUM(IF(doc_name_id IS NOT NULL, 1, 0))), 1,0) AS compare "
-//                . "FROM document_element "
-//                . "WHERE doc_name_id = '" . $document_id . "' "
-//                . "GROUP BY section_code) a )";
-//        print_r($sql);
+//    public function UpdateDocumentStatus($document_id, $val) {
+//        $sql = "UPDATE document "
+//                . "SET active_status='" . $val . "' "
+//                . "WHERE doc_name_id='" . $document_id . "'";
 //        $this->db->connect();
 //        $this->db->prepare($sql);
 //        $this->db->queryexecute();
 //        return true;
 //    }
+    
+    public function UpdateDocumentStatus($document_id, $val){
+        $sql = "UPDATE document SET active_status ='" . $val . "' "
+                . "WHERE doc_name_id = (SELECT CASE WHEN SUM(IF(a.compare = 1, 1, 0)) = 0 THEN a.doc_name_id ELSE NULL END "
+                . "FROM (SELECT doc_name_id,IF((SUM(IF(active = 0, 1, 0))) = (SUM(IF(doc_name_id IS NOT NULL, 1, 0))), 1,0) AS compare "
+                . "FROM document_element "
+                . "WHERE doc_name_id = '" . $document_id . "' "
+                . "GROUP BY section_code) a )";
+        print_r($sql);
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
 
     //22OCT
     public function UpdateMethodInfo($code, $title, $info) {
