@@ -256,6 +256,9 @@
 
         $('#predefinedList').on('click', '.deleteLabel', function () {
             var div = $(this).parents("div").eq(3).attr("class");
+            var docId = '<?= $vars['document_id']; ?>';
+            var parent = $('#ref_desc').val();
+            var label = $(this).attr('id');
             $(this).closest('.' + div + '').remove();
             var result = div.substr(0, div.lastIndexOf("-"));
             if (result === 'prelist1') {
@@ -268,6 +271,12 @@
                 $deleteButton += '<div class="btn btn-default btn-sm addLayer" data-layer="' + result + '" style="padding:5px"><i class="fas fa-layer-group"></i></div>';
                 $('.predefinedActionButton[data-action="' + result + '"]').html($deleteButton);
             }
+            
+            $.ajax({
+                url: '<?= SITE_ROOT; ?>/formview/delete-current-label/',
+                type: 'POST',
+                data: {docId: docId, label: label, parent: parent}
+            });
         });
 
         $('#predefinedList').on('click', '.deletePredefinedChild', function () {
@@ -275,12 +284,21 @@
             var replace = cari.replace('prelist', '');
             var del = $(this).parents("div").eq(3).attr("class");
             $(this).closest('.' + del + '').remove();
+            var docId = '<?= $vars['document_id']; ?>';
+            var child = $(this).attr('id');
+            var parent = $('#ref_desc').val();
 
             //REARRANGED SORTING
             $('.box-number' + replace + '').each(function (index) {
                 $(this).text(index + 1);
             });
             ResetChildNumbers(replace);
+            
+            $.ajax({
+                url: '<?= SITE_ROOT; ?>/formview/delete-current-child/',
+                type: 'POST',
+                data: {docId: docId, child: child,parent:parent}
+            });
         });
     });
 

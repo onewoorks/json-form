@@ -847,7 +847,7 @@ class Input_Type_Controller extends Common_Controller {
                     $html .= "</datalist>"
                             . "</div>"
                             . "<div class='col-sm-2 predefinedActionButton' data-action='prelist$noP'>"
-                            . "<div class='btn btn-default btn-sm deleteLabel' style='padding:5px'><i class='glyphicon glyphicon-trash'></i></div>&nbsp"
+                            . "<div class='btn btn-default btn-sm deleteLabel' style='padding:5px' id='" . $refL['element_desc'] . "'><i class='glyphicon glyphicon-trash'></i></div>&nbsp"
                             . "<div class='btn btn-default btn-sm addDivChild' data-child='prelist$noP' style='padding:3px'><i class='glyphicon glyphicon-chevron-down'></i> Child</div>"
                             . "</div>"
                             . "</div>"
@@ -918,7 +918,7 @@ class Input_Type_Controller extends Common_Controller {
                 $html .= "</select>"
                         . "</div>"
                         . "<div class='col-sm-2 predefinedActionButton' data-action='prelist$noP$mixC'>"
-                        . "<div class='btn btn-default btn-sm deletePredefinedChild' style='padding:5px'><i class='glyphicon glyphicon-trash'></i></div>&nbsp"
+                        . "<div class='btn btn-default btn-sm deletePredefinedChild' style='padding:5px' id='" . $refC['multi_answer_desc'] . "'><i class='glyphicon glyphicon-trash'></i></div>&nbsp"
                         . "<div class='btn btn-default btn-sm addLayer' data-layer='prelist$noP$mixC' style='padding:5px'><i class='fas fa-layer-group'></i></div>"
                         . "</div>"
                         . "</div>";

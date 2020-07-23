@@ -313,7 +313,7 @@ class Formview_Controller extends Common_Controller {
                 $document = new Document_Template_Model();
                 $section_sorting = $document->GetSectionSorting($section_id, $doc_id);
                 $grouping = $document->GetElementGrouping($section_id, $doc_id);
-		$result['list_of_elements'] = $document->GetUsedElement($doc_id, $section_id);
+                $result['list_of_elements'] = $document->GetUsedElement($doc_id, $section_id);
                 $result['elements'] = $document->GetAllElementDesc();
                 $result['section_sorting'] = $section_sorting;
                 $result['grouping'] = $grouping;
@@ -417,7 +417,7 @@ class Formview_Controller extends Common_Controller {
                     'component' => 'Document Title',
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
-                
+
                 break;
             //zarith-10/3
             case 'change-status':
@@ -514,7 +514,7 @@ class Formview_Controller extends Common_Controller {
                 $page = 'forms/delete_esection';
                 $result['doc_id'] = $doc_id;
                 $result['section_id'] = $section_id;
-                $val = $document->GetSectionsDetail($section_id );
+                $val = $document->GetSectionsDetail($section_id);
                 $result['section'] = $val;
                 $data = array(
                     'component' => 'Delete Section',
@@ -802,6 +802,39 @@ class Formview_Controller extends Common_Controller {
                     endif;
                 endforeach;
                 break;
+            //zarith 22/7
+            case 'delete-current-label':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $docId = $_REQUEST['docId'];
+                $labelId = $_REQUEST['label'];
+                $parentId = $_REQUEST['parent'];
+                $child = array(
+                    'document_id' => $docId,
+                    'element_code' => $labelId,
+                    'parent_code' => $parentId
+                );
+                echo '<pre>';
+                print_r($child);
+                echo '</pre>';
+                $document->CleanMultipleItemChild($docId, $child);
+                break;
+            case 'delete-current-child':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $docId = $_REQUEST['docId'];
+                $ChildId = $_REQUEST['child'];
+                $parentId = $_REQUEST['parent'];
+                $child = array(
+                    'document_id' => $docId,
+                    'element_code' => $ChildId,
+                    'parent_code' => $parentId
+                );
+                echo '<pre>';
+                print_r($child);
+                echo '</pre>';
+                $document->CleanMultipleAnswerChild($docId, $child);
+                break;
             case 'delete-current-element':
                 $ajax = true;
                 $values = $this->form_array($_REQUEST['values']);
@@ -829,7 +862,7 @@ class Formview_Controller extends Common_Controller {
                 $document->DeleteDocumentData($docId);
                 $this->UpdateJSONFormat($docId, 'regenerate');
                 break;
-           
+
             case 'delete-current-method':
                 $ajax = true;
                 $values = $this->form_array($_REQUEST['values']);
@@ -862,7 +895,7 @@ class Formview_Controller extends Common_Controller {
                 $ajax = true;
                 $document = new Document_Template_Model();
                 $docId = $_REQUEST['docId'];
-                $sections =  $_REQUEST['section'];
+                $sections = $_REQUEST['section'];
                 print_r($docId);
                 $x = 1;
                 foreach ($sections AS $key => $item):
@@ -1041,7 +1074,7 @@ class Formview_Controller extends Common_Controller {
             case 'update-new-section':
                 $document = new Document_Template_Model();
                 $ajax = true;
-                
+
                 $documentId = $_REQUEST['documentId'];
                 $last_section_sorting = $document->GetMaxSectionSorting($documentId);
                 $section_sorting = $last_section_sorting->newsorting + 1;
@@ -1050,7 +1083,7 @@ class Formview_Controller extends Common_Controller {
                 $resultS = $_REQUEST['secDetail'];
                 $valueE = '2';
                 $y = '0';
-                        
+
                 $outputS = array(
                     'section_sorting' => $section_sorting, //1
                     'section_code' => $resultS, //additional test
@@ -1059,14 +1092,14 @@ class Formview_Controller extends Common_Controller {
                     'doc_name_id' => $documentId, //diet note 1
                     'child_element_code' => $valueE,
                     'element_properties' => 'BASIC',
-                    'input_type' =>'TEXTBOX'
+                    'input_type' => 'TEXTBOX'
                 );
                 echo '<pre>';
                 print_r($outputS);
                 echo '</pre>';
                 $document->InsertNewSection($outputS);
                 $this->UpdateJSONFormat($documentId, 'regenerate');
-            break;
+                break;
 
             default:
                 $result['link_style'] = "<link href='localhost/FORMjson/assets/library/summernote/' rel='stylesheet' />";
