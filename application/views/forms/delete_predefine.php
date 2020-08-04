@@ -28,6 +28,6 @@
               setTimeout(
                     function () {
                         window.location.reload(true);
-                    }, 100);
+                    }, 1000);
         });   
 </script>

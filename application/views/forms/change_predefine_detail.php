@@ -42,7 +42,7 @@
              setTimeout(
                     function () {
                         window.location.reload(true);
-                    }, 1200);
+                    }, 1000);
     };
 </script>
 <script>
