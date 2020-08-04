@@ -224,20 +224,23 @@ class Document_Template_Model {
     //zarith-10/3
     public function GetListAvailableDocument() {
         $sql = "SELECT dt.template_id,d.active_status, dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc, "
-                . "(CASE WHEN d.active_status='1' THEN true ELSE false END) AS available "
+                . "(CASE WHEN d.active_status='1' THEN true ELSE false END) AS available, "
+                . "(CASE WHEN d.active_status='0' THEN true ELSE false END) AS unavailable, "
+                . "(CASE WHEN de.doc_name_id IS NULL THEN TRUE WHEN (SUM(IF(de.compare = 1, 1, 0)) = 0) THEN FALSE WHEN de.doc_name_id IS NULL THEN TRUE ELSE TRUE END) AS dimmedonload "
                 . "FROM document_template dt "
                 . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
+                . "LEFT JOIN (SELECT `doc_name_id`,IF((SUM(IF(`active` = 0, 1, 0))) = (SUM(IF(`doc_name_id` IS NOT NULL, 1, 0))), 1,0) AS compare FROM document_element GROUP BY doc_name_id,section_code) de ON (d.doc_name_id = de.doc_name_id) "
                 . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
                 . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
                 . "LEFT JOIN ref_main_disciplines rmd ON(rmd.main_discipline_code=gd.main_discipline_code) "
                 . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)"
                 . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code) ";
         if (PROJECT_PATH == 'cd'):
-            $sql .= "WHERE rmd.module='cd' AND rdg.doc_group_code IN ('CN','RL','PS') ";
+            $sql .= "WHERE rmd.module='cd' AND rdg.doc_group_code IN ('CN','RL','PS') GROUP BY dt.doc_name_id";
         elseif (PROJECT_PATH == 'rispac'):
-            $sql .= "WHERE rmd.main_discipline_code = '08' AND rdg.doc_group_code IN ('RR') ";
+            $sql .= "WHERE rmd.main_discipline_code = '08' AND rdg.doc_group_code IN ('RR') GROUP BY dt.doc_name_id";
         elseif ((PROJECT_PATH == 'prod' || PROJECT_PATH == 'uat' || PROJECT_PATH == 'stg')):
-            $sql .= "WHERE rmd.module='cd' AND rdg.doc_group_code IN ('CN','RL','PS') ";
+            $sql .= "WHERE rmd.module='cd' AND rdg.doc_group_code IN ('CN','RL','PS') GROUP BY dt.doc_name_id";
         endif;
         $this->db->connect();
         $this->db->prepare($sql);
@@ -261,9 +264,12 @@ class Document_Template_Model {
             $docType = 0;
         }
         $sql = "SELECT dt.template_id,dt.doc_name_id,dt.active, d.active_status, rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc,rdg.doc_group_code, "
-                . "(CASE WHEN d.active_status='1' THEN true ELSE false END) AS available "
+                . "(CASE WHEN d.active_status='1' THEN true ELSE false END) AS available, "
+                . "(CASE WHEN d.active_status='0' THEN true ELSE false END) AS unavailable, "
+                . "(CASE WHEN de.doc_name_id IS NULL THEN TRUE WHEN (SUM(IF(de.compare = 1, 1, 0)) = 0) THEN FALSE WHEN de.doc_name_id IS NULL THEN TRUE ELSE TRUE END) AS dimmedonload "
                 . "FROM document_template dt "
                 . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
+                . "LEFT JOIN (SELECT doc_name_id,IF((SUM(IF(active = 0, 1, 0))) = (SUM(IF(doc_name_id IS NOT NULL, 1, 0))), 1,0) AS compare FROM document_element GROUP BY doc_name_id,section_code) de ON (d.doc_name_id = de.doc_name_id) "
                 . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
                 . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
                 . "LEFT JOIN ref_main_disciplines rmd ON(rmd.main_discipline_code=gd.main_discipline_code) "
@@ -289,7 +295,7 @@ class Document_Template_Model {
         if ($docGroup != "0") {
             $sql .= "AND d.doc_group_code = '$docGroup'";
         }
-        $sql .= "ORDER BY COALESCE(dt.updated_date,dt.created_date) DESC";
+        $sql .= "GROUP BY dt.doc_name_id ORDER BY COALESCE(dt.updated_date,dt.created_date) DESC";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();

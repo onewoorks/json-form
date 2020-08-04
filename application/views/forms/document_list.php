@@ -142,9 +142,14 @@
                                              <input type="checkbox" id="<?php echo $document['doc_name_id']; ?>" class="docStatus" checked>
                                         <span class="slider round"></span>
                                       </label>
-                                         <?php else : ?>
+                                          <?php elseif ($document['dimmedonload']) : ?>
                                       <label class="switch">
-                                        <input type="checkbox" id="<?php echo $document['doc_name_id']; ?>" class="docStatus">
+                                          <input type="checkbox" id="<?php echo $document['doc_name_id']; ?>" class="docStat">
+                                          <span class="slider round"></span>
+                                      </label>   
+                                      <?php elseif ($document['unavailable']) : ?>
+                                      <label class="switch">
+                                          <input type="checkbox" id="<?php echo $document['doc_name_id']; ?>" class="docStatus">
                                         <span class="slider round"></span>
                                       </label>   
                                           <?php endif; ?>
@@ -220,6 +225,27 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="StatusModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" style='border: none;'>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+            <p>Blank form or form with blank section is not allowed.
+            <p>Please complete the form to activate the form.</p>
+        </div>
+        <div class="modal-footer" style='border: none;'>
+          <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
 <script>
     $(document).ready(function () {
         var tempid;
@@ -516,6 +542,12 @@
             });
              
         });//end change
+
+        $('.docStat').click(function () {
+//           alert("Empty form or empty section is not allow. Please complete the form");
+           $('#StatusModal').modal('show');
+           $(this).prop('checked',false);
+        });
 });
 </script>
 <?php echo $footer; ?>
