@@ -464,6 +464,17 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('object');
         return $result[0];
     }
+    
+    public function GetPredefinesDetail($docId) {
+        $sql = "SELECT multiple_desc_code, multiple_desc"
+                . " FROM ref_multiple_desc"
+                . " WHERE multiple_desc_code='" . (int) $docId . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('object');
+        return $result[0];
+    }
 
     public function GetTitleId($docId) {
         $sql = "SELECT DISTINCT doc_name_id, doc_name_desc FROM document WHERE doc_name_id='" . (int) $docId . "'";
@@ -495,6 +506,17 @@ class Document_Template_Model {
 
     public function GetElementId($docId) {
         $sql = "SELECT DISTINCT element_code, element_desc FROM ref_document_element WHERE element_code='" . (int) $docId . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+    //4Ogos20
+    public function GetPredefineId($docId) {
+        $sql = "SELECT DISTINCT multiple_desc_code, multiple_desc FROM ref_multiple_desc WHERE multiple_desc_code='" . (int) $docId . "'";
+        //print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -560,6 +582,17 @@ class Document_Template_Model {
         $json_element = $result['json_element'];
         $sql = " INSERT INTO ref_document_element (element_desc, json_element, active_status, created_by, created_date) "
                 . " VALUES ('" . (string) $element_desc . "', '" . (string) $json_element . "', '1', 'ADMIN', NOW()) ";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+    //4Ogos20
+    public function InsertPredefinetId($result) {
+        $multiple_desc = $result['multiple_desc'];
+        $sql = " INSERT INTO ref_multiple_desc (multiple_desc, active_status, created_by, created_date) "
+                . " VALUES ('" . (string) $multiple_desc . "', '1', 'ADMIN', NOW()) ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -643,6 +676,16 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return $result;
     }
+    
+    //4Ogos20
+    public function GetAllPredefineDesc() {
+        $sql = "SELECT multiple_desc_code, multiple_desc, active_status FROM ref_multiple_desc WHERE active_status='1' ";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
 
     public function GetAllTitle() {
         $sql = " SELECT doc_name_id, doc_name_desc, active_status FROM document";
@@ -675,6 +718,15 @@ class Document_Template_Model {
     
     public function GetAllElement() {
         $sql = "SELECT element_code, element_desc, json_element, active_status FROM ref_document_element WHERE active_status='1' ORDER BY created_date DESC limit 1000";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+    public function GetAllPredefine() {
+        $sql = "SELECT multiple_desc_code, multiple_desc, active_status FROM ref_multiple_desc WHERE active_status='1' ORDER BY created_date DESC limit 1000";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -751,6 +803,16 @@ class Document_Template_Model {
 
     public function UpdateElementInfo($code, $title, $info) {
         $sql = "UPDATE ref_document_element SET element_desc='" . $title . "', json_element='" . $info . "' WHERE element_code='" . (int) $code . "'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+    //4Ogos20
+    public function UpdatePredefineInfo($code, $title) {
+        $sql = "UPDATE ref_multiple_desc SET multiple_desc='" . $title . "' WHERE multiple_desc_code='" . (int) $code . "'";
+        //print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -1150,6 +1212,17 @@ class Document_Template_Model {
     public function DeleteElementsData($docId) {
         $sql = "DELETE FROM ref_document_element "
                 . "WHERE element_code='" . (int) $docId . "'";
+        print_r($sql);
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+    
+    //4Ogos20
+    public function DeletePredefineData($docId) {
+        $sql = "DELETE FROM ref_multiple_desc "
+                . "WHERE multiple_desc_code='" . (int) $docId . "'";
         print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);

@@ -2,7 +2,7 @@
      <div class='form-group form-group-sm'>
         <label class='control-label col-sm-3'>Name&nbsp;<b style='color: red'>*</b></label>
         <input type='hidden' name='doc_id' value='<?= $doc_id;?>' autocomplete="off"/>
-        <div class='col-sm-3'>
+        <div class='col-sm-6'>
             <input type='text' data-no = '1' name='section_descs' id='section_descs1' value='<?= $section->section_desc;?>' class='form-control text-uppercase' onkeyup="this.value = this.value.toUpperCase();" autocomplete="off" required/>
             <span id='validateFN1' name='validateFN1' style="font-size:10px;color:red;text-align:left" hidden>Record Found</span>
             <span id='validateTN1' name='validateTN1' style="font-size:10px;color:green;text-align:left" hidden>No Record Found</span>

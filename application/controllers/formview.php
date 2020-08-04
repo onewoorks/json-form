@@ -59,6 +59,12 @@ class Formview_Controller extends Common_Controller {
                 $document = new Document_Template_Model();
                 $result['list_of_elements'] = $document->GetAllElement();
                 break;
+            //4Ogos20
+            case 'new-predefine':
+                $page = 'forms/new_predefine';
+                $document = new Document_Template_Model();
+                $result['list_of_predefines'] = $document->GetAllPredefine();
+                break;
             //zarith-8/3   
             case 'build-form':
                 $page = 'forms/build_form';
@@ -489,6 +495,20 @@ class Formview_Controller extends Common_Controller {
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
+            case 'change-predefine':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $doc_id = $_REQUEST['documentId'];
+                $val = $document->GetPredefinesDetail($doc_id);
+                $page = 'forms/change_predefine_detail';
+                $result['predefine'] = $val;
+                $result['doc_id'] = $doc_id;
+                $result['list_of_predefines'] = $document->GetAllPredefineDesc();
+                $data = array(
+                    'component' => 'Multiple Answer',
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
             case 'delete-element':
                 $ajax = true;
                 $document = new Document_Template_Model();
@@ -571,6 +591,20 @@ class Formview_Controller extends Common_Controller {
                 $result['element'] = $val;
                 $data = array(
                     'component' => 'Delete Element',
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
+            //4Ogos20
+             case 'delete-predefine':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $doc_id = $_REQUEST['documentId'];
+                $val = $document->GetPredefinesDetail($doc_id);
+                $page = 'forms/delete_predefine';
+                $result['doc_id'] = $doc_id;
+                $result['predefine'] = $val;
+                $data = array(
+                    'component' => 'Delete Multiple Answer',
                     'html' => $this->RenderOutput($page, $result));
                 echo json_encode($data);
                 break;
@@ -683,6 +717,19 @@ class Formview_Controller extends Common_Controller {
                     echo $key['element_code'] . "<br>";
                 endforeach;
                 $this->GenerateJSONFormat($docId, 'update');
+                break;
+            //4Ogos20
+            case 'edit-predefine':
+                $ajax = true;
+                $values = $this->form_array($_REQUEST['values']);
+                $document = new Document_Template_Model();
+                $docId = $values['doc_id'];
+                $title = $values['predefine_descs'];
+                $predefine_id = $document->GetPredefineId($docId);
+                foreach ($predefine_id as $key):
+                    $document->UpdatePredefineInfo($key['multiple_desc_code'], $title);
+                    echo $key['multiple_desc_code'] . "<br>";
+                endforeach;
                 break;
             case 'copy-form':
                 $ajax = true;
@@ -802,6 +849,32 @@ class Formview_Controller extends Common_Controller {
                     endif;
                 endforeach;
                 break;
+            //4Ogos20
+            case 'create-predefine':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $page = 'forms/new_predefine';
+                $json = file_get_contents('php://input');
+                $array = explode('values=', urldecode($json));
+                $data = json_decode($array[1], true);
+
+                $new_data = array();
+                foreach ($data as $datas):
+                    $new_data[$datas['name']] = $datas['value'];
+                endforeach;
+
+                foreach ($new_data as $key => $value):
+                    $new_key = preg_replace("/[0-9]+/", "", $key);
+                    if ($new_key == 'predefine_desc'):
+                        $multiple_desc = $value;
+
+                        $output = array(
+                            'multiple_desc' => $multiple_desc
+                        );
+                        $document->InsertPredefinetId($output);
+                    endif;
+                endforeach;
+                break;
             //zarith 22/7
             case 'delete-current-label':
                 $ajax = true;
@@ -886,6 +959,14 @@ class Formview_Controller extends Common_Controller {
                 $docId = $values['doc_id'];
                 $document->DeleteElementsData($docId);
                 $this->GenerateJSONFormat($docId, 'update');
+                break;
+            //4Ogos20
+            case 'delete-current-predefine':
+                $ajax = true;
+                $values = $this->form_array($_REQUEST['values']);
+                $document = new Document_Template_Model();
+                $docId = $values['doc_id'];
+                $document->DeletePredefineData($docId);
                 break;
             case 'testing':
                 $page = 'forms/test';
