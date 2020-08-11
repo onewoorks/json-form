@@ -199,8 +199,6 @@
 </script> 
 <script>
     $(document).ready(function (){
-        $("#element_desc").select2( {
-        allowClear: true
-        } );
+        $("#element_desc").select2();
     });
 </script>
