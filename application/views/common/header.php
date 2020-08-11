@@ -16,7 +16,8 @@
         <link href='<?php echo SITE_ASSET; ?>/assets/library/datepicker/css/datepicker.css' rel="stylesheet" />
         <link href="//use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"  rel="stylesheet">
         <script src="<?php echo SITE_ASSET; ?>/assets/library/ajax/jquery/1.5.0-rc1/Sortable.js"></script>
-   
+        <link href="<?php echo SITE_ASSET; ?>/assets/library/select2/css/select2.css" rel="stylesheet">
+        <script src="<?php echo SITE_ASSET; ?>/assets/library/select2/js/select2.js"></script>
         <style>
             .no-border { border: none; }
         </style>
