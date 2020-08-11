@@ -102,7 +102,7 @@
                                 </select>
                             </div>
                             <div class="col-sm-2 predefinedActionButton" data-action="prelist1">
-                                <div class='btn btn-default btn-sm addPredefined'style="padding:3px"><i class="glyphicon glyphicon-parent"></i> Parent</div>
+                                <div class='btn btn-default btn-sm addPredefined'style="padding:3px"><i class="glyphicon glyphicon-plus"></i> Parent</div>
                                 <div class='btn btn-default btn-sm addLayer' data-layer="prelist1" style="padding:5px"><i class="fas fa-layer-group"></i></div>
                             </div>
                         </div>
