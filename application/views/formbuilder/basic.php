@@ -91,9 +91,10 @@
                                     <input type="hidden" id="show_label" name="show_label1" value="0" style="margin-top:6px"/>
                                     <input type="checkbox" id="show_label" name="show_label1" value="1" style="margin-top:6px"/>
                                     <input type="hidden" value="1" id="sorting" class="sorting" name="SortParent" />
-                                    <select  type="text" id="multi_ans_desc" name="multi_ans_desc1" class="form-control" style="width: 100%">
+                                    <input class="form-control" type="text" id="multi_ans_desc" name="multi_ans_desc1" list="multiList">
+                                        <datalist id="multiList">
                                             <?=  ListMultiElementDesc();?>    
-                                    </select>
+                                        </datalist>
                                 </div>
                             </div>
                             <div class="col-sm-3 list-padding">
@@ -159,7 +160,8 @@
             $html += '<input type="hidden" id="show_label" name="show_label' + n + '" value="0" style="margin-top:6px"/>';
             $html += '<input type="checkbox" id="show_label" name="show_label' + n + '" value="1" style="margin-top:6px"/>';
             $html += '<input type="hidden" id="sorting" class="sorting" name="SortParent" />';
-            $html += '<select  type="text" id="multi_ans_desc" name="multi_ans_desc'+n+'" class="form-control" style="width: 100%">' + list + '</select>';
+            $html += '<input class="form-control" type="text" name="multi_ans_desc'+n+'" id="multi_ans_desc" list="multiList">';
+            $html += '<datalist id="multiList">'+list+'</datalist>';
             $html += '</div>';
             $html += '</div>';
             $html += '<div class="col-sm-3 list-padding">';
@@ -175,7 +177,6 @@
             $($html).appendTo('#predefinedList').find('.sorting').val(n + 1);
             ResetParentNumbers();
             count++;
-            $("#multi_ans_desc").select2();
         });
 
         //ADD DIV CHILD
@@ -191,7 +192,8 @@
             $html += '<div class="col-sm-4 list-padding">';
             $html += '<input type="hidden" id="show_label_child" name="show_label_child' + replace + '-' + next + '" value="0" style="margin-top:6px" />';
             $html += '<input type="checkbox" id="show_label_child" name="show_label_child' + replace + '-' + next + '" value="1" style="margin-top:6px" />';
-            $html += '<select type="text" class="form-control" name="ref_desc' + replace + '-' + next + '" id="ref_desc">' + element + '</select>';
+            $html += '<input class="form-control" name="ref_desc' + replace + '-' + next + '" id="ref_desc" list="refList"/>';
+            $html += '<datalist id="refList">' + element + '</datalist>';
             $html += '</div>';
             $html += '<div class="col-sm-2 predefinedActionButton" data-action="' + div + '-' + next + '">';
             $html += '<div class="btn btn-default btn-sm deleteLabel" style="padding:5px"><i class="glyphicon glyphicon-trash"></i></div>&nbsp';
@@ -202,7 +204,7 @@
 
             $(this).closest('.addLayer').addClass("hidden");
             $($html).appendTo('.' + div + '');
-            $('#ref_desc').select2();
+
         });
 
         //ADD INTO DIV CHILD
@@ -220,7 +222,8 @@
             $html += '<div class="checkbox">';
             $html += '<input type="hidden" style="margin-top:6px" name="show_label' + replace + '-' + n + '" id="show_label" value="0"/>';
             $html += '<input type="checkbox" style="margin-top:6px" name="show_label' + replace + '-' + n + '" id="show_label" value="1"/>';
-            $html += '<select class="form-control" type="text" name="multi_child_ans_desc' + replace + '-' + n + '" id="multi_child_ans_desc">'+list+'</select>';
+            $html += '<input class="form-control" type="text" name="multi_child_ans_desc' + replace + '-' + n + '" id="multi_child_ans_desc" list="multiList" >';
+            $html += '<datalist id="multiList">'+list+'</datalist>';
             $html += '</div>';
             $html += '</div>';
             $html += '<div class="col-sm-3 list-padding">';
@@ -239,7 +242,6 @@
 
             ResetChildNumbers(replace);
             next++;
-            $('#multi_child_ans_desc').select2();
         });
 
         //DELETE DIV
@@ -356,10 +358,5 @@
         if ($define === 'METHOD') {
             $("#method").show();
         }
-    });
-</script>
-<script>
-    $(function (){
-        $("#multi_ans_desc").select2();
     });
 </script>
