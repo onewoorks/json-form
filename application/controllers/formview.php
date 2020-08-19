@@ -877,36 +877,44 @@ class Formview_Controller extends Common_Controller {
                 break;
             //zarith 22/7
             case 'delete-current-label':
-                $ajax = true;
+               $ajax = true;
                 $document = new Document_Template_Model();
                 $docId = $_REQUEST['docId'];
                 $labelId = $_REQUEST['label'];
                 $parentId = $_REQUEST['parent'];
+                $childId = $_REQUEST['child'];
+                $sparentId = $_REQUEST['sparent'];
                 $child = array(
-                    'document_id' => $docId,
-                    'element_code' => $labelId,
-                    'parent_code' => $parentId
-                );
+                            'document_id' => $docId,
+                            'label_code' => $labelId,
+                            'parent_code' => isset($parentId) ? "$parentId" : "(NULL)",
+                            'child_code' => isset($childId) ? "$childId" : "(NULL)",
+                            'sparent_code' => isset($sparentId) ? "$sparentId" : "(NULL)" 
+                        );
                 echo '<pre>';
                 print_r($child);
                 echo '</pre>';
                 $document->CleanMultipleItemChild($docId, $child);
+                $this->UpdateJSONFormat($docId, 'regenerate');
                 break;
             case 'delete-current-child':
-                $ajax = true;
+                 $ajax = true;
                 $document = new Document_Template_Model();
                 $docId = $_REQUEST['docId'];
-                $ChildId = $_REQUEST['child'];
+                $childId = $_REQUEST['child'];
                 $parentId = $_REQUEST['parent'];
+                $labelId = $_REQUEST['label'];
                 $child = array(
-                    'document_id' => $docId,
-                    'element_code' => $ChildId,
-                    'parent_code' => $parentId
-                );
+                            'document_id' => $docId,
+                            'child_code' => $childId,
+                            'parent_code' => $parentId,
+                            'label_code' => isset($labelId) ? "$labelId" : "(NULL)"
+                        );
                 echo '<pre>';
                 print_r($child);
                 echo '</pre>';
                 $document->CleanMultipleAnswerChild($docId, $child);
+                $this->UpdateJSONFormat($docId, 'regenerate');
                 break;
             case 'delete-current-element':
                 $ajax = true;

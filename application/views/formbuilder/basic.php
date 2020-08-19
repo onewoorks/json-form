@@ -255,28 +255,37 @@
         });
 
         $('#predefinedList').on('click', '.deleteLabel', function () {
-            var div = $(this).parents("div").eq(3).attr("class");
-            var docId = '<?= $vars['document_id']; ?>';
-            var parent = $('#ref_desc').val();
-            var label = $(this).attr('id');
+            var div  = $(this).parents("div").eq(3).attr("class");
+            var div2 = $(this).parents("div").eq(4).attr("class"); 
+            var div3 = $(this).parents("div").eq(7).attr("class");
+
             $(this).closest('.' + div + '').remove();
+            var docId = '<?= $vars['document_id']; ?>';
+            var label = $(this).attr('id');
+            var parent = $('.' + div2 + '').find("input[id^='multi_ans_desc']").first().attr("name", 'multi_ans_desc').val();
+            var child = $('.' + div2 + '').find("input[id^='multi_child_ans_desc']").first().attr("name", 'multi_child_ans_desc').val();
+            var sparent = $('.' + div3 + '').find("input[id^='ref_desc']").first().attr("name", 'ref_desc').val();
+            //console.log("DocId: ", docId, "|| Parent: ", parent, "|| Label: ", label, "|| Child: ", child, "|| Sparent: ", sparent);
+            
             var result = div.substr(0, div.lastIndexOf("-"));
             if (result === 'prelist1') {
                 var $deleteButton = '<div class="btn btn-default btn-sm addPredefined"style="padding:3px"><i class="glyphicon glyphicon-plus"></i> Parent</div>&nbsp';
                 $deleteButton += '<div class="btn btn-default btn-sm addLayer" data-layer="' + result + '" style="padding:5px"><i class="fas fa-layer-group"></i></div>';
                 $('.predefinedActionButton[data-action="' + result + '"]').html($deleteButton);
-            }
-            else {
+            } else {
                 var $deleteButton = '<div class="btn btn-default btn-sm deleteLabel" style="padding:5px"><i class="glyphicon glyphicon-trash"></i></div>&nbsp';
                 $deleteButton += '<div class="btn btn-default btn-sm addLayer" data-layer="' + result + '" style="padding:5px"><i class="fas fa-layer-group"></i></div>';
                 $('.predefinedActionButton[data-action="' + result + '"]').html($deleteButton);
             }
-            
-            $.ajax({
-                url: '<?= SITE_ROOT; ?>/formview/delete-current-label/',
-                type: 'POST',
-                data: {docId: docId, label: label, parent: parent}
-            });
+
+                $.ajax({
+                    url: '<?= SITE_ROOT; ?>/formview/delete-current-label/',
+                    type: 'POST',
+                    data: {docId: docId, label: label, parent: parent, child: child, sparent: sparent}
+//                    success: function(data){
+//                                console.log(data);
+//                            }
+                });
         });
 
         $('#predefinedList').on('click', '.deletePredefinedChild', function () {
@@ -286,18 +295,22 @@
             $(this).closest('.' + del + '').remove();
             var docId = '<?= $vars['document_id']; ?>';
             var child = $(this).attr('id');
-            var parent = $('#ref_desc').val();
-
+            var parent = $('.' + cari + '').find("input[id^='ref_desc']").first().attr("name", 'ref_desc').val();
+            var label = $(this).closest('.' + del + '').find("input[id^='ref_desc']").first().attr("name", 'ref_desc').val();
+            //console.log("DocId: ", docId, "|| Parent: ", parent, "|| Child: ", child, "|| Label: ", label);
+            
             //REARRANGED SORTING
             $('.box-number' + replace + '').each(function (index) {
                 $(this).text(index + 1);
             });
             ResetChildNumbers(replace);
-            
             $.ajax({
                 url: '<?= SITE_ROOT; ?>/formview/delete-current-child/',
                 type: 'POST',
-                data: {docId: docId, child: child,parent:parent}
+                data: {docId: docId, child: child,parent:parent, label: label}
+//                success: function(data){
+//                    console.log(data);
+//                }
             });
         });
     });

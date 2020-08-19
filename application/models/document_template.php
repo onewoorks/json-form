@@ -1046,7 +1046,8 @@ class Document_Template_Model {
     
     //zarith-23/7
     public function CleanMultipleAnswerChild($docID, $child) {
-        $sql = "DELETE FROM ref_multiple_answer WHERE doc_name_id='" . (int) $docID . "' AND multiple_desc_code IN (SELECT multiple_desc_code FROM ref_multiple_desc WHERE multiple_desc = '" . $child['element_code'] . "') "
+        if ($child['label_code'] === '(NULL)'):
+        $sql = "DELETE FROM ref_multiple_answer WHERE doc_name_id='" . (int) $docID . "' AND multiple_desc_code IN (SELECT multiple_desc_code FROM ref_multiple_desc WHERE multiple_desc = '" . $child['child_code'] . "') "
               . "AND element_code IN (SELECT element_code FROM ref_document_element WHERE element_desc = '" . $child['parent_code'] . "')";
 
         echo '<pre>';
@@ -1055,18 +1056,57 @@ class Document_Template_Model {
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
-        return true;
-    }
-    
-    public function CleanMultipleItemChild($docID, $child) {
-        $sql = "DELETE FROM ref_multiple_item WHERE doc_name_id='" . (int) $docID . "' AND ref_element_code IN (SELECT element_code FROM ref_document_element WHERE element_desc = '" . $child['element_code'] . "') "
-                . "AND element_code IN (SELECT element_code FROM ref_document_element WHERE element_desc = '" . $child['parent_code'] . "')";
-       echo '<pre>';
+       
+        elseif ($child['label_code'] !== '(NULL)'):
+        $sql = "DELETE FROM ref_multiple_item WHERE doc_name_id='" . (int) $docID . "' AND multiple_desc_code IN (SELECT multiple_desc_code FROM ref_multiple_desc WHERE multiple_desc = '" . $child['child_code'] . "') "
+              . "AND element_code IN (SELECT element_code FROM ref_document_element WHERE element_desc = '" . $child['parent_code'] . "') "
+              . "AND ref_element_code IN (SELECT element_code FROM ref_document_element WHERE element_desc = '" . $child['label_code'] . "')";
+
+        echo '<pre>';
         print_r($sql);
-       echo '</pre>';
+        echo '</pre>';
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
+        endif;
+        
+        return true;
+    }
+    
+    //zarith:19/8
+    public function CleanMultipleItemChild($docID, $child) {
+        if ($child['child_code'] === '(NULL)' && $child['sparent_code'] === '(NULL)'):
+        $sql = "DELETE FROM ref_multiple_item WHERE doc_name_id='" . (int) $docID . "' AND ref_element_code IN (SELECT element_code FROM ref_document_element WHERE element_desc = '" . $child['label_code'] . "') "
+                . "AND multiple_desc_code IN (SELECT multiple_desc_code FROM ref_multiple_desc WHERE multiple_desc = '" . $child['parent_code'] . "') ";
+        echo '<pre>';
+        print_r($sql);
+        echo '</pre>';
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        
+        elseif ($child['child_code'] === '(NULL)'):
+             $sql = "DELETE FROM ref_multiple_item WHERE doc_name_id='" . (int) $docID . "' AND ref_element_code IN (SELECT element_code FROM ref_document_element WHERE element_desc = '" . $child['label_code'] . "') "
+                . "AND multiple_desc_code IN (SELECT multiple_desc_code FROM ref_multiple_desc WHERE multiple_desc = '" . $child['parent_code'] . "') ";
+        echo '<pre>';
+        print_r($sql);
+        echo '</pre>';
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        
+        elseif ($child['parent_code'] === '(NULL)'):
+            $sql = "DELETE FROM ref_multiple_item WHERE doc_name_id='" . (int) $docID . "' AND ref_element_code IN (SELECT element_code FROM ref_document_element WHERE element_desc = '" . $child['label_code'] . "') "
+                . "AND multiple_desc_code IN (SELECT multiple_desc_code FROM ref_multiple_desc WHERE multiple_desc = '" . $child['child_code'] . "')"
+                . "AND element_code IN (SELECT element_code FROM ref_document_element WHERE element_desc = '" . $child['sparent_code'] . "')"; 
+        echo '<pre>';
+        print_r($sql);
+        echo '</pre>';
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        endif;
+        
         return true;
     }
 
