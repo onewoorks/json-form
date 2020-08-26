@@ -1361,8 +1361,8 @@ class Formview_Controller extends Common_Controller {
         $sectionId = $data['section_code'];
         $dataType = '(NULL)';
 
-//        $document->CleanMultipleAnswer($data);
-//        $document->CleanMultipleItem($data);
+       $document->CleanMultipleAnswer($data);
+       $document->CleanMultipleItem($data);
 
         if ($input_type == 'METHOD') {
 

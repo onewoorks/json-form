@@ -294,6 +294,8 @@
                 $('.predefinedActionButton[data-action="' + result + '"]').html($deleteButton);
             }
 
+            ResetLabelNumbers();
+            
                 $.ajax({
                     url: '<?= SITE_ROOT; ?>/formview/delete-current-label/',
                     type: 'POST',
@@ -338,6 +340,18 @@
             this.value = val;
             $(this).closest('[class^="prelist"]').find("input[id^='multi_ans_desc']").first().attr("name", 'multi_ans_desc' + val);
             $(this).closest('[class^="prelist"]').find("select[id^='multi_input_type']").first().attr("name", 'multi_input_type' + val);
+            $(this).closest('[class^="prelist"]').first().attr("class", 'prelist' + val);
+        });
+    }
+
+    function ResetLabelNumbers() {
+
+        $('.sorting').each(function (i) {
+            var val = i + 1;
+            this.value = val;
+            $(this).closest('[class^="prelist"]').find("input[id^='multi_ans_desc']").first().attr("name", 'multi_ans_desc' + val);
+            $(this).closest('[class^="prelist"]').find("select[id^='multi_input_type']").first().attr("name", 'multi_input_type' + val);
+            $(this).closest('[class^="prelist"]').find("input[id^='ref_desc']").first().attr("name", 'ref_desc' + val);
             $(this).closest('[class^="prelist"]').first().attr("class", 'prelist' + val);
         });
     }
