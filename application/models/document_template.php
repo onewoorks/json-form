@@ -1043,6 +1043,33 @@ class Document_Template_Model {
 //        $this->db->queryexecute();
 //        return true;
 //    }
+//    
+    //zarith 26/8
+     public function CleanMultipleAnswerParent($docID, $child) {
+        
+        $sql = "DELETE FROM ref_multiple_answer WHERE doc_name_id='" . (int) $docID . "' AND element_code='" . $child['sparent_code'] . "' "
+                . "AND multiple_desc_code IN (SELECT multiple_desc_code FROM ref_multiple_desc WHERE multiple_desc = '" . $child['parent_code'] . "') ";
+        echo '<pre>';
+        print_r($sql);
+        echo '</pre>';
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+       
+        if ($child['label_code'] !== '(NULL)'):
+        $sql = "DELETE FROM ref_multiple_item WHERE doc_name_id='" . (int) $docID . "' AND multiple_desc_code IN (SELECT multiple_desc_code FROM ref_multiple_desc WHERE multiple_desc = '" . $child['parent_code'] . "') "
+              . "AND element_code='" . $child['sparent_code'] . "' "
+              . "AND ref_element_code IN (SELECT element_code FROM ref_document_element WHERE element_desc = '" . $child['label_code'] . "')";
+        echo '<pre>';
+        print_r($sql);
+        echo '</pre>';
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        endif;
+        
+        return true;
+    }
     
     //zarith-23/7
     public function CleanMultipleAnswerChild($docID, $child) {

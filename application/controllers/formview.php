@@ -595,7 +595,7 @@ class Formview_Controller extends Common_Controller {
                 echo json_encode($data);
                 break;
             //4Ogos20
-             case 'delete-predefine':
+            case 'delete-predefine':
                 $ajax = true;
                 $document = new Document_Template_Model();
                 $doc_id = $_REQUEST['documentId'];
@@ -875,9 +875,29 @@ class Formview_Controller extends Common_Controller {
                     endif;
                 endforeach;
                 break;
+            //zarith 26/8
+             case 'delete-current-parent':
+               $ajax = true;
+                $document = new Document_Template_Model();
+                $docId = $_REQUEST['docId'];
+                $labelId = $_REQUEST['label'];
+                $parentId = $_REQUEST['parent'];
+                $sparentId = $_REQUEST['sparent'];
+                $child = array(
+                            'document_id' => $docId,
+                            'parent_code' => $parentId,
+                            'sparent_code' => $sparentId,
+                            'label_code' => isset($labelId) ? "$labelId" : "(NULL)",
+                        );
+                echo '<pre>';
+                print_r($child);
+                echo '</pre>';
+                $document->CleanMultipleAnswerParent($docId, $child);
+                $this->UpdateJSONFormat($docId, 'regenerate');
+                break;
             //zarith 22/7
             case 'delete-current-label':
-               $ajax = true;
+                $ajax = true;
                 $document = new Document_Template_Model();
                 $docId = $_REQUEST['docId'];
                 $labelId = $_REQUEST['label'];
@@ -885,12 +905,12 @@ class Formview_Controller extends Common_Controller {
                 $childId = $_REQUEST['child'];
                 $sparentId = $_REQUEST['sparent'];
                 $child = array(
-                            'document_id' => $docId,
-                            'label_code' => $labelId,
-                            'parent_code' => isset($parentId) ? "$parentId" : "(NULL)",
-                            'child_code' => isset($childId) ? "$childId" : "(NULL)",
-                            'sparent_code' => isset($sparentId) ? "$sparentId" : "(NULL)" 
-                        );
+                    'document_id' => $docId,
+                    'label_code' => $labelId,
+                    'parent_code' => isset($parentId) ? "$parentId" : "(NULL)",
+                    'child_code' => isset($childId) ? "$childId" : "(NULL)",
+                    'sparent_code' => isset($sparentId) ? "$sparentId" : "(NULL)"
+                );
                 echo '<pre>';
                 print_r($child);
                 echo '</pre>';
@@ -898,18 +918,18 @@ class Formview_Controller extends Common_Controller {
                 $this->UpdateJSONFormat($docId, 'regenerate');
                 break;
             case 'delete-current-child':
-                 $ajax = true;
+                $ajax = true;
                 $document = new Document_Template_Model();
                 $docId = $_REQUEST['docId'];
                 $childId = $_REQUEST['child'];
                 $parentId = $_REQUEST['parent'];
                 $labelId = $_REQUEST['label'];
                 $child = array(
-                            'document_id' => $docId,
-                            'child_code' => $childId,
-                            'parent_code' => $parentId,
-                            'label_code' => isset($labelId) ? "$labelId" : "(NULL)"
-                        );
+                    'document_id' => $docId,
+                    'child_code' => $childId,
+                    'parent_code' => $parentId,
+                    'label_code' => isset($labelId) ? "$labelId" : "(NULL)"
+                );
                 echo '<pre>';
                 print_r($child);
                 echo '</pre>';
@@ -1341,8 +1361,8 @@ class Formview_Controller extends Common_Controller {
         $sectionId = $data['section_code'];
         $dataType = '(NULL)';
 
-        $document->CleanMultipleAnswer($data);
-        $document->CleanMultipleItem($data);
+//        $document->CleanMultipleAnswer($data);
+//        $document->CleanMultipleItem($data);
 
         if ($input_type == 'METHOD') {
 

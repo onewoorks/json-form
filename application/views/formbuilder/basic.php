@@ -248,10 +248,26 @@
         $('#predefinedList').on('click', '.deletePredefined', function () {
             var div = $(this).parents("div").eq(2).attr("class");
             $(this).closest('.' + div + '').remove();
+            var docId = '<?= $vars['document_id']; ?>';
+            var sparent = '<?= $vars['element_code']; ?>';
+            var parent = $(this).attr('id');
+            var label = $(this).closest('.' + div + '').find("input[id^='ref_desc']").first().attr("name", 'ref_desc').val();
+    
+            //console.log("DocId: ", docId, "|| Parent: ", parent, "|| Label: ", label, "|| Sparent: ", sparent);
+
             $('.box-number').each(function (index) {
                 $(this).text(index + 1);
             });
             ResetParentNumbers();
+                
+             $.ajax({
+                    url: '<?= SITE_ROOT; ?>/formview/delete-current-parent/',
+                    type: 'POST',
+                    data: {docId: docId,parent: parent, label: label, sparent: sparent}
+//                    success: function(data){
+//                                console.log(data);
+//                            }
+                });
         });
 
         $('#predefinedList').on('click', '.deleteLabel', function () {

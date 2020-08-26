@@ -795,7 +795,7 @@ class Input_Type_Controller extends Common_Controller {
             else:
                 $html .= "<div class='col-sm-2 predefinedActionButton' data-action='prelist$noP'>"
                         . "<div class='btn btn-default btn-sm addLayer' data-layer='prelist$noP'  style='padding:5px' ><i class='fas fa-layer-group'></i></div>&nbsp"
-                        . "<div class='btn btn-default btn-sm deletePredefined' style='padding:5px'><i class='glyphicon glyphicon-trash'></i></div>"
+                        . "<div class='btn btn-default btn-sm deletePredefined' style='padding:5px' id='" . $refP['multi_answer_desc'] . "'><i class='glyphicon glyphicon-trash'></i></div>"
                         . "</div>";
             endif;
             $html .= "</div>"
