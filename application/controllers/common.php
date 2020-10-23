@@ -294,9 +294,9 @@ class Common_Controller {
         return $mainProduct;
     }
     
-    public function RefProductDiagnosis() {
+    public function RefNcpDiagnosis() {
         $reference = new Reference_Table_Model();
-        $mainProduct = $reference->MainDocumentDiagnosis();
+        $mainProduct = $reference->MainNcpDiagnosis();
         return $mainProduct;
     }
 

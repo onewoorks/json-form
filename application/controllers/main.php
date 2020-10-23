@@ -37,6 +37,14 @@ class Main_Controller extends Common_Controller {
                     echo $this->SelectOptionBuilder($newOptions);
                 }
                 break;
+            case 'filter-ncp-discipline':
+                $ajax = true;
+                $reference = new Reference_Table_Model();
+                if ($_REQUEST['dis_code'] != '0') {
+                    $newOptions = $reference->NcpDiagnosisFiltering($_REQUEST['dis_code']);
+                    echo $this->SelectOptionBuilder($newOptions);
+                }
+                break;
             //30OKT
             case 'filter-form-clone':
                 $ajax = true;
@@ -103,6 +111,28 @@ class Main_Controller extends Common_Controller {
                     'active_general' => $types,
                     'active_group' => $values['doc_group'],
                     'active_type' => $type
+                );
+                $view = new View_Model($page);
+                $view->assign('content', $result);
+                break;
+                case 'create-filter-diagnosis':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $values = $this->form_array($_REQUEST['documentValues']);
+                $page = 'forms/new_ncp_method';
+                $reference = new Reference_Table_Model();
+                $result['list_of_ncp'] = $document->GetAllNcpDocuments();
+                $result['list_of_diagnosis'] = $document->GetAllNcpDocumentsGroup($values);
+                if ($values['discipline'] != '0'):
+                    $result['ncp_diagnosis'] = $reference->NcpDiagnosisFiltering($values['discipline']);
+                endif;
+                $types = '0';
+                if ($values['discipline'] != '0'):
+                    $types = $values['doc_group'];
+                endif;
+                $result['preset_select'] = array(
+                    'active_discipline' => $values['discipline'],
+                    'active_group' => $types
                 );
                 $view = new View_Model($page);
                 $view->assign('content', $result);

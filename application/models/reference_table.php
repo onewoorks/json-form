@@ -149,4 +149,32 @@ class Reference_Table_Model  { //dari class sini
         $result = $this->db->fetchOut('array');
         return ($result) ? $result : false;
     }
+    
+    public function NcpDiagnosisFiltering($disCode = null) {
+        $sql = "SELECT rma.element_code as code, rde.element_desc as label "
+                . "FROM ref_multiple_answer rma "
+                . "INNER JOIN ref_document_element rde ON(rde.element_code = rma.element_code) "
+                . "INNER JOIN document d ON (d.doc_name_id = rma.doc_name_id) "
+                . "WHERE rma.doc_name_id = '$disCode'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return ($result) ? $result : false;
+    }
+    
+     public function MainNcpDiagnosis(){
+        $sql = "SELECT rma.element_code, rde.element_desc "
+                . "FROM ref_multiple_answer rma "
+                . "INNER JOIN ref_document_element rde ON(rde.element_code = rma.element_code) "
+                . "INNER JOIN ref_multiple_desc rmd ON(rmd.multiple_desc_code = rma.multiple_desc_code) "
+                . "INNER JOIN document d ON (d.doc_name_id = rma.doc_name_id) "
+                . "WHERE d.doc_name_desc LIKE '%NURSING CARE PLAN%'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return ($result) ? $result : false;
+    }
+ 
 }

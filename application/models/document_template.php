@@ -1507,4 +1507,96 @@ class Document_Template_Model {
         $result = $this->db->fetchOut('array');
         return $result;
     }
+    
+    public function GetAllNcpDocuments() {
+        $sql = "SELECT doc_name_id, doc_name_desc FROM document WHERE doc_name_desc LIKE '%NURSING CARE PLAN%'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+     public function GetAllNcpDiagnosis() {
+        $sql = "SELECT rma.doc_name_id, d.doc_name_desc, rma.element_code, rde.element_desc, rma.multiple_desc_code, rmd.multiple_desc, rma.input_type, rma.method "
+                . "FROM ref_multiple_answer rma "
+                . "INNER JOIN ref_document_element rde ON(rde.element_code = rma.element_code) "
+                . "INNER JOIN ref_multiple_desc rmd ON(rmd.multiple_desc_code = rma.multiple_desc_code) "
+                . "INNER JOIN document d ON (d.doc_name_id = rma.doc_name_id) "
+                . "WHERE d.doc_name_desc LIKE '%NURSING CARE PLAN%'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+    public function GetNcpDiagnosis($doc_Id) {
+        $sql = "SELECT rma.doc_name_id, d.doc_name_desc, rma.element_code, rde.element_desc, rma.multiple_desc_code, rmd.multiple_desc, rma.input_type, rma.method "
+                . "FROM ref_multiple_answer rma "
+                . "INNER JOIN ref_document_element rde ON(rde.element_code = rma.element_code) "
+                . "INNER JOIN ref_multiple_desc rmd ON(rmd.multiple_desc_code = rma.multiple_desc_code) "
+                . "INNER JOIN document d ON (d.doc_name_id = rma.doc_name_id) "
+                . "WHERE rma.doc_name_id = '$doc_Id'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+    public function GetAllNcpDocumentsGroup($documentArray) {
+        $doc_Id = $documentArray['discipline'];
+        if (isset($documentArray['doc_group'])) {
+            $doc_group = $documentArray['doc_group'];
+        } else {
+            $doc_group = 0;
+        }
+        $sql = "SELECT rma.doc_name_id, d.doc_name_desc, rma.element_code, rde.element_desc, rma.multiple_desc_code, rmd.multiple_desc, rma.input_type, rma.method "
+                . "FROM ref_multiple_answer rma "
+                . "INNER JOIN ref_document_element rde ON(rde.element_code = rma.element_code) "
+                . "INNER JOIN ref_multiple_desc rmd ON(rmd.multiple_desc_code = rma.multiple_desc_code) "
+                . "INNER JOIN document d ON (d.doc_name_id = rma.doc_name_id) "
+                . "WHERE rma.doc_name_id = '$doc_Id' AND rma.element_code='$doc_group'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+    public function GetNcpDiagnosisId($doc_Id, $doc_group) {
+        $sql = "SELECT rma.doc_name_id, d.doc_name_desc, rma.element_code, rde.element_desc, rma.multiple_desc_code, rmd.multiple_desc, rma.input_type, rma.method "
+                . "FROM ref_multiple_answer rma "
+                . "INNER JOIN ref_document_element rde ON(rde.element_code = rma.element_code) "
+                . "INNER JOIN ref_multiple_desc rmd ON(rmd.multiple_desc_code = rma.multiple_desc_code) "
+                . "INNER JOIN document d ON (d.doc_name_id = rma.doc_name_id) "
+                . "WHERE rma.doc_name_id = '$doc_Id' AND rma.element_code='$doc_group'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('object');
+        return $result[0];
+    }
+    
+    public function UpdateNcpMethod($documentArray) {
+        $jsonForm = $documentArray['ncp_method'];
+        $documentId = $documentArray['doc_id'];
+        $elementId = $documentArray['element_id'];
+        $multipleId = $documentArray['multiple_id'];
+        $newLine = array('\r\n', '\n', '\r');
+        $replace = '<br />';
+        $json = str_replace($newLine, $replace, $jsonForm);
+        $jsonDoc = addslashes($json);
+
+        $sql = "UPDATE ref_multiple_answer SET method='" . $jsonDoc . "' WHERE doc_name_id='" . (int) $documentId . "' "
+                . "AND element_code='" . (int) $elementId . "'"
+                . "AND multiple_desc_code='" . (int) $multipleId . "' ";
+        print_r($sql);
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
+   
 }

@@ -41,8 +41,38 @@ class Formview_Controller extends Common_Controller {
                 $result['list_of_titles'] = $document->GetAllTitle();
                 break;
             //28feb
+            case 'new-ncp-method':
+                $page = 'forms/new_ncp_method';
+                $document = new Document_Template_Model();
+                $result['list_of_ncp'] = $document->GetAllNcpDocuments();
+                $result['ncp_diagnosis'] = $document->GetAllNcpDiagnosis();
+                $result['list_of_diagnosis'] = $document->GetAllNcpDiagnosis();
+                $result['preset_select'] = false;
+                break;
+            case 'edit-ncp-method':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $documentId = $_REQUEST['docId'];
+                $elementId = $_REQUEST['elementId'];
+                $val = $document->GetNcpDiagnosisId($documentId,$elementId);
+                $page = 'forms/change_ncp_method';
+                $result['values'] = $val;
+                $data = array(
+                    'component' => 'Update Diagnosis Method',
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
+            case 'change-ncp-method':
+                $ajax = true;
+                $values = $this->form_array($_REQUEST['values']);
+                $document = new Document_Template_Model();
+                $docId = $values['doc_id'];
+                $document->UpdateNcpMethod($values);
+                $this->UpdateJSONFormat($docId, 'regenerate');
+                break;
+                break;
             case 'new-method':
-                $page = 'forms/new_method';
+                $page = 'forms/json_method';
                 $document = new Document_Template_Model();
                 $result['list_of_method'] = $document->GetAllmethodDesc();
                 break;
