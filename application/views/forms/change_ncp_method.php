@@ -29,8 +29,7 @@
         <div class='form-group form-group-sm'>
             <label class='control-label col-sm-3'></label>
             <div class='col-sm-12 text-right' style="margin-left: -80px">
-<!--                <button type='submit' class='btn btn-sm btn-primary updateMethod' >Update</button>-->
-<div   class='btn btn-primary updateMethod'>Update</div>
+                    <div   class='btn btn-md btn-primary updateMethod'>Update</div>
             </div>
         </div>  
  </div>

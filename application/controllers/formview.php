@@ -70,7 +70,6 @@ class Formview_Controller extends Common_Controller {
                 $document->UpdateNcpMethod($values);
                 $this->UpdateJSONFormat($docId, 'regenerate');
                 break;
-                break;
             case 'new-method':
                 $page = 'forms/json_method';
                 $document = new Document_Template_Model();
