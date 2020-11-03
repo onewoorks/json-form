@@ -350,6 +350,7 @@ class Formview_Controller extends Common_Controller {
                 $grouping = $document->GetElementGrouping($section_id, $doc_id);
                 $result['list_of_elements'] = $document->GetUsedElement($doc_id, $section_id);
                 $result['elements'] = $document->GetAllElementDesc();
+                $result['list_hyperlink'] = $document->GetAllHyperlink();
                 $result['section_sorting'] = $section_sorting;
                 $result['grouping'] = $grouping;
                 $result['doc_id'] = $doc_id;
@@ -396,6 +397,7 @@ class Formview_Controller extends Common_Controller {
 
                 $document_id = $new_mapper['doc_id'];
                 $element_group = $new_mapper['element_group'];
+                $element_hyperlink = $new_mapper['element_hyperlink'];
                 $section_code = $new_mapper['section_code'];
                 $sectionSorting = $new_mapper['section_sorting'];
                 $element_code = $new_mapper['element_desc'];
@@ -409,12 +411,22 @@ class Formview_Controller extends Common_Controller {
                     'parent_element_code' => $element_code,
                     'sorting' => $new_element_sorting,
                     'documentId' => $document_id,
-                    'element_group' => $element_group
+                    'element_group' => $element_group,
+                    'hyperlink_code' => $element_hyperlink
                 );
-                echo '<pre>';
+                 echo '<pre>';
                 print_r($val);
                 echo '</pre>';
+                echo '<pre>';
                 $document->InsertNewRefElement($val);
+                echo '</pre>';
+                
+                if($element_hyperlink != '0'){
+                    echo '<pre>';
+                    $document->InsertNewHyperlink($val);
+                    echo '</pre>';
+                }
+                
                 if ($element_properties == 'DECORATION') {
                     $this->CaseDecorationE($new_mapper, $new_data);
                 } elseif ($element_properties == 'BASIC') {

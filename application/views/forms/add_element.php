@@ -22,7 +22,6 @@
                 </select>
                 <span id='validateF' style="font-size:10px;color:red;text-align:left" hidden>Element already exist in this section</span>
             </div>
-<!--            <span style='color: red; position: inherit'>*</span>-->
         </div>
 
         <div class="form-group form-group-sm">
@@ -34,8 +33,19 @@
                     <?php endforeach; ?>
                 </select>
             </div>
-
         </div>
+
+        <div class="form-group form-group-sm">
+            <label class="control-label col-sm-2">Element Hyperlink</label>
+            <div class="col-sm-3">
+                <select name="element_hyperlink" id="element_hyperlink" class="form-control" >
+                     <option value='0' selected="selected">Please Select Hyperlink</option>
+                    <?php foreach ($list_hyperlink as $hyperlink): ?>
+                        <option value='<?php echo $hyperlink['hyperlink_code']; ?>'><?php echo $hyperlink['hyperlink_desc']; ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>  
 
         <div class='form-group form-group-sm'>
             <label class='control-label col-sm-2'>Element Level</label>
@@ -152,10 +162,10 @@
                     });
                 }
             });
-               setTimeout(
-                    function () {
-                        window.location.reload(true);
-                    }, 1200);
+                setTimeout(
+                     function () {
+                         window.location.reload(true);
+                     }, 1200);
     //          
         });
         //    $('.genForm').attr('disabled', false);

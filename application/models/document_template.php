@@ -1598,5 +1598,25 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
+
+    public function GetAllHyperlink() {
+        $sql = "SELECT hyperlink_code, hyperlink_desc FROM ref_hyperlink";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+    public function InsertNewHyperlink(array $val) {
+        $sql = "INSERT INTO document_hyperlink (doc_name_id, element_code, hyperlink_code, child_element_code, active_status, created_by, created_date)"
+                . "VALUES ('" . (int) $val['documentId'] . "','" . (int) $val['parent_element_code'] . "','" . (int) $val['hyperlink_code'] . "','" . (int) $val['element_group'] . "',"
+                . " '1','ADMIN', NOW()) ";
+        print_r($sql);
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
    
 }
