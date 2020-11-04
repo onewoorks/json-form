@@ -1618,5 +1618,17 @@ class Document_Template_Model {
         $this->db->queryexecute();
         return true;
     }
+    
+     public function checkShowHyperlink($elementId, $docId) {
+        $sql = "SELECT rh.icon_path, dh.hyperlink_code, rh.hyperlink_desc "
+                . "FROM document_hyperlink dh "
+                . "INNER JOIN ref_hyperlink rh ON( rh.hyperlink_code = dh.hyperlink_code) "
+                . "WHERE dh.doc_name_id='$docId' AND dh.element_code='$elementId' ";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
    
 }

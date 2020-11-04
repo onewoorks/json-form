@@ -64,12 +64,24 @@ class Input_Type_Controller extends Common_Controller {
 
     public function Freetext() {
         $element = $this->elementDetail;
+        
+         $document = new Document_Template_Model();
+         if (isset($element->element_code, $element->doc_name_id)):
+         $icon = $document->checkShowHyperlink($element->element_code, $element->doc_name_id);
+            if(isset($icon[0])):
+                $images = $icon[0]['icon_path'];
+                $code = $icon[0]['hyperlink_code'];
+            endif;
+         endif;
+        
+        $html = "";
+        
+        if ($element):
         $level = check_level($element->element_code, $element->doc_name_id, $element);
         #NEW ELEMENT
         $element->{'element_level'} = $level->element_level;
-
-        $html = "";
-
+        
+        if (isset($images)):
         $html .= "<div class='col-sm-12' style='margin-left:1px'>";
         $html .= "<div class='form-group form-group-sm' style='margin-left:" . $element->element_level . "0px'>";
         if ($element->element_level == '1'):
@@ -78,12 +90,31 @@ class Input_Type_Controller extends Common_Controller {
             $html .= "<label class='control-label col-md-3 text-uppercase' style='font-weight:normal'>" . $element->label . "</label>";
         endif;
         $html .= "<div class='col-md-8' style='margin-left:8px'>"
-                . "<textarea name='" . $element->name . "' class='form-control' style='height: 50px;width:560px'></textarea>"
+                . "<textarea name='" . $element->name . "' class='form-control' style='height: 100px;width:700px'></textarea>"
+                . "</div>"
+                ."<div style='margin-top:1px'>"
+                . "<img id=" . $code . " src='../../../" . $images . "' style='width:15px; height:15px'>"
+                . "</div>"
+                . "</div>";
+        $html .= "</div>";
+        else :
+            $html .= "<div class='col-sm-12' style='margin-left:1px'>";
+        $html .= "<div class='form-group form-group-sm' style='margin-left:" . $element->element_level . "0px'>";
+        if ($element->element_level == '1'):
+            $html .= "<label class='control-label col-md-3 text-uppercase'>" . $element->label . "</label>";
+        else:
+            $html .= "<label class='control-label col-md-3 text-uppercase' style='font-weight:normal'>" . $element->label . "</label>";
+        endif;
+        $html .= "<div class='col-md-8' style='margin-left:8px'>"
+                . "<textarea name='" . $element->name . "' class='form-control' style='height: 100px;width:700px'></textarea>"
                 . "</div>"
                 . "</div>";
         $html .= "</div>";
 
-        return $html;
+        endif;
+       endif;
+       
+       return $html;
     }
 
     public function Textbox() {
