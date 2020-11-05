@@ -1464,7 +1464,7 @@ class Document_Template_Model {
     public function InsertNewSection(array $outputS) {
         $sql = "INSERT INTO document_element (doc_name_id, section_sorting, section_code, sorting, parent_element_code, child_element_code,element_level, element_properties, input_type,active,  created_by, created_date) "
                 . "VALUES ((SELECT doc_name_id FROM document WHERE doc_name_id = '" . $outputS['doc_name_id'] . "'), '" . $outputS['section_sorting'] . "', "
-                . "(SELECT section_code FROM ref_document_section WHERE section_desc = '" . $outputS['section_code'] . "' LIMIT 1), '" . $outputS['sorting'] . "', "
+                . "(SELECT section_code FROM ref_document_section WHERE section_code = '" . $outputS['section_code'] . "' LIMIT 1), '" . $outputS['sorting'] . "', "
                 . "(SELECT DISTINCT element_code FROM ref_document_element WHERE element_code ='" . $outputS['parent_element_code'] . "' LIMIT 1), "
                 . "(SELECT DISTINCT element_code FROM ref_document_element WHERE element_code ='" . $outputS['child_element_code'] . "' LIMIT 1), "
                 . "'1','" . $outputS['element_properties'] . "','" . $outputS['input_type'] . "','0','ADMIN', NOW()) ";
