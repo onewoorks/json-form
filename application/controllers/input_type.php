@@ -93,7 +93,7 @@ class Input_Type_Controller extends Common_Controller {
                 . "<textarea name='" . $element->name . "' class='form-control' style='height: 100px;width:700px'></textarea>"
                 . "</div>"
                 ."<div style='margin-top:1px'>"
-                . "<img id=" . $code . " src='../../../" . $images . "' style='width:25px; height:25px'>"
+                . "<img id=" . $code . " src='../../../" . $images . "' style='width:15px; height:15px'>"
                 . "</div>"
                 . "</div>";
         $html .= "</div>";
