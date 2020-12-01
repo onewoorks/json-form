@@ -351,7 +351,7 @@ class Document_Template_Model {
     }
 
     public function GetSectionDetail($sectionCode) {
-        $sql = "SELECT * FROM ref_document_section WHERE section_code='" . (int) $sectionCode . "' ";
+        $sql = "SELECT section_code, section_desc, json_section FROM ref_document_section WHERE section_code='" . (int) $sectionCode . "' ";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -645,15 +645,6 @@ class Document_Template_Model {
         return $result;
     }
 
-    //zarith: 8/7
-//    public function ListElementDescNew() {
-//        $sql = " SELECT element_code, element_desc, json_element FROM ref_document_element "
-//               . "WHERE element_code IN( '9137','9144','11960','12747','13151' ) ";      
-//        $this->db->connect();
-//        $this->db->prepare($sql);
-//        $this->db->queryexecute();
-//        $result = $this->db->fetchOut('array');
-//    }
     //23JULAI
     public function searchElement($search) {
         $sql = " SELECT element_code, element_desc, json_element, active_status FROM ref_document_element WHERE element_desc LIKE '%$search%' ";
@@ -1523,7 +1514,7 @@ class Document_Template_Model {
                 . "INNER JOIN ref_document_element rde ON(rde.element_code = rma.element_code) "
                 . "INNER JOIN ref_multiple_desc rmd ON(rmd.multiple_desc_code = rma.multiple_desc_code) "
                 . "INNER JOIN document d ON (d.doc_name_id = rma.doc_name_id) "
-                . "WHERE d.doc_name_desc LIKE '%NURSING CARE PLAN%'";
+                . "WHERE d.doc_name_desc LIKE '%NURSING CARE PLAN%' LIMIT 1";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
