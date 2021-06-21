@@ -55,11 +55,11 @@ class Document_Template_Model {
                 . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)"                    //document type
                 . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code) ";           //document_group
         if (PROJECT_PATH == 'cd'):
-            $sql .= "WHERE gd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','PS','RL') ";
+            $sql .= "WHERE gd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','PS','RL','PDS') ";
         elseif ((PROJECT_PATH == 'rispac')):
             $sql .= "WHERE gd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('RR') ";
         elseif ((PROJECT_PATH == 'prod' || PROJECT_PATH == 'uat' || PROJECT_PATH == 'stg')):
-            $sql .= "WHERE gd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','PS','RL') ";
+            $sql .= "WHERE gd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','PS','RL','PDS') ";
         endif;
         if ($discipline != "0") {
             $sql .= "AND gd.main_discipline_code = '$discipline' ";
@@ -236,11 +236,11 @@ class Document_Template_Model {
                 . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code)"
                 . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code) ";
         if (PROJECT_PATH == 'cd'):
-            $sql .= "WHERE rmd.module='cd' AND rdg.doc_group_code IN ('CN','RL','PS') GROUP BY dt.doc_name_id";
+            $sql .= "WHERE rmd.module='cd' AND rdg.doc_group_code IN ('CN','RL','PS','PDS') GROUP BY dt.doc_name_id";
         elseif (PROJECT_PATH == 'rispac'):
             $sql .= "WHERE rmd.main_discipline_code = '08' AND rdg.doc_group_code IN ('RR') GROUP BY dt.doc_name_id";
         elseif ((PROJECT_PATH == 'prod' || PROJECT_PATH == 'uat' || PROJECT_PATH == 'stg')):
-            $sql .= "WHERE rmd.module='cd' AND rdg.doc_group_code IN ('CN','RL','PS') GROUP BY dt.doc_name_id";
+            $sql .= "WHERE rmd.module='cd' AND rdg.doc_group_code IN ('CN','RL','PS','PDS') GROUP BY dt.doc_name_id";
         endif;
         $this->db->connect();
         $this->db->prepare($sql);
@@ -276,12 +276,12 @@ class Document_Template_Model {
                 . "INNER JOIN ref_document_type rdt ON(rdt.dc_type_code=d.dc_type_code) "
                 . "INNER JOIN ref_document_group rdg ON(rdg.doc_group_code=rdt.doc_group_code)";
         if (PROJECT_PATH == 'cd'):
-            $sql .= "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','RL','PS') ";
+            $sql .= "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','RL','PS','PDS') ";
         elseif (PROJECT_PATH == 'rispac'):
             //        $discipline = '08';    
             $sql .= "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('RR') ";
         elseif ((PROJECT_PATH == 'prod' || PROJECT_PATH == 'uat' || PROJECT_PATH == 'stg')):
-            $sql .= "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','RL','PS') ";
+            $sql .= "WHERE rmd.main_discipline_code = '$discipline' AND rdg.doc_group_code IN ('CN','RL','PS','PDS') ";
         endif;
         if ($discipline != "0") {
             $sql .= "AND gd.main_discipline_code = '$discipline' ";

@@ -83,11 +83,11 @@ class Reference_Table_Model  { //dari class sini
         $sql = "SELECT doc_group_code as code, doc_group_desc as label "
                 . " FROM ref_document_group ";
         if(PROJECT_PATH == 'cd'):
-        $sql .= "WHERE doc_group_code IN ('CN','RL','PS') ";
+        $sql .= "WHERE doc_group_code IN ('CN','RL','PS','PDS') ";
         elseif(PROJECT_PATH == 'rispac'):
         $sql .= "WHERE doc_group_code IN ('RR') ";
         elseif ((PROJECT_PATH == 'prod' || PROJECT_PATH == 'uat' || PROJECT_PATH == 'stg')):
-        $sql .= "WHERE doc_group_code IN ('CN','RL')"; 
+        $sql .= "WHERE doc_group_code IN ('CN','RL','PDS')"; 
         endif;
         $this->db->connect();
         $this->db->prepare($sql);
@@ -112,6 +112,8 @@ class Reference_Table_Model  { //dari class sini
                 . " FROM ref_document_type ";
 		if($groupCode == 'CN'):
 		$sql .= "WHERE doc_group_code ='CN'";
+                elseif($groupCode == 'PDS'):
+		$sql .= "WHERE doc_group_code ='PDS'";
 		else:
 		$sql .= "WHERE doc_group_code ='RL' AND dc_type_code IN('RFL','RPL') ";
                 endif;
