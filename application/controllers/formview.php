@@ -40,6 +40,37 @@ class Formview_Controller extends Common_Controller {
                 $result['preset_select'] = false;
                 $result['list_of_titles'] = $document->GetAllTitle();
                 break;
+            //21/7/21 : Add PDS
+             case 'new-pds-method':
+                $page = 'forms/new_pds_method';
+                $document = new Document_Template_Model();
+                $result['pds_group'] = $document->GetAllPDSGroup();
+                $result['pds_document'] = $document->GetAllPDSDocument();
+                $result['list_of_pds'] = $document->GetAllPDSList();
+                $result['preset_select'] = false;
+                break;
+             case 'edit-pds-method':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $documentId = $_REQUEST['docId'];
+                $tempId = $_REQUEST['tempId'];
+                $val = $document->GetPdsDocument($documentId,$tempId);
+                $page = 'forms/change_pds_method';
+                $result['values'] = $val;
+                $data = array(
+                    'component' => 'Update Patient Disease Summary Method',
+                    'html' => $this->RenderOutput($page, $result));
+                echo json_encode($data);
+                break;
+            case 'change-pds-method':
+                $ajax = true;
+                $values = $this->form_array($_REQUEST['values']);
+                $document = new Document_Template_Model();
+                $docId = $values['doc_id'];
+                $docId = $values['temp_id'];
+                $document->UpdatePdsMethod($values);
+                $this->UpdateJSONFormat($docId, 'regenerate');
+                break;
             //28feb
             case 'new-ncp-method':
                 $page = 'forms/new_ncp_method';

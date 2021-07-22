@@ -774,7 +774,7 @@ class Document_Template_Model {
                 . "FROM document_element "
                 . "WHERE doc_name_id = '" . $document_id . "' "
                 . "GROUP BY section_code) a )";
-        print_r($sql);
+        //print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -840,7 +840,7 @@ class Document_Template_Model {
         $sql = "INSERT INTO document_template (doc_name_id, json_template, text_template, report_name, active, created_date, created_by) "
                 . "SELECT (SELECT MAX(doc_name_id) FROM document), json_template, text_template, report_name, active, NOW(),'ADMIN' "
                 . "FROM document_template "
-                . "WHERE doc_name_id = '" . (int) $curName . "' ";
+                . "WHERE doc_name_id = '" . (int) $curName . "'";
         print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
@@ -1603,7 +1603,7 @@ class Document_Template_Model {
         $sql = "INSERT INTO document_hyperlink (doc_name_id, element_code, hyperlink_code, child_element_code, active_status, created_by, created_date)"
                 . "VALUES ('" . (int) $val['documentId'] . "','" . (int) $val['parent_element_code'] . "','" . (int) $val['hyperlink_code'] . "','" . (int) $val['element_group'] . "',"
                 . " '1','ADMIN', NOW()) ";
-        print_r($sql);
+        
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -1622,4 +1622,85 @@ class Document_Template_Model {
         return $result;
     }
    
+     public function GetAllPDSGroup() {
+       $sql = "SELECT doc_group_code, doc_group_desc FROM ref_document_group where doc_group_code='PDS'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+    public function GetAllPDSDocument() {
+        $sql = "SELECT doc_name_id as code, doc_group_code, dc_type_code,doc_name_desc as label FROM document WHERE doc_group_code='PDS'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+    public function GetAllPDSList() {
+        $sql = "SELECT d.doc_group_code, d.doc_name_id, d.doc_name_desc, dt.template_id, dt.json_template, dg.doc_group_desc "
+                . "FROM document d "
+                . "INNER JOIN document_template dt ON dt.doc_name_id = d.doc_name_id "
+                . "INNER JOIN ref_document_group dg ON dg.doc_group_code = d.doc_group_code "
+                . "WHERE d.doc_group_code='PDS'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+    public function GetAllPdsDocumentsGroup($documentArray) {
+        $doc_Id = $documentArray['discipline'];
+        if (isset($documentArray['doc_group'])) {
+            $doc_group = $documentArray['doc_group'];
+        } else {
+            $doc_group = 0;
+        }
+        $sql = "SELECT d.doc_group_code, d.doc_name_id, d.doc_name_desc, dt.template_id, dt.json_template, dg.doc_group_desc "
+                . "FROM document d "
+                . "INNER JOIN document_template dt ON dt.doc_name_id = d.doc_name_id "
+                . "INNER JOIN ref_document_group dg ON dg.doc_group_code = d.doc_group_code "
+                . "WHERE d.doc_name_id = '$doc_group' AND d.doc_group_code='$doc_Id'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return $result;
+    }
+    
+    public function GetPdsDocument($doc_Id, $temp_Id) {
+        $sql = "SELECT d.doc_group_code, d.doc_name_id, d.doc_name_desc, dt.template_id, dt.json_template, dg.doc_group_desc "
+                . "FROM document d "
+                . "INNER JOIN document_template dt ON dt.doc_name_id = d.doc_name_id "
+                . "INNER JOIN ref_document_group dg ON dg.doc_group_code = d.doc_group_code "
+                . "WHERE d.doc_name_id = '$doc_Id' AND dt.template_id='$temp_Id'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('object');
+        return $result[0];
+    }
+    
+     public function UpdatePdsMethod($documentArray) {
+        $jsonForm = $documentArray['pds_method'];
+        $documentId = $documentArray['doc_id'];
+        $tempId = $documentArray['temp_id'];
+        $newLine = array('\r\n', '\n', '\r');
+        $replace = '<br />';
+        $json = str_replace($newLine, $replace, $jsonForm);
+        $jsonDoc = addslashes($json);
+      
+
+        $sql = "UPDATE document_template SET json_template='" . $jsonDoc . "' WHERE doc_name_id='" . (int) $documentId . "' "
+                . "AND template_id='" . (int) $tempId . "'";
+        
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return true;
+    }
 }

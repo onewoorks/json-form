@@ -49,6 +49,7 @@
                                 <li><a href="<?php echo SITE_ROOT; ?>/formview/new-element">Add New Element</a></li>
                                 <li><a href="<?php echo SITE_ROOT; ?>/formview/new-predefine">Add New Multiple Answer</a></li>
                                 <li><a href="<?php echo SITE_ROOT; ?>/formview/new-ncp-method">Add New Nursing Care Plan</a></li>
+                                <li><a href="<?php echo SITE_ROOT; ?>/formview/new-pds-method">Add New Patient Disease Summary</a></li>
                             </ul>
                         </li>
                     </ul>

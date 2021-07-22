@@ -178,5 +178,27 @@ class Reference_Table_Model  { //dari class sini
         $result = $this->db->fetchOut('array');
         return ($result) ? $result : false;
     }
+    
+    public function PDSFiltering($disCode = null) {
+        $sql = "SELECT d.doc_group_code, d.doc_name_id as code, d.doc_name_desc as label, dt.template_id, dt.json_template, dg.doc_group_desc "
+                . "FROM document d "
+                . "INNER JOIN document_template dt ON dt.doc_name_id = d.doc_name_id "
+                . "INNER JOIN ref_document_group dg ON dg.doc_group_code = d.doc_group_code "
+                . "WHERE d.doc_group_code='$disCode'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return ($result) ? $result : false;
+    }
+    
+    public function MainPdsDocument(){
+        $sql = "SELECT doc_group_code, doc_group_desc FROM ref_document_group where doc_group_code='PDS'";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return ($result) ? $result : false;
+    }
  
 }

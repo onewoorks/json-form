@@ -45,6 +45,15 @@ class Main_Controller extends Common_Controller {
                     echo $this->SelectOptionBuilder($newOptions);
                 }
                 break;
+            case 'filter-pds-discipline':
+            $ajax = true;
+            $reference = new Reference_Table_Model();
+            if ($_REQUEST['dis_code'] != '0') {
+                $newOptions = $reference->PdsFiltering($_REQUEST['dis_code']);
+                echo $this->SelectOptionBuilder($newOptions);
+            }
+                break;
+                
             //30OKT
             case 'filter-form-clone':
                 $ajax = true;
@@ -125,6 +134,29 @@ class Main_Controller extends Common_Controller {
                 $result['list_of_diagnosis'] = $document->GetAllNcpDocumentsGroup($values);
                 if ($values['discipline'] != '0'):
                     $result['ncp_diagnosis'] = $reference->NcpDiagnosisFiltering($values['discipline']);
+                endif;
+                $types = '0';
+                if ($values['discipline'] != '0'):
+                    $types = $values['doc_group'];
+                endif;
+                $result['preset_select'] = array(
+                    'active_discipline' => $values['discipline'],
+                    'active_group' => $types
+                );
+                $view = new View_Model($page);
+                $view->assign('content', $result);
+                break;
+                //21/7/21 : Add pds filter
+                case 'create-filter-pds':
+                $ajax = true;
+                $document = new Document_Template_Model();
+                $values = $this->form_array($_REQUEST['documentValues']);
+                $page = 'forms/new_pds_method';
+                $reference = new Reference_Table_Model();
+                $result['pds_group'] = $document->GetAllPDSGroup();
+                $result['list_of_pds'] = $document->GetAllPdsDocumentsGroup($values);
+                if ($values['discipline'] != '0'):
+                    $result['pds_document'] = $reference->PDSFiltering($values['discipline']);
                 endif;
                 $types = '0';
                 if ($values['discipline'] != '0'):
