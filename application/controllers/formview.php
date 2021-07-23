@@ -503,7 +503,8 @@ class Formview_Controller extends Common_Controller {
                 $document = new Document_Template_Model();
                 $document_id = $_REQUEST['documentId'];
                 $val = $_REQUEST['value'];
-                $document->UpdateDocumentStatus($document_id, $val);
+                $group = $_REQUEST['group'];
+                $document->UpdateDocumentStatus($document_id, $val, $group);
 //                $data = array(
 //                    'component' => 'Document Title',
 //                    'html' => $this->RenderOutput($page, $result));

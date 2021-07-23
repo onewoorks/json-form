@@ -139,17 +139,22 @@
                                      <td class='text-center'>
                                          <?php if ($document['available']) : ?>
                                          <label class="switch">
-                                             <input type="checkbox" id="<?php echo $document['doc_name_id']; ?>" class="docStatus" checked>
+                                             <input type="checkbox" id="<?php echo $document['doc_name_id']; ?>" data-group="<?php echo $document['doc_group_code']; ?>" class="docStatus" checked>
                                         <span class="slider round"></span>
+                                      </label>
+                                         <?php elseif ($document['pds']) : ?>
+                                      <label class="switch">
+                                          <input type="checkbox" id="<?php echo $document['doc_name_id']; ?>" data-group="<?php echo $document['doc_group_code']; ?>" class="docStatus">
+                                          <span class="slider round"></span>
                                       </label>
                                           <?php elseif ($document['dimmedonload']) : ?>
                                       <label class="switch">
-                                          <input type="checkbox" id="<?php echo $document['doc_name_id']; ?>" class="docStat">
+                                          <input type="checkbox" id="<?php echo $document['doc_name_id']; ?>" data-group="<?php echo $document['doc_group_code']; ?>"  class="docStat">
                                           <span class="slider round"></span>
                                       </label>   
                                       <?php elseif ($document['unavailable']) : ?>
                                       <label class="switch">
-                                          <input type="checkbox" id="<?php echo $document['doc_name_id']; ?>" class="docStatus">
+                                          <input type="checkbox" id="<?php echo $document['doc_name_id']; ?>" data-group="<?php echo $document['doc_group_code']; ?>" class="docStatus">
                                         <span class="slider round"></span>
                                       </label>   
                                           <?php endif; ?>
@@ -279,6 +284,7 @@
                 url: '<?= SITE_ROOT; ?>/formview/duplicate-form/',
                 data: {tempid: tempid, docid: docid, desc: desc, docDesc: docDesc},
                 success: function (data) {
+                    console.log(data)
                     swal({
                         title: "Form Created!",
                         text: "Data successfully inserted into database",
@@ -287,10 +293,10 @@
                     $('#myModal').modal('hide');
                 }
             });
-            setTimeout(
-                    function () {
-                        window.location.reload(true);
-                    }, 1200);
+//            setTimeout(
+//                    function () {
+//                        window.location.reload(true);
+//                    }, 1200);
         });
 
         $('.cancel').click(function () {
@@ -526,6 +532,7 @@
         $('.docStatus').change(function () {
             
             var documentId = $(this).attr('id');
+            var group = $(this).data('group');
 //            console.log("documentId : ", documentId);
             var val;
             if ($(this).prop('checked'))
@@ -538,7 +545,7 @@
             $.ajax({
                 type: "POST",
                 url: "<?= SITE_ROOT; ?>/formview/change-status/",
-                data: {documentId: documentId, value: val}
+                data: {documentId: documentId, value: val, group: group}
             });
              
         });//end change

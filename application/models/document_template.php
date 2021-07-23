@@ -223,9 +223,10 @@ class Document_Template_Model {
 
     //zarith-10/3
     public function GetListAvailableDocument() {
-        $sql = "SELECT dt.template_id,d.active_status, dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc, "
+        $sql = "SELECT dt.template_id,d.active_status, dt.doc_name_id,rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc,d.doc_group_code, "
                 . "(CASE WHEN d.active_status='1' THEN true ELSE false END) AS available, "
                 . "(CASE WHEN d.active_status='0' THEN true ELSE false END) AS unavailable, "
+                . "(CASE WHEN d.doc_group_code='PDS' THEN TRUE ELSE FALSE END) AS pds, "
                 . "(CASE WHEN de.doc_name_id IS NULL THEN TRUE WHEN (SUM(IF(de.compare = 1, 1, 0)) = 0) THEN FALSE WHEN de.doc_name_id IS NULL THEN TRUE ELSE TRUE END) AS dimmedonload "
                 . "FROM document_template dt "
                 . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
@@ -263,9 +264,10 @@ class Document_Template_Model {
         } else {
             $docType = 0;
         }
-        $sql = "SELECT dt.template_id,dt.doc_name_id,dt.active, d.active_status, rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc,rdg.doc_group_code, "
+        $sql = "SELECT dt.template_id,dt.doc_name_id,dt.active, d.active_status, rmd.main_discipline_name,rdt.dc_type_desc,d.doc_name_desc,gd.discipline_name,rdg.doc_group_desc,d.doc_group_code, "
                 . "(CASE WHEN d.active_status='1' THEN true ELSE false END) AS available, "
                 . "(CASE WHEN d.active_status='0' THEN true ELSE false END) AS unavailable, "
+                . "(CASE WHEN d.doc_group_code='PDS' THEN TRUE ELSE FALSE END) AS pds, "
                 . "(CASE WHEN de.doc_name_id IS NULL THEN TRUE WHEN (SUM(IF(de.compare = 1, 1, 0)) = 0) THEN FALSE WHEN de.doc_name_id IS NULL THEN TRUE ELSE TRUE END) AS dimmedonload "
                 . "FROM document_template dt "
                 . "INNER JOIN document d ON(dt.doc_name_id=d.doc_name_id) "
@@ -767,14 +769,19 @@ class Document_Template_Model {
 //        return true;
 //    }
     
-    public function UpdateDocumentStatus($document_id, $val){
+    public function UpdateDocumentStatus($document_id, $val, $group){
+        if ($group == "PDS"):
+        $sql = "UPDATE document SET active_status ='" . $val . "' "
+                . "WHERE doc_name_id = '" . $document_id . "' ";
+        else:
         $sql = "UPDATE document SET active_status ='" . $val . "' "
                 . "WHERE doc_name_id = (SELECT CASE WHEN SUM(IF(a.compare = 1, 1, 0)) = 0 THEN a.doc_name_id ELSE NULL END "
                 . "FROM (SELECT doc_name_id,IF((SUM(IF(active = 0, 1, 0))) = (SUM(IF(doc_name_id IS NOT NULL, 1, 0))), 1,0) AS compare "
                 . "FROM document_element "
                 . "WHERE doc_name_id = '" . $document_id . "' "
                 . "GROUP BY section_code) a )";
-        //print_r($sql);
+        endif;
+        print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -840,7 +847,7 @@ class Document_Template_Model {
         $sql = "INSERT INTO document_template (doc_name_id, json_template, text_template, report_name, active, created_date, created_by) "
                 . "SELECT (SELECT MAX(doc_name_id) FROM document), json_template, text_template, report_name, active, NOW(),'ADMIN' "
                 . "FROM document_template "
-                . "WHERE doc_name_id = '" . (int) $curName . "'";
+                . "WHERE doc_name_id = '" . (int) $curName . "' limit 1";
         print_r($sql);
         $this->db->connect();
         $this->db->prepare($sql);
