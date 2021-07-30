@@ -52,6 +52,15 @@ class Main_Controller extends Common_Controller {
                 $newOptions = $reference->PdsFiltering($_REQUEST['dis_code']);
                 echo $this->SelectOptionBuilder($newOptions);
             }
+            break;
+            
+            case 'filter-pds-type':
+            $ajax = true;
+            $reference = new Reference_Table_Model();
+            if ($_REQUEST['dis_code'] != '0') {
+                $newOptions = $reference->GetPDSType($_REQUEST['dis_code']);
+                echo $this->SelectOptionBuilder($newOptions);
+            }
                 break;
                 
             //30OKT
@@ -153,8 +162,13 @@ class Main_Controller extends Common_Controller {
                 $values = $this->form_array($_REQUEST['documentValues']);
                 $page = 'forms/new_pds_method';
                 $reference = new Reference_Table_Model();
-                $result['pds_group'] = $document->GetAllPDSGroup();
+                $result['main_discipline'] = $this->RefMainDisciplineGroup();
                 $result['list_of_pds'] = $document->GetAllPdsDocumentsGroup($values);
+                
+                if ($values['main_discipline'] != '0'):
+                    $result['pds_group'] = $reference->GetPDSType($values['main_discipline']);
+                endif;
+                
                 if ($values['discipline'] != '0'):
                     $result['pds_document'] = $reference->PDSFiltering($values['discipline']);
                 endif;
@@ -163,6 +177,7 @@ class Main_Controller extends Common_Controller {
                     $types = $values['doc_group'];
                 endif;
                 $result['preset_select'] = array(
+                    'active_maindiscipline' => $values['main_discipline'],
                     'active_discipline' => $values['discipline'],
                     'active_group' => $types
                 );

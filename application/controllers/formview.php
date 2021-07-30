@@ -44,6 +44,7 @@ class Formview_Controller extends Common_Controller {
              case 'new-pds-method':
                 $page = 'forms/new_pds_method';
                 $document = new Document_Template_Model();
+                $result['main_discipline'] = $this->RefMainDisciplineGroup();
                 $result['pds_group'] = $document->GetAllPDSGroup();
                 $result['pds_document'] = $document->GetAllPDSDocument();
                 $result['list_of_pds'] = $document->GetAllPDSList();

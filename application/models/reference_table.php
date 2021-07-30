@@ -179,6 +179,21 @@ class Reference_Table_Model  { //dari class sini
         return ($result) ? $result : false;
     }
     
+    public function GetPDSType($disCode = null) {
+        $sql = "SELECT DISTINCT d.doc_group_code AS code, rdg.doc_group_desc AS label "
+                . "FROM document d "
+                . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
+                . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
+                . "INNER JOIN ref_document_group rdg ON (rdg.doc_group_code = d.doc_group_code) "
+                . "WHERE d.doc_group_code='PDS' AND gd.discipline_name='$disCode'";
+        //print_r($sql);
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        $result = $this->db->fetchOut('array');
+        return ($result) ? $result : false;
+    }
+    
     public function PDSFiltering($disCode = null) {
         $sql = "SELECT d.doc_group_code, d.doc_name_id as code, d.doc_name_desc as label, dt.template_id, dt.json_template, dg.doc_group_desc "
                 . "FROM document d "
@@ -191,6 +206,7 @@ class Reference_Table_Model  { //dari class sini
         $result = $this->db->fetchOut('array');
         return ($result) ? $result : false;
     }
+    
     
     public function MainPdsDocument(){
         $sql = "SELECT doc_group_code, doc_group_desc FROM ref_document_group where doc_group_code='PDS'";

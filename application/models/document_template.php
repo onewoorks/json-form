@@ -1648,9 +1648,11 @@ class Document_Template_Model {
     }
     
     public function GetAllPDSList() {
-        $sql = "SELECT d.doc_group_code, d.doc_name_id, d.doc_name_desc, dt.template_id, dt.json_template, dg.doc_group_desc "
+        $sql = "SELECT d.doc_group_code, d.doc_name_id, d.doc_name_desc as label, dt.template_id, dt.json_template, gd.discipline_name  "
                 . "FROM document d "
                 . "INNER JOIN document_template dt ON dt.doc_name_id = d.doc_name_id "
+                . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id) "
+                . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code) "
                 . "INNER JOIN ref_document_group dg ON dg.doc_group_code = d.doc_group_code "
                 . "WHERE d.doc_group_code='PDS'";
         $this->db->connect();
@@ -1667,11 +1669,14 @@ class Document_Template_Model {
         } else {
             $doc_group = 0;
         }
-        $sql = "SELECT d.doc_group_code, d.doc_name_id, d.doc_name_desc, dt.template_id, dt.json_template, dg.doc_group_desc "
+        $sql = "SELECT d.doc_group_code, d.doc_name_id AS code, d.doc_name_desc AS label, dt.template_id, dt.json_template, gd.discipline_name "
                 . "FROM document d "
                 . "INNER JOIN document_template dt ON dt.doc_name_id = d.doc_name_id "
+                . "INNER JOIN discipline_document dd ON(d.doc_name_id=dd.doc_name_id)"
+                . "LEFT JOIN ref_generaldisciplines gd ON(dd.discipline_code=gd.discipline_code)"
                 . "INNER JOIN ref_document_group dg ON dg.doc_group_code = d.doc_group_code "
                 . "WHERE d.doc_name_id = '$doc_group' AND d.doc_group_code='$doc_Id'";
+        
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
